@@ -1,0 +1,275 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TerrainSlicingKit</name>
+    </assembly>
+    <members>
+        <member name="M:TerrainSlicingKit.NameGenerator2D.GenerateName(System.String,System.Int32,System.Int32)">
+            <summary>
+            Generate a name unique for the slice at row/column. This can be used to generate
+            folders or assets names specific to each slice. It is dependent upon the naming convention used
+            in the constructor, so you can create your own NameGenerator based on a custom naming convention.
+            </summary>
+            <param name="groupIdentifier">The name common to each slice.</param>
+            <param name="row">The row of the slice within the entire output slicing group.</param>
+            <param name="column">The column of the slice within the entire output slicing group.</param>
+            <returns></returns>
+        </member>
+        <member name="T:TerrainSlicingKit.SliceProcessor">
+            <summary>
+            A class that can be implmented to create a Slice Processor, which you can use to perform
+            custom actions on terrain slices before, as, and after they are generated.
+            </summary>
+        </member>
+        <member name="M:TerrainSlicingKit.SliceProcessor.PreSlicingPrep(TerrainSlicingKit.SliceConfiguration)">
+            <summary>
+            Method called once for the whole group before slicing begins. Take care of any pre 
+            slice preparation using this method, such as creating folders for storing assets.
+            </summary>
+            <param name="sliceConfiguration"></param>
+        </member>
+        <member name="M:TerrainSlicingKit.SliceProcessor.ProcessSlice(UnityEngine.Terrain,TerrainSlicingKit.TerrainSlice)">
+            <summary>
+            Called for each slice after it is created (but before alphamap blending).
+            </summary>
+            <param name="sourceTerrain">The source terrain that is being sliced.</param>
+            <param name="terrainSlice">The slice that was generated. This contains all the information you should need about the slice.</param>
+        </member>
+        <member name="M:TerrainSlicingKit.SliceProcessor.PostSlicingPrep">
+            <summary>
+            Perform any final work. This is called once for the entire group of slices.
+            </summary>
+        </member>
+        <member name="M:TerrainSlicingKit.SliceProcessor.CreateFolder(System.String,TerrainSlicingKit.WhatToDoIfFolderAlreadyExists,System.String@,System.String@)">
+            <summary>
+            Creates the folder specified by path
+            </summary>
+            <param name="path">
+            The folder path to create
+            </param>
+            <param name="whatToDoIfFolderAlreadyExists">
+            This dictates what action the program will take if the folder you are trying to create 
+            already exists.
+            </param>
+            <param name="applicationSavePathOfFolder">
+            The application specific save path of the folder.
+            </param>
+            <param name="unitySavePathOfFolder">
+            The Unity specific save path of the folder.
+            </param>
+        </member>
+        <member name="M:TerrainSlicingKit.SliceProcessor.RefreshAssetDatabase">
+            <summary>
+            Reimports and saves assets that have been changed.
+            </summary>
+        </member>
+        <member name="M:TerrainSlicingKit.SliceProcessor.GetTextureFromMaterial(UnityEngine.Material,System.String)">
+            <summary>
+            Gets a texture from a material.
+            </summary>
+            <param name="material">The material to get the texture from.</param>
+            <param name="texturePropertyName">The name of the texture property on the shader.</param>
+            <returns>The Texture.</returns>
+        </member>
+        <member name="M:TerrainSlicingKit.SliceProcessor.SliceTexture(UnityEngine.Material,System.String,TerrainSlicingKit.TerrainSlice,TerrainSlicingKit.SliceConfiguration,System.String,System.String)">
+            <summary>
+            Slices the texture indicated by texturePropertyName. 
+            The resulting sliced texture is in png format.
+            </summary>
+            <param name="material">The material which contains the texture to slice.</param>
+            <param name="texturePropertyName">The name of the texture property on the shader.</param>
+            <param name="terrainSlice">
+            The terrain slice which we are trying to slice the texture for. 
+            The normalized position of the slice is used to slice the texture correctly.
+            </param>
+            <param name="sliceConfiguration">The SliceConfiguration object for this slicing job.</param>
+            <param name="applicationSavePath">
+            The application save path to save the newly sliced texture.
+            </param>
+            <param name="unityPathToSaveTextureAt">
+            The unity save path to save the newly sliced texture.
+            </param>
+        </member>
+        <member name="M:TerrainSlicingKit.SliceProcessor.SetMaterialTexturesToTerrainSplats(TerrainSlicingKit.TerrainSlice,UnityEngine.Material,System.String[])">
+            <summary>
+            Sets the textures of a material to the splat/alpha maps of a terrain slice.
+            </summary>
+            <param name="terrainSlice">The sliced terrain</param>
+            <param name="material">The material whose textures will be set to the slices splat maps</param>
+            <param name="texturesToSet">
+            The textures to set (these are the texture names as found within the shader source). 
+            The position of the texture name in the array determines which splat is applied to it. 
+            For instance, the texture at index 0 will be set to SplatAlpha 0 (as seen in the Terrain 
+            Data foldout within your project hierarchy). If you want to skip an alphamap, set the 
+            value at that index to null within the array.
+            </param>
+        </member>
+        <member name="M:TerrainSlicingKit.SliceProcessor.SliceMaterialFloatProperties(TerrainSlicingKit.TerrainSlice,UnityEngine.Material,System.Collections.Generic.List{System.String})">
+            <summary>
+            Takes the base float properties of a material and "slices" them so they are 
+            representative of the slice (rather than the original source terrain).
+            For instance, if the value on the source terrains material was 1, and the slice is 1/4 the 
+            size of the source terrain, the value on the slices material will be set to .25.
+            </summary>
+            <param name="terrainSlice">The terrain slice.</param>
+            <param name="material">The material used by the slice terrain whose values will be sliced.</param>
+            <param name="floatPropertiesToSlice">The lsit of float properties that should be sliced.</param>
+        </member>
+        <member name="M:TerrainSlicingKit.SliceProcessor.SliceTextureScaleAndOffset_NormalMethod(TerrainSlicingKit.TerrainSlice,UnityEngine.Material,System.Collections.Generic.List{System.String})">
+            <summary>
+            Multiply source texture scale by ProportionOfSliceToSource value and sets the texture offset 
+            to the normalized position of the slice in relation to the source terrains position.
+            </summary>
+            <param name="terrainSlice">The terrain slice.</param>
+            <param name="material">The material of the terrain slice.</param>
+            <param name="texturePropertiesToAdjust">
+            The texture properties of the material whose scale and offset values will be adjusted.
+            </param>
+        </member>
+        <member name="M:TerrainSlicingKit.SliceProcessor.SliceTextureScaleAndOffset_AbnormalMethod(TerrainSlicingKit.TerrainSlice,UnityEngine.Material,System.Collections.Generic.List{System.String})">
+            <summary>
+            Multiply source texture scale by ProportionOfSliceToSource value and sets the texture offset 
+            to an adjusted value. 
+            This should be used if AdjustTextureScaleAndOffset_NormalMethod does not produce accurate results.
+            It may be most useful for tiled textures that repeat across the terrain (such as grass, rocks, 
+            etc.). For instance, it is used to correctly offset the splat textures in the ats ULTRA shader.
+            </summary>
+            <param name="terrainSlice">The terrain slice.</param>
+            <param name="material">The material of the terrain slice.</param>
+            <param name="texturePropertiesToAdjust">
+            The texture properties of the material whose scale and offset values will be adjusted.
+            </param>
+        </member>
+        <member name="P:TerrainSlicingKit.TerrainSlice.SliceTerrain">
+            <summary>
+            The terrain of the slice
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.TerrainSlice.SliceTerrainData">
+            <summary>
+            The terrain data of the slice
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.TerrainSlice.ProportionOfSliceToSource">
+            <summary>
+            The size of the slice in relation to the source terrain. For example, a value of .25 indicates that
+            the slice is 1/4 the size of the original source terrain.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.TerrainSlice.Row">
+            <summary>
+            The row of the slice within the sliced group (note that this encompasses the entire group 
+            when slicing a group of terrains at the same time)
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.TerrainSlice.Column">
+            <summary>
+            The column of the slice within the sliced group (note that this encompasses the entire group 
+            when slicing a group of terrains at the same time)
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.TerrainSlice.NormalizedXPosition">
+            <summary>
+            The normalized X position of the slice in relation to the dimensions of the source terrain.
+            For example, a value of .5 indicates that the slices x position is at half way point of the source 
+            terrain. This is most useful for texture slicing, in determining the block of pixels from a 
+            source texture to use in building a sliced texture.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.TerrainSlice.NormalizedZPosition">
+            <summary>
+            The normalized Z position of the slice in relation to the dimensions of the source terrain.
+            For example, a value of .5 indicates that the slices z position is at half way point of the source 
+            terrain. This is most useful for texture slicing, in determining the block of pixels from a 
+            source texture to use in building a sliced texture.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.TerrainSlice.Position">
+            <summary>
+            The position of the slice in world space.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.CopyAllDetails">
+            <summary>
+            Whether the detail prototypes will be copied to each slice, regardless of whether that slice 
+            contains the detail texture/mesh.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.CopyAllTrees">
+            <summary>
+            Whether the tree prototypes will be copied to each slice, regardless of whether that slice 
+            contains the tree.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.CreatePrefabs">
+            <summary>
+            Whether prefabs will be automatically created from the generated slices.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.RemoveSlicesFromSceneAfterCreation">
+            <summary>
+            Whether slices will be removed from the scene after they are created.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.DisableEdgeBlending">
+            <summary>
+            Whether edge blending of the slice's alphamaps is disabled.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.CopyBaseLayer">
+            <summary>
+            Whether the layer of the source terrain will be applied to each individual slice.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.CopyBaseTag">
+            <summary>
+            Whether the tag from the source terrain will be applied to each individual slice.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.EdgeBlendingWidth">
+            <summary>
+            The width of the area on each slices edge that will have its alphamap blended.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.ProportionOfSlicesToSourceTerrain">
+            <summary>
+            The size of the slices in relation to the source terrain. For example, a value of .25 indicates that 
+            the slices are 1/4th the size of the source terrain. This can be used for slicing textures and 
+            slicing/dividing other objects/values.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.Columns">
+            <summary>
+            The number of columns that will be sliced (note, for group slices, this is the number of 
+            columns per each individual terrain in the group).
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.Rows">
+            <summary>
+            The number of rows that will be sliced (note, for group slices, this is the number of 
+            rows per each individual terrain in the group).
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.OutputNameGenerator">
+            <summary>
+            A name generator based on the output naming convention. Use this to generate names for folders 
+            and assets created for each slice.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.SliceMethod">
+            <summary>
+            The slice method (slicing a single terrain or group?)
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.SliceOutputGroupIdentifier">
+            <summary>
+            The name common to all the outputted slice terrain objects.
+            </summary>
+        </member>
+        <member name="P:TerrainSlicingKit.SliceConfiguration.SampleTerrain">
+            <summary>
+            The sample terrain provided for the slice.
+            </summary>
+        </member>
+    </members>
+</doc>

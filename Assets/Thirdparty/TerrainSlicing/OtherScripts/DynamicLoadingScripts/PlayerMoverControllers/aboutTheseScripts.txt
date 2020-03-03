@@ -1,0 +1,43 @@
+You will see on the Active Grid Component that
+there is a field called Player Mover (if a player is provided 
+in the appropriate field).
+
+Some Active Grid methods require the player to be moved. For instance,
+when a World Shifts, any Active Grids synced to it have to be shifted as well. In these situations, 
+the player is moved along with the grid.
+
+By default (no Player Mover provided), the player will be moved via its Transform component (transform.position = newPosition). 
+Depending on the method you are using to control your player (Character Controller,
+Rigidbody, etc.), there may be an issue using this method where the player falls through the world.
+
+In these cases, you will need to create a new script or modify an existing one to derive from 
+the PlayerMover class, and implement these two methods:
+
+public abstract IEnumerator<YieldInstruction> MovePlayerByAmount(Transform player, Vector3 amountToMovePlayer);
+public abstract IEnumerator<YieldInstruction> MovePlayerToPosition(Transform player, Vector3 position);
+
+Then, when it's time to move the player, one of these two methods is called. They are coroutines because 
+sometimes to correctly move the player without falling through the world, you will need to use multiple frames.
+
+You will also need to override the property PlayerMoved, which returns a bool. Initially when your 
+MovePlayerByAmount and MovePlayerToPosition methods are called, this property should return false. As soon as 
+you move the player, however, the property should return true. This is needed to correctly save the player's position when saving 
+persistent data.
+
+I have provided two scripts that are modified versions of Standard Unity Assets:
+
+PlayerMoverCharacterMotor is a modified version of CharacterMotor. The player movement
+implementations work by effectively disabling the motor, moving the player, then waiting
+until the next FixedUpdate to occur before enabling the motor.
+
+PlayerMoverFPSInputController is a modified version of FPSInputController. It is modified
+to require PlayerMoverCharacterMotor rather than CharacterMotor. That is the only
+modification to it though.
+
+
+If using ChracterMotor and FPSInputController scripts, you can use these modfied versions instead.
+Keep in mind you only need to do this if using Active Grid Resetting or any other method on the Active Grid that
+moves the player (the method will have MovePlayer in its name somewhere).
+
+
+Remember, if no PlayerMover is provided, the player will be moved via its transform.

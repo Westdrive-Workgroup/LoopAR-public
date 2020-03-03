@@ -1,0 +1,340 @@
+4.4.0 ChangeLog (Unity 2018.3.0f2 and higher versions)
+
+Fixes
+
+1) Fixed Null Reference Bug when trying to add terrain to Slice Configuration File.
+
+New Features
+
+1) 	Terrain Slicing functionality has been updated to take new 2018.3 features into account. New terrain settings from 2018.3 
+	will be copied to slices. In addition, a new option has been adding to Slice Configuration Files called "Copy Texture Layers Exactly." 
+	This option, when enabled, forces your slices to use the exact terrain layers from your base terrain. With this option disabled, duplicate 
+	terrain layers are created for each slice, which will probably be necessary in most instances.
+
+4.3.3 ChangeLog (Unity 5.5.0f3 and higher version)
+
+File Changes
+
+1)	Removed all javascript files at the request of Unity Asset Store.
+
+Fixes
+
+1)	Fixed a bug causing columns and layers to be loaded at incorrect positions when using world re-centering and a 
+	origin cell other than column = 1 or layer = 1.
+
+2)	Restored Script Execution Ordering of World, Active Grid, and Component Manager 
+	scripts, which were mistakenly removed in previous update.
+
+3)	Fixed Group Range Fields when slicing a group using the Slice Configuration File.
+
+4)	Removed warning about not being in orthographic mode when slicing a group.
+
+5)	Fixed a bug causing unwanted game objects to be included in scenes generated using Scene Generation Files.
+
+6)	Updated Platform dependent compilation statements in SliceConfigurationFileEditor.cs file, which should eliminate some errors on Unity 4.6 and Unity 4.7 versions, 
+	as well as add support for new properties in later versions of Unity when slicing. 
+
+7)	Fixed a null reference exception that would occur when selecting a World Grid asset on Unity versions lower than 
+	5.4.1f.
+
+8)	Fixed unreachable code in AssetBundleLoader script.
+
+9)	Fixed issues causing warnings in console window.
+
+10)	Fixed SetNeighbors bug introduced in last update.
+
+Improvements
+
+1)	Added a new Primary Cell Object Sub Controller called DistanceBasedPrimaryCellObjectSubController. This component works similar to the pooling sub controller, except the 
+	cell objects are removed once the player moves some user defined distance from the cell that the object belongs to.
+
+2)	Unity 5.5+ version now utilizes the new SceneManager.UnloadSceneAsync method to unload scenes, which should improve performance.
+	Note that this will only work if you are using a Scene Loader (as your cell object loader) and are not using a Cell Object Destroyer 
+	(as that will be used if it is present).
+
+3)	Added option for setting static flags (static lightmapper, occluder, etc.) of slices when using Slice Configuration Files. 
+	You can choose to copy the static flags from the base terrain or set the static flags of the slices manually (so they are 
+	different than the base terrain).  
+
+4)	Added icons for World Grid and Slice Configuration File assets, to better differentiate them from other assets in the Project Hierarchy.
+
+
+4.3.2 ChangeLog
+
+Fixes
+
+1)	Fixed a null reference exception that would sometimes occur when adding a World Grid asset to the World Grid 
+	field on the World component.
+
+
+4.3.1 ChangeLog
+
+Fixes 
+
+1) 	Fixed an issue where using a slicing region with a normalized position other than x = 0, z = 0 would result in innaccurate splat maps 
+	on slices.
+
+2) 	When slicing, moving the slicing region via the transform handle in the scene view now correctly updates the 
+	normalized position in the inspector correctly, and any position change via this method is persistent 
+	(previously the changes would revert after a period of time).
+
+3) 	Removed Duplicate Input Group Name field on Scene Generation File.
+
+
+Improvements
+
+1)	Updated the Unity 5 example scenes to utilize the Async Prefab Instantiator
+
+2)	Updated the Dynamic Loading Setup Quick Guide to reflect the replacement of the Scene Generation Editor 
+	Window Tool with the Scene Generation File
+
+Notes
+
+1)	Incorrect DLL GUIDs were introduced in the Unity 4 version. They are now corrected, but updating the package 
+	will not fix the incorrect GUIDs. You will need to do this manually. Please visit 
+	www.deepspacelabs.net/html/dynamic_loading/learning_guid_issues.html for more information.
+
+
+4.3.0 ChangeLog
+
+New Features
+
+1)	Added Asset Bundle support. When creating scenes, you can have the scenes assigned to an asset bundle 
+	of the same name (with a lowercase first letter), as well as a variant.
+
+2)	A new Cell Object Loader called the Asset Bundle Loader has also been added which allows you to 
+	utilize Asset Bundles. Using this component requires some setup, so please take a look at the 
+	Asset Bundle Quick Guide found in the instructions/Quick Guides folder. 
+
+3)	Added Async Prefab Instantiator component (new Cell Object Loader) to Unity 5 version to take advantage 
+	of new Resources.LoadAsync method in Unity API.
+
+4)	Added new option to Primary Cell Object Sub Controllers, Memory Freeing Strategy. Based on the 
+	choice for this option, the controller will automatically call the Resources.UnloadUnusedAssets 
+	and/or GC.Collect (or neither, in which case you should call them manually) after 
+	destroying one or more cell objects (one call is initiated per group of cell objects, 
+	after all of them have been destroyed).
+
+5)	Added Post Slice Processors. These can be used to run custom code before or after each slice is generated, 
+	allowing you to do a variety of things, such as creating custom sliced materials.
+
+
+API Changes
+
+1)	New event (CellPlayerIsInChanged) added to the Active Grid class. This event fires when the endless 
+	grid cell the player is in changes, as well as when desyncing or syncing from/to a world. It is 
+	not called when the Active Grid is first initialized and objects loaded. You should use the methods 
+	of the World class to find out what grid the player is in at this time instead.
+
+2)	CellObject property on WorldCell class exposed, allowing you to get access to the underlying primary 
+	game object associated with a cell.
+
+3)	CellUsers property on WorldCell class exposed, allowing you to see how many users the cell has. 
+	This is probably only useful for debugging purposes.
+
+3)	Terrain property on WorldCellWithTerrain class exposed, allowing you to get access to the underlying 
+	terrain associated with a cell.
+
+4)	You can now also get access to the Terrain Neighbors of a given WorldCellWithTerrain via the 
+	LeftNeighbor, RightNeighbor, TopNeighbor and BottomNeighbor properties.
+
+5)	Updated Unity 5 version to use new Scene Management classes.
+
+
+Slicing Tool (Slice Configuration File) Changes
+
+1)	Added option to slicing tool (Don't Slice Alphamap) to allow you to ignore the alphamap on base terrain. 
+	This is useful if you are using a custom shader that does not need the slices to have alphamaps.
+
+2)	Added another option to slicing tool (Copy Splat Textures) which is displayed if the Don't Slice Alphamap
+	option is checked. Enabling this option forces the slicer to copy all splat textures from the 
+	base terrain to the slices, which might be useful to some. Note, however, that this will cause an alphamap 
+	to be generated on each slice (or multiple alphamaps if using more than 4 textures).
+
+
+Fixes
+
+1)	Fixed Folder Path Copy Operations in Unity 5 version.
+
+2)	Fixed a crash when updating empty/not empty designation of cells on a World Grid with only 1 row, 
+	column, and layer.
+
+3)	Fixed a bug in the TryMakeCellOriginCell method (ActiveGrid class) that would cause new cells to be 
+	loaded in the wrong position.
+
+4)	Fixed a bug in the TryDesyncFromCurrentWorld method that caused the Active Grid to stay in 
+	a busy state, even after the desync finished.
+
+5)	Editor classes have been written to utilize the Serialized Object/Property system. 
+	In addition to fixing serialization issues with Unity 5.3 and greater, the new classes take 
+	advantage of the built in undo operations.
+
+Miscellaneous
+
+1)	Added new example scene showcasing manual initialization of the Component Manager over multiple frames. Manual, gradual initialization is great 
+	for loading your world/s post Awake/Start while the game is running (which is typically how most games do it), and it makes it very easy to display a loading screen.
+
+2)	Better Intellisense support.
+
+
+4.2.3 ChangeLog
+
+Fixes (API)
+
+1)	The TryGetWorldCellPositionIsIn and TryGetWorldCellAssociatedWithEndlessGridCell methods of the World class have had their 
+	return values changed from void to bool, which brings them in line with standard C# coding standards.
+
+4.2.2 Changelog
+
+Improvements/Updates to Existing Features
+
+1)	Exposed the Terrain property on the WorldCellWithTerrain class, as well as the neighbor properties 
+	(LeftNeighbor, TopNeighbor, RightNeighbor, BottomNeighbor). These changes will allow you to access the Terrain associated with a 
+	World Cell (assuming you are using Terrains), as well as the neighboring World Cells of any given World Cell.
+
+4.2.1 Changelog
+
+Fixes
+
+1)	Fixed a bug with Terrain Slicing Tool that would cause the terrain slices and terrain slice data to be improperly named (which would 
+	also cause the alphamap blending to not work properly).
+
+2)	Fixed a bug with Terrain Slicing Tool that would cause detail meshes from the base terrain to be set to an incorrect detail mesh
+	on the slice when the "Copy All Detail Meshes" option was checked.
+
+4.2.0 Changelog
+
+New Features
+
+1)	Added new component type, the ObjectGroup. An Object Group is a secondary group that can be loaded on top of your Worlds 
+	(think houses,	scene objects, etc.). By using Object Groups, you only need to create one World and World Grid to define the base 
+	terrain/objects of your scene; Object Groups will simply utilize that information. In addition, you can configure the order in which 
+	object groups are loaded. In addition to ensuring that your base terrain/objects are loaded before the object groups, this also allows 
+	you to setup one object group to load before another.
+	Note this change necessitated a modification to the base PrimaryCellObjectSubController and CellObjectLoader classes that will 
+	break all of your existing custom components that derive from them. To fix this, make the following changes in your custom components:
+
+	a)	All World parameters must be changed to ICellObjectGroup parameters (it's likely only the Register and CreateNewUser 
+		methods need to be modified).
+
+	b)	Any code that retrieved information directly from the World must be modified to use the properties of the ICellObjectGroup 
+		interface instead. This interface contains a World property, so all information that was previously available is still available. 
+		Note however, that you should use the GroupName and NamingConvention properties 	of the ICellObjectGroup object rather than the 
+		World object, as the ICellObjectGroup properties will be accurate for both Worlds and ObjectGroups, whereas the World properties 
+		will only be accurate for Worlds.
+
+2)	Added new asset type, the Naming Convention asset. This asset allows you to alter the default naming convention used by the kit 
+	in various places, including the World Grid Scriptable Object, Scene Generation Tool, and Terrain Slicer Tool.
+
+3)	New Quick Guides added. In addition to a quick guide for Object Groups and the Naming Convention asset, a quick guide detailing 
+	runtime created Worlds and Active Grids is now available. The existing quick guides have also been updated to take the new Naming 
+	Convention asset into account.
+
+4)	Unity 5 version of package added.
+
+Improvements/Updates to Existing Features
+
+1)	The World Grid has been updated with a new method to set its data. While the old methods can still be used, I think you'll find 
+	this new method more intuitive and easier to use. The World Grid also has a new visual grid system (which is also used by Object Groups),  
+	which shows you which cells in the grid are empty or not empty.
+
+2)	The World component's preview functionality (allowing you to add the objects of your world to the scene) has been improved to allow 
+	for the loading of object groups and the use of the World's Naming Convention.
+
+3)	Added CopyBaseLayer and CopyBaseTag options to Terrain Slicing Tool. When enabled, each slice's layer and tag will be set to the layer 
+	and tag of the base terrain you are slicing. If disabled, each slice's layer will be set to the default layer and "Untagged" respectively 
+	(this is the current behavior).
+
+4)	Updated the Scene Generation Tool. You can now specify a range of scenes to generate, which can be used to regenerate a subset of scenes 
+	from a group rather than the entire group. The scene generation tool will also now correctly overwrite a scene in the Build Settings rather 
+	than leaving in duplicate entries. The tool also now makes use of the new naming convention asset.
+
+5)	Each scene generated using the scene generation tool will use all scene settings from whatever scene you have open when the tool is run. 
+	This is mostly useful for Unity 5 users, as it ensures lighting/bake settings are the same across all scenes.
+
+6)	The Cell struct now only has a single constructor with row, column, and layer parameters. You may see errors relating to this when you update to 4.2. Simply add a 1 argument to your Cell constructor calls.
+
+Fixes
+
+1)	Fixed a bug when using the ComponentManager.Initialize method from another scripts Awake method that would cause the objects/terrain 
+	loaded by the DLK to not be made visible.
+
+2)	Fixed a bug in the Pooling Primary Cell Object Sub Controller that would cause terrain not be unloaded/loaded properly, resulting in a 
+	NullReferenceException and some other less common issues.
+
+
+4.1.1 Changelog
+1)	Fixed several bugs that would cause some terrain/objects to remain improperly activated.
+
+2)	Optimized the origin centering technique when "Perform Shift Activation In Single Frame" is enabled. Existing cells
+	will now be re-positioned rather than rebuilding the entire world from scratch.
+
+3)	When re-centering the world, the world will now use the transform associated with the Active Grid that initiated the World re-centering
+	to calculate the new origin cell.
+
+4.1.0 Changelog
+1)	The Terrain Slicing Tool has been dramatically improved. To slice a terrain, create a
+	a Slice Configuration File via Terrain -> Terrain Slicing Kit -> Create Slice Configuration File,
+	provide a valid terrain (from the scene or a prefab), and press the button to slice at the bottom of the inspector
+	(Take a look at the Terrain_Slicing_Guide.pdf file for a detailed overview of how everything works).
+
+2)	New option added to Active Grid component. This "Active Grid Type" option controls the layout of the active grid. The 
+	default option "Outer_Ring_Grid" will force the Active Grid to use the same layout it's used in the past, with an inner area and 
+	outer ring. The new option, "Sectioned_Grid" is a special layout consisting of either 4 (for 2D worlds) or 8 (for 3D worlds) cells.
+	The specifics can be found in the Active Grid quick guide, but know that the main benefit of this layout is a reduction 
+	of the minimum number of cells (from 9 to 4).
+
+3)	New method added to Active Grid component, TryMakeCellOriginCell. This can only be used if the Active Grid is the only user of 
+	the World it is synced to. This method will try to make the passed in Cell the Origin Cell of the World the Active Grid is 
+	synced to. You can pass in a position within this cell (at the Origin Cell position) to move the player to after the change 
+	has taken place. This can be used to move the player to a different part of the World, while keeping the world close to the 
+	origin. More information on this method will be added in the future; for now, please contact me if you have any questions.
+
+4)	New optional option (setPlayerYPositionBasedOnTerrain) added to the following ActiveGrid methods: TryMovePlayerToLocation, TryMovePlayerToLocationOnNewWorld, and 
+	TrySyncToNewWorldAroundPlayer. When this option is set to true, the DLK will attempt to position the player's y position in relation 
+	to the Terrain at either the location passed in (for TryMovePlayerToLocation and TryMovePlayerToLocationOnNewWorld) or the player's 
+	current position (for TrySyncToNewWorldAroundPlayer). The is very useful, as it means you don't have to predetermine the correct y 
+	position ahead of time. This can only be used when the Active Grid is synced to or is going to be 
+	synced to a world that uses Unity Terrains. You can also specify a playerYOffset so the player is spawned some units above the terrain (
+	to avoid overlap).
+
+5)	Exposed the Origin Cell property on the World component, which controls what cell is set to the world's origin at the beginning 
+	of the game. By adjusting the origin cell row, column, and layer, you can force 
+	the world to act like it's already been re-centered. This is useful for extremely large worlds, where you need the player 
+	to start in an area not near the first row/column/layer of the World, but you want to keep the player's actual position close to the origin.
+
+6)	New option (Perform Shift Activation In Single Frame) added to World component when "Keep World Centered Around Origin" is checked. 
+	When this option is enabled, the new shifted world will be activated and old non shifted world deactivated in a single frame. This can 
+	be useful for eliminating flickering in some cases. Please hover over the option in the inspector to view some additional crucial 
+	information regarding this option.
+
+7)	When "Keep World Centered Around Origin" is checked on the World component, you will now see 6 boundary fields instead of 3.
+	Rather than set one value for the east/west boundary distance from origin, you can now set the boundaries individually, i.e., you can 
+	make the west boundary 0 units from the origin while the east boundary is 500 units away. The same goes for the north/south and top/bottom 
+	boundaries. Note that the west, south, and bottom boundary distances will start at  their default value of 0, so you may need to adjust them.
+	
+8)	If a folder path contains the world "Assets" when using the Copy Relative Folder Path 
+	command, it will no longer be incorrectly removed when pasting.
+
+9)	Eliminated runtime garbage generation from Boundary Monitor component.
+
+10)	All public methods and classes that use the Cell struct will now expect the first row/column of the world 
+	to start at 1 (previously it expected them to start at 0). This brings the script row/column/layer numbering 
+	format in line with the editor format.
+
+11) Changed the player in the example scenes to a flying camera, eliminating the issue where the player can fall off the world.
+
+4.0.0 Changelog
+1)	Made the kit Unity 5 compatible.
+
+2)	Fixed a bug where an inactivated object would not be reactivated properly when using
+	the Pooling Primary Sub Controller component.
+
+3)	Removed some instructional items that were no longer needed, including old change logs.
+
+4)	Added new Quick Guide detailing first time setup of the kit. This can be found in 
+	the TerrainSlicing/Instructions/QuickGuides folder.
+
+5)	 Moved all non DLL C# classes out of the Unity Global Namespace and provided 
+	explicit namespaces for all JavaScript classes using classes inside the TerrainSlicingKit 
+	namespace. This should rectify any and all namespace conflicts.

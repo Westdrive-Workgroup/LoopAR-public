@@ -1,0 +1,41 @@
+200 (Layer 1 Height)
+300 (Layer 2 Height)
+
+150 (Row 1 Length)
+150 (Row 2 Length)
+150 (Row 3 Length)
+
+500 (column 1 Width)
+182.3 (column 2 Width)
+
+False (Cell_1_1_1 is not empty)
+False (Cell_1_1_2 is not empty)
+False (Cell_1_2_1 is not empty)
+False (Cell_1_2_2 is not empty)
+False (Cell_1_3_1 is not empty)
+False (Cell_1_3_2 is not empty)
+False (Cell_2_1_1 is not empty)
+False (Cell_2_1_2 is not empty)
+False (Cell_2_2_1 is not empty)
+False (Cell_2_2_2 is not empty)
+False (Cell_2_3_1 is not empty)
+False (Cell_2_3_2 is not empty)
+
+Example of a 2(layers) x 3(rows) x 2(columns) 3D world. False indicates a grid is NOT EMPTY. DO NOT include the stuff in ()'s. DO include the spaces between the data types.
+
+Note the number of falses = the number of grids = layers * rows * columns.
+
+If all values for a given data type (row lengths, for example) are the same, you can compress the lines to a single line with the value. Ex:
+
+The above lines of data can be compressed to this:
+200
+300
+
+150 (compressed)
+
+500
+182.3
+
+False (compressed)
+
+Again, leave out the ()'s and make sure a space separates each data type

@@ -1,0 +1,211 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &151236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 419974}
+  - component: {fileID: 3391014}
+  - component: {fileID: 2302288}
+  - component: {fileID: 11429260}
+  m_Layer: 0
+  m_Name: Secondary Tertairy New T L
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &419974
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151236}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &2302288
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151236}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 068d478e842f84740b625f30beea3776, type: 2}
+  - {fileID: 2100000, guid: db6f6e4db10b9684ea7baa25b1c0a811, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &3391014
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151236}
+  m_Mesh: {fileID: 4300000, guid: 7c9fa5c5f8b88ef419c260e03ec9fda8, type: 2}
+--- !u!114 &11429260
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 151236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 414927151, guid: f56d46228aee4734f9114056c53bb57e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseScript: {fileID: 0}
+  roadType1: 1484069872.8756092
+  roadTypeInt1: 15
+  roadType2: 1493135458.6686025
+  roadTypeInt2: 0
+  roadType3: 1493135458.6686025
+  roadTypeInt3: 18
+  indent1: 0
+  indent2: 0.5
+  roadWidth1: 6
+  roadWidth2: 4
+  roadWidth3: 4
+  tCrossing: 1
+  leftOuter1:
+  - {x: -3, y: 0, z: -3}
+  - {x: -3, y: 0, z: -2}
+  - {x: -2.5, y: 0, z: -2}
+  - {x: -2.5, y: 0, z: -1}
+  - {x: -2.5, y: 0, z: 1}
+  - {x: -2.5, y: 0, z: 2}
+  - {x: -3, y: 0, z: 2}
+  - {x: -3, y: 0, z: 3}
+  rightOuter1:
+  - {x: 3, y: 0, z: -3}
+  - {x: 3, y: 0, z: -1}
+  - {x: 3, y: 0, z: 1}
+  - {x: 3, y: 0, z: 3}
+  leftOuterUV1:
+  - {x: 0, y: 0}
+  - {x: 0, y: 0.16666667}
+  - {x: 0.083333336, y: 0.16666667}
+  - {x: 0.083333336, y: 0.33333334}
+  - {x: 0.083333336, y: 0.6666667}
+  - {x: 0.083333336, y: 0.8333333}
+  - {x: 0, y: 0.8333333}
+  - {x: 0, y: 1}
+  rightOuterUV1:
+  - {x: 1, y: 0}
+  - {x: 1, y: 0.33333334}
+  - {x: 1, y: 0.6666667}
+  - {x: 1, y: 1}
+  leftOuter2: []
+  rightOuter2: []
+  leftOuterUV2: []
+  rightOuterUV2: []
+  leftOuter3:
+  - {x: -3, y: 0, z: 2}
+  - {x: -2.5, y: 0, z: 2}
+  rightOuter3:
+  - {x: -3, y: 0, z: -2}
+  - {x: -2.5, y: 0, z: -2}
+  leftOuterUV3:
+  - {x: 0, y: 1}
+  - {x: 0, y: 1.125}
+  rightOuterUV3:
+  - {x: 1, y: 1}
+  - {x: 1, y: 1.125}
+  sourceMaterial: {fileID: 0}
+  sourceMaterial1: {fileID: 0}
+  targetMaterial: {fileID: 2100000, guid: db6f6e4db10b9684ea7baa25b1c0a811, type: 2}
+  bottom2: -2
+  bottom2Inner: 0
+  bottom3: -2
+  bottom3Inner: 0
+  top2: 2
+  top2Inner: 0
+  top3: 2
+  top3Inner: 0
+  left2: 3
+  left3: -3
+  right2: 3
+  right3: -2.5
+  vec2Count: 12
+  vec3Count: 12
+  uvStart1: 0
+  uvEnd1: 0
+  uvStart2: 0
+  uvEnd2: 0
+  rightTopL: {x: 0, y: 0}
+  rightTopR: {x: 0, y: 0}
+  rightBottomL: {x: 0, y: 0}
+  rightBottomR: {x: 0, y: 0}
+  leftTopL: {x: 0, y: 0}
+  leftTopR: {x: 0, y: 0}
+  leftBottomL: {x: 0, y: 0}
+  leftBottomR: {x: 0, y: 0}
+  rightLeftUV: 0
+  rightRightUV: 0
+  leftLeftUV: 0.09033203
+  leftRightUV: 0.1733398
+  bottomuvInner2: 0
+  topuvInner2: 0
+  innerHeight2: 0
+  outerHeight2: 0
+  bottomuvInner3: 0
+  topuvInner3: 0
+  innerHeight3: 0
+  outerHeight3: 0
+  rightInnerStretch: 0
+  leftInnerStretch: 0.25
+  mat1: {fileID: 0}
+  mat2: {fileID: 0}
+  mat3: {fileID: 0}
+  name: Secondary Tertairy New T L
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 151236}
+  m_IsPrefabParent: 1

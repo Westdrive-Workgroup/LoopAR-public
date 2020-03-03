@@ -1,0 +1,49 @@
+3.0.4 Changelog
+1)	Fixed a bug that caused Terrains to not be neighbored correctly when using an endless world, world recentering, and the 
+	World.ChangeGroupName method.
+
+2)	Fixed a bug with Terrain Slicing Tool which caused 'Disable Alphamap Blending' option to not do anything, and also caused the blending
+	width to always be 1 when using alphamap blending.
+
+3)	Added Example Scenes showing a standard setup and a setup using an endless recentering world. More examples will be added in the future.
+
+3.0.3 Changelog
+
+1)  Layer Hiding is now discouraged when using scene loading. If your scenes are not fixed/static, you should now do the following (note, 
+	this applies to manual scene setup only; the Scene Generation tool automatically does this for you if "Are Scenes Fixed" is disabled):
+		A)	Create a new empty game object to serve as your root cell object. Set its tag to the unbound object tag, and give it the correct name
+			(should be the same as your scene, something like "Slice_1_1"). Set it's layer to whatever you want ("hidden" layer is no longer used).
+			It's imperative that this root object be in an activated state.
+
+			You should also change this new root object's position to the position of the previous root object.
+
+			Note that the root object can have components, and indeed, if using Cell Actions, they must be added to the root object. However,
+			there should be no components which render anything!
+
+		B)	Create a "deactivated node." A deactivated node is simply a game object who's state (in the inspector) is disabled. Parent this
+			game object to the root object created in Step a. Note that you can choose to make your Terrain/Mesh/Other main object your 
+			deactivated node, but you don't have to.
+
+		C)	Parent all other objects in your scene to the deactivated node. They will be deactivated in the hiearchy, but will retain their 
+			activeSelf state. Once the root object has been positioned correctly by the scene loader component, it will activate the 
+			deactivated node, which will in turn activate any objects which have their activSelf 
+			state set to true.
+
+			Ensure the terrain/mesh/other main object, which was probably previously the root object in your scene, is positioned correctly.
+			If you set the new root object created in step A to the position of the previous root object, the terrain/mesh/object should have 
+			its position set to 0. If it doesn't, this may (but does not necessarily) indicate that your root object was not positioned 
+			correctly.
+
+	This change should result in significant performance gains when using Scene Loading.
+
+2)	Modified Scene Generation Tool. Some options removed, and "Are Scenes Fixed" option added. The tool will now create the hierarchy
+	described above when 'Are Scenes Fixed' is disabled. If this option is enabled, each scene will simply contain each prefab as is.
+
+3)	Removed option to deactivate the prefabs created using the Slicing Tool, since deactivation of prefabs when using the Prefab Instantiator
+	is no longer necessary.
+
+4)	Fixed NullReferenceException errors that would occur when trying to tile the outer edges of a terrain group using the TileableTerrainMaker
+	tool, when the terrain group has a missing terrain in the inner section.
+
+5)	Chapter 4, Section 3 of Dynamic Loading Kit_Full_Guide has been rewritten, and some other sections have been slightly updated. 
+	Also added the version of kit to top of guide, so users can identify which version they're using for when trying to receive support.

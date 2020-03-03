@@ -1,0 +1,25 @@
+Special note about disabling Worlds and Active Grids.
+
+Only Worlds and Active Grids that will be used as prototypes (via the Component Manager) 
+should be disabled.
+
+If you need a World or Active Grid, but don't plan on using it immediately, either leave it enabled or create a prototype 
+for that World or Active Grid and then create the component via the Component Manager when it is required.
+
+While this goes against the usual way of doing things in Unity (usually you just disable the game object/component 
+and when it is needed, enable it), it is unfortunately necessary in order to gain some of the benefits of the kit, mainly 
+the automatic saving of persistent data for all components in the scene.
+
+If you disable a World or Active Grid, it will not be picked up and tracked by the Componenet Manager. So if later you 
+enable the component and save your persistent data via one of the Component Manager's save methods, that component will not 
+have its data saved.
+
+So I repeat,
+
+Only Worlds and Active Grids that will be used as prototypes (via the Component Manager) 
+should be disabled.
+
+Also keep in mind that Worlds that don't have an Active Grid synced to them or Active Grid's that aren't synced 
+to a World will usually enter an idle state when 
+not being used. So don't be too concerned about using an inspector created World and just letting it sit there
+for a while.

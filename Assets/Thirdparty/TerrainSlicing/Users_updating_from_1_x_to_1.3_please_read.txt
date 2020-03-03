@@ -1,0 +1,24 @@
+It is no longer necessary to rename/resave the files to get things working with 4.x users.
+
+All files should work no matter what version of Unity you are using.
+
+However, because I changed the file structure around a bit, it may be necessary to delete some files to remove duplicates.
+
+Delete the folder titled "Editor" and the script titled "SetNeighbors.js", 
+which both can be found directly under the "TerrainSlicing" folder. 
+Do not delete the other "Editor" folders not found directly the TerrainSlicing folder.
+
+Ex:
+
+TerrainSlicing/EditorTools/Editor <---- DO NOT DELETE
+TerrainSlicing/OtherScripts/CustomEditors/Editor <---- DO NOT DELETE
+
+TerrainSlicing/Editor <---- DELETE
+
+------------------------------------------
+
+TerrainSlicing/OtherScripts/Components/SetNeighbors.js <---- DO NOT DELETE
+
+TerrainSlicing/SetNeighbors.js <---- DELETE
+
+	

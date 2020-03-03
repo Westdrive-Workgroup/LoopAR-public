@@ -1,0 +1,49 @@
+
+
+
+Template for a Custom Editor for a class which derives from PersistentDataController
+To use this template, create a new script in a folder named "Editor" with the same name
+as your editor classes name.
+
+*** indicates the name of your custom class which derives from PersistentDataController.
+A good naming convention for your editor is ***Editor.
+
+using UnityEngine;
+using UnityEditor;
+using DynamicLoadingKitEditors;
+
+[CustomEditor(typeof(***))]
+class ***Editor : Editor
+{
+	*** targetScript;
+	PersistentDataControllerEditor baseEditor;
+
+	bool needToSave;
+	
+	public sealed override void OnInspectorGUI()
+	{
+		targetScript = (***)target;
+
+		if (baseEditor == null)
+			baseEditor = new PersistentDataControllerEditor(targetScript);
+
+		//Displays the base Persistent Data Controller inspector
+		baseEditor.OnInspectorGUI(out needToSave);
+		
+		//Display your own custom inspector options here (if there are any)
+		/*example
+		string saveLocation = EditorGUILayout.TextField("Save Location", targetScript.saveLocation);
+		
+		//If the new save location value and old save location are not equal
+		if(!saveLocation.Equals(targetScript.saveLocation))
+		{
+			targetScript.saveLocation = saveLocation;
+			needToSave = true;
+		}
+		*/
+		
+		//Leave this: needed to save changes
+		if (needToSave)
+			EditorUtility.SetDirty(targetScript);
+	}
+}

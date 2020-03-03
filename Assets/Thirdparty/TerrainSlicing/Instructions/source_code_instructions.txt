@@ -1,0 +1,20 @@
+I'll be using a zip file to store the source code from now on (previously, a Unity Package was used). You can delete the Unity Package source 
+code, as it is not needed.
+
+Do not unzip the source code in a project that contains the Dynamic Loading Kit, as it will cause conflict errors.
+
+If you decide to use the source in another project rather than the DLL's, keep in mind the following:
+
+1) The .cs files in the DynamicLoadingKitEditorsDLLScript folder should be placed in a folder called Editor in your project.
+
+2) In addition to the source files, you should add the WorldGrid.cs file to your project 
+(found in the TerrainSlicing/OtherScripts/DynamicLoadingScripts folder)
+
+3) You should also copy the following scripts into a folder named Editor:
+	a)	DynamicLoadingManagerCreator.cs
+	b)	WorldGridEditor.cs
+
+Both files can be found in the TerrainSlicing/OtherScripts/DynamicLoadingScripts/Editor folder.
+
+4) It is recommended to also copy the PlayerMover scripts found in TerrainSlicing/OtherScripts/DynamicLoadingScripts/PlayerMoverControllers,
+though this is not required.

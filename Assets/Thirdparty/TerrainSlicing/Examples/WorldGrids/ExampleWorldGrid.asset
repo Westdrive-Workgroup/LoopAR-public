@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9de4760da95a41940b559563e58f44c2, type: 3}
+  m_Name: ExampleWorldGrid
+  m_EditorClassIdentifier: 
+  gridName: Example
+  columns: 4
+  rows: 4
+  layers: 1
+  dataSetMethod: 2
+  columnSelect: 0
+  rowSelect: 0
+  layerSelect: 0
+  indexToSet: 1
+  newDataSetOptionsChoice: 0
+  cellObjectType: 0
+  rowLengths:
+  - 50
+  columnWidths:
+  - 50
+  layerHeights: []
+  emptyGridLocations: 00000000000000000000000000000000
+  worldType: 0
+  assetWithData: {fileID: 0}
+  folderPathWherePrefabsAreStored: /TerrainSlicing/Examples/Resources
+  loadPrefabsFromResourcesFolder: 1
+  showGridHelpFoldout: 1
+  showNewDataSetFoldout: 1
+  showOldDataSetFoldout: 0
+  namingConvention: {fileID: 0}
+  defaultColumnWidth: 500
+  defaultRowLength: 500
+  defaultLayerHeight: 500
+  setValue: 500
+  positionOffset: {x: 0, y: 0, z: 0}
+  rangeTemplates:
+  - firstRow: 1
+    firstColumn: 1
+    firstLayer: 1
+    lastRow: 4
+    lastColumn: 4
+    lastLayer: 1
+    name: Load All Objects
+  rangeTemplateNames:
+  - (1) Load All Objects
