@@ -9,7 +9,10 @@ public class WindscreenHUD : MonoBehaviour
     public Text MaxSpeed;
     public Text Date;
     public Text Weather;
-    public int Speedlimit;
+    public GameObject WarnDreieck;
+    public GameObject NonEventAnzeigen;
+    public string weather_forecast = "Baumles, CH \n 15°C"+"\n Teilweise bewölkt";
+    public int speedLimit = 70;
     public GameObject Car;
     private Rigidbody RB;
     private int nextUpdate = 1;
@@ -20,8 +23,16 @@ public class WindscreenHUD : MonoBehaviour
     void Start()
     {
         RB = Car.GetComponent<Rigidbody>();
-
-    }
+        WarnDreieck.SetActive(false);
+        //Weather
+        Weather.text = weather_forecast;
+    } 
+    private void OnTriggerEnter(Collider other){
+            Event=true;
+            NonEventAnzeigen.SetActive(false);
+            WarnDreieck.SetActive(true);  
+        }
+        
 
     // Update is called once per frame
     void Update()
@@ -29,38 +40,49 @@ public class WindscreenHUD : MonoBehaviour
         // If the next update is reached
         if (Time.time >= nextUpdate)
         {
-            //Debug.Log(Time.time + ">=" + nextUpdate);
             // Change the next update (current second+1)
             nextUpdate = Mathf.FloorToInt(Time.time) + 1;
             // Call your fonction
             UpdateEverySecond();
 
         }
-        
+       
         // Update is called once per second
         void UpdateEverySecond()
         {
             if(Event == false){
+                NonEventAnzeigen.SetActive(true);
+
             //Speed
-            var Velocity = RB.velocity;
-            float speed = Velocity.magnitude;
-            Speed.text = Mathf.Round(speed * 3) + "km/h";
-            
-            //Datum
-            var today = System.DateTime.Now;
-            Date.text = today.ToString("HH:mm");
-            //MaxSpeed
-            MaxSpeed.text = Speedlimit + "km/h";
-            //Weather
-            Weather.text = "Baumles, CH" + "\n" + "15°C" +"\n" + "Teilweise Bewölkt";
+                var Velocity = RB.velocity;
+                float magnitude = Velocity.magnitude;
+                float speed =  Mathf.Round(magnitude* 3.6f);
+                Speed.text = speed  + "km/h";
+                
+
+                if(speed>=speedLimit){
+                        Speed.color = Color.red;
+                        MaxSpeed.color = Color.red;
+                    }else{
+                        Speed.color = Color.cyan;
+                        MaxSpeed.color = Color.black;
+                    }
+                
+                //Datum
+                var today = System.DateTime.Now;
+                Date.text = today.ToString("HH:mm");
+                //MaxSpeed
+                MaxSpeed.text = speedLimit +"";
+                
+                
             }else{
+                NonEventAnzeigen.SetActive(false);
+                WarnDreieck.SetActive(true);                    
                 Speed.text = "";
                 Date.text = "";
                 MaxSpeed.text = "";
                 Weather.text = "";
             }
-
-
         }
     }
 }
