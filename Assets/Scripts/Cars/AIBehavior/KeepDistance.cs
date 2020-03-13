@@ -12,7 +12,7 @@ public class KeepDistance : MonoBehaviour
     
     private void Start()
     {
-        _defaultSpeed = this.gameObject.GetComponent<AIControler>().GetRuleSpeed();
+        _defaultSpeed = this.gameObject.GetComponent<AIController>().GetRuleSpeed();
         //Debug.Log("Default Speed initial: " + _defaultSpeed);
     }
 
@@ -26,7 +26,7 @@ public class KeepDistance : MonoBehaviour
 
         if (Physics.Raycast(transform.position, fwd, out hit, 10.0f))
         {
-            if (hit.collider.gameObject.GetComponent<AIControler>() != null)
+            if (hit.collider.gameObject.GetComponent<AIController>() != null)
             {
                 print("Hit");
                 SpeedSetter(hit);
@@ -48,9 +48,9 @@ public class KeepDistance : MonoBehaviour
     
     private void SpeedReset()
     {
-        if (this.gameObject.GetComponent<AIControler>().aimedSpeed != _defaultSpeed)
+        if (this.gameObject.GetComponent<AIController>().aimedSpeed != _defaultSpeed)
         {
-            this.gameObject.GetComponent<AIControler>().SetAimedSpeed(_defaultSpeed);
+            this.gameObject.GetComponent<AIController>().SetAimedSpeed(_defaultSpeed);
         }
     }
 
@@ -59,9 +59,9 @@ public class KeepDistance : MonoBehaviour
     {
         float hitCurrentSpeed;
         
-        hitCurrentSpeed = hit.collider.gameObject.GetComponent<CarControl>().GetCurrentSpeed();
+        hitCurrentSpeed = hit.collider.gameObject.GetComponent<CarController>().GetCurrentSpeed();
         float newSpeed = hitCurrentSpeed * adjustFactor;
             
-        this.gameObject.GetComponent<AIControler>().SetAimedSpeed(newSpeed);
+        this.gameObject.GetComponent<AIController>().SetAimedSpeed(newSpeed);
     }
 }

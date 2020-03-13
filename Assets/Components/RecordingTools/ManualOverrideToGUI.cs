@@ -8,7 +8,7 @@ public class ManualOverrideToGUI : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] private Text _text;
-    [SerializeField] private AIControler _aiControl;
+    [SerializeField] private AIController _aiControl;
     
     private void Update()
     {

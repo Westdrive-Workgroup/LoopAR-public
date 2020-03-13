@@ -13,9 +13,9 @@ public class SpeedLimit : MonoBehaviour
  
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<AIControler>() != null)
+        if (other.GetComponent<AIController>() != null)
         {
-            other.GetComponent<AIControler>().SetRuleSpeed(speedLimit/3.6f);
+            other.GetComponent<AIController>().SetRuleSpeed(speedLimit/3.6f);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarControl : MonoBehaviour
+public class CarController : MonoBehaviour
 {
     private Rigidbody _rigidbody;
     [SerializeField] private WheelCollider[] frontWheels;

@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
-[RequireComponent(typeof(CarControl))]
+[RequireComponent(typeof(CarController))]
 public class GearSystem : MonoBehaviour
 {
-   private CarControl _carController;
+   private CarController _carController;
 
    private float _currentSpeedinKmH;
 
@@ -17,7 +17,7 @@ public class GearSystem : MonoBehaviour
 
    private void Start()
    {
-      _carController = GetComponent<CarControl>();
+      _carController = GetComponent<CarController>();
       _maximalTorque = _carController.GetTorque();       //The Original Torque is the maximal the Car is able to put
    }
 

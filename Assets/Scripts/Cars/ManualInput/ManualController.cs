@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class ManualController : MonoBehaviour
 {
-    private CarControl _carController;
+    private CarController _carController;
     public bool ManualDriving;
     private void Start()
     {
-        _carController = GetComponent<CarControl>();
+        _carController = GetComponent<CarController>();
     }
 
     // Update is called once per frame

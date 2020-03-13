@@ -5,14 +5,14 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class AIControler : MonoBehaviour
+public class AIController : MonoBehaviour
 {
     [Space] [Header("Debug")] public bool showLocalTargerGizmos = false;
     [Range(0f,100f)]
     public float localTargetVisualizerRadius  = 1f;
     public Color localTargetColor = Color.red;
     
-    private CarControl _carController;
+    private CarController _carController;
     public float steeringSensitivity = 0.01f;
 
     public float
@@ -26,6 +26,8 @@ public class AIControler : MonoBehaviour
     private float _targetAngle;
     public float aimedSpeed = 20f;
     private float ruleSpeed;
+    
+    
     
     [Space] [Header("Path Settings")] public BezierSplines path;
     [Range(0f,0.1f)] public float precision = 0.01f;
@@ -48,7 +50,7 @@ public class AIControler : MonoBehaviour
     private void Start()
     {
         _carRigidBody = this.gameObject.GetComponent<Rigidbody>();
-        _carController = this.GetComponent<CarControl>();
+        _carController = this.GetComponent<CarController>();
         //_localTarget = path.GetPoint(0);
         //Debug.Log("target was at 0 " + _localTarget);
         _localTarget = GetClosestPoint(path);
