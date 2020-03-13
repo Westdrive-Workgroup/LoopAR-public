@@ -7,7 +7,7 @@ public class AxisStabilizer : MonoBehaviour
 {
    public float antiRoll = 5000f;
    
-   private CarControl _carController;
+   private CarController _carController;
    [SerializeField]private WheelCollider frontLeft;
    [SerializeField]private WheelCollider frontRight;
    [SerializeField]private WheelCollider backLeft;

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(AIControler),typeof(ManualController))]
+[RequireComponent(typeof(AIController),typeof(ManualController))]
 public class ControlSwitch : MonoBehaviour
 {
-    private AIControler _aiControl;
+    private AIController _aiControl;
 
     private ManualController _manualControl;
 
@@ -13,7 +13,7 @@ public class ControlSwitch : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _aiControl = GetComponent<AIControler>();
+        _aiControl = GetComponent<AIController>();
         _manualControl = GetComponent<ManualController>();
     }
 
