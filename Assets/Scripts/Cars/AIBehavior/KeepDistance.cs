@@ -28,18 +28,11 @@ public class KeepDistance : MonoBehaviour
         {
             if (hit.collider.gameObject.GetComponent<AIController>() != null)
             {
-                print("Hit");
                 SpeedSetter(hit);
-            } 
-            //else
-            //{
-               //print("Out");
-                //SpeedReset();
-            //}
+            }
         }
         else
         {
-            print("Outermost Out");
             SpeedReset();
         }
         

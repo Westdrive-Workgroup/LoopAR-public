@@ -25,7 +25,7 @@ public class AIController : MonoBehaviour
     private Rigidbody _carRigidBody;
     private float _targetAngle;
     public float aimedSpeed = 20f;
-    private float ruleSpeed;
+    private float _ruleSpeed = 20f;
     
     
     
@@ -122,12 +122,12 @@ public class AIController : MonoBehaviour
 
     public void SetRuleSpeed(float newSpeed)
     {
-        ruleSpeed = newSpeed;
+        _ruleSpeed = newSpeed;
     }
 
     public float GetRuleSpeed()
     {
-        return ruleSpeed;
+        return _ruleSpeed;
     }
 
     public void SetAimedSpeed(float newSpeed)
