@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PersistentTrafficEventManager : MonoBehaviour
 {
+    //currently this script is completely useless. It might get a new Meaning if we start to hide variables and get back to the Manager -> Controller System.
+    //Since for the MVP I doubt that it is necessary to follow that, I will keep this functionality whenever we need to come back  to it.  
     public static PersistentTrafficEventManager Instance { get; private set; }
 
     private List<EventBehavior> _eventBehaviorListeners;
@@ -39,5 +41,15 @@ public class PersistentTrafficEventManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void InitiateEvent()
+    {
+        
+        foreach (var eventListener in _eventBehaviorListeners)
+        {
+            Debug.Log("..initiated for ... " + eventListener);
+            eventListener.AvoidInterference(10f);
+        }
     }
 }

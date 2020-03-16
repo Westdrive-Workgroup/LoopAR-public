@@ -15,19 +15,36 @@ public class ControlSwitch : MonoBehaviour
     {
         _aiControl = GetComponent<AIController>();
         _manualControl = GetComponent<ManualController>();
+
+        manualDrivingIsActive = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        manualDrivingIsActive = _manualControl.ManualDriving;
+       
+    }
+
+
+    private void activateManualDriving()
+    {
+        _aiControl.manualOverride = true;
+        _manualControl.SetManualDriving(true);
+    }
+
+    public void switchControl()
+    {
+        Debug.Log("is activated switch");
+        manualDrivingIsActive = !manualDrivingIsActive;
+
         if (manualDrivingIsActive)
         {
-            _aiControl.manualOverride = true;
+            activateManualDriving();
         }
-        else
-        {
-            _aiControl.manualOverride = false;
-        }
+    }
+
+    public void switchControl(bool state)
+    {
+        manualDrivingIsActive = state;
     }
 }

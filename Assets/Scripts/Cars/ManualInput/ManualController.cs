@@ -6,10 +6,27 @@ using UnityEngine;
 public class ManualController : MonoBehaviour
 {
     private CarController _carController;
-    public bool ManualDriving;
+    private bool _manualDriving=false;
+
+    private void Awake()
+    {
+     
+           
+    }
+
     private void Start()
     {
         _carController = GetComponent<CarController>();
+        _manualDriving = true;
+        if (GetComponent<ControlSwitch>() != null)
+        {
+            if (GetComponent<ControlSwitch>().isActiveAndEnabled)
+            {
+                Debug.Log("got here");
+                _manualDriving = false;
+            }
+        }
+
     }
 
     // Update is called once per frame
@@ -19,17 +36,20 @@ public class ManualController : MonoBehaviour
         float accelerationInput = Input.GetAxis("Vertical");// W or Arrow up acceleration forward or backwards.
         float steeringInput = Input.GetAxis("Horizontal"); //A or D steering
 
-        if (steeringInput != 0 || accelerationInput != 0 || brakeInput!=0)
+
+        if (_manualDriving)
         {
-            ManualDriving = true;
             _carController.MoveVehicle(accelerationInput,brakeInput,steeringInput);
         }
-        else
-        {
-            ManualDriving = false;
-        }
+
+      
         
-        
-        
+    }
+    
+    public void SetManualDriving(bool state)
+    {
+
+        Debug.Log("got also here");
+        _manualDriving = true;
     }
 }

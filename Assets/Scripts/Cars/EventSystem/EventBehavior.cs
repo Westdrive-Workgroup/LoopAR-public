@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AIController))]
 public class EventBehavior : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -15,6 +16,13 @@ public class EventBehavior : MonoBehaviour
     {
         
     }
+
+    public void AvoidInterference(float eventSpeed)
+    {
+        GetComponent<AIController>().SetAimedSpeed(eventSpeed);
+    }
+    
+    
     
     
     
