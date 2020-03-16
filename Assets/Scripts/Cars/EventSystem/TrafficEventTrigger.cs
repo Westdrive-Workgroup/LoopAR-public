@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TrafficEventTrigger : MonoBehaviour
 {
+
+    private GameObject currentObject;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,14 +20,18 @@ public class TrafficEventTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        GameObject gameObject = other.gameObject;
+        if (other.gameObject == currentObject)
+            return;
 
-        if (gameObject.GetComponent<ManualController>() != null)
+        currentObject = other.gameObject;
+            
+
+        if (other.gameObject.GetComponent<ManualController>() != null)
         {
             Debug.Log("Triggered");
-            PersistentTrafficEventManager.Instance.InitiateEvent();
+            PersistentTrafficEventManager.Instance.HandleEvent();
             
-            
+
         }
         
     }

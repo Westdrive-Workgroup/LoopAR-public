@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PersistentTrafficEventManager : MonoBehaviour
 {
-    //currently this script is completely useless. It might get a new Meaning if we start to hide variables and get back to the Manager -> Controller System.
-    //Since for the MVP I doubt that it is necessary to follow that, I will keep this functionality whenever we need to come back  to it.  
     public static PersistentTrafficEventManager Instance { get; private set; }
-
+    public GameObject participantsCar; //needs a functionality to find the participants Car
+    
+    
     private List<EventBehavior> _eventBehaviorListeners;
-
-    // Start is called before the first frame update
+    private ControlSwitch participantsControlSwitch;
+    private bool activatedEvent;
     
     private void Awake()
     {
@@ -29,7 +29,8 @@ public class PersistentTrafficEventManager : MonoBehaviour
     
     void Start()
     {
-        // 
+        participantsControlSwitch = participantsCar.GetComponent<ControlSwitch>();
+        activatedEvent = false; // 
     }
 
     public void RegisterTrafficListeners(EventBehavior listener)
@@ -43,13 +44,38 @@ public class PersistentTrafficEventManager : MonoBehaviour
         
     }
 
-    public void InitiateEvent()
+
+    public void HandleEvent()
+    {
+        if (activatedEvent)
+        {
+            FinalizeEvent();
+        }
+        else
+        {
+            activatedEvent = true;
+            InitiateEvent();
+        }
+    }
+
+    private void InitiateEvent()
     {
         
         foreach (var eventListener in _eventBehaviorListeners)
         {
-            Debug.Log("..initiated for ... " + eventListener);
             eventListener.AvoidInterference(10f);
         }
+        participantsControlSwitch.SwitchControl();
+    }
+
+    private void FinalizeEvent()
+    {
+        foreach (var eventListener in _eventBehaviorListeners)
+        {
+            Debug.Log("setting back to normal");
+            eventListener.ReestablishNormalBehavior();
+        }
+        
+        participantsControlSwitch.SwitchControl();
     }
 }

@@ -48,8 +48,6 @@ public class ManualController : MonoBehaviour
     
     public void SetManualDriving(bool state)
     {
-
-        Debug.Log("got also here");
-        _manualDriving = true;
+        _manualDriving = state;
     }
 }

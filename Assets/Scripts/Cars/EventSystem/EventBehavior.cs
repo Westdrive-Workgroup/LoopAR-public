@@ -21,6 +21,11 @@ public class EventBehavior : MonoBehaviour
     {
         GetComponent<AIController>().SetAimedSpeed(eventSpeed);
     }
+
+    public void ReestablishNormalBehavior()
+    {
+        Debug.Log("normal behavior scrits");
+    }
     
     
     
