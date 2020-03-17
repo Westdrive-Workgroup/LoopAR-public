@@ -15,7 +15,8 @@ public class SpeedLimit : MonoBehaviour
     {
         if (other.GetComponent<AIController>() != null)
         {
-            other.GetComponent<AIController>().SetRuleSpeed(speedLimit/3.6f);
+            //other.GetComponent<AIController>().SetRuleSpeed(speedLimit/3.6f);
+            other.GetComponent<AimedSpeed>().SetRuleSpeed(speedLimit/3.6f);
         }
     }
 }

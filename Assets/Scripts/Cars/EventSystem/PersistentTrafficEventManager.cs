@@ -11,6 +11,8 @@ public class PersistentTrafficEventManager : MonoBehaviour
     private List<EventBehavior> _eventBehaviorListeners;
     private ControlSwitch participantsControlSwitch;
     private bool activatedEvent;
+
+    public float EventSpeed= 5f;
     
     private void Awake()
     {
