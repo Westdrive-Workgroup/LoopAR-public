@@ -8,11 +8,11 @@ public class KeepDistance : MonoBehaviour
 {
     [Space] [Header("Speed adjuster")] public float adjustFactor = 0.9f;
 
-    private float _defaultSpeed;
+   // private float _defaultSpeed;
     
     private void Start()
     {
-        _defaultSpeed = this.gameObject.GetComponent<AIController>().GetRuleSpeed();
+       // _defaultSpeed = this.gameObject.GetComponent<AIController>().GetRuleSpeed();
         //Debug.Log("Default Speed initial: " + _defaultSpeed);
     }
 
@@ -26,26 +26,26 @@ public class KeepDistance : MonoBehaviour
 
         if (Physics.Raycast(transform.position, fwd, out hit, 10.0f))
         {
-            if (hit.collider.gameObject.GetComponent<AIController>() != null)
+            if (hit.collider.gameObject.GetComponent<CarController>() != null)
             {
                 SpeedSetter(hit);
             }
         }
-        else
-        {
-            SpeedReset();
-        }
+       //else
+        //{
+          //  SpeedReset();
+        //}
         
     }
 
     
-    private void SpeedReset()
-    {
-        if (this.gameObject.GetComponent<AIController>().aimedSpeed != _defaultSpeed)
-        {
-            this.gameObject.GetComponent<AIController>().SetAimedSpeed(_defaultSpeed);
-        }
-    }
+   // private void SpeedReset()
+    //{
+       // if (this.gameObject.GetComponent<AIController>().aimedSpeed != _defaultSpeed)
+       // {
+           // this.gameObject.GetComponent<AIController>().SetAimedSpeed(_defaultSpeed);
+       // }
+    //}
 
     
     private void SpeedSetter(RaycastHit hit)
@@ -55,6 +55,7 @@ public class KeepDistance : MonoBehaviour
         hitCurrentSpeed = hit.collider.gameObject.GetComponent<CarController>().GetCurrentSpeed();
         float newSpeed = hitCurrentSpeed * adjustFactor;
             
-        this.gameObject.GetComponent<AIController>().SetAimedSpeed(newSpeed);
+        //this.gameObject.GetComponent<AIController>().SetAimedSpeed(newSpeed);
+        this.gameObject.GetComponent<AimedSpeed>().SetAimedSpeed(newSpeed);
     }
 }

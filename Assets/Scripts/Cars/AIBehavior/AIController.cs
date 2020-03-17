@@ -25,10 +25,9 @@ public class AIController : MonoBehaviour
     private Rigidbody _carRigidBody;
     private float _targetAngle;
     public float aimedSpeed = 20f;
-    private float _ruleSpeed = 20f;
-    
-    
-    
+
+
+
     [Space] [Header("Path Settings")] public BezierSplines path;
     [Range(0f,0.1f)] public float precision = 0.01f;
     [Range(0.5f,20f)] public float trackerSensitivity = 5f;
@@ -61,6 +60,7 @@ public class AIController : MonoBehaviour
 
     private void Update()
     {
+        aimedSpeed = this.gameObject.GetComponent<AimedSpeed>().GetAimedSpeed();
         //Debug.Log(Vector3.Distance(transform.position, _localTarget));
         if (Vector3.Distance(transform.position, _localTarget) < trackerSensitivity)
         {
@@ -120,15 +120,15 @@ public class AIController : MonoBehaviour
     }*/
 
 
-    public void SetRuleSpeed(float newSpeed)
-    {
-        _ruleSpeed = newSpeed;
-    }
+    //public void SetRuleSpeed(float newSpeed)
+    //{
+      //  _ruleSpeed = newSpeed;
+    //}
 
-    public float GetRuleSpeed()
-    {
-        return _ruleSpeed;
-    }
+    //public float GetRuleSpeed()
+    //{
+      //  return _ruleSpeed;
+    //}
 
     public void SetAimedSpeed(float newSpeed)
     {

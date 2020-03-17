@@ -19,11 +19,12 @@ public class EventBehavior : MonoBehaviour
 
     public void AvoidInterference(float eventSpeed)
     {
-        GetComponent<AIController>().SetAimedSpeed(eventSpeed);
+        GetComponent<AimedSpeed>().ActivateEventSpeed();
     }
 
     public void ReestablishNormalBehavior()
     {
+        GetComponent<AimedSpeed>().DeActivateEventSpeed();
         Debug.Log("normal behavior scrits");
     }
     
