@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 3567489569351749779}
   - component: {fileID: 6784109412620050820}
   - component: {fileID: 7279495227170004720}
-  - component: {fileID: 2287275842613979944}
   - component: {fileID: 729955814001983940}
   - component: {fileID: 3080991540535255471}
+  - component: {fileID: 2287275842613979944}
   - component: {fileID: 6521408735784968326}
   - component: {fileID: 773093365507103163}
   m_Layer: 0
@@ -102,32 +102,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2287275842613979944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 567830535022171471}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c503f53e3026ac45bc0de1d603791c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frontWheels:
-  - {fileID: 8026581053905134740}
-  - {fileID: 523877417887020416}
-  rearWheels:
-  - {fileID: 2957974613242992204}
-  - {fileID: 3633880023627050072}
-  _torque: 1000
-  _maxSteerAngle: 25
-  maxBrakeTorque: 500
-  allWheelDrive: 1
-  rearBreakOnly: 1
-  acceelelartionBoost: 1
-  _maximumSpeed: 66
-  centerOfMassOffset: {x: 0, y: -0.5, z: 0}
 --- !u!65 &729955814001983940
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -154,6 +128,32 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.274705, y: 0.8913392, z: 3.41276}
   m_Center: {x: -0.027121544, y: -0.28814346, z: 0.39642203}
+--- !u!114 &2287275842613979944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 567830535022171471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c503f53e3026ac45bc0de1d603791c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frontWheels:
+  - {fileID: 8026581053905134740}
+  - {fileID: 523877417887020416}
+  rearWheels:
+  - {fileID: 2957974613242992204}
+  - {fileID: 3633880023627050072}
+  _torque: 1000
+  _maxSteerAngle: 25
+  maxBrakeTorque: 500
+  allWheelDrive: 1
+  rearBreakOnly: 1
+  acceelelartionBoost: 1
+  _maximumSpeed: 66
+  centerOfMassOffset: {x: 0, y: -0.5, z: 0}
 --- !u!114 &6521408735784968326
 MonoBehaviour:
   m_ObjectHideFlags: 0
