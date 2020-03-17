@@ -11,7 +11,7 @@ public class EventStart : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<PlayerMovement>() != null)
+        if (other.GetComponent<AIController>() != null)
         {
             eventController.StartEvent(Event);
             GetComponent<Collider>().enabled = false;
