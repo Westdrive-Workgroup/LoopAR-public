@@ -24,7 +24,7 @@ public class AIController : MonoBehaviour
     private Vector3 _nextTarget;
     private Rigidbody _carRigidBody;
     private float _targetAngle;
-    public float aimedSpeed = 20f;
+    private float _aimedSpeed = 20f;
 
 
 
@@ -35,8 +35,7 @@ public class AIController : MonoBehaviour
     private Vector3 _localTarget;
 
     public bool manualOverride;
-    //public float trunTreshold = 30f;
-    
+
     private void OnDrawGizmosSelected()
     {
         if (showLocalTargerGizmos)
@@ -60,11 +59,9 @@ public class AIController : MonoBehaviour
 
     private void Update()
     {
-        aimedSpeed = this.gameObject.GetComponent<AimedSpeed>().GetAimedSpeed();
-        //Debug.Log(Vector3.Distance(transform.position, _localTarget));
+        _aimedSpeed = this.gameObject.GetComponent<AimedSpeed>().GetAimedSpeed();
         if (Vector3.Distance(transform.position, _localTarget) < trackerSensitivity)
         {
-            //Debug.Log("got here");
             if (progressPercentage >= 1f)
             {
                 progressPercentage = 0f;
@@ -72,7 +69,6 @@ public class AIController : MonoBehaviour
             else
             {
                 progressPercentage += precision;
-                //Debug.Log(progressPercentage);
             }
             _localTarget = path.GetPoint(progressPercentage);
         }
@@ -81,7 +77,7 @@ public class AIController : MonoBehaviour
         Vector3 localTargetTransform =  transform.InverseTransformPoint(path.GetPoint(progressPercentage));
         _targetAngle = (localTargetTransform.x / localTargetTransform.magnitude);
         
-
+        
         float speedFactor = _carController.GetCurrentSpeed() / _carController.GetMaximumSpeed();
         float corner = Mathf.Clamp(Mathf.Abs(_targetAngle), 0, 90);
         float cornerFactor = corner / 90.0f;
@@ -100,9 +96,7 @@ public class AIController : MonoBehaviour
 
         if (!manualOverride)
         {
-           // _carController.MoveVehicle(accel, brake, _targetAngle);
-            
-            if (_carController.GetCurrentSpeed() >= aimedSpeed)
+            if (_carController.GetCurrentSpeed() >= _aimedSpeed)
             {
                 brake += 50f;
                 _carController.MoveVehicle(accel, brake, _targetAngle);
@@ -114,34 +108,12 @@ public class AIController : MonoBehaviour
         }
     }
 
-    /*public void SetAcceleration(float acceleration)
-    {
-        _carController.MoveVehicle(acceleration, brake, _targetAngle);
-    }*/
-
-
-    //public void SetRuleSpeed(float newSpeed)
-    //{
-      //  _ruleSpeed = newSpeed;
-    //}
-
-    //public float GetRuleSpeed()
-    //{
-      //  return _ruleSpeed;
-    //}
-
-    public void SetAimedSpeed(float newSpeed)
-    {
-        aimedSpeed = newSpeed;
-    }
-    
     private Vector3 GetClosestPoint(BezierSplines path)
     { 
         Vector3 currentPoint = Vector3.zero;
 
         for (float i = 0f; i < 1f; i += precision)
         {
-            
             Vector3 point = path.GetPoint(i);
             
             //Debug.Log("point is now" + point + " " + i + "sensitivy " + precision);
@@ -150,20 +122,15 @@ public class AIController : MonoBehaviour
             if (Vector3.Distance(this.transform.position, point) <
                 (Vector3.Distance(this.transform.position, currentPoint)))
             {
-                
                 //Debug.Log("point is closer than currentWayPoint");
                 currentPoint = point;
             }
             else
             {
-                //Debug.Log("i" + i);
                 progressPercentage = i;
                 break;
             }
-
         }
-
-        
         return currentPoint;
     }
 }
