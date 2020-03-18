@@ -5,7 +5,9 @@ using UnityEngine;
 public class TrafficEventTrigger : MonoBehaviour
 {
 
-    private GameObject currentObject;
+    private GameObject targetVehicle;
+
+    private GameObject currentTarget;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,19 +22,24 @@ public class TrafficEventTrigger : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == currentObject)
+        if (other.gameObject == currentTarget)
             return;
 
-        currentObject = other.gameObject;
-            
-
-        if (other.gameObject.GetComponent<ManualController>() != null)
+        currentTarget = other.gameObject;
+        
+        if (other.gameObject == targetVehicle)
         {
-            Debug.Log("Triggered");
+            Debug.Log("Triggered " + other.gameObject);
             PersistentTrafficEventManager.Instance.HandleEvent();
             
 
         }
         
+    }
+
+
+    public void TargetVehicle(GameObject vehicle)
+    {
+        targetVehicle = vehicle;
     }
 }
