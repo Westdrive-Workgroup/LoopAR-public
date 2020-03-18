@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PersistentTrafficEventManager : MonoBehaviour
 {
+
+//name is at the moment a bit missleading. It is a overall manager class, which is aware of all events in that scene, the Participant and the AI Cars.
+// it is aware of starting events and ending events globally.
+// it is intended to handle the reaction of AI cars in case of events of AI cars to avoid them of interfering into the event
     public static PersistentTrafficEventManager Instance { get; private set; }
     public GameObject participantsCar; //needs a functionality to find the participants Car
     
@@ -80,5 +84,10 @@ public class PersistentTrafficEventManager : MonoBehaviour
         }
         
         participantsControlSwitch.SwitchControl();
+    }
+
+    public GameObject GetParticipantsCar()
+    {
+        return participantsCar;
     }
 }
