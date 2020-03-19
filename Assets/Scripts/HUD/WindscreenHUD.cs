@@ -11,6 +11,7 @@ public class WindscreenHUD : MonoBehaviour
     public Text Weather;
     public GameObject WarnDreieck;
     public GameObject NonEventAnzeigen;
+    public Image SpeedGauge;
     public string weather_forecast = "Baumles, CH \n 15°C"+"\n Teilweise bewölkt";
     public int speedLimit = 70;
     public GameObject Car;
@@ -50,6 +51,7 @@ public class WindscreenHUD : MonoBehaviour
         // Update is called once per second
         void UpdateEverySecond()
         {
+            
             if(Event == false){
                 NonEventAnzeigen.SetActive(true);
 
@@ -58,13 +60,16 @@ public class WindscreenHUD : MonoBehaviour
                 float magnitude = Velocity.magnitude;
                 float speed =  Mathf.Round(magnitude* 3.6f);
                 Speed.text = speed  + "km/h";
-                
+                float quotientSpeed = speedLimit/ speed;
+                SpeedGauge.fillAmount = quotientSpeed;
 
                 if(speed>=speedLimit){
-                        Speed.color = Color.red;
-                        MaxSpeed.color = Color.red;
+                    SpeedGauge.color = Color.red;
+                    Speed.color = Color.red;
+                    MaxSpeed.color = Color.red;
                     }else{
-                        Speed.color = Color.cyan;
+                        SpeedGauge.color = Color.green;
+                        Speed.color = Color.green;
                         MaxSpeed.color = Color.black;
                     }
                 
