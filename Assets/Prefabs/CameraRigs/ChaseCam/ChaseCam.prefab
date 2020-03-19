@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 691066850181620294}
   - component: {fileID: 691066850181620293}
-  - component: {fileID: 691066850181620295}
   m_Layer: 0
-  m_Name: CameraArm
+  m_Name: ChaseCam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,20 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToFollow: {fileID: 0}
---- !u!114 &691066850181620295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 691066850181620292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43c7fdf8cc3acf5429f1822d2ba5ab4d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  objectToFollow: {fileID: 0}
-  damping: 1
+  damping: 0
 --- !u!1 &6669485862063694129
 GameObject:
   m_ObjectHideFlags: 0
