@@ -13,7 +13,6 @@ public class CarController : MonoBehaviour
     [SerializeField] private float maxBrakeTorque = 500f;
     [SerializeField] private bool allWheelDrive= false;
     [SerializeField] private bool rearBreakOnly = true;
-    public float acceelelartionBoost = 1000f;
     [SerializeField] private float _maximumSpeed = 67f;  //meter per seconds
     private float _currentSpeed;
 
@@ -64,7 +63,7 @@ public class CarController : MonoBehaviour
 
         float thrustTorque = CalculateThrustTorque(acceleration);
         //wheelCol.motorTorque = acceelelartionBoost*   thrustTorque;
-        wheelCol.motorTorque = Mathf.Clamp(thrustTorque * acceelelartionBoost,0, _maximumSpeed);
+        wheelCol.motorTorque = Mathf.Clamp(thrustTorque,0, _maximumSpeed);
         /*Debug.Log( "Torque: " + wheelCol.motorTorque + ", rpm: " +    wheelCol.rpm);*/
         wheelCol.brakeTorque = brake;
         
