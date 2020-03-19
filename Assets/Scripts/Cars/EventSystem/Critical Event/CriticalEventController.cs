@@ -16,7 +16,8 @@ public class CriticalEventController: MonoBehaviour
     
     void Start()
     {
-        targetedCar = PersistentTrafficEventManager.Instance.GetParticipantsCar();
+        if(PersistentTrafficEventManager.Instance!=null)
+            targetedCar = PersistentTrafficEventManager.Instance.GetParticipantsCar();
         
         startTrigger.TargetVehicle(targetedCar);
         endTrigger.TargetVehicle(targetedCar);

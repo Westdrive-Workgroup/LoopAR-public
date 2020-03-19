@@ -17,7 +17,15 @@ public class AimedSpeed : MonoBehaviour
     {
         _overWrittenAimedSpeed = false;
         _ruleSpeed = GetComponent<CarController>().GetMaximumSpeed();
-        _eventSpeed = PersistentTrafficEventManager.Instance.EventSpeed;
+        if (PersistentTrafficEventManager.Instance != null)
+        {
+            _eventSpeed = PersistentTrafficEventManager.Instance.EventSpeed;
+        }
+        else
+        {
+            _eventSpeed = 30f;         //will never be used , but just in case
+        }
+        
     }
 
     // Update is called once per frame
