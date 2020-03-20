@@ -33,46 +33,49 @@ public class AIController : MonoBehaviour
     private Vector3 _localTarget;
 
     [Space] [Header("Car Mode")] public bool manualOverride;
+    
     //public float trunTreshold = 30f;
     
-    private void OnDrawGizmosSelected()
+    /*private void OnDrawGizmosSelected()
     {
         if (showLocalTargerGizmos)
         {
             Gizmos.color = localTargetColor;
             Gizmos.DrawWireSphere(_localTarget,localTargetVisualizerRadius);
         }
-    }
+    }*/
 
     private void Start()
     {
-        _carRigidBody = this.gameObject.GetComponent<Rigidbody>();
-        _carController = this.GetComponent<CarController>();
+        Debug.Log("Heeeey! I have to be first!");
         //_localTarget = path.GetPoint(0);
         //Debug.Log("target was at 0 " + _localTarget);
-        _localTarget = GetClosestPoint(path);
         //Debug.Log("local target is "+ _localTarget);
-        _targetAngle = 0;
-        
+
         if (reverse)
         {
-            // Debug.Log("recognized reverse");
+            Debug.Log("Heeeey! I have to be second!");
+            Debug.Log("recognized reverse");
             progressPercentage = 1f;
             //reverse = true;
-            // Debug.Log("reverse value in awaik: " + reverse);
+            Debug.Log("reverse value in awaik is " + reverse + " and PP is: " + progressPercentage);
         }
         else
         {
             progressPercentage = 0f;
         }
         
+        _carRigidBody = this.gameObject.GetComponent<Rigidbody>();
+        _carController = this.GetComponent<CarController>();
+        
+        _targetAngle = 0;
         manualOverride = false;
+        _localTarget = GetClosestPoint(path);
     }
 
     private void Update()
     {
-        reverse = true;
-        // Debug.Log("reverse value beginning of update: " + reverse);
+        Debug.Log("reverse value beginning of update is " + reverse + " and PP is: " + progressPercentage);
         _aimedSpeed = this.gameObject.GetComponent<AimedSpeed>().GetAimedSpeed();
         //Debug.Log(Vector3.Distance(transform.position, _localTarget));
 
@@ -89,7 +92,8 @@ public class AIController : MonoBehaviour
                 NormalPathFollowing();
             }
         }
-         Debug.Log("in update after if");
+        
+        Debug.Log("in update after if. PP: " + progressPercentage);
 
         Vector3 localTargetTransform =  transform.InverseTransformPoint(path.GetPoint(progressPercentage));
         _targetAngle = (localTargetTransform.x / localTargetTransform.magnitude);
@@ -113,8 +117,6 @@ public class AIController : MonoBehaviour
 
         if (!manualOverride)
         {
-           // _carController.MoveVehicle(accel, brake, _targetAngle);
-            
             if (_carController.GetCurrentSpeed() >= _aimedSpeed)
             {
                 brake += 50f;
@@ -129,11 +131,11 @@ public class AIController : MonoBehaviour
 
     private void ReversePathFollowing()
     {
-        Debug.Log("Beginning ReversePF methode. PP: " + progressPercentage);
+        Debug.Log("Beginning of ReversePF methode. PP: " + progressPercentage);
         if (progressPercentage < 0f)
         {
             progressPercentage = 1f;
-            Debug.Log("Reverse if reset. PP: " + progressPercentage);
+            Debug.Log("Reverse if, has to be 1. PP: " + progressPercentage);
         }
         else
         {
@@ -150,15 +152,15 @@ public class AIController : MonoBehaviour
         if (progressPercentage >= 1f)
         {
             progressPercentage = 0f;
-            Debug.Log("Normal if reset. PP: " + progressPercentage);
+            // Debug.Log("Normal if reset. PP: " + progressPercentage);
         }
         else
         {
-            Debug.Log("Normal else. PP: " + progressPercentage);
+            // Debug.Log("Normal else. PP: " + progressPercentage);
             progressPercentage += precision;
         }
         _localTarget = path.GetPoint(progressPercentage);
-        Debug.Log("Normal PP: " + progressPercentage);
+        // Debug.Log("Normal PP: " + progressPercentage);
     }
 
     public void SetAimedSpeed(float newSpeed)
@@ -168,6 +170,7 @@ public class AIController : MonoBehaviour
     
     private Vector3 GetClosestPoint(BezierSplines path)
     { 
+        Debug.Log("In Get to the closest point. PP is: " + progressPercentage);
         Vector3 currentPoint = Vector3.zero;
 
         if (reverse)
@@ -177,7 +180,7 @@ public class AIController : MonoBehaviour
                 Vector3 point = path.GetPoint(i);
                 
                 if (Vector3.Distance(this.transform.position, point) <
-                    (Vector3.Distance(this.transform.position, currentPoint)))
+                    Vector3.Distance(this.transform.position, currentPoint))
                 {
                     currentPoint = point;
                 }
@@ -187,6 +190,7 @@ public class AIController : MonoBehaviour
                     break;
                 }
             }
+            Debug.Log("In GttCP, if reverse. PP is: " + progressPercentage);
         }
         else
         {
@@ -199,7 +203,7 @@ public class AIController : MonoBehaviour
                 //Debug.Log("Distance to currentPoint " + Vector3.Distance(this.transform.position, point));
                 //Debug.Log("Distance to previous Point " + Vector3.Distance(this.transform.position, currentPoint));
                 if (Vector3.Distance(this.transform.position, point) <
-                    (Vector3.Distance(this.transform.position, currentPoint)))
+                    Vector3.Distance(this.transform.position, currentPoint))
                 {
                     currentPoint = point;
                 }
@@ -209,8 +213,8 @@ public class AIController : MonoBehaviour
                     break;
                 }
             }
+            Debug.Log("In GttCP, else. PP is: " + progressPercentage);
         }
-        
         return currentPoint;
     }
 }
