@@ -31,6 +31,7 @@ public class AIController : MonoBehaviour
     [Range(0f,1f)] public float progressPercentage;
     [SerializeField] public bool reverse;
     private Vector3 _localTarget;
+    Vector3 _nearestPoint = Vector3.zero;
 
     [Space] [Header("Car Mode")] public bool manualOverride;
     
@@ -57,22 +58,23 @@ public class AIController : MonoBehaviour
             // Debug.Log("Heeeey! I have to be second!");
             // Debug.Log("recognized reverse");
             progressPercentage = 1f;
-            _localTarget = path.GetPoint(1f);
+            // _localTarget = path.GetPoint(1f);
             //reverse = true;
             // Debug.Log("reverse value in start is " + reverse + " and PP is: " + progressPercentage);
         }
         else
         {
             progressPercentage = 0f;
-            _localTarget = path.GetPoint(0f);
+            // _localTarget = path.GetPoint(0f);
         }
-
+        
+        
         _carRigidBody = this.gameObject.GetComponent<Rigidbody>();
         _carController = this.GetComponent<CarController>();
         
         _targetAngle = 0;
         manualOverride = false;
-        // _localTarget = GetClosestPoint(path);
+        _localTarget = GetClosestPoint(path);
     }
 
     private void Update()
@@ -91,6 +93,7 @@ public class AIController : MonoBehaviour
             }
             else
             {
+                Debug.Log("got here");
                 NormalPathFollowing();
             }
         }
@@ -173,27 +176,17 @@ public class AIController : MonoBehaviour
     private Vector3 GetClosestPoint(BezierSplines path)
     { 
         // Debug.Log("In Get to the closest point. PP is: " + progressPercentage);
-        Vector3 currentPoint = Vector3.zero;
 
         for (float i = 0f; i < 1f; i += precision)
         {
-            
             Vector3 point = path.GetPoint(i);
-            
-            //Debug.Log("point is now" + point + " " + i + "sensitivy " + precision);
-            //Debug.Log("Distance to currentPoint " + Vector3.Distance(this.transform.position, point));
-            //Debug.Log("Distance to previous Point " + Vector3.Distance(this.transform.position, currentPoint));
+           
             if (Vector3.Distance(this.transform.position, point) <
-                Vector3.Distance(this.transform.position, currentPoint))
+                Vector3.Distance(this.transform.position, _nearestPoint))
             {
-                currentPoint = point;
-            }
-            else
-            {
-                progressPercentage = i;
-                break;
+                _nearestPoint = point;
             }
         }
-        return currentPoint;
+        return _nearestPoint;
     }
 }
