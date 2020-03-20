@@ -55,11 +55,11 @@ public class GearSystem : MonoBehaviour
          currentGear = 4;
       }else if (_currentSpeedinKmH < 120)
       {
-         _currentTorque = _maximalTorque * 0.1f;
+         _currentTorque = _maximalTorque * 0.25f;
          currentGear = 5;
-      }else if (_currentSpeedinKmH > 120)
+      }else if (_currentSpeedinKmH > 150)
       {
-         _currentTorque = _maximalTorque * 0.05f;
+         _currentTorque = _maximalTorque * 0.15f;
          currentGear = 6;
       }
 

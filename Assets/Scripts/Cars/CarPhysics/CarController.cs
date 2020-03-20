@@ -13,16 +13,20 @@ public class CarController : MonoBehaviour
     [SerializeField] private float maxBrakeTorque = 500f;
     [SerializeField] private bool allWheelDrive= false;
     [SerializeField] private bool rearBreakOnly = true;
-    [SerializeField] private float _maximumSpeed = 67f;  //meter per seconds
+    [SerializeField] private float _maximumSpeedInKmH = 120f;
+    private float _maximumSpeed;//meter per seconds
     private float _currentSpeed;
 
     public Vector3 centerOfMassOffset = new Vector3(0, -0.5f, 0);
-    
-    
+
+    private void Awake()
+    {
+        _maximumSpeed = _maximumSpeedInKmH / 3.6f;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-
         _rigidbody = this.gameObject.GetComponent<Rigidbody>();
         _rigidbody.centerOfMass += centerOfMassOffset;
         
