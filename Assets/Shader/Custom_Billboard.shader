@@ -30,8 +30,8 @@
 			struct v2f
 			{
 				float2 uv : TEXCOORD0;
-				UNITY_FOG_COORDS(1)
 				float4 pos : SV_POSITION;
+				UNITY_FOG_COORDS(1)
 			};
 
 			sampler2D _MainTex;
@@ -51,7 +51,7 @@
 
 				o.pos = outPos;
 
-				UNITY_TRANSFER_FOG(o,o.vertex);
+				UNITY_TRANSFER_FOG(o,o.pos);
 				return o;
 			}
 			
