@@ -93,7 +93,7 @@ public class AIController : MonoBehaviour
             }
             else
             {
-                Debug.Log("got here");
+                // Debug.Log("got here");
                 NormalPathFollowing();
             }
         }

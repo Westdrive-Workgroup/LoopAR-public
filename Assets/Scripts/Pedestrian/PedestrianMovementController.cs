@@ -4,7 +4,9 @@ using UnityEngine;
 /// <summary>
 /// Assorts the pedestrian with the spawnpoints and moves them
 /// </summary>
-public class CharacterManager : MonoBehaviour {
+
+[DisallowMultipleComponent]
+public class PedestrianMovementController : MonoBehaviour {
     Animator anim;  // needed for playing the animation
     /*[Header("Internals")]
     private string objID;
@@ -21,49 +23,28 @@ public class CharacterManager : MonoBehaviour {
     [Space]
     [Header("Path Settings")]
     public BezierSplines path;    // the path which the pedestrians follow, needed.
-    public bool isLoop = false;    // is the path a loop or not. needed
+    public bool isLoop = true;    // is the path a loop or not. needed
     [Tooltip("initial duration for the car to complete the path")]
     public float duration = 20f;    // needed
-    public bool usePathDefaultDuration = true;    /// <summary>
-                                                  /// 
-                                                  /// </summary>
-    private float[] pathLengthTable;    /// <summary>
-                                        /// 
-                                        /// </summary>
-    private Vector3[] pathNodesTable; /// <summary>
-                                      /// 
-                                      /// </summary>
-    private float _increamentUnit = 0; /// <summary>
-                                      /// 
-                                      /// </summary>
-    public float startPecentage = 0; /// <summary>
-                                     /// 
-                                     /// </summary>
+    public bool usePathDefaultDuration;    // needed
+    private float[] pathLengthTable;    // needed
+    private Vector3[] pathNodesTable; // needed
+    private float _increamentUnit = 0; // needed
+    
+    [Range(0,1f)] public float startPercentage = 0; // needed
     private float _pastDuration;
     // Cars progress on the path
-    private float _progress; /// <summary>
-                            /// 
-                            /// </summary>
+    private float _progress; // needed
     [Tooltip("Pedestrian head follow the direction of the path")]
-    public bool lookForward = true; /// <summary>
-                                    /// 
-                                    /// </summary>
+    public bool lookForward = true; // needed
     [Tooltip("Sets if the Pedestrian is going forward in the path or going back from the end of the path")]
-    public bool goingForward = true; /// <summary>
-                                     /// 
-                                     /// </summary>
-    private Vector3 _positionToBe; /// <summary>
-                                  /// 
-                                  /// </summary>
-    private Vector3 _directionToHave; /// <summary>
-                                     /// 
-                                     /// </summary>
+    public bool goingForward = true; // neededry>
+    private Vector3 _positionToBe; // needed
+    private Vector3 _directionToHave; // needed
     Vector2 _smoothDeltaPosition = Vector2.zero;
     Vector2 _velocity = Vector2.zero;   
     float _currentAngularVelocity;    
-    bool _shouldMove = false; /// <summary>
-                             /// 
-                             /// </summary>
+    bool _shouldMove = false; // needed
     private string _initialGoal;
     Vector3 _lastFacing;
     private int _defaultLayerID;
@@ -89,7 +70,7 @@ public class CharacterManager : MonoBehaviour {
         
         _initialize();
        
-        _progress = startPecentage;
+        _progress = startPercentage;
     }
     // calculates the distance between spawnpoints
     public float[] _calculateLengthTableInfo()
@@ -175,8 +156,8 @@ public class CharacterManager : MonoBehaviour {
         anim.SetBool("move", true);
         anim.enabled = true;
         
-        _positionToBe = path.GetPoint(startPecentage);
-        _directionToHave = _positionToBe + path.GetDirection(startPecentage);
+        _positionToBe = path.GetPoint(startPercentage);
+        _directionToHave = _positionToBe + path.GetDirection(startPercentage);
         /*if (this.CompareTag("Event Object"))
         {
             transform.position = positionToBe;
@@ -191,8 +172,8 @@ public class CharacterManager : MonoBehaviour {
         transform.localPosition = _positionToBe;
         transform.LookAt(_directionToHave);
         
-        // if (usePathDefaultDuration)
-        // duration = path.duration; //todo fix the getter. Duration is always 0
+         if (usePathDefaultDuration)
+            duration = path.duration; //todo fix the getter. Duration is always 0
         _increamentUnit = Time.fixedDeltaTime / duration;
         pathLengthTable = _calculateLengthTableInfo();
         pathNodesTable = _calculateNodesTableInfo();
