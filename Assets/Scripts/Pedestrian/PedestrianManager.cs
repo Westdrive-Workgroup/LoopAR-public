@@ -24,17 +24,11 @@ public class PedestrianManager : MonoBehaviour
     {
         if (_isActive)
         {
-            foreach (IsAPedestrian pedestrian in _pedestrians)
-            {
-                pedestrian.gameObject.SetActive(false);
-            }
+            ChangeState(false);
         }
         else
         {
-            foreach (IsAPedestrian pedestrian in _pedestrians)
-            {
-                pedestrian.gameObject.SetActive(true);
-            }
+            ChangeState(true);
         }
 
         _isActive = !_isActive;
