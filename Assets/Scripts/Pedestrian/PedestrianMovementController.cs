@@ -19,7 +19,7 @@ public class PedestrianMovementController : MonoBehaviour {
     //NavMeshAgent agent;
     [Space]
     [Header("Debug - Calculation Logs")]
-    public bool dumpInitialCalculations = false;
+    // public bool dumpInitialCalculations = false;
     [Space]
     [Header("Path Settings")]
     public BezierSplines path;    // the path which the pedestrians follow, needed.
@@ -38,7 +38,7 @@ public class PedestrianMovementController : MonoBehaviour {
     [Tooltip("Pedestrian head follow the direction of the path")]
     public bool lookForward = true; // needed
     [Tooltip("Sets if the Pedestrian is going forward in the path or going back from the end of the path")]
-    public bool goingForward = true; // neededry>
+    public bool goingForward = true; // needed
     private Vector3 _positionToBe; // needed
     private Vector3 _directionToHave; // needed
     Vector2 _smoothDeltaPosition = Vector2.zero;
@@ -218,6 +218,10 @@ public class PedestrianMovementController : MonoBehaviour {
         if (lookForward)
         {
             _directionToHave = position + path.GetDirection(_progress);
+        }
+        else
+        {
+            _directionToHave = position - path.GetDirection(_progress);
         }
     }
     //calls the method MoveStep once per frame
