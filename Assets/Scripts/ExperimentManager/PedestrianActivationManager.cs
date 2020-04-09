@@ -5,6 +5,7 @@ using UnityEngine;
 /// <summary>
 /// This class can be called to enable and disable the pedestrians in the scene.
 /// </summary>
+
 [DisallowMultipleComponent]
 public class PedestrianActivationManager : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class PedestrianActivationManager : MonoBehaviour
     void Start()
     {
         _pedestrians = GetComponentsInChildren<IsAPedestrian>();
-        ChangeState(false);
+        ChangePedestriansActivationState(false);
         _isActive = false;
     }
     
@@ -24,18 +25,18 @@ public class PedestrianActivationManager : MonoBehaviour
     {
         if (_isActive)
         {
-            ChangeState(false);
+            ChangePedestriansActivationState(false);
         }
         else
         {
-            ChangeState(true);
+            ChangePedestriansActivationState(true);
         }
 
         _isActive = !_isActive;
     }
     
     // Manual override for all pedestrians. Can be set to true or false
-    public void ChangeState(bool state)
+    public void ChangePedestriansActivationState(bool state)
     {
         foreach (IsAPedestrian pedestrian in _pedestrians)
         {
