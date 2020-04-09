@@ -22,7 +22,7 @@ public class ManualController : MonoBehaviour
         {
             if (GetComponent<ControlSwitch>().isActiveAndEnabled)
             {
-                Debug.Log("got here");
+                // Debug.Log("got here");
                 _manualDriving = false;
             }
         }

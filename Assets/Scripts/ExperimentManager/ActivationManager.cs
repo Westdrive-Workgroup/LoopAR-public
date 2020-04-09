@@ -7,44 +7,38 @@ using UnityEngine;
 /// </summary>
 
 [DisallowMultipleComponent]
-public class CarActivationManager : MonoBehaviour
+public class ActivationManager : MonoBehaviour
 {
-    IsAPedestrian[] _pedestrians;
-    private IsACar[] _cars;
     private bool _isActive;
 
     // Start is called before the first frame update
     void Start()
     {
-        _cars = GetComponentsInChildren<IsACar>();
-        ChangeCarsActivationState(false);
         _isActive = false;
     }
     
     // Changes the activation states of the cars 
-    public void ChangeCarsActivationState()
+    public void ChangeActivationState(GameObject targetGroup)
     {
+        Debug.Log(_isActive);
         if (_isActive)
         {
-            ChangeCarsActivationState(false);
+            ChangeActivationState(false, targetGroup);
         }
         else
         {
-            ChangeCarsActivationState(true);
+            ChangeActivationState(true, targetGroup);
         }
 
         _isActive = !_isActive;
     }
     
     // Manual override for all cars. Can be set to true or false
-    public void ChangeCarsActivationState(bool state)
+    public void ChangeActivationState(bool state, GameObject targetGroup)
     {
-        foreach (IsACar car in _cars)
+        foreach (Transform child in targetGroup.transform)
         {
-            if (GetComponent<IsACar>().isParticipantsCar == false)
-            {
-                car.gameObject.SetActive(state);
-            }
+            child.gameObject.SetActive(state);
         }
     }
 }

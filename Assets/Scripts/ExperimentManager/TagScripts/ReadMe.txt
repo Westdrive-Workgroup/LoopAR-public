@@ -1,1 +1,0 @@
-These scripts are used for ExperimentManager to recognize spcefic game objects 
