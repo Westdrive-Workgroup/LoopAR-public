@@ -41,7 +41,10 @@ public class CarActivationManager : MonoBehaviour
     {
         foreach (IsACar car in _cars)
         {
-            car.gameObject.SetActive(state);
+            if (GetComponent<IsACar>().isParticipantsCar == false)
+            {
+                car.gameObject.SetActive(state);
+            }
         }
     }
 }

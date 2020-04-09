@@ -9,4 +9,5 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class IsACar : MonoBehaviour
 {
+    public bool isParticipantsCar;
 }
