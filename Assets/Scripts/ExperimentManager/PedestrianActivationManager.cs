@@ -6,7 +6,7 @@ using UnityEngine;
 /// This class can be called to enable and disable the pedestrians in the scene.
 /// </summary>
 [DisallowMultipleComponent]
-public class PedestrianManager : MonoBehaviour
+public class PedestrianActivationManager : MonoBehaviour
 {
     IsAPedestrian[] _pedestrians;
     private bool _isActive;
