@@ -20,7 +20,6 @@ public class ActivationManager : MonoBehaviour
     // Changes the activation states of the cars 
     public void ChangeActivationState(GameObject targetGroup)
     {
-        Debug.Log(_isActive);
         if (_isActive)
         {
             ChangeActivationState(false, targetGroup);
