@@ -14,6 +14,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private bool allWheelDrive= false;
     [SerializeField] private bool rearBreakOnly = true;
     [SerializeField] private float _maximumSpeedInKmH = 120f;
+    [SerializeField] private GameObject _seatPosition;
     private float _maximumSpeed;//meter per seconds
     private float _currentSpeed;
 
@@ -136,5 +137,8 @@ public class CarController : MonoBehaviour
         return _rigidbody;
     }
 
-    
+    public Vector3 GetSeatPosition()
+    {
+        return _seatPosition.transform.position;
+    }
 }
