@@ -9,7 +9,7 @@ using Valve.VR.InteractionSystem;
 public class EyeTrackingDataRecorder : MonoBehaviour
 {
     // Start is called before the first frame update
-
+    private float _sampleRate;
     private List<EyeTrackingDataFrame> _recordedEyeTrackingData;
     private Transform _hmdTransform;
     private bool recordingEnded;
@@ -17,9 +17,17 @@ public class EyeTrackingDataRecorder : MonoBehaviour
     {
         _recordedEyeTrackingData= new List<EyeTrackingDataFrame>();
 
-        _hmdTransform = Player.instance.hmdTransform; // here we might create a unnessary depency to Steam VR
+        _hmdTransform = Player.instance.hmdTransform; // here we might create a unnecessary dependency to Steam VR
 
-
+        if (EyetrackingManager.Instance != null)
+        {
+            _sampleRate = EyetrackingManager.Instance.sampleRate;
+        }
+        
+        else
+        {
+            Debug.Log("Error: an EyetrackingManager is missing ");
+        }
     }
     // Update is called once per frame
     void Update()
@@ -28,8 +36,21 @@ public class EyeTrackingDataRecorder : MonoBehaviour
     }
 
 
+    public void StartRecording()
+    {
+        Debug.Log("recording started");
+        StartCoroutine(RecordEyeTrackingData());
+        recordingEnded = false;
+    }
+
+    public void StopRecording()
+    {
+        recordingEnded = true;
+    }
+    
     private IEnumerator RecordEyeTrackingData()
     {
+        
         while (!recordingEnded)
         {
             EyeTrackingDataFrame dataFrame = new EyeTrackingDataFrame();
@@ -67,13 +88,13 @@ public class EyeTrackingDataRecorder : MonoBehaviour
 
             dataFrame.TimeStamp = 0; //TODO
             
-            dataFrame.HMDposition = Vector3.zero; //to be impleneted
+            dataFrame.HMDposition = _hmdTransform.position; //to be impleneted
 
-            dataFrame.NoseVector =  Vector3.zero;
+            dataFrame.NoseVector =  _hmdTransform.forward;
 
 
             _recordedEyeTrackingData.Add(dataFrame);
         }
-        
+        yield return new WaitForSeconds(_sampleRate);
     }
 }
