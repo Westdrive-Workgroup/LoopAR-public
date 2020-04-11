@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Tobii.XR;
 using UnityEngine;
+using ViveSR.anipal.Eye;
 
 public class EyetrackingManager : MonoBehaviour
 {
@@ -38,6 +40,11 @@ public class EyetrackingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            StartCalibration();
+        }
+        
         if (Input.GetKeyDown(KeyCode.K))
         {
             Debug.Log("start recording");
@@ -49,8 +56,27 @@ public class EyetrackingManager : MonoBehaviour
             _eyeTrackingRecorder.StopRecording();
         }
     }
-
-
+    
+    public void StartValidation()
+    {
+     //TODO
+     Debug.Log("validating...");
+    }
+    
+    
+    public void StartCalibration()
+    {
+        if (SRanipal_Eye_v2.LaunchEyeCalibration())
+        {
+            Debug.Log("<color=green>calibration successful :)</color>");
+        }
+        else
+        {
+            Debug.Log("<color=red>calibration failed :(</color>");
+        }
+    }
+    
+    
     public Transform GetHmdTransform()
     {
         return _hmdTransform;
@@ -60,4 +86,6 @@ public class EyetrackingManager : MonoBehaviour
     {
         return _sampleRate;
     }
+
+    
 }
