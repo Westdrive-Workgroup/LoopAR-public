@@ -12,16 +12,18 @@ using UnityEngine.XR.WSA.Input;
 [DisallowMultipleComponent]
 public class ActivationTrigger : MonoBehaviour
 {
-    public GameObject targetGroup;
+    [SerializeField] private GameObject targetGroup;
 
     private ActivationManager _activationManager;
     private GameObject _currentTarget;
 
     // Start is called before the first frame update
+   
     void Start()
     {
         _activationManager = targetGroup.GetComponent<ActivationManager>();
         ExperimentManager.Instance.RegisterToExperimentManager(this);
+        Debug.Log("registered");
     }
 
     public void DeactivateTheGameObjects()

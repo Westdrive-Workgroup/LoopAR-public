@@ -41,7 +41,7 @@ public class ExperimentManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);         //the Traffic Manager should be persitent by changing the scenes maybe change it on the the fly
+            DontDestroyOnLoad(gameObject);         //the Traffic Manager should be persitant by changing the scenes maybe change it on the the fly
         }
         else
         {
@@ -52,27 +52,21 @@ public class ExperimentManager : MonoBehaviour
 
     void Start()
     {
+        Debug.Log(_activationTriggers.Count + " start of start");
+        
         RunMainMenu();
         InformTriggers();
+       
+        Debug.Log(_activationTriggers.Count + " end of start");
     }
 
     
     private void Update()
-    {
+    {  
+        Debug.Log(_activationTriggers.Count);
         if (_scene == Scene.EndOfExperiment)
         {
-            InformTriggers();
             participantsCar.SetActive(false);
-        }
-    }
-
-
-    // inform all triggers to disable their gameobjects at the beginning of the experiment
-    private void InformTriggers()
-    {
-        foreach (var trigger in _activationTriggers)
-        {
-            trigger.DeactivateTheGameObjects();
         }
     }
 
@@ -81,13 +75,22 @@ public class ExperimentManager : MonoBehaviour
     private void RunMainMenu()
     { 
         _scene = Scene.MainMenu;
-        
         participantsCar.SetActive(false);
         _firstPersonCamera.enabled = false;
         _camera.transform.position = Vector3.zero;
-        _camera.transform.rotation = Quaternion.Euler(0,-90,0); 
+        _camera.transform.rotation = Quaternion.Euler(0,-90,0);
     }
-    
+
+    // inform all triggers to disable their gameobjects at the beginning of the experiment
+
+    private void InformTriggers()
+    {
+        foreach (var trigger in _activationTriggers)
+        {
+            trigger.DeactivateTheGameObjects();
+        }
+    }
+
 
     public void OnGUI()
     {
@@ -113,9 +116,9 @@ public class ExperimentManager : MonoBehaviour
 
 
     // Reception desk for ActivationTriggers to register themselves
-    public void RegisterToExperimentManager(ActivationTrigger listner)
+    public void RegisterToExperimentManager(ActivationTrigger listener)
     {
-        _activationTriggers.Add(listner);
+        _activationTriggers.Add(listener);
     }
 
     
