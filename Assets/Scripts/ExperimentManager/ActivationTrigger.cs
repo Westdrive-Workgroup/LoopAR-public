@@ -6,18 +6,21 @@ using UnityEngine;
 using UnityEngine.XR.WSA.Input;
 
 /// <summary>
-/// is respondible for activating groups of game objects
+/// is responsible for activating groups of game objects
+///
+/// this script has to be executed before ExperimentManager
 /// </summary>
 
 [DisallowMultipleComponent]
 public class ActivationTrigger : MonoBehaviour
 {
-    public GameObject targetGroup;
+    [SerializeField] private GameObject targetGroup;
 
     private ActivationManager _activationManager;
     private GameObject _currentTarget;
 
     // Start is called before the first frame update
+   
     void Start()
     {
         _activationManager = targetGroup.GetComponent<ActivationManager>();
