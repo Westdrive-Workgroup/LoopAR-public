@@ -46,7 +46,7 @@ public class EyetrackingDataRecorder : MonoBehaviour
     
     private IEnumerator RecordEyeTrackingData()
     {
-        
+        int frameCounter = new int();
         Debug.Log("starting recording...");
         while (!recordingEnded)
         {
@@ -64,14 +64,9 @@ public class EyetrackingDataRecorder : MonoBehaviour
 
                 dataFrame.LeftEyeIsBlinkingWorld = eyeTrackingDataWorld.IsLeftEyeBlinking;
                 dataFrame.RightEyeIsBlinkingWorld = eyeTrackingDataWorld.IsRightEyeBlinking;
+
+                dataFrame.hitObjects = GetHitObjectsFromGaze(gazeRayOrigin, gazeRayDirection);
                 
-                RaycastHit hitInformation;        //this might be more precise with a sphere cast or similar, since the eyetracker is having some error.
-                if (Physics.Raycast(gazeRayOrigin, gazeRayDirection, out hitInformation))
-                {
-                    dataFrame.HitObjectName = hitInformation.collider.name;
-                    dataFrame.HitObjectPosition = hitInformation.collider.transform.position;
-                    dataFrame.HitPointOnObject = hitInformation.point;
-                }
                 
             }
 
@@ -85,15 +80,36 @@ public class EyetrackingDataRecorder : MonoBehaviour
 
             dataFrame.TimeStamp = eyeTrackingDataWorld.Timestamp;
             
-            dataFrame.HMDposition = _hmdTransform.position;
+            dataFrame.HmdPosition = _hmdTransform.position;
 
             dataFrame.NoseVector =  _hmdTransform.forward;
-
-            Debug.Log("finished DataFrame");
+            
             _recordedEyeTrackingData.Add(dataFrame);
+            frameCounter++;
             
             yield return new WaitForSeconds(_sampleRate);
+            
         }
         
+    }
+
+
+    private List<HitObjectInfo> GetHitObjectsFromGaze(Vector3 gazeOrigin, Vector3 gazeDirection)
+    {
+        RaycastHit[] hitColliders = Physics.RaycastAll(gazeOrigin, gazeDirection);
+        
+        List<HitObjectInfo> hitObjectInfoList= new List<HitObjectInfo>();
+        
+        foreach (var colliderhit in hitColliders)
+        {
+                    
+            HitObjectInfo hitInfo = new HitObjectInfo();
+            hitInfo.ObjectName = colliderhit.collider.gameObject.name;
+            hitInfo.HitObjectPosition = colliderhit.collider.transform.position;
+            hitInfo.HitPointOnObject = colliderhit.point;
+            hitObjectInfoList.Add(hitInfo);
+        }
+
+        return hitObjectInfoList;
     }
 }

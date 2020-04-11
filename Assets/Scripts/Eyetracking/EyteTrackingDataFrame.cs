@@ -8,7 +8,7 @@ using UnityEngine;
     public double TimeStamp;
     public double TobiiTimeStamp;
     
-    public Vector3 HMDposition;
+    public Vector3 HmdPosition;
     public Vector3 NoseVector; //HMD foward;
 
     public Vector3 EyePosWorldCombined;
@@ -17,10 +17,7 @@ using UnityEngine;
     public Vector3 EyePosLocalCombined;
     public Vector3 EyeDirLocalCombined;
 
-
-    public string HitObjectName;
-    public Vector3 HitObjectPosition;
-    public Vector3 HitPointOnObject;
+    public List<HitObjectInfo> hitObjects;
 
     public bool RightEyeIsBlinkingWorld;        //why though?
     public bool RightEyeIsBlinkingLocal;
