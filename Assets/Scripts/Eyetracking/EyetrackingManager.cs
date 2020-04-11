@@ -6,11 +6,14 @@ public class EyetrackingManager : MonoBehaviour
 {
     public static EyetrackingManager Instance { get; private set; }
 
-    public int sampleRate;
-
-    private EyeTrackingDataRecorder _eyeTrackingRecorder;
+    public int SetSampleRate = 90;
+    private Transform _hmdTransform;
+    
+    private EyetrackingDataRecorder _eyeTrackingRecorder;
+    private float _sampleRate;
     private void Awake()
     {
+        _sampleRate = 1f / SetSampleRate; 
         //singleton pattern a la Unity
         if (Instance == null)
         {
@@ -21,11 +24,15 @@ public class EyetrackingManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        _hmdTransform = Camera.main.transform;
+        //  I do not like this: we still needs tags to find that out.
     }
     // Start is called before the first frame update
     void Start()
     {
-        _eyeTrackingRecorder = GetComponent<EyeTrackingDataRecorder>();
+        
+        _eyeTrackingRecorder = GetComponent<EyetrackingDataRecorder>();
     }
 
     // Update is called once per frame
@@ -33,6 +40,7 @@ public class EyetrackingManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
+            Debug.Log("start recording");
             _eyeTrackingRecorder.StartRecording();
         }
 
@@ -40,5 +48,16 @@ public class EyetrackingManager : MonoBehaviour
         {
             _eyeTrackingRecorder.StopRecording();
         }
+    }
+
+
+    public Transform GetHmdTransform()
+    {
+        return _hmdTransform;
+    }
+
+    public float GetSampleRate()
+    {
+        return _sampleRate;
     }
 }

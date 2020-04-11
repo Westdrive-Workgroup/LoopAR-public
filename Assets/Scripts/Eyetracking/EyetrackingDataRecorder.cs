@@ -6,28 +6,23 @@ using ViveSR.anipal.Eye;
 using Valve.VR;
 using Valve.VR.InteractionSystem;
 
-public class EyeTrackingDataRecorder : MonoBehaviour
+public class EyetrackingDataRecorder : MonoBehaviour
 {
     // Start is called before the first frame update
     private float _sampleRate;
     private List<EyeTrackingDataFrame> _recordedEyeTrackingData;
+    private EyetrackingManager _eyetrackingManager;
     private Transform _hmdTransform;
     private bool recordingEnded;
     void Start()
     {
-        _recordedEyeTrackingData= new List<EyeTrackingDataFrame>();
-
-        _hmdTransform = Player.instance.hmdTransform; // here we might create a unnecessary dependency to Steam VR
-
-        if (EyetrackingManager.Instance != null)
-        {
-            _sampleRate = EyetrackingManager.Instance.sampleRate;
-        }
         
-        else
-        {
-            Debug.Log("Error: an EyetrackingManager is missing ");
-        }
+        _recordedEyeTrackingData= new List<EyeTrackingDataFrame>();
+        
+        _eyetrackingManager= EyetrackingManager.Instance;
+        
+        _sampleRate = _eyetrackingManager.GetSampleRate();
+        _hmdTransform = _eyetrackingManager.GetHmdTransform();
     }
     // Update is called once per frame
     void Update()
@@ -39,8 +34,9 @@ public class EyeTrackingDataRecorder : MonoBehaviour
     public void StartRecording()
     {
         Debug.Log("recording started");
-        StartCoroutine(RecordEyeTrackingData());
         recordingEnded = false;
+        StartCoroutine(RecordEyeTrackingData());
+        
     }
 
     public void StopRecording()
@@ -51,6 +47,7 @@ public class EyeTrackingDataRecorder : MonoBehaviour
     private IEnumerator RecordEyeTrackingData()
     {
         
+        Debug.Log("starting recording...");
         while (!recordingEnded)
         {
             EyeTrackingDataFrame dataFrame = new EyeTrackingDataFrame();
@@ -86,15 +83,17 @@ public class EyeTrackingDataRecorder : MonoBehaviour
                 dataFrame.RightEyeIsBlinkingLocal = eyeTrackingDataLocal.IsRightEyeBlinking;
             }
 
-            dataFrame.TimeStamp = 0; //TODO
+            dataFrame.TimeStamp = eyeTrackingDataWorld.Timestamp;
             
-            dataFrame.HMDposition = _hmdTransform.position; //to be impleneted
+            dataFrame.HMDposition = _hmdTransform.position;
 
             dataFrame.NoseVector =  _hmdTransform.forward;
 
-
+            Debug.Log("finished DataFrame");
             _recordedEyeTrackingData.Add(dataFrame);
+            
+            yield return new WaitForSeconds(_sampleRate);
         }
-        yield return new WaitForSeconds(_sampleRate);
+        
     }
 }
