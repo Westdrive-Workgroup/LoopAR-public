@@ -10,7 +10,8 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private GameObject participantsCar;
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera _firstPersonCamera;
-
+    [SerializeField] private int labelFontSize = 20;
+    
     // registers in which scene or state the experiment is
     private enum Scene
     {
@@ -94,9 +95,17 @@ public class ExperimentManager : MonoBehaviour
 
     public void OnGUI()
     {
-
         if (_scene == Scene.MainMenu)
         {
+            // Lable
+            GUI.color = Color.black;
+            GUI.skin.label.fontSize = labelFontSize;
+            GUI.skin.label.fontStyle = FontStyle.Bold;
+            GUI.Label(new Rect(450, 40, 500, 100),  "Welcome to Westdrive LoopAR");
+            
+            // Buttons
+            GUI.backgroundColor = Color.blue;
+            GUI.color = Color.white;
             if (GUI.Button(new Rect(500, 210, 200, 30), "Validation and Calibration"))
             {
                 //todo call eye tracker validation and find a good name for this button
