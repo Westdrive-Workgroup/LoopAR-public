@@ -6,7 +6,9 @@ using UnityEngine;
 using UnityEngine.XR.WSA.Input;
 
 /// <summary>
-/// is respondible for activating groups of game objects
+/// is responsible for activating groups of game objects
+///
+/// this script has to be executed before ExperimentManager
 /// </summary>
 
 [DisallowMultipleComponent]
@@ -23,7 +25,6 @@ public class ActivationTrigger : MonoBehaviour
     {
         _activationManager = targetGroup.GetComponent<ActivationManager>();
         ExperimentManager.Instance.RegisterToExperimentManager(this);
-        Debug.Log("registered");
     }
 
     public void DeactivateTheGameObjects()

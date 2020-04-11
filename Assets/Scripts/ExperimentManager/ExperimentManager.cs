@@ -52,18 +52,18 @@ public class ExperimentManager : MonoBehaviour
 
     void Start()
     {
-        Debug.Log(_activationTriggers.Count + " start of start");
-        
         RunMainMenu();
         InformTriggers();
-       
-        Debug.Log(_activationTriggers.Count + " end of start");
+        
+        if (_activationTriggers.Count == 0)
+        {
+            Debug.Log("<color=red>Error: </color>Please ensure ActivationTrigger is being executed before ExperimentManager if there are triggers present in the scene.");
+        }
     }
 
     
     private void Update()
-    {  
-        Debug.Log(_activationTriggers.Count);
+    {
         if (_scene == Scene.EndOfExperiment)
         {
             participantsCar.SetActive(false);
