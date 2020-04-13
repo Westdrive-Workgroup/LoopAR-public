@@ -3,14 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using Valve.VR;
 
+[DisallowMultipleComponent]
 public class ExperimentManager : MonoBehaviour
 {
     public static ExperimentManager Instance { get; private set; }
     [SerializeField] private GameObject participantsCar;
     [SerializeField] private Camera _camera;
-    [SerializeField] private Camera _firstPersonCamera;
+    [SerializeField] private Camera firstPersonCamera;
     [SerializeField] private int labelFontSize = 20;
+    
     
     // registers in which scene or state the experiment is
     private enum Scene
@@ -60,6 +63,11 @@ public class ExperimentManager : MonoBehaviour
         {
             Debug.Log("<color=red>Error: </color>Please ensure ActivationTrigger is being executed before ExperimentManager if there are triggers present in the scene.");
         }
+
+        if (EyetrackingManager.Instance == null)
+        {
+            Debug.Log("<color=red>Error: </color>EyetrackingManager should be present in the scene.");
+        }
     }
 
     
@@ -67,7 +75,7 @@ public class ExperimentManager : MonoBehaviour
     {
         if (_scene == Scene.EndOfExperiment)
         {
-            participantsCar.SetActive(false);
+            
         }
     }
 
@@ -77,7 +85,7 @@ public class ExperimentManager : MonoBehaviour
     { 
         _scene = Scene.MainMenu;
         participantsCar.SetActive(false);
-        _firstPersonCamera.enabled = false;
+        firstPersonCamera.enabled = false;
         _camera.transform.position = Vector3.zero;
         _camera.transform.rotation = Quaternion.Euler(0,-90,0);
     }
@@ -106,10 +114,14 @@ public class ExperimentManager : MonoBehaviour
             // Buttons
             GUI.backgroundColor = Color.blue;
             GUI.color = Color.white;
-            if (GUI.Button(new Rect(500, 210, 200, 30), "Validation and Calibration"))
+            if (GUI.Button(new Rect(500, 170, 200, 30), "Calibration"))
             {
-                //todo call eye tracker validation and find a good name for this button
-                Debug.Log("Clicked validation and calibration");
+                EyetrackingManager.Instance.StartCalibration();
+            }
+
+            if (GUI.Button(new Rect(500, 210, 200, 30), "Validation"))
+            {
+                EyetrackingManager.Instance.StartValidation();
             }
 
             if (GUI.Button(new Rect(500, 250, 200, 30), "Start the experiment"))
@@ -136,11 +148,25 @@ public class ExperimentManager : MonoBehaviour
     {
         _scene = Scene.CountryRoad;
         _camera.enabled = false;
-        _firstPersonCamera.enabled = true;
+        firstPersonCamera.enabled = true;
         participantsCar.SetActive(true);
     }
-    
-    //todo inform the controllers
-    //todo call data saving (maybe)
-    
+
+    private void FadeIn()
+        {
+            SteamVR_Fade.Start(Color.clear, 2f);
+        }
+        
+        private void FadeOut()
+        {
+            SteamVR_Fade.Start(Color.black, 2f);
+            
+        }
+
+        public void EndTheExperiment()
+        {
+            //todo call data saving
+            FadeOut();
+            participantsCar.SetActive(false);
+        }
 }
