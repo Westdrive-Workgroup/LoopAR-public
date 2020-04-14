@@ -66,8 +66,6 @@ public class EyetrackingDataRecorder : MonoBehaviour
                 dataFrame.RightEyeIsBlinkingWorld = eyeTrackingDataWorld.IsRightEyeBlinking;
 
                 dataFrame.hitObjects = GetHitObjectsFromGaze(gazeRayOrigin, gazeRayDirection);
-                
-                
             }
 
             if (eyeTrackingDataLocal.GazeRay.IsValid)
