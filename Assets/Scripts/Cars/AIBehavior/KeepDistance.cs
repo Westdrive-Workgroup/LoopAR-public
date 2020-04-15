@@ -12,7 +12,7 @@ public class KeepDistance : MonoBehaviour
     {
         Vector3 fwd = transform.TransformDirection(Vector3.forward);
         RaycastHit hit;
-
+        
         if (Physics.Raycast(transform.position, fwd, out hit, 15.0f))
         {
             if (hit.collider.gameObject.GetComponent<CarController>() != null)
@@ -28,7 +28,6 @@ public class KeepDistance : MonoBehaviour
         
         hitCurrentSpeed = hit.collider.gameObject.GetComponent<CarController>().GetCurrentSpeed();
         float newSpeed = hitCurrentSpeed * speedAdjustmentFactor;
-        
         this.gameObject.GetComponent<AimedSpeed>().SetAimedSpeed(newSpeed);
     }
 }
