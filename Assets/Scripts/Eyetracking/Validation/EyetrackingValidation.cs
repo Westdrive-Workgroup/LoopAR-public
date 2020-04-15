@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -14,7 +15,13 @@ public class EyetrackingValidation : MonoBehaviour
     private int validationPointIdx;
     private int validationTrial;
     public float delay;
+    private Transform _hmdTransform;
     private EyeValidationData _eyeValidationData;
+
+    private void Start()
+    {
+        _hmdTransform = EyetrackingManager.Instance.GetHmdTransform();
+    }
 
 
     public void StartValidation()
@@ -39,8 +46,8 @@ public class EyetrackingValidation : MonoBehaviour
             float timeDiff = 0;
             while (timeDiff < 1f)
             {
-                transform.position = Player.instance.hmdTransform.position + Player.instance.hmdTransform.rotation * Vector3.Lerp(keyPositions[i-1], keyPositions[i], timeDiff / 1f);    // TODO steam raus nehmen
-                transform.LookAt(Player.instance.hmdTransform);
+                transform.position = _hmdTransform.position + _hmdTransform.rotation * Vector3.Lerp(keyPositions[i-1], keyPositions[i], timeDiff / 1f);   
+                transform.LookAt(_hmdTransform);
                 yield return new WaitForEndOfFrame();
                 timeDiff = Time.time - startTime;
             }
@@ -51,24 +58,25 @@ public class EyetrackingValidation : MonoBehaviour
             
             while (timeDiff < 3f)
             {
-                transform.position = Player.instance.hmdTransform.position + Player.instance.hmdTransform.rotation * keyPositions[i] ;
-                transform.LookAt(Player.instance.hmdTransform);
-                EyeValidationSample validationSample = GetValidationSample();
-                
+                transform.position = _hmdTransform.position + _hmdTransform.rotation * keyPositions[i] ;
+                transform.LookAt(_hmdTransform);
+                EyeValidationData validationData = GetEyeValidationData();
 
-                if (validationSample != null && validationSample.validationData.CombinedEyeAngleOffset != null)
+
+                if (validationData != null)
                 {
-                    anglesX.Add(validationSample.validationData.CombinedEyeAngleOffset.x);
-                    anglesY.Add(validationSample.validationData.CombinedEyeAngleOffset.y);
-                    anglesZ.Add(validationSample.validationData.CombinedEyeAngleOffset.z);
+                    anglesX.Add(validationData.CombinedEyeAngleOffset.x);
+                    anglesY.Add(validationData.CombinedEyeAngleOffset.y);
+                    anglesZ.Add(validationData.CombinedEyeAngleOffset.z);
                     
-                    validationSample.validationData.ValidationResults.x = CalculateValidationError(anglesX);
-                    validationSample.validationData.ValidationResults.y = CalculateValidationError(anglesY);
-                    validationSample.validationData.ValidationResults.z = CalculateValidationError(anglesZ);
+                    validationData.ValidationResults.x = CalculateValidationError(anglesX);
+                    validationData.ValidationResults.y = CalculateValidationError(anglesY);
+                    validationData.ValidationResults.z = CalculateValidationError(anglesZ);
 
-                    _eyeValidationData = validationSample;
+                    _eyeValidationData = validationData;
 
-                    validationSample.Save(validationTrial); //validationSample.validationData.ValidationTrial);
+                    EyetrackingManager.Instance.StoreEyeValidationData(_eyeValidationData); 
+                    //validationSample.validationData.ValidationTrial);
                 }
                 
                 yield return new WaitForEndOfFrame();
@@ -82,12 +90,12 @@ public class EyetrackingValidation : MonoBehaviour
                                     CalculateValidationError(anglesY).ToString("0.00") +
                                     ", " +
                                     CalculateValidationError(anglesZ).ToString("0.00") + ")";
-        Debug.Log("<color=yellow>"+ validationResult+ "(</color>");
+        Debug.Log("<color=yellow> Validation Results"+ validationResult+ "(</color>");
         gameObject.SetActive(false);
         if (CalculateValidationError(anglesX) > 1 || CalculateValidationError(anglesY) > 1 ||
             CalculateValidationError(anglesZ) > 1)
         {
-            Debug.Log("<color=red>Validation Error is too big (error angles >1) , please relaunch a calibration first </color>");
+            Debug.LogWarning("<color=red>Validation Error is too big (error angles >1) , please relaunch a calibration first </color>");
         }
     }
 
@@ -96,66 +104,57 @@ public class EyetrackingValidation : MonoBehaviour
     {
         return angles.Select(f => f > 180 ? Mathf.Abs(f - 360) : Mathf.Abs(f)).Sum() / angles.Count;
     }
+    
 
-    private EyeValidationSample GetValidationSample()
+    private EyeValidationData GetEyeValidationData()
     {
-        EyeValidationSample sample; 
-        sample = GetViveValidationSample();
+        EyeValidationData eyeValidationData = new EyeValidationData();
         
-
-        sample.validationData.HeadTransform = Player.instance.hmdTransform;
-//        sample.PointToFocus = transform.position.ToVec3();
-        sample.validationData.PointToFocus = transform.position;
-
-        return sample;
-    }
-
-    private EyeValidationSample GetViveValidationSample()
-    {
         Ray ray;
-
-        EyeValidationSample sample = EyeValidationSample.Instance;//new EyeValidationSample();
-
-        sample.validationData.ValidationTrial = validationTrial;
-        sample.validationData.ValidationPointIdx = validationPointIdx;
-
+        
+        eyeValidationData.ValidationTrial = validationTrial;
+        eyeValidationData.ValidationPointIdx = validationPointIdx;
+        
+        //block und participant ID fehlen aktuell 
         var debText = "";
-
-        sample.validationData.UnixTimestamp = sample.getCurrentTimestamp();//new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds();
-        sample.validationData.Timestamp = Time.realtimeSinceStartup;
-
-        var hmdTransform = Player.instance.hmdTransform;
+        eyeValidationData.UnixTimestamp = GetCurrentTimestamp();
+        eyeValidationData.Timestamp = Time.realtimeSinceStartup;
+        
+        _eyeValidationData.HeadTransform = EyetrackingManager.Instance.GetHmdTransform();
+        
+        _eyeValidationData.PointToFocus = transform.position;
 
         if (SRanipal_Eye.GetGazeRay(GazeIndex.LEFT, out ray))
         {
-            var angles = Quaternion.FromToRotation((transform.position - hmdTransform.position).normalized, hmdTransform.rotation * ray.direction)
+            var angles = Quaternion.FromToRotation((transform.position - _hmdTransform.position).normalized, _hmdTransform.rotation * ray.direction)
                 .eulerAngles;
-
-            debText += "\nLeft Eye: " + angles + "\n";
-            sample.validationData.LeftEyeAngleOffset = angles;
+            
+            eyeValidationData.LeftEyeAngleOffset = angles;
         }
-
+        
         if (SRanipal_Eye.GetGazeRay(GazeIndex.RIGHT, out ray))
         {
-            var angles = Quaternion.FromToRotation((transform.position - hmdTransform.position).normalized, hmdTransform.rotation * ray.direction)
+            var angles = Quaternion.FromToRotation((transform.position - _hmdTransform.position).normalized, _hmdTransform.rotation * ray.direction)
                 .eulerAngles;
             debText += "Right Eye: " + angles + "\n";
-            sample.validationData.RightEyeAngleOffset = angles;
+            eyeValidationData.RightEyeAngleOffset = angles;
         }
 
         if (SRanipal_Eye.GetGazeRay(GazeIndex.COMBINE, out ray))
         {
-            var angles = Quaternion.FromToRotation((transform.position - hmdTransform.position).normalized, hmdTransform.rotation * ray.direction)
+            var angles = Quaternion.FromToRotation((transform.position - _hmdTransform.position).normalized, _hmdTransform.rotation * ray.direction)
                 .eulerAngles;
-            debText += "Combined Eye: " + angles + "\n";
-            sample.validationData.CombinedEyeAngleOffset = angles;
+            debText += "Combined Eye: " + angles + "\n"; 
+            eyeValidationData.CombinedEyeAngleOffset = angles;
         }
 
-  
-        //Debug.Log(debText);
-        
-
-        return sample;
+        return eyeValidationData;
+    }
+    
+    private double GetCurrentTimestamp()
+    {
+        System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
+        return (System.DateTime.UtcNow - epochStart).TotalSeconds;
     }
 
 

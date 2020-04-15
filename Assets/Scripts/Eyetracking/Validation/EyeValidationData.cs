@@ -14,6 +14,7 @@ public class EyeValidationData
     public double UnixTimestamp;
     public float Timestamp;
     public Transform HeadTransform;
+
     public Vector3 PointToFocus;
     public Vector3 LeftEyeAngleOffset;
     public Vector3 RightEyeAngleOffset;
