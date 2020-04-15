@@ -10,9 +10,12 @@ public class EyetrackingManager : MonoBehaviour
 
     public int SetSampleRate = 90;
     private Transform _hmdTransform;
-    
+    private EyeValidationData _eyeValidationData;
+    private EyetrackingValidation _eyetrackingValidation;
+    private bool _eyeValidationSucessful;
     private EyetrackingDataRecorder _eyeTrackingRecorder;
     private float _sampleRate;
+    
     private void Awake()
     {
         _sampleRate = 1f / SetSampleRate; 
@@ -20,7 +23,7 @@ public class EyetrackingManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);         //the Traffic Manager should be persitent by changing the scenes maybe change it on the the fly
+            DontDestroyOnLoad(gameObject);         //the Eyetracking Manager should be persitent by changing the scenes maybe change it on the the fly
         }
         else
         {
@@ -28,6 +31,7 @@ public class EyetrackingManager : MonoBehaviour
         }
         
         _hmdTransform = Camera.main.transform;
+        
         //  I do not like this: we still needs tags to find that out.
     }
     // Start is called before the first frame update
@@ -35,32 +39,40 @@ public class EyetrackingManager : MonoBehaviour
     {
         
         _eyeTrackingRecorder = GetComponent<EyetrackingDataRecorder>();
+
+        _eyetrackingValidation = GetComponentInChildren<EyetrackingValidation>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.J))
         {
+            Debug.Log("start Calibration");
             StartCalibration();
         }
         
         if (Input.GetKeyDown(KeyCode.K))
         {
-            Debug.Log("start recording");
-            _eyeTrackingRecorder.StartRecording();
+            Debug.Log("start validating");
+            _eyetrackingValidation.StartValidation();
         }
 
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            _eyeTrackingRecorder.StartRecording();
+        }
+        if (Input.GetKeyDown(KeyCode.S))
         {
             _eyeTrackingRecorder.StopRecording();
         }
+        
     }
     
     public void StartValidation()
     {
-     //TODO
-     Debug.Log("validating...");
+        Debug.Log("validating...");
+        _eyetrackingValidation.StartValidation();
     }
     
     
@@ -85,6 +97,18 @@ public class EyetrackingManager : MonoBehaviour
     public float GetSampleRate()
     {
         return _sampleRate;
+    }
+
+    public void StoreEyeValidationData(EyeValidationData data)
+    {
+        _eyeValidationData = data;
+    }
+
+    
+    public double getCurrentTimestamp()
+    {
+        System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
+        return (System.DateTime.UtcNow - epochStart).TotalSeconds;
     }
 
     
