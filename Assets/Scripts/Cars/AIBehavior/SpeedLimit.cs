@@ -6,16 +6,28 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class SpeedLimit : MonoBehaviour
 {
-    [Space]
-    [Header("Speed Limit (0 - 100)")]
-    [Range(0, 100)]
-    public float speedLimit = 50f;
- 
+    [Space] [Header("Speed Limit")]
+    
+    [Tooltip("0 - 100")] [Range(0, 100)] [SerializeField] private float speedInNormalPath = 50f;
+    [Tooltip("0 - 100")] [Range(0, 100)] [SerializeField] private float speedInReversePath = 50f;
+
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<AIController>() != null)
+        AIController aiController = other.GetComponent<AIController>();
+        AimedSpeed aimedSpeed = other.GetComponent<AimedSpeed>();
+        
+        if (aiController != null)
         {
-            other.GetComponent<AimedSpeed>().SetRuleSpeed(speedLimit/3.6f);
+            if (aiController.GetIsReversed() == false)
+            {
+                
+                aimedSpeed.SetRuleSpeed(speedInNormalPath/3.6f);
+            }
+            else
+            {
+                aimedSpeed.SetRuleSpeed(speedInReversePath/3.6f);
+            }
         }
     }
 }

@@ -189,4 +189,9 @@ public class AIController : MonoBehaviour
         }
         return _nearestPoint;
     }
+
+    public bool GetIsReversed()
+    {
+        return reverse;
+    }
 }
