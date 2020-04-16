@@ -136,6 +136,12 @@ public class ExperimentManager : MonoBehaviour
         SteamVR_Fade.Start(Color.black, 2f);
     }
 
+
+    public GameObject GetParticipantCar()
+    {
+        return participantsCar;
+    }
+
     public void OnGUI()
     {
         float height = Screen.height;

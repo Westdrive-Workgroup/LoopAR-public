@@ -46,26 +46,7 @@ public class EyetrackingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            Debug.Log("start Calibration");
-            StartCalibration();
-        }
-        
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            Debug.Log("start validating");
-            _eyetrackingValidation.StartValidation();
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            _eyeTrackingRecorder.StartRecording();
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            _eyeTrackingRecorder.StopRecording();
-        }
+    
         
     }
     
