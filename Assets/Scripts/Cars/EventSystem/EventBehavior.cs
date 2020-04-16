@@ -11,12 +11,7 @@ public class EventBehavior : MonoBehaviour
         if(PersistentTrafficEventManager.Instance!=null)
             PersistentTrafficEventManager.Instance.RegisterTrafficListeners(this);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
     public void AvoidInterference(float eventSpeed)
     {

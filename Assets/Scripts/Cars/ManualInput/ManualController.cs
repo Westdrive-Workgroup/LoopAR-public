@@ -6,18 +6,14 @@ using UnityEngine;
 public class ManualController : MonoBehaviour
 {
     private CarController _carController;
-    private bool _manualDriving=false;
+    private bool _manualDriving = false;
 
-    private void Awake()
-    {
-     
-           
-    }
 
     private void Start()
     {
         _carController = GetComponent<CarController>();
         _manualDriving = true;
+        
         if (GetComponent<ControlSwitch>() != null)
         {
             if (GetComponent<ControlSwitch>().isActiveAndEnabled)
@@ -26,7 +22,6 @@ public class ManualController : MonoBehaviour
                 _manualDriving = false;
             }
         }
-
     }
 
     // Update is called once per frame
@@ -41,9 +36,6 @@ public class ManualController : MonoBehaviour
         {
             _carController.MoveVehicle(accelerationInput,brakeInput,steeringInput);
         }
-
-      
-        
     }
     
     public void SetManualDriving(bool state)

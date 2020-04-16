@@ -7,20 +7,15 @@ using Matrix4x4 = System.Numerics.Matrix4x4;
 
 public class RestrictedZoneTrigger : MonoBehaviour
 {
-    private Vector3 _colliderdimensions;
+    private Vector3 _colliderDimensions;
 
     private Vector3 _colliderPosition;
     // Start is called before the first frame update
     void Start()
     {
-        _colliderdimensions = GetComponent<Collider>().bounds.size;
+        _colliderDimensions = GetComponent<Collider>().bounds.size;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 
     private void OnTriggerEnter(Collider other)
     {
@@ -35,6 +30,6 @@ public class RestrictedZoneTrigger : MonoBehaviour
         //Gizmos.color=Color.red;
         //Gizmos.matrix= transform.localToWorldMatrix;
         
-        //Gizmos.DrawWireCube(this.transform.position,_colliderdimensions);
+        //Gizmos.DrawWireCube(this.transform.position,_colliderDimensions);
     }
 }

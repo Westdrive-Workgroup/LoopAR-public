@@ -9,15 +9,15 @@ public class AIController : MonoBehaviour
 {
     [Space] [Header("Debug")] public bool showLocalTargerGizmos = false;
     [Range(0f,100f)]
-    public float localTargetVisualizerRadius  = 10f;
-    public Color localTargetColor = Color.red;
+    [SerializeField] private float localTargetVisualizerRadius  = 10f;
+    [SerializeField] private Color localTargetColor = Color.red;
     
     private CarController _carController;
-    public float steeringSensitivity = 0.01f;
+    [SerializeField] private float steeringSensitivity = 0.01f;
     
-    public float accelerationCareFactor = 0.75f; //AIs in Racing games might constant push the gas pedal, I dont think that this is correct in ordinary traffic 
+    [SerializeField] private float accelerationCareFactor = 0.75f; //AIs in Racing games might constant push the gas pedal, I dont think that this is correct in ordinary traffic 
 
-    public float brakeFactor = 1f; //Strong Brakes requires potentially a less aggressive braking behavior of the AI.
+    [SerializeField] private float brakeFactor = 1f; //Strong Brakes requires potentially a less aggressive braking behavior of the AI.
     private Vector3 _target;
     private Vector3 _nextTarget;
     private Rigidbody _carRigidBody;
@@ -30,12 +30,12 @@ public class AIController : MonoBehaviour
     [Range(0.5f,20f)] public float trackerSensitivity = 10f;
     [Range(0f,1f)] public float progressPercentage;
     [SerializeField] public bool reverse;
+    
     private Vector3 _localTarget;
-    Vector3 _nearestPoint = Vector3.zero;
+    private Vector3 _nearestPoint = Vector3.zero;
 
     [Space] [Header("Car Mode")] public bool manualOverride;
     
-    //public float trunTreshold = 30f;
     
     private void OnDrawGizmosSelected()
     {

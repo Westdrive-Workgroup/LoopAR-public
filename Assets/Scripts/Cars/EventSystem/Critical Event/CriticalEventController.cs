@@ -10,17 +10,17 @@ public class CriticalEventController: MonoBehaviour
     
     private RestrictedZoneTrigger[] _restrictedZoneTriggers;
 
-    private GameObject targetedCar;
+    private GameObject _targetedCar;
 
-    private bool activatedEvent;
+    private bool _activatedEvent;
     
     void Start()
     {
         if(PersistentTrafficEventManager.Instance!=null)
-            targetedCar = PersistentTrafficEventManager.Instance.GetParticipantsCar();
+            _targetedCar = PersistentTrafficEventManager.Instance.GetParticipantsCar();
         
-        startTrigger.TargetVehicle(targetedCar);
-        endTrigger.TargetVehicle(targetedCar);
+        startTrigger.TargetVehicle(_targetedCar);
+        endTrigger.TargetVehicle(_targetedCar);
         
         startTrigger.SetController(this);
         endTrigger.SetController(this);
@@ -29,20 +29,15 @@ public class CriticalEventController: MonoBehaviour
 
        DeactivateRestrictedZones();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
+    
 
     public void Triggered()
     {
         PersistentTrafficEventManager.Instance.HandleEvent();
-        if (!activatedEvent)
+        if (!_activatedEvent)
         {
             ActivateRestrictedZones();
-            activatedEvent = true;
+            _activatedEvent = true;
         }
         else
         {
@@ -64,7 +59,7 @@ public class CriticalEventController: MonoBehaviour
         foreach (var restrictedZoneTrigger in _restrictedZoneTriggers)
         {
             restrictedZoneTrigger.gameObject.SetActive(false);
-            activatedEvent = false;
+            _activatedEvent = false;
         }
     }
     
