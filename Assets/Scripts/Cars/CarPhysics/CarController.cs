@@ -5,24 +5,26 @@ using UnityEngine;
 
 public class CarController : MonoBehaviour
 {
-    private Rigidbody _rigidbody;
     [SerializeField] private WheelCollider[] frontWheels;
     [SerializeField] private WheelCollider[] rearWheels;
-    [SerializeField] private float _torque = 200f;
-    [SerializeField] private float _maxSteerAngle = 30f;
+    [SerializeField] private float torque = 200f;
+    [SerializeField] private float maxSteerAngle = 30f;
     [SerializeField] private float maxBrakeTorque = 500f;
     [SerializeField] private bool allWheelDrive= false;
     [SerializeField] private bool rearBreakOnly = true;
-    [SerializeField] private float _maximumSpeedInKmH = 120f;
-    [SerializeField] private GameObject _seatPosition;
+    [SerializeField] private float maximumSpeedInKmH = 120f;
+    [SerializeField] private GameObject seatPosition;
+    
+    private Rigidbody _rigidbody;
+    
     private float _maximumSpeed;//meter per seconds
     private float _currentSpeed;
 
-    public Vector3 centerOfMassOffset = new Vector3(0, -0.5f, 0);
+    [SerializeField] private Vector3 centerOfMassOffset = new Vector3(0, -0.5f, 0);
 
     private void Awake()
     {
-        _maximumSpeed = _maximumSpeedInKmH / 3.6f;
+        _maximumSpeed = maximumSpeedInKmH / 3.6f;
     }
 
     // Start is called before the first frame update
@@ -30,19 +32,13 @@ public class CarController : MonoBehaviour
     {
         _rigidbody = this.gameObject.GetComponent<Rigidbody>();
         _rigidbody.centerOfMass += centerOfMassOffset;
-        
-        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-
-      // Debug.Log("Speed Km/h: " + _currentSpeed * 3.6);
+        // Debug.Log("Speed Km/h: " + _currentSpeed * 3.6);
       _currentSpeed = _rigidbody.velocity.magnitude;
-
-
-
     }
 
     public void MoveVehicle(float accelerationInput, float brakeInput, float steeringInput)
@@ -62,7 +58,6 @@ public class CarController : MonoBehaviour
     
     void TransferInputToWheels(WheelCollider wheelCol, float acceleration, float brake)
     {
-        
         brake = Mathf.Clamp(brake, 0, 1) * maxBrakeTorque;
         acceleration = Mathf.Clamp(acceleration, -1, 1);
 
@@ -71,14 +66,14 @@ public class CarController : MonoBehaviour
         wheelCol.motorTorque = Mathf.Clamp(thrustTorque,0, _maximumSpeed);
         /*Debug.Log( "Torque: " + wheelCol.motorTorque + ", rpm: " +    wheelCol.rpm);*/
         wheelCol.brakeTorque = brake;
-        
     }
+    
 
     void TransferInputToWheels(WheelCollider wheelCol, float acceleration, float brake, float steering)
     {
         acceleration = Mathf.Clamp(acceleration, -1, 1);
         //steering = Mathf.Clamp(steering, -1, 1) * maxSteerAngle;
-        steering = steering * _maxSteerAngle;
+        steering = steering * maxSteerAngle;
         brake = Mathf.Clamp(brake, 0, 1) * maxBrakeTorque;
 //        Debug.Log("accel" + acceleration + " brake" + brake);
         if (allWheelDrive)
@@ -90,7 +85,6 @@ public class CarController : MonoBehaviour
             wheelCol.brakeTorque = brake;
         
         wheelCol.steerAngle = steering;
-        
     }
 
 
@@ -98,7 +92,7 @@ public class CarController : MonoBehaviour
     {
         float thrustTorque = 0;
         if (_currentSpeed < _maximumSpeed)
-            thrustTorque = acceleration * _torque;
+            thrustTorque = acceleration * torque;
         return thrustTorque;
     }
 
@@ -114,12 +108,12 @@ public class CarController : MonoBehaviour
 
     public float GetTorque()
     {
-        return _torque;
+        return torque;
     }
 
     public void SetTorque(float torque)
     {
-        _torque = torque;
+        this.torque = torque;
     }
 
     public void SetMaximumSpeed(float speedInKmh)
@@ -139,6 +133,6 @@ public class CarController : MonoBehaviour
 
     public Vector3 GetSeatPosition()
     {
-        return _seatPosition.transform.position;
+        return seatPosition.transform.position;
     }
 }

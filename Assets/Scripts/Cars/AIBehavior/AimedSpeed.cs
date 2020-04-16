@@ -19,7 +19,7 @@ public class AimedSpeed : MonoBehaviour
         _ruleSpeed = GetComponent<CarController>().GetMaximumSpeed();
         if (PersistentTrafficEventManager.Instance != null)
         {
-            _eventSpeed = PersistentTrafficEventManager.Instance.EventSpeed;
+            _eventSpeed = PersistentTrafficEventManager.Instance.GetEventSpeed();
         }
         else
         {

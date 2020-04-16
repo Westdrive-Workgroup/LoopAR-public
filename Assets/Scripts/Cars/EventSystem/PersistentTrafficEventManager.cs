@@ -2,30 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// name is at the moment a bit miss leading. It is a overall manager class, which is aware of all events in that scene, the Participant and the AI Cars.
+/// It is aware of starting events and ending events globally.
+/// It is intended to handle the reaction of AI cars in case of events of AI cars to avoid them of interfering into the event
+/// </summary>
+
+[DisallowMultipleComponent]
 public class PersistentTrafficEventManager : MonoBehaviour
 {
-
-//name is at the moment a bit missleading. It is a overall manager class, which is aware of all events in that scene, the Participant and the AI Cars.
-// it is aware of starting events and ending events globally.
-// it is intended to handle the reaction of AI cars in case of events of AI cars to avoid them of interfering into the event
     public static PersistentTrafficEventManager Instance { get; private set; }
     public GameObject participantsCar; //needs a functionality to find the participants Car
     
     
     private List<EventBehavior> _eventBehaviorListeners;
-    private ControlSwitch participantsControlSwitch;
-    private bool activatedEvent;
+    private ControlSwitch _participantsControlSwitch;
+    private bool _activatedEvent;
 
-    public float EventSpeed= 5f;
+    [SerializeField] private float eventSpeed = 5f;
     
     private void Awake()
     {
         _eventBehaviorListeners = new List<EventBehavior>();
+        
         //singleton pattern a la Unity
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);         //the Traffic Manager should be persitent by changing the scenes maybe change it on the the fly
+            DontDestroyOnLoad(gameObject);         //the Traffic Manager should be persistent by changing the scenes maybe change it on the the fly
         }
         else
         {
@@ -35,9 +39,9 @@ public class PersistentTrafficEventManager : MonoBehaviour
     
     void Start()
     {
-        participantsControlSwitch = participantsCar.GetComponent<ControlSwitch>();
-        Debug.Log("return " + participantsControlSwitch);
-        activatedEvent = false; // 
+        _participantsControlSwitch = participantsCar.GetComponent<ControlSwitch>();
+        Debug.Log("return " + _participantsControlSwitch);
+        _activatedEvent = false; 
     }
 
     public void RegisterTrafficListeners(EventBehavior listener)
@@ -45,34 +49,27 @@ public class PersistentTrafficEventManager : MonoBehaviour
         _eventBehaviorListeners.Add(listener);
     }
     
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
     public void HandleEvent()
     {
-        if (activatedEvent)
+        if (_activatedEvent)
         {
             FinalizeEvent();
         }
         else
         {
-            activatedEvent = true;
+            _activatedEvent = true;
             InitiateEvent();
         }
     }
 
     private void InitiateEvent()
     {
-        
         foreach (var eventListener in _eventBehaviorListeners)
         {
             eventListener.AvoidInterference(10f);
         }
-        participantsControlSwitch.SwitchControl();
+        _participantsControlSwitch.SwitchControl();
     }
 
     private void FinalizeEvent()
@@ -83,11 +80,16 @@ public class PersistentTrafficEventManager : MonoBehaviour
             eventListener.ReestablishNormalBehavior();
         }
         
-        participantsControlSwitch.SwitchControl();
+        _participantsControlSwitch.SwitchControl();
     }
 
     public GameObject GetParticipantsCar()
     {
         return participantsCar;
+    }
+
+    public float GetEventSpeed()
+    {
+        return eventSpeed;
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 
 [DisallowMultipleComponent]
-public class ActivationManager : MonoBehaviour
+public class ActivationHandler : MonoBehaviour
 {
     private bool _isActive;
 
@@ -21,13 +21,9 @@ public class ActivationManager : MonoBehaviour
     public void ChangeActivationState(GameObject targetGroup)
     {
         if (_isActive)
-        {
             ChangeActivationState(false, targetGroup);
-        }
         else
-        {
             ChangeActivationState(true, targetGroup);
-        }
 
         _isActive = !_isActive;
     }

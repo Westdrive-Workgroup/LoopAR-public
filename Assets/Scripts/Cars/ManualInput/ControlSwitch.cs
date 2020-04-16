@@ -5,30 +5,25 @@ using UnityEngine;
 [RequireComponent(typeof(AIController),typeof(ManualController))]
 public class ControlSwitch : MonoBehaviour
 {
-    private AIController _aiControl;
+    private AIController _aiController;
 
     private ManualController _manualControl;
 
     private bool _manualDrivingState;
+    
     // Start is called before the first frame update
     void Start()
     {
-        _aiControl = GetComponent<AIController>();
+        _aiController = GetComponent<AIController>();
         _manualControl = GetComponent<ManualController>();
 
         _manualDrivingState = false;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-       
-    }
-
+    
 
     private void SetManualDrivingState(bool state)
     {
-        _aiControl.manualOverride = state;
+        _aiController.manualOverride = state;
         _manualControl.SetManualDriving(state);
     }
 
@@ -38,7 +33,6 @@ public class ControlSwitch : MonoBehaviour
         _manualDrivingState = !_manualDrivingState;
         
         SetManualDrivingState(_manualDrivingState);
-
     }
 
     public void SwitchControl(bool state)

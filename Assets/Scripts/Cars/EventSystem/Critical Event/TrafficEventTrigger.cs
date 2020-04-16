@@ -5,42 +5,29 @@ using UnityEngine;
 public class TrafficEventTrigger : MonoBehaviour
 {
     private CriticalEventController _eventController;
-    private GameObject targetVehicle;
-    private GameObject currentTarget;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    private GameObject _targetVehicle;
+    private GameObject _currentTarget;
+    
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject == currentTarget)
+        if (other.gameObject == _currentTarget)
             return;
 
-        currentTarget = other.gameObject;
+        _currentTarget = other.gameObject;
         
-        if (other.gameObject == targetVehicle)
+        if (other.gameObject == _targetVehicle)
         {
             Debug.Log("Triggered " + other.gameObject);
             //PersistentTrafficEventManager.Instance.HandleEvent();
             _eventController.Triggered();
-            
-
         }
-        
     }
 
 
     public void TargetVehicle(GameObject vehicle)
     {
-        targetVehicle = vehicle;
+        _targetVehicle = vehicle;
     }
 
     public void SetController(CriticalEventController eventController)
