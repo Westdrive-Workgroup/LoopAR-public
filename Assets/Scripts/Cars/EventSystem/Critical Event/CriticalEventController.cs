@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class CriticalEventController: MonoBehaviour
 {
-    public TrafficEventTrigger startTrigger;
-
-    public TrafficEventTrigger endTrigger;
+    [Space] [Header("Triggers")]
+    [SerializeField] private TrafficEventTrigger startTrigger;
+    [SerializeField] private TrafficEventTrigger endTrigger;
+    
+    [Space] [Header("Accident Case")]
+    [Tooltip("The gameobject which is the parents of the accident elements")] [SerializeField] private GameObject testAccident;
+    [Tooltip("Should the testAccident be active or not when experiment begins")] [SerializeField] private bool active;
     
     private RestrictedZoneTrigger[] _restrictedZoneTriggers;
 
@@ -28,6 +33,11 @@ public class CriticalEventController: MonoBehaviour
         _restrictedZoneTriggers = GetComponentsInChildren<RestrictedZoneTrigger>();
 
        DeactivateRestrictedZones();
+
+       if (active)
+           testAccident.SetActive(true);
+        else
+           testAccident.SetActive(false);
     }
     
 
@@ -37,11 +47,15 @@ public class CriticalEventController: MonoBehaviour
         if (!_activatedEvent)
         {
             ActivateRestrictedZones();
+            testAccident.SetActive(true);
             _activatedEvent = true;
         }
         else
         {
             DeactivateRestrictedZones();
+            
+            if (!active)
+                testAccident.SetActive(false);
         }
         
     }
