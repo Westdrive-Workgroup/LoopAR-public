@@ -40,7 +40,6 @@ public class PersistentTrafficEventManager : MonoBehaviour
     void Start()
     {
         _participantsControlSwitch = participantsCar.GetComponent<ControlSwitch>();
-        Debug.Log("return " + _participantsControlSwitch);
         _activatedEvent = false; 
     }
 

@@ -64,7 +64,7 @@ public class ExperimentManager : MonoBehaviour
         
         if (_activationTriggers.Count == 0)
         {
-            Debug.Log("<color=red>Error: </color>Please ensure ActivationTrigger is being executed before ExperimentManager if there are triggers present in the scene.");
+            Debug.Log("<color=red>Error: </color>Please ensure that ActivationTrigger is being executed before ExperimentManager if there are triggers present in the scene.");
         }
 
         if (EyetrackingManager.Instance == null)
