@@ -26,6 +26,7 @@ public class InputRecorder : MonoBehaviour
         
         _participantCar.GetComponent<ManualController>().NotifyInputObservers += ReceiveInput;
         _sampleRate = SavingManager.Instance.GetSampleRate();
+        InputData = new List<InputDataFrame>();
     }
     
     private void ReceiveInput(float steeringInput, float accelerationInput, float brakeInput)
@@ -37,27 +38,29 @@ public class InputRecorder : MonoBehaviour
 
     private IEnumerator RecordInputData()
     {
-        InputDataFrame inputDataFrame = new InputDataFrame();
-        
-        inputDataFrame.TimeStamp = TimeManager.Instance.GetCurrentUnixTimeStamp();
-        
-        if (Math.Abs(_steeringInput) > 0 || Math.Abs(_accelerationInput) > 0 || Math.Abs(_brakeInput) > 0)
+        while (!_recordingEnded)
         {
-            inputDataFrame.ReceivedInput = true;
-            inputDataFrame.SteeringInput = _steeringInput;
-            inputDataFrame.AcellerationInput = _accelerationInput;
-            inputDataFrame.BrakeInput = _brakeInput;
-        }
-        else
-        {
-            inputDataFrame.ReceivedInput = false;
-            inputDataFrame.SteeringInput = 0f;
-            inputDataFrame.AcellerationInput = 0f;
-            inputDataFrame.BrakeInput = 0f;
-        }
+            InputDataFrame inputDataFrame = new InputDataFrame();
         
-        InputData.Add(inputDataFrame);
-        yield return new WaitForSeconds(_sampleRate);
+            inputDataFrame.TimeStamp = TimeManager.Instance.GetCurrentUnixTimeStamp();
+        
+            if (Math.Abs(_steeringInput) > 0 || Math.Abs(_accelerationInput) > 0 || Math.Abs(_brakeInput) > 0)
+            {
+                inputDataFrame.ReceivedInput = true;
+                inputDataFrame.SteeringInput = _steeringInput;
+                inputDataFrame.AcellerationInput = _accelerationInput;
+                inputDataFrame.BrakeInput = _brakeInput;
+            }
+            else
+            {
+                inputDataFrame.ReceivedInput = false;
+                inputDataFrame.SteeringInput = 0f;
+                inputDataFrame.AcellerationInput = 0f;
+                inputDataFrame.BrakeInput = 0f;
+            }
+            InputData.Add(inputDataFrame);
+            yield return new WaitForSeconds(_sampleRate);
+        }
     }
     
     public void StartInputRecording()

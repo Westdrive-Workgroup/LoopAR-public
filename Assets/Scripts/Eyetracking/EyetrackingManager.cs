@@ -46,8 +46,14 @@ public class EyetrackingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
-        
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            StartRecording();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            StopRecording();
+        } 
     }
     
     public void StartValidation()
@@ -67,6 +73,16 @@ public class EyetrackingManager : MonoBehaviour
         {
             Debug.Log("<color=red>calibration failed :(</color>");
         }
+    }
+
+    public void StartRecording()
+    {
+        _eyeTrackingRecorder.StartRecording();
+    }
+    
+    public void StopRecording()
+    {
+        _eyeTrackingRecorder.StopRecording();
     }
     
     

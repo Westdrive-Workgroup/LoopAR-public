@@ -76,6 +76,8 @@ public class EyetrackingDataRecorder : MonoBehaviour
                 dataFrame.RightEyeIsBlinkingLocal = eyeTrackingDataLocal.IsRightEyeBlinking;
             }
 
+            dataFrame.UnixTimeStamp = TimeManager.Instance.GetCurrentUnixTimeStamp();
+
             dataFrame.TimeStamp = eyeTrackingDataWorld.Timestamp;
             
             dataFrame.HmdPosition = _hmdTransform.position;

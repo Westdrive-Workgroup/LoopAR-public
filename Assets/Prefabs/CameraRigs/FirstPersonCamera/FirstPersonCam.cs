@@ -1,23 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.TerrainAPI;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FirstPersonCam : MonoBehaviour
 {
     public GameObject seatPosition;
+
+    public bool allowMouseRotation;
     [Range(0f, 700f)]public float MouseSensivity;
     public bool invertedMouse;
+    
     private Vector3 localRotation;
     // Start is called before the first frame update
     void Start()
     {
     }
 
+    
     // Update is called once per frame
     void LateUpdate()
     {
         this.transform.position = seatPosition.transform.position;
-        PerformRotation();
+        if(allowMouseRotation)
+            PerformRotation();
     }
 
 

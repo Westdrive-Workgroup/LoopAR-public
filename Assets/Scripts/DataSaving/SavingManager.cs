@@ -39,7 +39,7 @@ public class SavingManager : MonoBehaviour
             RecordInput();
         }
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.C))
         {
             StopRecordInput();
         } 
