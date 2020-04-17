@@ -14,9 +14,7 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private GameObject participantsCar;
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera firstPersonCamera;
-
-
-
+    
 
     // registers in which scene or state the experiment is
     private enum Scene
@@ -33,7 +31,8 @@ public class ExperimentManager : MonoBehaviour
     private enum Event
     {
         Deer,
-        BrokenCar
+        BrokenCar,
+        ChildAtTheMarket
     }
     
     private Scene _scene;
