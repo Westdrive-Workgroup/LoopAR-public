@@ -36,7 +36,7 @@ public class CriticalEventController: MonoBehaviour
 
        if (active)
            testAccident.SetActive(true);
-        else
+       else
            testAccident.SetActive(false);
     }
     
