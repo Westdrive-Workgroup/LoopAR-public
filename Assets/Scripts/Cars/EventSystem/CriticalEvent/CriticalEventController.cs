@@ -9,6 +9,8 @@ public class CriticalEventController: MonoBehaviour
     [SerializeField] private TrafficEventTrigger startTrigger;
     [SerializeField] private TrafficEventTrigger endTrigger;
     
+    [SerializeField] private GameObject triggers;
+
     [Space] [Header("Accident Case")]
     [Tooltip("The gameobject which is the parents of the accident elements")] [SerializeField] private GameObject testAccident;
     [Tooltip("Should the testAccident be active or not when experiment begins")] [SerializeField] private bool active;
@@ -18,6 +20,8 @@ public class CriticalEventController: MonoBehaviour
     private GameObject _targetedCar;
 
     private bool _activatedEvent;
+
+    private MeshRenderer[] _meshRenderers;
     
     void Start()
     {
@@ -36,8 +40,10 @@ public class CriticalEventController: MonoBehaviour
 
        if (active)
            testAccident.SetActive(true);
-        else
+       else
            testAccident.SetActive(false);
+       
+       TurnOffMeshRenderers(triggers);
     }
     
 
@@ -76,8 +82,14 @@ public class CriticalEventController: MonoBehaviour
             _activatedEvent = false;
         }
     }
-    
-    
-    
-    
+
+    public void TurnOffMeshRenderers(GameObject trigger)
+    {
+        _meshRenderers = trigger.GetComponentsInChildren<MeshRenderer>();
+
+        foreach (var meshRenderer in _meshRenderers)
+        {
+            meshRenderer.enabled = false;
+        }
+    }
 }
