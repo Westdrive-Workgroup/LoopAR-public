@@ -1,24 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!95 &196421686
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6409617316377148907}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 47d42fc101b76284ba3393d49886448c, type: 3}
-  m_Controller: {fileID: 9100000, guid: 590083afea5c51d4faf885dcdc497296, type: 2}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!54 &196421685
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -49,6 +30,25 @@ CapsuleCollider:
   m_Height: 2.7315135
   m_Direction: 0
   m_Center: {x: 0.33000004, y: 1.56, z: 0.047912598}
+--- !u!95 &196421686
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6409617316377148907}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 47d42fc101b76284ba3393d49886448c, type: 3}
+  m_Controller: {fileID: 9100000, guid: 3944bbe95840c7e4195051d90958e3d1, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &3157698349651813602
 PrefabInstance:
   m_ObjectHideFlags: 0
