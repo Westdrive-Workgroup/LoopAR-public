@@ -7,9 +7,9 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class AIController : MonoBehaviour
 {
-    [Space] [Header("Debug")] public bool showLocalTargerGizmos = false;
+    [Space] [Header("Debug")] public bool showLocalTargetGizmos = false;
     [Range(0f,100f)]
-    [SerializeField] private float localTargetVisualizerRadius  = 10f;
+    [SerializeField] private float localTargetVisualizerRadius  = 30f;
     [SerializeField] private Color localTargetColor = Color.red;
     
     private CarController _carController;
@@ -25,21 +25,23 @@ public class AIController : MonoBehaviour
     private float _aimedSpeed;
     
     
-    [Space] [Header("Path Settings")] public BezierSplines path;
-    [Range(0f,0.1f)] public float precision = 0.01f;
-    [Range(0.5f,20f)] public float trackerSensitivity = 10f;
-    [Range(0f,1f)] public float progressPercentage;
-    [SerializeField] public bool reverse;
+    [Space] [Header("Path Settings")] 
+    [SerializeField] private BezierSplines path;
+    [Range(0f,0.1f)] [SerializeField] private float precision = 0.01f;
+    [Range(0.5f,20f)] [SerializeField] private float trackerSensitivity = 10f;
+    [Range(0f,1f)] [SerializeField] private float progressPercentage;
+    [SerializeField] private bool reverse;
     
     private Vector3 _localTarget;
     private Vector3 _nearestPoint = Vector3.zero;
 
-    [Space] [Header("Car Mode")] public bool manualOverride;
+    [Space] [Header("Car Mode")] 
+    [SerializeField] public bool manualOverride;
     
     
     private void OnDrawGizmosSelected()
     {
-        if (showLocalTargerGizmos)
+        if (showLocalTargetGizmos)
         {
             Gizmos.color = localTargetColor;
             Gizmos.DrawWireSphere(_localTarget,localTargetVisualizerRadius);
@@ -48,58 +50,34 @@ public class AIController : MonoBehaviour
 
     private void Start()
     {
-        // Debug.Log("Heeeey! I have to be first!");
-        
-        //Debug.Log("target was at 0 " + _localTarget);
-        //Debug.Log("local target is "+ _localTarget);
-
-        if (reverse)
-        {
-            // Debug.Log("Heeeey! I have to be second!");
-            // Debug.Log("recognized reverse");
-            progressPercentage = 1f;
-            // _localTarget = path.GetPoint(1f);
-            //reverse = true;
-            // Debug.Log("reverse value in start is " + reverse + " and PP is: " + progressPercentage);
-        }
-        else
-        {
-            progressPercentage = 0f;
-            // _localTarget = path.GetPoint(0f);
-        }
-        
-        
         _carRigidBody = this.gameObject.GetComponent<Rigidbody>();
         _carController = this.GetComponent<CarController>();
         
         _targetAngle = 0;
         manualOverride = false;
-        _localTarget = GetClosestPoint(path);
+        
+        _nearestPoint = GetClosestPoint(path);
+        SetProgressPercentage(path);
+        _localTarget = path.GetPoint(progressPercentage);
     }
 
     private void Update()
     {
-        // Debug.Log("reverse value beginning of update is " + reverse + " and PP is: " + progressPercentage);
         _aimedSpeed = this.gameObject.GetComponent<AimedSpeed>().GetAimedSpeed();
-        //Debug.Log(Vector3.Distance(transform.position, _localTarget));
 
         if (Vector3.Distance(transform.position, _localTarget) < trackerSensitivity)
         {
-             // Debug.Log("in update in if");
             if (reverse)
             {
-                
                 ReversePathFollowing();
             }
             else
             {
-                // Debug.Log("got here");
                 NormalPathFollowing();
             }
         }
         
-        // Debug.Log("in update after if. PP: " + progressPercentage);
-
+        
         Vector3 localTargetTransform =  transform.InverseTransformPoint(path.GetPoint(progressPercentage));
         _targetAngle = (localTargetTransform.x / localTargetTransform.magnitude);
         
@@ -136,36 +114,28 @@ public class AIController : MonoBehaviour
 
     private void ReversePathFollowing()
     {
-        // Debug.Log("Beginning of ReversePF methode. PP: " + progressPercentage);
         if (progressPercentage < 0f)
         {
             progressPercentage = 1f;
-            // Debug.Log("Reverse if, has to be 1. PP: " + progressPercentage);
         }
         else
         {
             progressPercentage -= precision;
-            // Debug.Log("Reverse else. PP: " + progressPercentage);
         }
         _localTarget = path.GetPoint(progressPercentage);
-        // Debug.Log("End ReversePF methode. PP: " + progressPercentage);
     }
 
     private void NormalPathFollowing()
     {
-        // Debug.Log("NormalPF methode");
         if (progressPercentage >= 1f)
         {
             progressPercentage = 0f;
-            // Debug.Log("Normal if reset. PP: " + progressPercentage);
         }
         else
         {
-            // Debug.Log("Normal else. PP: " + progressPercentage);
             progressPercentage += precision;
         }
         _localTarget = path.GetPoint(progressPercentage);
-        // Debug.Log("Normal PP: " + progressPercentage);
     }
 
     public void SetAimedSpeed(float newSpeed)
@@ -174,9 +144,7 @@ public class AIController : MonoBehaviour
     }
     
     private Vector3 GetClosestPoint(BezierSplines path)
-    { 
-        // Debug.Log("In Get to the closest point. PP is: " + progressPercentage);
-
+    {
         for (float i = 0f; i < 1f; i += precision)
         {
             Vector3 point = path.GetPoint(i);
@@ -188,6 +156,30 @@ public class AIController : MonoBehaviour
             }
         }
         return _nearestPoint;
+    }
+    
+    private float SetProgressPercentage(BezierSplines path)
+    {
+        for (float i = 0f; i < 1f; i += precision)
+        {
+            Vector3 point = path.GetPoint(i);
+            
+            if (point == _nearestPoint)
+            {
+                progressPercentage = i;
+            }
+        }
+
+        if (reverse)
+        {
+            progressPercentage -= progressPercentage * 0.02f;
+        }
+        else
+        {
+            progressPercentage += progressPercentage * 0.02f;
+        }
+        
+        return progressPercentage;
     }
 
     public bool GetIsReversed()
