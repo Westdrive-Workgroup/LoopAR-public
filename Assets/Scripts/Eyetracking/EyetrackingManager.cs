@@ -46,27 +46,14 @@ public class EyetrackingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.B))
         {
-            Debug.Log("start Calibration");
-            StartCalibration();
+            StartRecording();
         }
-        
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            Debug.Log("start validating");
-            _eyetrackingValidation.StartValidation();
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            _eyeTrackingRecorder.StartRecording();
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            _eyeTrackingRecorder.StopRecording();
-        }
-        
+            StopRecording();
+        } 
     }
     
     public void StartValidation()
@@ -86,6 +73,16 @@ public class EyetrackingManager : MonoBehaviour
         {
             Debug.Log("<color=red>calibration failed :(</color>");
         }
+    }
+
+    public void StartRecording()
+    {
+        _eyeTrackingRecorder.StartRecording();
+    }
+    
+    public void StopRecording()
+    {
+        _eyeTrackingRecorder.StopRecording();
     }
     
     

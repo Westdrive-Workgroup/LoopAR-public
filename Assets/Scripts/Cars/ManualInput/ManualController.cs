@@ -8,6 +8,14 @@ public class ManualController : MonoBehaviour
     private CarController _carController;
     private bool _manualDriving = false;
 
+    public delegate void OnReceivedInput(float steeringInput, float accelerationInput, float brakeInput);
+    public event OnReceivedInput NotifyInputObservers;
+
+    private void Awake()
+    {
+     
+           
+    }
 
     private void Start()
     {
@@ -31,7 +39,8 @@ public class ManualController : MonoBehaviour
         float accelerationInput = Input.GetAxis("Vertical");// W or Arrow up acceleration forward or backwards.
         float steeringInput = Input.GetAxis("Horizontal"); //A or D steering
 
-
+        NotifyInputObservers?.Invoke(steeringInput, accelerationInput, brakeInput);
+        
         if (_manualDriving)
         {
             _carController.MoveVehicle(accelerationInput,brakeInput,steeringInput);
