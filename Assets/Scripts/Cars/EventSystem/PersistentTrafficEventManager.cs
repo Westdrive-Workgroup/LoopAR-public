@@ -12,7 +12,7 @@ using UnityEngine;
 public class PersistentTrafficEventManager : MonoBehaviour
 {
     public static PersistentTrafficEventManager Instance { get; private set; }
-    public GameObject participantsCar; //needs a functionality to find the participants Car
+    [SerializeField] private GameObject participantsCar; //needs a functionality to find the participants Car
     
     
     private List<EventBehavior> _eventBehaviorListeners;
