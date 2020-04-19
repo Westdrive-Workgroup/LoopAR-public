@@ -17,7 +17,7 @@ public class InputRecorder : MonoBehaviour
     private float _brakeInput;
 
 
-    private List<InputDataFrame> InputData;
+    private List<InputDataFrame> InputDataFrames;
     
     
     void Start()
@@ -26,7 +26,7 @@ public class InputRecorder : MonoBehaviour
         
         _participantCar.GetComponent<ManualController>().NotifyInputObservers += ReceiveInput;
         _sampleRate = SavingManager.Instance.GetSampleRate();
-        InputData = new List<InputDataFrame>();
+        InputDataFrames = new List<InputDataFrame>();
     }
     
     private void ReceiveInput(float steeringInput, float accelerationInput, float brakeInput)
@@ -58,7 +58,7 @@ public class InputRecorder : MonoBehaviour
                 inputDataFrame.AcellerationInput = 0f;
                 inputDataFrame.BrakeInput = 0f;
             }
-            InputData.Add(inputDataFrame);
+            InputDataFrames.Add(inputDataFrame);
             yield return new WaitForSeconds(_sampleRate);
         }
     }
@@ -73,6 +73,7 @@ public class InputRecorder : MonoBehaviour
     public void StopRecording()
     {
         _recordingEnded = true;
+        SavingManager.Instance.StoreInputData(InputDataFrames);
     }
 
     // Update is called once per frame

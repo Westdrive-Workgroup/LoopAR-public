@@ -100,6 +100,8 @@ public class EyetrackingManager : MonoBehaviour
     {
         _eyeValidationData = data;
     }
+    
+    
 
     
     public double getCurrentTimestamp()
