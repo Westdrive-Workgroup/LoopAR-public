@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Tobii.XR;
 using UnityEngine;
@@ -33,7 +34,6 @@ public class EyetrackingDataRecorder : MonoBehaviour
 
     public void StartRecording()
     {
-        Debug.Log("recording started");
         recordingEnded = false;
         StartCoroutine(RecordEyeTrackingData());
         
@@ -111,5 +111,20 @@ public class EyetrackingDataRecorder : MonoBehaviour
         }
 
         return hitObjectInfoList;
+    }
+
+
+
+    public List<EyeTrackingDataFrame> GetDataFrames()
+    {
+        if (recordingEnded)
+        {
+            return _recordedEyeTrackingData;
+        }
+        else
+        {
+            throw new Exception("Eyetracking Data Recording has not been finished");
+        }
+        
     }
 }

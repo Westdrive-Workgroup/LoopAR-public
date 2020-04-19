@@ -18,6 +18,8 @@ public class SavingManager : MonoBehaviour
     private List<InputDataFrame> _inputData;
     private InputRecorder _inputRecorder;
 
+    private bool _readyToSaveToFile;
+
     private List<string[]> rawData;
 
     
@@ -37,12 +39,16 @@ public class SavingManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        DataPath = GetPathFromSaveFile(DataName);
+        DataPath = GetPathForSaveFile(DataName);
+        
+      
     }
 
     void Start()
     {
         _inputRecorder = GetComponent<InputRecorder>();
+        
+        _readyToSaveToFile=false;
     }
 
     // Update is called once per frame
@@ -50,12 +56,12 @@ public class SavingManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
-            RecordInput();
+            RecordData();
         }
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            StopRecordInput();
+            StopRecord();
         }
 
         if (Input.GetKeyDown(KeyCode.L))
@@ -77,15 +83,36 @@ public class SavingManager : MonoBehaviour
         return participantcar;
     }
 
-    private void RecordInput()
+    private void RecordData()
     {
-        Debug.Log("record Input");
+        _readyToSaveToFile = false;
+        Debug.Log("record Data...");
         _inputRecorder.StartInputRecording();
+        EyetrackingManager.Instance.StartRecording();
     }
 
-    private void StopRecordInput()
+    private void StopRecord()
     {
+        Debug.Log("stop recording Data");
         _inputRecorder.StopRecording();
+        EyetrackingManager.Instance.StopRecording();
+        RetrieveData();
+    }
+
+    private void RetrieveData()
+    {
+        StoreEyeTrackingData(EyetrackingManager.Instance.GetEyeTrackingData());
+        StoreInputData(_inputRecorder.GetDataFrames());
+
+        if (_inputData != null && _eyeTrackingData != null)
+        {
+            _readyToSaveToFile = true;
+        }
+        else
+        {
+            _readyToSaveToFile = false;
+        }
+        
     }
 
 
@@ -111,13 +138,26 @@ public class SavingManager : MonoBehaviour
 
 
 
-    private List<String> SerializeInputDataToJson(List<InputDataFrame> inputData)
+    private List<String> ConvertToJson(List<InputDataFrame> inputData)
     {
         List<string> list = new List<string>();
         
         foreach(var frame in inputData)
         {
-            string jsonString = JsonUtility.ToJson(frame);
+            string jsonString = JsonUtility.ToJson(frame, true);
+            list.Add(jsonString);
+        }
+
+        return list;
+    }
+
+    private List<String> ConvertToJson(List<EyeTrackingDataFrame> inputData)
+    {
+        List<string> list = new List<string>();
+        
+        foreach(var frame in inputData)
+        {
+            string jsonString = JsonUtility.ToJson(frame, true);
             list.Add(jsonString);
         }
 
@@ -126,23 +166,33 @@ public class SavingManager : MonoBehaviour
     
     public void SaveToJson()
     {
-
-        var file = SerializeInputDataToJson(_inputData);
-        
-        Debug.Log("saving... " + file.Count);
-        using (FileStream stream = File.Open(DataPath, FileMode.Create))
+        if (_readyToSaveToFile)
         {
-            File.WriteAllLines(GetPathFromSaveFile("save"), file);
+            var input = ConvertToJson(_inputData);
+            Debug.Log("saving " + input.Count + "Data frames of " + _inputData);
+        
+            var eyeTracking = ConvertToJson(_eyeTrackingData);
+            Debug.Log("saving " + input.Count + "Data frames of " + _eyeTrackingData);
+        
+        
+            using (FileStream stream = File.Open(DataPath, FileMode.Create))
+            {
+                File.WriteAllLines(GetPathForSaveFile("input"), input);
+            
+                File.WriteAllLines(GetPathForSaveFile("eyeTracking"), eyeTracking);
+            
+            }
         }
+       
         
         
         
 
         Debug.Log("saved to " + Application.persistentDataPath);
     }
-    private string GetPathFromSaveFile(string saveFile)
+    private string GetPathForSaveFile(string saveFileName)
     {
-        return Path.Combine(Application.persistentDataPath, saveFile + ".txt");
+        return Path.Combine(Application.persistentDataPath, saveFileName + ".txt");
     }
     
     

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Tobii.XR;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class EyetrackingManager : MonoBehaviour
 
     public int SetSampleRate = 90;
     private Transform _hmdTransform;
+    private List<EyeTrackingDataFrame> _eyeTrackingDataFrames;
     private EyeValidationData _eyeValidationData;
     private EyetrackingValidation _eyetrackingValidation;
     private bool _eyeValidationSucessful;
@@ -44,18 +46,7 @@ public class EyetrackingManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            StartRecording();
-        }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            StopRecording();
-        } 
-    }
-    
+
     public void StartValidation()
     {
         Debug.Log("validating...");
@@ -77,12 +68,14 @@ public class EyetrackingManager : MonoBehaviour
 
     public void StartRecording()
     {
+        Debug.Log("record eyetracking Data");
         _eyeTrackingRecorder.StartRecording();
     }
     
     public void StopRecording()
     {
         _eyeTrackingRecorder.StopRecording();
+        StoreEyeTrackingData();
     }
     
     
@@ -99,6 +92,24 @@ public class EyetrackingManager : MonoBehaviour
     public void StoreEyeValidationData(EyeValidationData data)
     {
         _eyeValidationData = data;
+    }
+    
+
+    private void StoreEyeTrackingData()
+    {
+        _eyeTrackingDataFrames = _eyeTrackingRecorder.GetDataFrames();
+    }
+
+    public List<EyeTrackingDataFrame> GetEyeTrackingData()
+    {
+        if (_eyeTrackingDataFrames != null)
+        {
+            return _eyeTrackingDataFrames;
+        }
+        else
+        {
+            throw new Exception("There are no Eyetrackingdata");
+        }
     }
     
     

@@ -65,7 +65,7 @@ public class InputRecorder : MonoBehaviour
     
     public void StartInputRecording()
     {
-        Debug.Log("recording started");
+        Debug.Log("recording Input started");
         _recordingEnded = false;
         StartCoroutine(RecordInputData());
     }
@@ -73,7 +73,20 @@ public class InputRecorder : MonoBehaviour
     public void StopRecording()
     {
         _recordingEnded = true;
-        SavingManager.Instance.StoreInputData(InputDataFrames);
+    }
+    
+    
+    public List<InputDataFrame> GetDataFrames()
+    {
+        if (_recordingEnded)
+        {
+            return InputDataFrames;
+        }
+        else
+        {
+            throw new Exception("Input Data Recording has not been finished");
+        }
+        
     }
 
     // Update is called once per frame

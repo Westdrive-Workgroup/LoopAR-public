@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Schema;
 using UnityEngine;
-using UnityEngine.XR.WSA.Input;
 
 /// <summary>
 /// is responsible for activating groups of game objects
