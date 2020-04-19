@@ -12,16 +12,17 @@ using UnityEngine;
 public class PersistentTrafficEventManager : MonoBehaviour
 {
     public static PersistentTrafficEventManager Instance { get; private set; }
+    
     [SerializeField] private GameObject participantsCar; //needs a functionality to find the participants Car
+    [SerializeField] private float eventSpeed = 5f;
     
     
     private List<EventBehavior> _eventBehaviorListeners;
     private ControlSwitch _participantsControlSwitch;
     private bool _activatedEvent;
-    
-    public GameObject TestEvent;
+    private List<GameObject> _eventObjects;
+    private GameObject _eventObject;
 
-    [SerializeField] private float eventSpeed = 5f;
     
     private void Awake()
     {
@@ -51,7 +52,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
     }
     
 
-    public void HandleEvent()
+    /*public void HandleEvent()
     {
         if (_activatedEvent)
         {
@@ -62,19 +63,23 @@ public class PersistentTrafficEventManager : MonoBehaviour
             _activatedEvent = true;
             InitiateEvent();
         }
-    }
+    }*/
 
-    private void InitiateEvent()
+    public void InitiateEvent(List<GameObject> eventObjects)
     {
         foreach (var eventListener in _eventBehaviorListeners)
         {
             eventListener.AvoidInterference(10f);
         }
+
+        _eventObjects = eventObjects;
+        
         _participantsControlSwitch.SwitchControl();
-        _participantsControlSwitch.GetComponentInChildren<HUDLite>().ActivateHUD(TestEvent);
+        Debug.Log("activate HUD with " + _eventObject);
+        _participantsControlSwitch.GetComponentInChildren<HUDLite>().ActivateHUD(_eventObjects);
     }
 
-    private void FinalizeEvent()
+    public void FinalizeEvent()
     {
         foreach (var eventListener in _eventBehaviorListeners)
         {
@@ -84,6 +89,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
         
         _participantsControlSwitch.SwitchControl();
         _participantsControlSwitch.GetComponentInChildren<HUDLite>().DeactivateHUD();
+        // _eventObjects.Clear();
     }
 
     public GameObject GetParticipantsCar()
@@ -94,5 +100,15 @@ public class PersistentTrafficEventManager : MonoBehaviour
     public float GetEventSpeed()
     {
         return eventSpeed;
+    }
+
+    public void SetEventObject(List<GameObject> objects)
+    {
+        _eventObjects = objects;
+    }
+    
+    public void SetEventObject(GameObject objects)
+    {
+        _eventObject = objects;
     }
 }

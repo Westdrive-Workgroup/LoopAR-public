@@ -8,40 +8,45 @@ public class CriticalEventController: MonoBehaviour
     [Space] [Header("Triggers")]
     [SerializeField] private TrafficEventTrigger startTrigger;
     [SerializeField] private TrafficEventTrigger endTrigger;
-    
+    [Tooltip("The gameobject which is the parents of the event subjects")]
     [SerializeField] private GameObject triggers;
 
-    [Space] [Header("Accident Case")]
-    [Tooltip("The gameobject which is the parents of the accident elements")] [SerializeField] private GameObject testAccident;
-    [Tooltip("Should the testAccident be active or not when experiment begins")] [SerializeField] private bool active;
+    [Space]
+    [Header("Event Objects")]
+    
+    [Tooltip("The gameobject which is the parents of the event object")]
+    [SerializeField] private GameObject eventObjectParent;
+    [SerializeField] private List<GameObject> eventObjects;
+    private List<GameObject> _setEventObjects;
+    [Tooltip("Should the event subject be active or not when experiment begins")] 
+    [SerializeField] private bool eventObjectActive;
+    
+    [SerializeField] private GameObject eventObject;
     
     private RestrictedZoneTrigger[] _restrictedZoneTriggers;
-
     private GameObject _targetedCar;
-
     private bool _activatedEvent;
-
     private MeshRenderer[] _meshRenderers;
     
     void Start()
     {
-        if(PersistentTrafficEventManager.Instance!=null)
+        if (PersistentTrafficEventManager.Instance != null)
+        {
             _targetedCar = PersistentTrafficEventManager.Instance.GetParticipantsCar();
-        
+        }
+
         startTrigger.TargetVehicle(_targetedCar);
         endTrigger.TargetVehicle(_targetedCar);
         
         startTrigger.SetController(this);
         endTrigger.SetController(this);
+
+        _setEventObjects = eventObjects;
         
         _restrictedZoneTriggers = GetComponentsInChildren<RestrictedZoneTrigger>();
 
        DeactivateRestrictedZones();
-
-       if (active)
-           testAccident.SetActive(true);
-       else
-           testAccident.SetActive(false);
+       EventSubjectsActivationSwitch(eventObjectParent);
        
        TurnOffMeshRenderers(triggers);
     }
@@ -49,20 +54,24 @@ public class CriticalEventController: MonoBehaviour
 
     public void Triggered()
     {
-        PersistentTrafficEventManager.Instance.HandleEvent();
+        // PersistentTrafficEventManager.Instance.HandleEvent();
         if (!_activatedEvent)
         {
             ActivateRestrictedZones();
-            testAccident.SetActive(true);
+            eventObjectParent.SetActive(true);
+            PersistentTrafficEventManager.Instance.InitiateEvent(eventObjects);
+            // PersistentTrafficEventManager.Instance.SetEventObject(_setEventObjects);
+            // PersistentTrafficEventManager.Instance.SetEventObject(eventObject);
             _activatedEvent = true;
         }
         else
         {
             DeactivateRestrictedZones();
-            
-            if (!active)
-                testAccident.SetActive(false);
+            PersistentTrafficEventManager.Instance.FinalizeEvent();
+            if (!eventObjectActive)
+                eventObjectParent.SetActive(false);
         }
+        
         
     }
 
@@ -72,7 +81,6 @@ public class CriticalEventController: MonoBehaviour
         {
             restrictedZoneTrigger.gameObject.SetActive(true);
             restrictedZoneTrigger.gameObject.GetComponent<MeshRenderer>().enabled = false;
-            
         }
     }
 
@@ -81,8 +89,8 @@ public class CriticalEventController: MonoBehaviour
         foreach (var restrictedZoneTrigger in _restrictedZoneTriggers)
         {
             restrictedZoneTrigger.gameObject.SetActive(false);
-            _activatedEvent = false;
         }
+        _activatedEvent = false;
     }
 
     public void TurnOffMeshRenderers(GameObject trigger)
@@ -93,5 +101,13 @@ public class CriticalEventController: MonoBehaviour
         {
             meshRenderer.enabled = false;
         }
+    }
+
+    private void EventSubjectsActivationSwitch(GameObject parent)
+    {
+        if (eventObjectActive)
+            parent.SetActive(true);
+        else
+            parent.SetActive(false);
     }
 }
