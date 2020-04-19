@@ -138,7 +138,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4332285769733890769}
-  m_Father: {fileID: 1855983213}
+  m_Father: {fileID: 4693957671338067546}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1050391256
@@ -254,7 +254,7 @@ Transform:
   m_LocalPosition: {x: -1438.44, y: 177.99, z: 1136.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1855983213}
+  m_Father: {fileID: 4693957671338067546}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 178.32, z: 0}
 --- !u!114 &1075652332
@@ -308,38 +308,6 @@ MonoBehaviour:
   visibleWhenNotSelected: 0
   gizmosradius: 1
   newCurveDistancing: 3
---- !u!1 &1855983212
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1855983213}
-  m_Layer: 0
-  m_Name: TestAccident
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1855983213
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1855983212}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1075652333}
-  - {fileID: 1050391251}
-  m_Father: {fileID: 3158613274267785560}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2136584913
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,6 +500,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.040000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 1410689294166891897, guid: dc39e1afa6cf5e44c804c9bf6300fe8a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2453392385223655066, guid: dc39e1afa6cf5e44c804c9bf6300fe8a,
         type: 3}
@@ -782,7 +755,7 @@ PrefabInstance:
         type: 3}
       propertyPath: testAccident
       value: 
-      objectReference: {fileID: 1855983212}
+      objectReference: {fileID: 0}
     - target: {fileID: 8746599434231497338, guid: dc39e1afa6cf5e44c804c9bf6300fe8a,
         type: 3}
       propertyPath: m_Name
@@ -1175,15 +1148,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc39e1afa6cf5e44c804c9bf6300fe8a, type: 3}
---- !u!4 &3158613274267785560 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8746599434231497339, guid: dc39e1afa6cf5e44c804c9bf6300fe8a,
-    type: 3}
-  m_PrefabInstance: {fileID: 5960390762839464739}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3158613275092386799 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8746599435492382924, guid: dc39e1afa6cf5e44c804c9bf6300fe8a,
+    type: 3}
+  m_PrefabInstance: {fileID: 5960390762839464739}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4693957671338067546 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1410689294166891897, guid: dc39e1afa6cf5e44c804c9bf6300fe8a,
     type: 3}
   m_PrefabInstance: {fileID: 5960390762839464739}
   m_PrefabAsset: {fileID: 0}
