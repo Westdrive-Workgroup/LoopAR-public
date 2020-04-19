@@ -820,8 +820,6 @@ GameObject:
   - component: {fileID: 1336392394205007333}
   - component: {fileID: 3831860332528253441}
   - component: {fileID: 5479652813971077503}
-  - component: {fileID: 6273420086902299866}
-  - component: {fileID: 833385374973589941}
   - component: {fileID: 5004826712253536238}
   m_Layer: 0
   m_Name: Canvas
@@ -912,32 +910,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!135 &6273420086902299866
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6468250073173770758}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.62321275
-  m_Center: {x: 0, y: -0.044487197, z: 0.92127305}
---- !u!65 &833385374973589941
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6468250073173770758}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.9138601, y: 0.71196914, z: 0.102227606}
-  m_Center: {x: -0.090862155, y: -0.017363904, z: -0.016689453}
 --- !u!114 &5004826712253536238
 MonoBehaviour:
   m_ObjectHideFlags: 0
