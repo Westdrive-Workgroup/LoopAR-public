@@ -18,6 +18,8 @@ public class PersistentTrafficEventManager : MonoBehaviour
     private List<EventBehavior> _eventBehaviorListeners;
     private ControlSwitch _participantsControlSwitch;
     private bool _activatedEvent;
+    
+    public GameObject TestEvent;
 
     [SerializeField] private float eventSpeed = 5f;
     
@@ -69,6 +71,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
             eventListener.AvoidInterference(10f);
         }
         _participantsControlSwitch.SwitchControl();
+        _participantsControlSwitch.GetComponentInChildren<HUDLite>().ActivateHUD(TestEvent);
     }
 
     private void FinalizeEvent()
@@ -80,6 +83,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
         }
         
         _participantsControlSwitch.SwitchControl();
+        _participantsControlSwitch.GetComponentInChildren<HUDLite>().DeactivateHUD();
     }
 
     public GameObject GetParticipantsCar()
