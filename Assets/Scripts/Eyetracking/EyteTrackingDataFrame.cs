@@ -18,14 +18,36 @@ using UnityEngine;
     public Vector3 EyePosLocalCombined;
     public Vector3 EyeDirLocalCombined;
 
-    public List<HitObjectInfo> hitObjects;
+    
 
     public bool RightEyeIsBlinkingWorld;        //why though?
     public bool RightEyeIsBlinkingLocal;
 
     public bool LeftEyeIsBlinkingWorld;
     public bool LeftEyeIsBlinkingLocal;
+    
+    public List<HitObjectInfo> hitObjects;
 
     //why though?
     // trigger pressed 
+
+
+    public int NumberOfDataStrings()
+    {
+        return 1 + //TimeStamp
+               1 + //TimeStamp
+               1 + //TobiiTimeStamp
+               3 + //HmdPosition
+               3 + //NoseVector
+               3 + //EyePosWorld
+               3 + //EyeDirWorld      
+               3 + //EyePosLocal
+               3 + //EyeDirLocal
+               1 +
+               1 +
+               1 +
+               1 +
+               1 +
+               hitObjects.Count;
+    }
 }
