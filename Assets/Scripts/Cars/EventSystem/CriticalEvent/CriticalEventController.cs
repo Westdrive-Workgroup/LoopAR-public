@@ -71,6 +71,8 @@ public class CriticalEventController: MonoBehaviour
         foreach (var restrictedZoneTrigger in _restrictedZoneTriggers)
         {
             restrictedZoneTrigger.gameObject.SetActive(true);
+            restrictedZoneTrigger.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            
         }
     }
 
