@@ -14,6 +14,7 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private GameObject participantsCar;
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera firstPersonCamera;
+    [SerializeField] private VRCam _vrCamera;
     
 
     // registers in which scene or state the experiment is
@@ -77,10 +78,19 @@ public class ExperimentManager : MonoBehaviour
     private void RunMainMenu()
     { 
         _scene = Scene.MainMenu;
+        if (_vrCamera == null)
+        {
+            firstPersonCamera.enabled = false;
+            
+        }
+        else
+        {
+            _vrCamera.SetPosition(_camera.transform.position);
+        }
         participantsCar.SetActive(false);
-        firstPersonCamera.enabled = false;
-        _camera.transform.position = Vector3.zero;
-        _camera.transform.rotation = Quaternion.Euler(0,-90,0);
+        
+        //_camera.transform.position = Vector3.zero;
+        //_camera.transform.rotation = Quaternion.Euler(0,-90,0);
     }
 
     // inform all triggers to disable their gameobjects at the beginning of the experiment
@@ -108,7 +118,17 @@ public class ExperimentManager : MonoBehaviour
     {
         _scene = Scene.CountryRoad;
         _camera.enabled = false;
-        firstPersonCamera.enabled = true;
+        SavingManager.Instance.
+        if (_vrCamera == null)
+        {
+            firstPersonCamera.enabled = true;
+        }
+        else
+        {
+            Debug.Log("vr ");
+            _vrCamera.Seat();
+        }
+    
         participantsCar.SetActive(true);
     }
 
@@ -119,6 +139,15 @@ public class ExperimentManager : MonoBehaviour
         //todo activate data saving
         // EyetrackingManager.Instance.DataSaving();
         FadeOut();
+        if (_vrCamera == null)
+        {
+            firstPersonCamera.enabled = false;
+        }
+        else
+        {
+            _vrCamera.UnSeat();
+        }
+        _camera.enabled=true;
         participantsCar.SetActive(false);
     }
 
