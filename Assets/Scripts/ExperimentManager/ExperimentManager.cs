@@ -14,8 +14,9 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private GameObject participantsCar;
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera firstPersonCamera;
-    
+    [SerializeField] private VRCam _vrCamera;
 
+    private SavingManager _savingManager;
     // registers in which scene or state the experiment is
     private enum Scene
     {
@@ -53,12 +54,15 @@ public class ExperimentManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        _savingManager = SavingManager.Instance;
+        _savingManager.SetParticipantCar(participantsCar);
     }
 
 
     void Start()
     {
-        RunMainMenu();
+        
         InformTriggers();
         
         if (_activationTriggers.Count == 0)
@@ -70,6 +74,8 @@ public class ExperimentManager : MonoBehaviour
         {
             Debug.Log("<color=red>Error: </color>EyetrackingManager should be present in the scene.");
         }
+        
+        RunMainMenu();
     }
     
 
@@ -77,10 +83,19 @@ public class ExperimentManager : MonoBehaviour
     private void RunMainMenu()
     { 
         _scene = Scene.MainMenu;
-        participantsCar.SetActive(false);
-        firstPersonCamera.enabled = false;
-        _camera.transform.position = Vector3.zero;
-        _camera.transform.rotation = Quaternion.Euler(0,-90,0);
+        if (_vrCamera == null)
+        {
+            firstPersonCamera.enabled = false;
+            
+        }
+        else
+        {
+            _vrCamera.SetPosition(_camera.transform.position);
+        }
+       // participantsCar.SetActive(false);
+        
+        //_camera.transform.position = Vector3.zero;
+        //_camera.transform.rotation = Quaternion.Euler(0,-90,0);
     }
 
     // inform all triggers to disable their gameobjects at the beginning of the experiment
@@ -108,17 +123,39 @@ public class ExperimentManager : MonoBehaviour
     {
         _scene = Scene.CountryRoad;
         _camera.enabled = false;
-        firstPersonCamera.enabled = true;
+        
+        if (_vrCamera == null)
+        {
+            firstPersonCamera.enabled = true;
+        }
+        else
+        {
+            Debug.Log("vr ");
+            _vrCamera.Seat();
+        }
+        
         participantsCar.SetActive(true);
+        SavingManager.Instance.StartRecordingData();
     }
 
     // ending the experiment
     public void EndTheExperiment()
     {
+        SavingManager.Instance.StopRecordingData();
+        SavingManager.Instance.SaveData();
         _scene = Scene.EndOfExperiment;
         //todo activate data saving
         // EyetrackingManager.Instance.DataSaving();
         FadeOut();
+        if (_vrCamera == null)
+        {
+            firstPersonCamera.enabled = false;
+        }
+        else
+        {
+            _vrCamera.UnSeat();
+        }
+        _camera.enabled=true;
         participantsCar.SetActive(false);
     }
 

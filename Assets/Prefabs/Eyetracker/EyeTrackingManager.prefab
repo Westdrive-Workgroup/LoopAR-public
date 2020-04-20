@@ -144,6 +144,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 9112314627367899556}
+  - {fileID: 6717351443092796816}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -172,3 +173,100 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5c9cde299a1fc34a890f7fc10518787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &6713133947175128916
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5295666868179795402}
+    m_Modifications:
+    - target: {fileID: 1483824241731922, guid: 596e593361e094a43934c013fa0b5764, type: 3}
+      propertyPath: m_Name
+      value: TobiiXR Initializer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1483824241731922, guid: 596e593361e094a43934c013fa0b5764, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789807657892548, guid: 596e593361e094a43934c013fa0b5764, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 964.02435
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789807657892548, guid: 596e593361e094a43934c013fa0b5764, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 43.00357
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789807657892548, guid: 596e593361e094a43934c013fa0b5764, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -894.22974
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789807657892548, guid: 596e593361e094a43934c013fa0b5764, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789807657892548, guid: 596e593361e094a43934c013fa0b5764, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789807657892548, guid: 596e593361e094a43934c013fa0b5764, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789807657892548, guid: 596e593361e094a43934c013fa0b5764, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789807657892548, guid: 596e593361e094a43934c013fa0b5764, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789807657892548, guid: 596e593361e094a43934c013fa0b5764, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789807657892548, guid: 596e593361e094a43934c013fa0b5764, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789807657892548, guid: 596e593361e094a43934c013fa0b5764, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114404013065818992, guid: 596e593361e094a43934c013fa0b5764,
+        type: 3}
+      propertyPath: Settings.StandaloneEyeTrackingProviders.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114404013065818992, guid: 596e593361e094a43934c013fa0b5764,
+        type: 3}
+      propertyPath: Settings.FieldOfUse
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114404013065818992, guid: 596e593361e094a43934c013fa0b5764,
+        type: 3}
+      propertyPath: Settings.StandaloneEyeTrackingProviders.Array.data[3].TypeName
+      value: Tobii.XR.NoseDirectionProvider
+      objectReference: {fileID: 0}
+    - target: {fileID: 114404013065818992, guid: 596e593361e094a43934c013fa0b5764,
+        type: 3}
+      propertyPath: Settings.StandaloneEyeTrackingProviders.Array.data[1].TypeName
+      value: Tobii.XR.TobiiProvider
+      objectReference: {fileID: 0}
+    - target: {fileID: 114404013065818992, guid: 596e593361e094a43934c013fa0b5764,
+        type: 3}
+      propertyPath: Settings.StandaloneEyeTrackingProviders.Array.data[2].TypeName
+      value: Tobii.XR.MouseProvider
+      objectReference: {fileID: 0}
+    - target: {fileID: 114404013065818992, guid: 596e593361e094a43934c013fa0b5764,
+        type: 3}
+      propertyPath: Settings.StandaloneEyeTrackingProviders.Array.data[0].TypeName
+      value: HTCProvider
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 596e593361e094a43934c013fa0b5764, type: 3}
+--- !u!4 &6717351443092796816 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4789807657892548, guid: 596e593361e094a43934c013fa0b5764,
+    type: 3}
+  m_PrefabInstance: {fileID: 6713133947175128916}
+  m_PrefabAsset: {fileID: 0}

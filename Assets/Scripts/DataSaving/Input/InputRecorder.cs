@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InputRecorder : MonoBehaviour
+public class InputRecorder: MonoBehaviour
 {
 
     private float _sampleRate;
@@ -18,13 +18,29 @@ public class InputRecorder : MonoBehaviour
 
 
     private List<InputDataFrame> InputDataFrames;
-    
-    
+
+    private void Awake()
+    {
+        
+    }
+
     void Start()
     {
-        _participantCar = SavingManager.Instance.GetParticipantCar();
         
-        _participantCar.GetComponent<ManualController>().NotifyInputObservers += ReceiveInput;
+        
+        if (_participantCar != null)
+        {
+            if (_participantCar.GetComponent<ManualController>())
+            {
+                _participantCar.GetComponent<ManualController>().NotifyInputObservers += ReceiveInput;
+            }
+            else
+            {
+                Debug.Log("failed");
+            }
+            
+        }
+        
         _sampleRate = SavingManager.Instance.GetSampleRate();
         InputDataFrames = new List<InputDataFrame>();
     }
@@ -74,7 +90,11 @@ public class InputRecorder : MonoBehaviour
     {
         _recordingEnded = true;
     }
-    
+
+    public void SetParticipantCar(GameObject participantCar)
+    {
+        _participantCar = participantCar;
+    }
     
     public List<InputDataFrame> GetDataFrames()
     {
