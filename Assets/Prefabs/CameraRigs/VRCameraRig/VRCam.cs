@@ -6,9 +6,7 @@ using UnityEngine;
 public class VRCam : MonoBehaviour
 {
     public GameObject seatPosition;
-
     private bool SeatActivated;
-
     private Vector3 _formerPosition;
     private void Start()
     {
@@ -19,7 +17,7 @@ public class VRCam : MonoBehaviour
     private void LateUpdate()
     {
         if (SeatActivated)
-        { 
+        {
             transform.SetPositionAndRotation(seatPosition.transform.position,seatPosition.transform.rotation);
         }
        
