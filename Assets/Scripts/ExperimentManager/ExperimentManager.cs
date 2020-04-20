@@ -115,6 +115,7 @@ public class ExperimentManager : MonoBehaviour
     // ending the experiment
     public void EndTheExperiment()
     {
+        _scene = Scene.EndOfExperiment;
         //todo activate data saving
         // EyetrackingManager.Instance.DataSaving();
         FadeOut();
