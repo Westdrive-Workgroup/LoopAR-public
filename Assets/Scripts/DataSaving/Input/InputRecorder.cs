@@ -30,15 +30,12 @@ public class InputRecorder: MonoBehaviour
         
         if (_participantCar != null)
         {
-            if (_participantCar.GetComponent<ManualController>())
+            if (_participantCar.GetComponentInChildren<ManualController>()!=null)
             {
-                _participantCar.GetComponent<ManualController>().NotifyInputObservers += ReceiveInput;
+                Debug.Log("found");
+                _participantCar.GetComponentInChildren<ManualController>().NotifyInputObservers += ReceiveInput;
             }
-            else
-            {
-                Debug.Log("failed");
-            }
-            
+
         }
         
         _sampleRate = SavingManager.Instance.GetSampleRate();
