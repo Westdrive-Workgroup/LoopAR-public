@@ -120,7 +120,7 @@ public class EyetrackingValidation : MonoBehaviour
         eyeValidationData.UnixTimestamp = GetCurrentTimestamp();
         eyeValidationData.Timestamp = Time.realtimeSinceStartup;
         
-        _eyeValidationData.HeadTransform = EyetrackingManager.Instance.GetHmdTransform();
+        _eyeValidationData.HeadTransform = _hmdTransform;
         
         _eyeValidationData.PointToFocus = transform.position;
 

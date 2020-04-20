@@ -34,6 +34,7 @@ public class EyetrackingManager : MonoBehaviour
         
         _hmdTransform = Camera.main.transform;
         
+        
         //  I do not like this: we still needs tags to find that out.
     }
     // Start is called before the first frame update
