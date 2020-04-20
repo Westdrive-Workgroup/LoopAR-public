@@ -9,7 +9,6 @@ public class SavingManager : MonoBehaviour
     public string DataPath;
     public string DataName;
     public static SavingManager Instance { get; private set; }
-    public GameObject participantcar;
     public int SetSampleRate = 90;
     private float _sampleRate;
 
@@ -22,11 +21,13 @@ public class SavingManager : MonoBehaviour
 
     private List<string[]> rawData;
 
-    
+    private GameObject participantCar;
     
     // Start is called before the first frame update
     private void Awake()
     {
+        _inputRecorder = GetComponent<InputRecorder>();
+        _inputRecorder.SetParticipantCar(participantCar);
         _sampleRate = 1f / SetSampleRate;
         
         if (Instance == null)
@@ -41,48 +42,46 @@ public class SavingManager : MonoBehaviour
 
         DataPath = GetPathForSaveFile(DataName);
         
-      
     }
 
     void Start()
     {
-        _inputRecorder = GetComponent<InputRecorder>();
+       
         
         _readyToSaveToFile=false;
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            RecordData();
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            StopRecord();
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            SaveToJson();
-        }
-        
-    }
-    
-    
     
     public float GetSampleRate()
     {
         return _sampleRate;
     }
+    
 
-    public GameObject GetParticipantCar()
+    public void StartRecordingData()
     {
-        return participantcar;
+        RecordData();
     }
 
+    public void StopRecordingData()
+    {
+        StopRecord();
+    }
+
+    public void SaveData()
+    {
+        _readyToSaveToFile = TestCompleteness();
+        
+        if (_readyToSaveToFile)
+        {
+            SaveToJson();
+        }
+        else
+        {
+            Debug.Log("error the data collection was not completed or corrupted");
+        }
+    }
     private void RecordData()
     {
         _readyToSaveToFile = false;
@@ -103,16 +102,20 @@ public class SavingManager : MonoBehaviour
     {
         StoreEyeTrackingData(EyetrackingManager.Instance.GetEyeTrackingData());
         StoreInputData(_inputRecorder.GetDataFrames());
+        
+    }
 
+    private bool TestCompleteness()
+    {
         if (_inputData != null && _eyeTrackingData != null)
         {
-            _readyToSaveToFile = true;
+            return true;
+            
         }
         else
         {
-            _readyToSaveToFile = false;
+            return false;
         }
-        
     }
 
 
@@ -133,8 +136,12 @@ public class SavingManager : MonoBehaviour
         _inputData = inputDataFrames;
     }
 
-    
-    
+
+    public void SetParticipantCar(GameObject car)
+    {
+        participantCar = car;
+        _inputRecorder.SetParticipantCar(car);
+    }
 
 
 
