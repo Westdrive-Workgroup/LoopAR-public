@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ExperimentLoader : MonoBehaviour
+public class SceneLoader : MonoBehaviour
 {
    private Scene _currentScene;
    [SerializeField] public bool checkDuplicateScenes;
+   [SerializeField] public bool shouldLoadAdditive;
 
    private void OnEnable()
    {
@@ -18,41 +19,60 @@ public class ExperimentLoader : MonoBehaviour
    // Asynchronously loads the scene at buildIndex 'sceneIndex'. If checkDuplicateScenes is 'true' it will check if the scene is already loaded.
    public void AsyncLoad(int sceneIndex)
    {
-      if (checkDuplicateScenes == true)
-      {
-         if (CheckIfSceneIsLoaded(SceneManager.GetSceneByBuildIndex(sceneIndex)) != true)
-         {
-            SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Single);
-         }
-      }
-      
-      SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Single);
+     AsyncLoad(sceneIndex, false);
    }
    
    // Asynchronously loads the scene with name 'sceneName'. If checkDuplicateScenes is 'true' it will check if the scene is already loaded.
    public void AsyncLoad(string sceneName)
    {
-      if (checkDuplicateScenes == true)
+     AsyncLoad(sceneName, false);
+   }
+
+   public void AsyncLoadAdditive(int sceneIndex)
+   {
+      AsyncLoad(sceneIndex, true);
+   }
+   
+   public void AsyncLoadAdditive(string sceneName)
+   {
+      AsyncLoad(sceneName, true);
+   }
+   
+   // Asynchronously loads the scene at buildIndex 'sceneIndex'. If loadAdditive is true, the scene will be loaded additive, else single.
+   // If checkDuplicateScenes is 'true' it will check if the scene is already loaded.
+   public void AsyncLoad(int sceneIndex, bool loadAdditive)
+   {
+      if (checkDuplicateScenes)
+      {
+         if (CheckIfSceneIsLoaded(SceneManager.GetSceneByBuildIndex(sceneIndex)) != true)
+         {
+            SceneManager.LoadSceneAsync(sceneIndex, loadAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+         }
+      }
+
+      SceneManager.LoadSceneAsync(sceneIndex, loadAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+   }
+   
+   // Asynchronously loads the scene with name 'sceneName'. If loadAdditive is true, the scene will be loaded additive, else single.
+   // If checkDuplicateScenes is 'true' it will check if the scene is already loaded.
+   public void AsyncLoad(string sceneName, bool loadAdditive)
+   {
+      if (checkDuplicateScenes)
       {
          if (CheckIfSceneIsLoaded(SceneManager.GetSceneByName(sceneName)) != true)
          {
-            SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+            SceneManager.LoadSceneAsync(sceneName, loadAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single);
          }
       }
-      
-      SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+
+      SceneManager.LoadSceneAsync(sceneName, loadAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single);
    }
 
    // Methods to check if a scene was already loaded. Needs a scene and returns true if the scene if already loaded
    // and false otherwise.
    private bool CheckIfSceneIsLoaded(Scene scene)
    {
-         if (scene.isLoaded)
-         {
-            return true;
-         }
-
-         return false;
+      return scene.isLoaded;
    }
 
    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
