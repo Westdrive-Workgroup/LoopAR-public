@@ -14,6 +14,9 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private GameObject participantsCar;
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera firstPersonCamera;
+    
+    [Space] [Header("VR setup")]
+    [SerializeField] private bool vRScene;
     [SerializeField] private VRCam vrCamera;
 
     private SavingManager _savingManager;
@@ -86,19 +89,18 @@ public class ExperimentManager : MonoBehaviour
     private void RunMainMenu()
     { 
         _scene = Scene.MainMenu;
-        if (vrCamera == null)
-        {
-            firstPersonCamera.enabled = true;
-        }
-        else
+        
+        if (vRScene)
         {
             vrCamera.SetPosition(_camera.transform.position);
         }
+        else
+        {
+            firstPersonCamera.enabled = true;
+            _camera.transform.position = Vector3.zero;
+        }
         
-        // participantsCar.SetActive(false);
-        
-        //_camera.transform.position = Vector3.zero;
-        //_camera.transform.rotation = Quaternion.Euler(0,-90,0);
+        participantsCar.SetActive(false);
     }
 
     // inform all triggers to disable their gameobjects at the beginning of the experiment
@@ -138,7 +140,11 @@ public class ExperimentManager : MonoBehaviour
         }
         
         participantsCar.SetActive(true);
-        SavingManager.Instance.StartRecordingData();
+
+        if (SavingManager.Instance != null)
+        {
+            SavingManager.Instance.StartRecordingData();
+        }
     }
 
     // ending the experiment
@@ -209,7 +215,7 @@ public class ExperimentManager : MonoBehaviour
             
             // Buttons
             GUI.backgroundColor = Color.cyan;
-            GUI.color = Color.black;
+            GUI.color = Color.white;
             
             if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Calibration"))
             {
