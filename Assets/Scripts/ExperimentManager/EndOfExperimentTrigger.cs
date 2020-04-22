@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class EndOfExperiment : MonoBehaviour
+public class EndOfExperimentTrigger : MonoBehaviour
 {
     private GameObject _currentTarget;
     private void OnTriggerEnter(Collider other)
