@@ -21,7 +21,7 @@ public class CriticalEventController: MonoBehaviour
     [Tooltip("Should the event subject be active or not when experiment begins")] 
     [SerializeField] private bool eventObjectActive;
     
-    [SerializeField] private GameObject eventObject;
+    // [SerializeField] private GameObject eventObject;
     
     private RestrictedZoneTrigger[] _restrictedZoneTriggers;
     private GameObject _targetedCar;
