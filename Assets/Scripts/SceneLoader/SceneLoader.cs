@@ -6,9 +6,83 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+   
+   #region Singelton
+
+   public static SceneLoader Instance { get; private set; }
+
+   private void Awake()
+   {
+      //singleton pattern a la Unity
+      if (Instance == null)
+      {
+         Instance = this;
+         DontDestroyOnLoad(gameObject);
+      }
+      else
+      {
+         Destroy(gameObject);
+      }
+   }
+
+   #endregion
+   
    private Scene _currentScene;
    [SerializeField] public bool checkDuplicateScenes;
    [SerializeField] public bool shouldLoadAdditive;
+
+   private void Update()
+   {
+      if (Input.GetKeyDown(KeyCode.Alpha0))
+      {
+         AsyncLoad(0, shouldLoadAdditive);
+      }
+      
+      if (Input.GetKeyDown(KeyCode.Alpha1))
+      {
+         AsyncLoad(1, shouldLoadAdditive);
+      }
+      
+      if (Input.GetKeyDown(KeyCode.Alpha2))
+      {
+        AsyncLoad(2, shouldLoadAdditive);
+      }
+      
+      if (Input.GetKeyDown(KeyCode.Alpha3))
+      {
+         AsyncLoad(3, shouldLoadAdditive);
+      }
+      
+      if (Input.GetKeyDown(KeyCode.Alpha4))
+      {
+         AsyncLoad(4, shouldLoadAdditive);
+      }
+      
+      if (Input.GetKeyDown(KeyCode.Alpha5))
+      {
+         AsyncLoad(5, shouldLoadAdditive);
+      }
+      
+      if (Input.GetKeyDown(KeyCode.Alpha6))
+      {
+         AsyncLoad(6, shouldLoadAdditive);
+      }
+      
+      if (Input.GetKeyDown(KeyCode.Alpha7))
+      {
+         AsyncLoad(7, shouldLoadAdditive);
+      }
+      
+      if (Input.GetKeyDown(KeyCode.Alpha8))
+      {
+         AsyncLoad(8, shouldLoadAdditive);
+      }
+      
+      if (Input.GetKeyDown(KeyCode.Alpha9))
+      {
+         AsyncLoad(9, shouldLoadAdditive);
+      }
+   }
 
    private void OnEnable()
    {
@@ -48,9 +122,15 @@ public class SceneLoader : MonoBehaviour
          {
             SceneManager.LoadSceneAsync(sceneIndex, loadAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single);
          }
+         else
+         {
+            Debug.Log("Scene already loaded!!!");
+         }
       }
-
-      SceneManager.LoadSceneAsync(sceneIndex, loadAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+      else
+      {
+         SceneManager.LoadSceneAsync(sceneIndex, loadAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+      }
    }
    
    // Asynchronously loads the scene with name 'sceneName'. If loadAdditive is true, the scene will be loaded additive, else single.
@@ -63,9 +143,15 @@ public class SceneLoader : MonoBehaviour
          {
             SceneManager.LoadSceneAsync(sceneName, loadAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single);
          }
+         else
+         {
+            Debug.Log("Scene already loaded!!!");
+         }
       }
-
-      SceneManager.LoadSceneAsync(sceneName, loadAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+      else
+      {
+         SceneManager.LoadSceneAsync(sceneName, loadAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+      }
    }
 
    // Methods to check if a scene was already loaded. Needs a scene and returns true if the scene if already loaded
