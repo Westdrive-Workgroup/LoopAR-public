@@ -14,7 +14,7 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private GameObject participantsCar;
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera firstPersonCamera;
-    [SerializeField] private VRCam _vrCamera;
+    [SerializeField] private VRCam vrCamera;
 
     private SavingManager _savingManager;
     // registers in which scene or state the experiment is
@@ -28,7 +28,7 @@ public class ExperimentManager : MonoBehaviour
         EndOfExperiment
     }
     
-    // todo use them
+    // todo see if they are needed
     private enum Event
     {
         Deer,
@@ -54,9 +54,12 @@ public class ExperimentManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-        _savingManager = SavingManager.Instance;
-        _savingManager.SetParticipantCar(participantsCar);
+
+        if (SavingManager.Instance != null)
+        {
+            _savingManager = SavingManager.Instance;
+            _savingManager.SetParticipantCar(participantsCar);    
+        }
     }
 
 
@@ -83,16 +86,16 @@ public class ExperimentManager : MonoBehaviour
     private void RunMainMenu()
     { 
         _scene = Scene.MainMenu;
-        if (_vrCamera == null)
+        if (vrCamera == null)
         {
-            firstPersonCamera.enabled = false;
-            
+            firstPersonCamera.enabled = true;
         }
         else
         {
-            _vrCamera.SetPosition(_camera.transform.position);
+            vrCamera.SetPosition(_camera.transform.position);
         }
-       // participantsCar.SetActive(false);
+        
+        // participantsCar.SetActive(false);
         
         //_camera.transform.position = Vector3.zero;
         //_camera.transform.rotation = Quaternion.Euler(0,-90,0);
@@ -124,14 +127,14 @@ public class ExperimentManager : MonoBehaviour
         _scene = Scene.CountryRoad;
         _camera.enabled = false;
         
-        if (_vrCamera == null)
+        if (vrCamera == null)
         {
             firstPersonCamera.enabled = true;
         }
         else
         {
             Debug.Log("vr ");
-            _vrCamera.Seat();
+            vrCamera.Seat();
         }
         
         participantsCar.SetActive(true);
@@ -147,13 +150,13 @@ public class ExperimentManager : MonoBehaviour
         //todo activate data saving
         // EyetrackingManager.Instance.DataSaving();
         FadeOut();
-        if (_vrCamera == null)
+        if (vrCamera == null)
         {
             firstPersonCamera.enabled = false;
         }
         else
         {
-            _vrCamera.UnSeat();
+            vrCamera.UnSeat();
         }
         _camera.enabled=true;
         participantsCar.SetActive(false);
@@ -199,14 +202,14 @@ public class ExperimentManager : MonoBehaviour
         if (_scene == Scene.MainMenu)
         {
             // Lable
-            GUI.color = Color.black;
+            GUI.color = Color.white;
             GUI.skin.label.fontSize = labelFontSize;
             GUI.skin.label.fontStyle = FontStyle.Bold;
             GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
             
             // Buttons
-            GUI.backgroundColor = Color.blue;
-            GUI.color = Color.white;
+            GUI.backgroundColor = Color.cyan;
+            GUI.color = Color.black;
             
             if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Calibration"))
             {
