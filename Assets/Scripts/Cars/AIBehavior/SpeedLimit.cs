@@ -8,8 +8,8 @@ public class SpeedLimit : MonoBehaviour
 {
     [Space] [Header("Speed Limit")]
     
-    [Tooltip("0 - 100")] [Range(0, 100)] [SerializeField] private float speedInNormalPath = 50f;
-    [Tooltip("0 - 100")] [Range(0, 100)] [SerializeField] private float speedInReversePath = 50f;
+    [Tooltip("0 - 130")] [Range(0, 130)] [SerializeField] private float speedInNormalPath = 50f;
+    [Tooltip("0 - 130")] [Range(0, 130)] [SerializeField] private float speedInReversePath = 50f;
 
 
     private void OnTriggerEnter(Collider other)

@@ -17,7 +17,7 @@ public class ExperimentManager : MonoBehaviour
     
     [Space] [Header("VR setup")]
     [SerializeField] private bool vRScene;
-    [SerializeField] private VRCam vrCamera;
+    [SerializeField] private VRCam vRCamera;
 
     private SavingManager _savingManager;
     // registers in which scene or state the experiment is
@@ -92,7 +92,7 @@ public class ExperimentManager : MonoBehaviour
         
         if (vRScene)
         {
-            vrCamera.SetPosition(_camera.transform.position);
+            vRCamera.SetPosition(_camera.transform.position);
         }
         else
         {
@@ -129,14 +129,14 @@ public class ExperimentManager : MonoBehaviour
         _scene = Scene.CountryRoad;
         _camera.enabled = false;
         
-        if (vrCamera == null)
+        if (vRCamera == null)
         {
             firstPersonCamera.enabled = true;
         }
         else
         {
             Debug.Log("vr ");
-            vrCamera.Seat();
+            vRCamera.Seat();
         }
         
         participantsCar.SetActive(true);
@@ -150,22 +150,28 @@ public class ExperimentManager : MonoBehaviour
     // ending the experiment
     public void EndTheExperiment()
     {
-        SavingManager.Instance.StopRecordingData();
-        SavingManager.Instance.SaveData();
         _scene = Scene.EndOfExperiment;
-        //todo activate data saving
-        // EyetrackingManager.Instance.DataSaving();
-        FadeOut();
-        if (vrCamera == null)
+        
+        if (SavingManager.Instance != null)
+        {
+            SavingManager.Instance.StopRecordingData();
+            SavingManager.Instance.SaveData();
+        }
+        
+        if (vRCamera == null)
         {
             firstPersonCamera.enabled = false;
+            _camera.enabled = true;
+            _scene = Scene.MainMenu;
         }
         else
         {
-            vrCamera.UnSeat();
+            vRCamera.UnSeat();
         }
         _camera.enabled=true;
         participantsCar.SetActive(false);
+        
+        FadeOut();
     }
 
 
@@ -193,11 +199,11 @@ public class ExperimentManager : MonoBehaviour
         float height = Screen.height;
         float width = Screen.width;
         
-        float xForButtons = (width / 2f) - 100f;
-        float yForButtons = height / 2f;
+        float xForButtons = width / 12f;
+        float yForButtons = height / 7f;
         
-        float xForLable = (Screen.width / 2f) - 250f;
-        float yForLable = yForButtons - (height / 2.5f);
+        float xForLable = (Screen.width / 2f);
+        float yForLable = (height/2f) + (height / 3f);
 
         float buttonWidth = 200f;
         float buttonHeight = 30f;
@@ -205,17 +211,19 @@ public class ExperimentManager : MonoBehaviour
         
         int labelFontSize = 33;
 
+        
+        // Lable
+        GUI.color = Color.white;
+        GUI.skin.label.fontSize = labelFontSize;
+        GUI.skin.label.fontStyle = FontStyle.Bold;
+        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
+                
+        // Buttons
+        GUI.backgroundColor = Color.cyan;
+        GUI.color = Color.white;
+        
         if (_scene == Scene.MainMenu)
         {
-            // Lable
-            GUI.color = Color.white;
-            GUI.skin.label.fontSize = labelFontSize;
-            GUI.skin.label.fontStyle = FontStyle.Bold;
-            GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
-            
-            // Buttons
-            GUI.backgroundColor = Color.cyan;
-            GUI.color = Color.white;
             
             if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Calibration"))
             {
@@ -226,15 +234,18 @@ public class ExperimentManager : MonoBehaviour
             {
                 EyetrackingManager.Instance.StartValidation();
             }
-
+            
             if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight), "Start the experiment"))
             {
                 StartExperiment();
             }
-        }
-        else
+        } 
+        else if (_scene == Scene.CountryRoad)
         {
-            GUI.enabled = false;
+            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "End the experiment"))
+            {
+                EndTheExperiment();
+            }
         }
     }
 }
