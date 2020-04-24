@@ -224,7 +224,7 @@ public class ExperimentManager : MonoBehaviour
         
         if (_scene == Scene.MainMenu)
         {
-            GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
+            GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Experiment");
             
             if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Calibration"))
             {
