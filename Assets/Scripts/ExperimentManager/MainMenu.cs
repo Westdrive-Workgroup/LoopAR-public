@@ -19,10 +19,12 @@ public class MainMenu : MonoBehaviour
     }
 
     private Section _section;
-    
 
+    private int _test;
+    
     private void Start()
     {
+        _test = 0;
         _section = Section.MainMenu;
     }
 
@@ -56,54 +58,63 @@ public class MainMenu : MonoBehaviour
 
         if (_section == Section.MainMenu)
         {
-            GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
+            GUI.Label(new Rect(xForLable*10, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
             
-            if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Eye Calibration"))
+            if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Start again"))
             {
-                EyetrackingManager.Instance.StartCalibration();
-                _section = Section.EyeCalibration;
+                _section = Section.MainMenu;
+            }
+            
+            if (vRScene)
+            {
+                if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Eye Calibration"))
+                {
+                    // EyetrackingManager.Instance.StartCalibration();
+                    _section = Section.EyeCalibration;
+                } 
+                else if (_section == Section.EyeCalibration /* && EyetrackingManager.Instance.StartCalibration()*/)
+                {
+                    if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Validation"))
+                    {
+                        // EyetrackingManager.Instance.StartValidation();
+                        _section = Section.EyeValidation;
+                    }
+                }
+                else if (_section == Section.EyeValidation /*&& dummy eyevalidation bool*/)
+                {
+                    if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight),
+                        "Seat Calibration"))
+                    {
+                        SceneLoader.Instance.AsyncLoad(2);
+                        _section = Section.SeatCalibration;
+                    }
+                }
+                else if (_section == Section.SeatCalibration /*&& dummy seatcalibration bool*/)
+                {
+                    if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight),
+                        "Test Drive Scene"))
+                    {
+                        SceneLoader.Instance.AsyncLoad(3);
+                        _section = Section.TrainingBlock;
+                    }
+                }
+                else if (_section == Section.TrainingBlock /*&& drive training true*/)
+                {
+                    if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
+                    {
+                        SceneLoader.Instance.AsyncLoad(4);
+                        _section = Section.MainExperiment;           
+                    }
+                }
+            }
+            else
+            {
+                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
+                {
+                    SceneLoader.Instance.AsyncLoad(4);
+                    _section = Section.MainExperiment;           
+                }
             }
         }
-
-        if (EyetrackingManager.Instance.StartCalibration())
-        {
-            _section = Section.MainMenu;
-            
-            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Validation"))
-            {
-                EyetrackingManager.Instance.StartValidation();
-                _section = Section.EyeValidation;
-            }
-        }
-        /*else if (dummy eyevalidation bool)
-        {
-            _section = Section.MainMenu;
-
-            if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight),
-                "Seat Calibration"))
-            {
-                SceneLoader.Instance.AsyncLoad(1);
-                _section = Section.SeatCalibration;
-            }
-        }*/
-        /*else if (dummy seatcalibration bool)
-        {
-            _section = Section.MainMenu;
-            
-            if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight),
-                "Test Drive Scene"))
-            {
-                SceneLoader.Instance.AsyncLoad(2);
-                _section = Section.TrainingBlock;
-            }
-        }*/
-        /*else if (drive training true)
-        {
-            _section = Section.MainMenu;
-            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
-            {
-                SceneLoader.Instance.AsyncLoad(3);
-            }
-        }*/
     }
 }
