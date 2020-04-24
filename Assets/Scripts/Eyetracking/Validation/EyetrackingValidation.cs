@@ -91,6 +91,7 @@ public class EyetrackingValidation : MonoBehaviour
                                     ", " +
                                     CalculateValidationError(anglesZ).ToString("0.00") + ")";
         Debug.Log("<color=yellow> Validation Results"+ validationResult+ "(</color>");
+        gameObject.transform.position = Vector3.zero;
         gameObject.SetActive(false);
         if (CalculateValidationError(anglesX) > 1 || CalculateValidationError(anglesY) > 1 ||
             CalculateValidationError(anglesZ) > 1)
@@ -120,9 +121,9 @@ public class EyetrackingValidation : MonoBehaviour
         eyeValidationData.UnixTimestamp = GetCurrentTimestamp();
         eyeValidationData.Timestamp = Time.realtimeSinceStartup;
         
-        _eyeValidationData.HeadTransform = _hmdTransform;
+        eyeValidationData.HeadTransform = _hmdTransform.transform;
         
-        _eyeValidationData.PointToFocus = transform.position;
+        eyeValidationData.PointToFocus = transform.position;
 
         if (SRanipal_Eye.GetGazeRay(GazeIndex.LEFT, out ray))
         {
