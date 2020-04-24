@@ -147,9 +147,7 @@ public class MainMenu : MonoBehaviour
     {
         _section = Section.MainMenu;
     }
-    
-    public void 
-    
+
     private void LoadScene(int index)
     {
         SceneManager.LoadScene(index);
