@@ -37,6 +37,12 @@ public class EyetrackingManager : MonoBehaviour
         
         //  I do not like this: we still needs tags to find that out.
     }
+
+    private void Update()
+    {
+     
+    }
+
     // Start is called before the first frame update
     void Start()
     {
