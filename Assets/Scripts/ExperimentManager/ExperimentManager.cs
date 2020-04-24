@@ -216,7 +216,7 @@ public class ExperimentManager : MonoBehaviour
         GUI.color = Color.white;
         GUI.skin.label.fontSize = labelFontSize;
         GUI.skin.label.fontStyle = FontStyle.Bold;
-        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
+        
                 
         // Buttons
         GUI.backgroundColor = Color.cyan;
@@ -224,6 +224,7 @@ public class ExperimentManager : MonoBehaviour
         
         if (_scene == Scene.MainMenu)
         {
+            GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
             
             if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Calibration"))
             {
