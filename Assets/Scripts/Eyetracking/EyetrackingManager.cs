@@ -17,6 +17,8 @@ public class EyetrackingManager : MonoBehaviour
     private bool _eyeValidationSucessful;
     private EyetrackingDataRecorder _eyeTrackingRecorder;
     private float _sampleRate;
+
+    private bool _calibrationSuccess;
     
     private void Awake()
     {
@@ -55,16 +57,20 @@ public class EyetrackingManager : MonoBehaviour
     }
     
     
-    public void StartCalibration()
+    public bool StartCalibration()
     {
         if (SRanipal_Eye_v2.LaunchEyeCalibration())
         {
             Debug.Log("<color=green>calibration successful :)</color>");
+            _calibrationSuccess = true;
         }
         else
         {
             Debug.Log("<color=red>calibration failed :(</color>");
+            _calibrationSuccess = false;
         }
+
+        return _calibrationSuccess;
     }
 
     public void StartRecording()
