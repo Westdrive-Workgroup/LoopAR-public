@@ -9,10 +9,10 @@ public class EyeValidationManager : MonoBehaviour
     private float participantHeight;
 
     public TextMesh HeadfixationText;
-    
     public TextMesh FixingPoint;
-
     public TextMesh CounterText;
+    public TextMesh SuccessfulValidation;
+    public TextMesh FailedValidation;
     private int _fixationCounterNumber;
 
     private bool HeadIsFixated;
@@ -21,53 +21,90 @@ public class EyeValidationManager : MonoBehaviour
     
     private bool fixationSuccess;
     [SerializeField] private float validationCountdown;
+
+    private float resettetCountdown;
+
+    private bool ValidationSuccessful;
     // Start is called before the first frame update
     void Start()
     {
+        resettetCountdown = validationCountdown;
         _fixationDot = EyetrackingManager.Instance.GetHmdTransform().transform.GetComponentInChildren<FixationDot>();
-
+        
         _fixationDot.NotifyFixationTimeObservers+= HandleFixationCountdownNumber;
         _fixationDot.NotifyLeftTargetObservers+= HandleLeftFixation;
         participantHeight = EyetrackingManager.Instance.GetHmdTransform().transform.position.y;
         
         fixationPoint.transform.position= new Vector3(fixationPoint.transform.position.x,participantHeight,fixationPoint.transform.position.z);
-        
+        SuccessfulValidation.gameObject.SetActive(false);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        if (fixationSuccess)
+        if(!ValidationSuccessful)
         {
-            HeadfixationText.gameObject.SetActive(false);
-            CounterText.color = Color.green;
-            FixingPoint.gameObject.SetActive(true);
-            validationCountdown -= Time.deltaTime;
-
-            if (validationCountdown >= 0)
+            if (fixationSuccess)
             {
-                CounterText.text = Mathf.Round(validationCountdown).ToString();
+                SetPrepareForValidationStatus();
+                validationCountdown -= Time.deltaTime;
+
+                if (validationCountdown >= 0)
+                {
+                    CounterText.text = Mathf.Round(validationCountdown).ToString();
+                }
+                else
+                {
+                    validationCountdown = resettetCountdown; 
+                    SetRunningValidationStatus();
+                    EyetrackingManager.Instance.StartValidation(0f);
+                }
+            
             }
             else
             {
-                CounterText.gameObject.SetActive(false);
-                FixingPoint.gameObject.SetActive(false);
-                //EyetrackingManager.Instance.StartValidation(0f);
+                SetFixationStatus();
             }
-            
         }
         else
         {
-            HeadfixationText.gameObject.SetActive(true);
-            CounterText.color = Color.white;
-            FixingPoint.gameObject.SetActive(false);
-            CounterText.text = _fixationCounterNumber.ToString();
+            SetValidationSuccesfulStatus();
         }
+       
+        
+       
         
         
     }
-    
+
+    private void SetValidationSuccesfulStatus()
+    {
+        CounterText.gameObject.SetActive(false); 
+        FixingPoint.gameObject.SetActive(false);
+        HeadfixationText.gameObject.SetActive(false);
+        SuccessfulValidation.gameObject.SetActive(true);
+    }
+
+    private void SetRunningValidationStatus()
+    {
+        CounterText.gameObject.SetActive(false);
+        FixingPoint.gameObject.SetActive(false);
+    }
+    private void SetPrepareForValidationStatus()
+    {
+        HeadfixationText.gameObject.SetActive(false);
+        CounterText.color = Color.green;
+        FixingPoint.gameObject.SetActive(true);
+    }
+    private void SetFixationStatus()
+    {
+        CounterText.gameObject.SetActive(true);
+        HeadfixationText.gameObject.SetActive(true);
+        CounterText.color = Color.white;
+        FixingPoint.gameObject.SetActive(false);
+        CounterText.text = _fixationCounterNumber.ToString();
+    }
     
     private void HandleFixationCountdownNumber(float number)
     {
