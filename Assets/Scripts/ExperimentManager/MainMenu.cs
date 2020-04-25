@@ -52,8 +52,8 @@ public class MainMenu : MonoBehaviour
         float xForButtons = width / 12f;
         float yForButtons = height / 7f;
         
-        float xForLable = (Screen.width / 2f);
-        float yForLable = (height/2f) + (height / 3f);
+        float xForLable = (width / 2f);
+        float yForLable = height/1.35f;
 
         float buttonWidth = 200f;
         float buttonHeight = 30f;
@@ -69,23 +69,30 @@ public class MainMenu : MonoBehaviour
         
         GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
         
-        // Reset Button
         GUI.backgroundColor = Color.red;
         GUI.color = Color.white;
         
-        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*8), buttonWidth, buttonHeight), "Reset"))
+        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*8), buttonWidth, buttonHeight), "Quit"))
         {
-            _section = Section.MainMenu;
+            Application.Quit();
         }
-            
         
-        // Buttons
-        GUI.backgroundColor = Color.cyan;
-        GUI.color = Color.white;
-
         
         if (vRScene)
         {
+            // Reset Button
+            GUI.backgroundColor = Color.yellow;
+            GUI.color = Color.white;
+        
+            if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "Reset"))
+            {
+                _section = Section.MainMenu;
+            }
+            
+            // Buttons
+            GUI.backgroundColor = Color.cyan;
+            GUI.color = Color.white;
+            
             if (_section == Section.MainMenu)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Calibration"))
@@ -104,7 +111,7 @@ public class MainMenu : MonoBehaviour
             }
             else if (_validated && !_seatCalibrated)
             {
-                if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight),
+                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight),
                     "Seat Calibration"))
                 {
                     _section = Section.SeatCalibration;
@@ -113,7 +120,7 @@ public class MainMenu : MonoBehaviour
             }
             else if (_seatCalibrated && !_trained)
             {
-                if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight),
+                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight),
                     "Test Drive Scene"))
                 {
                     _section = Section.TrainingBlock;
@@ -131,18 +138,18 @@ public class MainMenu : MonoBehaviour
         }
         else
         {
+            GUI.backgroundColor = Color.cyan;
+            GUI.color = Color.white;
+            
             if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
             {
                 _section = Section.MainExperiment;    
-                CalibrationManager.Instance.GoToTheExperiment();          
+                CalibrationManager.Instance.GoToTheExperiment();
+                Debug.Log("Main experiment clicked");
             }
         }
     }
 
-    public void ReStartMainMenu()
-    {
-        _section = Section.MainMenu;
-    }
 
     public void EyeCalibrated()
     {
@@ -162,5 +169,10 @@ public class MainMenu : MonoBehaviour
     public void TrainingDone()
     {
         _trained = true;
+    }
+    
+    public void ReStartMainMenu()
+    {
+        _section = Section.MainMenu;
     }
 }
