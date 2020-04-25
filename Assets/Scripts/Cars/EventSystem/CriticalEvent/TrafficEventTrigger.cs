@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TrafficEventTrigger : MonoBehaviour
 {
+    [Space] [Header("Start Event Delay")]
+    [Tooltip("0 to 15 seconds")] [Range(0,15)] [SerializeField] private float delay;
     private CriticalEventController _eventController;
     private GameObject _targetVehicle;
     private GameObject _currentTarget;
@@ -16,14 +18,23 @@ public class TrafficEventTrigger : MonoBehaviour
 
         _currentTarget = other.gameObject;
         
+        
         if (other.gameObject == _targetVehicle)
         {
-            Debug.Log("Triggered " + other.gameObject);
+            // todo inform HUD
+            Debug.Log("Informed HUD " + Time.time);
+            
+            StartCoroutine(StartDelayedEvent(delay));
             //PersistentTrafficEventManager.Instance.HandleEvent();
-            _eventController.Triggered();
         }
     }
 
+    IEnumerator StartDelayedEvent(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        _eventController.Triggered();
+        Debug.Log("Event started " + Time.time);
+    }
 
     public void TargetVehicle(GameObject vehicle)
     {
