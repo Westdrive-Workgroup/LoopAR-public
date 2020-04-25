@@ -148,8 +148,6 @@ public class ExperimentManager : MonoBehaviour
     // ending the experiment
     public void EndTheExperiment()
     {
-        _scene = Scene.EndOfExperiment;
-        
         if (SavingManager.Instance != null)
         {
             SavingManager.Instance.StopRecordingData();
@@ -169,7 +167,7 @@ public class ExperimentManager : MonoBehaviour
         _camera.enabled=true;
         participantsCar.SetActive(false);
         SceneLoader.Instance.AsyncLoad(4);
-        FadeOut();
+        _scene = Scene.EndOfExperiment;
     }
 
 
@@ -178,14 +176,7 @@ public class ExperimentManager : MonoBehaviour
     {
         SteamVR_Fade.Start(Color.clear, 2f);
     }
-
-
-    // usage: in case the participant screws up and end of the experiment
-    private void FadeOut()
-    {
-        SteamVR_Fade.Start(Color.black, 2f);
-    }
-
+    
 
     public GameObject GetParticipantCar()
     {

@@ -70,8 +70,8 @@ public class TrainingHandler : MonoBehaviour
             
             if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "End"))
             {
-                _state = State.TrainingMenu;
                 SceneLoader.Instance.AsyncLoad(3);
+                _state = State.TrainingMenu;
             }
         }
     }
