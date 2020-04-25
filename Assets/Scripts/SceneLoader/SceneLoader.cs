@@ -185,7 +185,7 @@ public class SceneLoader : MonoBehaviour
 
    private void OnSceneUnloaded(Scene arg0)
    { 
-      throw new NotImplementedException();
+      //throw new NotImplementedException();
    }
 
    private void OnDisable()

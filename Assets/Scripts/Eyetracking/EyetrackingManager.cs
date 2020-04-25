@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Tobii.XR;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using ViveSR.anipal.Eye;
 
 public class EyetrackingManager : MonoBehaviour
@@ -19,9 +20,16 @@ public class EyetrackingManager : MonoBehaviour
     private float _sampleRate;
 
     private bool _calibrationSuccess;
+
+    private float eyeValidationDelay;
+    
+    
+    public delegate void OnCompletedEyeValidation(bool wasSuccessful);
+    public event OnCompletedEyeValidation NotifyEyeValidationCompletnessObservers;
     
     private void Awake()
     {
+        SceneManager.sceneLoaded += OnSceneLoaded;
         _sampleRate = 1f / SetSampleRate; 
         //singleton pattern a la Unity
         if (Instance == null)
@@ -34,15 +42,32 @@ public class EyetrackingManager : MonoBehaviour
             Destroy(gameObject);
         }
         
-        _hmdTransform = Camera.main.transform;
-        
         
         //  I do not like this: we still needs tags to find that out.
     }
 
+    private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        _hmdTransform = Camera.main.transform;
+        //Debug.Log("hello new World");
+    }
+
+    private void OnEnable()
+    {
+        
+    }
+
+    private void OnLevelWasLoaded()
+    {
+        
+    }
+
     private void Update()
     {
-     
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            StartCalibration();
+        }
     }
 
     // Start is called before the first frame update
@@ -52,6 +77,8 @@ public class EyetrackingManager : MonoBehaviour
         _eyeTrackingRecorder = GetComponent<EyetrackingDataRecorder>();
 
         _eyetrackingValidation = GetComponentInChildren<EyetrackingValidation>();
+
+        _eyetrackingValidation.NotifyEyeValidationObservers += SetEyeValidationStatus;
     }
 
     // Update is called once per frame
@@ -59,7 +86,18 @@ public class EyetrackingManager : MonoBehaviour
     public void StartValidation()
     {
         Debug.Log("validating...");
-        _eyetrackingValidation.StartValidation();
+        _eyetrackingValidation.StartValidation(eyeValidationDelay);
+    }
+
+    public void AbortValidation()
+    {
+        _eyetrackingValidation.AbortValidation();
+        NotifyEyeValidationCompletnessObservers?.Invoke(false);
+    }
+
+    public void StartValidation(float delay)
+    {
+        _eyetrackingValidation.StartValidation(delay);
     }
     
     
@@ -86,6 +124,8 @@ public class EyetrackingManager : MonoBehaviour
     {
         _eyeTrackingRecorder.StopRecording();
         StoreEyeTrackingData();
+        
+
     }
     
     
@@ -121,9 +161,29 @@ public class EyetrackingManager : MonoBehaviour
             throw new Exception("There are no Eyetrackingdata");
         }
     }
-    
+
+    private void SetEyeValidationStatus(bool eyeValidationWasSucessfull)
+    {
+        Debug.Log("eyeValidation Status was called in EyeTrackingManager with " + eyeValidationWasSucessfull);
+        _eyeValidationSucessful = eyeValidationWasSucessfull;
+        
+        if (!eyeValidationWasSucessfull)
+        {
+            NotifyEyeValidationCompletnessObservers?.Invoke(false);
+        }
+        else
+        {
+            NotifyEyeValidationCompletnessObservers?.Invoke(true);
+        }
+        
+        
+    }
     
 
+    public bool GetEyeValidationStatus()
+    {
+        return _eyeValidationSucessful;
+    }
     
     public double getCurrentTimestamp()
     {
