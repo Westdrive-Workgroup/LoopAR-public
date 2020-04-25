@@ -25,8 +25,7 @@ public class CalibrationManager : MonoBehaviour
 
     public void EyeCalibration()
     {
-        // EyetrackingManager.Instance.StartCalibration();
-        Debug.Log("EyeCalibration activated");
+        EyetrackingManager.Instance.StartCalibration();
     }
 
     public void EyeCalibrationSuccessful()
@@ -43,12 +42,12 @@ public class CalibrationManager : MonoBehaviour
     public void EyeValidationSuccessful()
     {
         MainMenu.Instance.EyeValidated();
+        // todo get the confirmation from eye validation
     }
 
     public void SeatCalibration()
     {
         SceneLoader.Instance.AsyncLoad(2);
-        // todo write the GUI in seat calibration manager
     }
 
     public void SeatCalibrationSuccessful()
@@ -71,8 +70,9 @@ public class CalibrationManager : MonoBehaviour
         SceneLoader.Instance.AsyncLoad(4);
     }
 
-    public void RestartProject()
+    public void AbortExperiment()
     {
+        SceneLoader.Instance.AsyncLoad(0);
         MainMenu.Instance.ReStartMainMenu();
     }
 }

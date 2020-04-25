@@ -21,8 +21,8 @@ public class SeatCalibrationHandler : MonoBehaviour
         float xForButtons = width / 12f;
         float yForButtons = height / 7f;
         
-        float xForLable = (Screen.width / 2f);
-        float yForLable = (height/2f) + (height / 3f);
+        float xForLable = (width / 2f);
+        float yForLable = height/1.35f;
 
         float buttonWidth = 200f;
         float buttonHeight = 30f;
@@ -37,12 +37,12 @@ public class SeatCalibrationHandler : MonoBehaviour
         GUI.skin.label.fontStyle = FontStyle.Bold;
         
         GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Seat Calibration");
-        
-        
-        GUI.backgroundColor = Color.red;
+
+
+        GUI.backgroundColor = Color.yellow;
         GUI.color = Color.white;
         
-        if (GUI.Button(new Rect(xForButtons*9, yForButtons - heightDifference, buttonWidth, buttonHeight), "Start again"))
+        if (GUI.Button(new Rect(xForButtons*9, yForButtons - heightDifference, buttonWidth, buttonHeight), "Reset"))
         {
             // todo
             _successful = false;
@@ -74,6 +74,15 @@ public class SeatCalibrationHandler : MonoBehaviour
         {
             // todo
             _successful = true;
+        }
+        
+        // Reset Button
+        GUI.backgroundColor = Color.red;
+        GUI.color = Color.white;
+        
+        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*8), buttonWidth, buttonHeight), "Abort Experiment"))
+        {
+            CalibrationManager.Instance.AbortExperiment();
         }
 
         if (_successful)
