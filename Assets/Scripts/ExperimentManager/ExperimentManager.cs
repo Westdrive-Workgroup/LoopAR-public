@@ -168,7 +168,7 @@ public class ExperimentManager : MonoBehaviour
         }
         _camera.enabled=true;
         participantsCar.SetActive(false);
-        
+        SceneLoader.Instance.AsyncLoad(4);
         FadeOut();
     }
 
