@@ -3,12 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 using Valve.VR.InteractionSystem;
 using ViveSR.anipal.Eye;
 
 public class EyetrackingValidation : MonoBehaviour
 {
-
+    
 
     public float distance;
     public List<Vector3> keyPositions;
@@ -20,12 +21,28 @@ public class EyetrackingValidation : MonoBehaviour
     private IEnumerator runningValidation;
     public delegate void OnFinishedEyeValidation(bool wasSuccessful);
     public event OnFinishedEyeValidation NotifyEyeValidationObservers;
+    private EyetrackingManager _eyetrackingManager;
+
+    private void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        
+    }
+    
+    
 
     
     private void Start()
     {
+        EyetrackingManager _eyetrackingManager = EyetrackingManager.Instance;
         _hmdTransform = EyetrackingManager.Instance.GetHmdTransform();
         _isRunning = false;
+    }
+    
+    private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)  // generally I am not proud of this call, but seems necessary for the moment.
+    {
+        _hmdTransform = EyetrackingManager.Instance.GetHmdTransform();        //refresh the HMD transform after sceneload;
+        //Debug.Log("hello new World");
     }
 
     public void AbortValidation()
@@ -45,6 +62,7 @@ public class EyetrackingValidation : MonoBehaviour
         {
             _isRunning = true;
             gameObject.SetActive(true);
+            _hmdTransform = EyetrackingManager.Instance.GetHmdTransform();
             runningValidation = Validate(delay);
             StartCoroutine(runningValidation);
         }

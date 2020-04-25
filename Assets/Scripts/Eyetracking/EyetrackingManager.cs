@@ -29,7 +29,7 @@ public class EyetrackingManager : MonoBehaviour
     
     private void Awake()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneLoaded += OnSceneLoaded;
         _sampleRate = 1f / SetSampleRate; 
         //singleton pattern a la Unity
         if (Instance == null)
@@ -48,12 +48,13 @@ public class EyetrackingManager : MonoBehaviour
 
     private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("hello");
+        _hmdTransform = Camera.main.transform;
+        //Debug.Log("hello new World");
     }
 
     private void OnEnable()
     {
-        _hmdTransform = Camera.main.transform;
+        
     }
 
     private void OnLevelWasLoaded()

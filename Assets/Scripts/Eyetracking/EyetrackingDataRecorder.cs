@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Tobii.XR;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using ViveSR.anipal.Eye;
 using Valve.VR;
 using Valve.VR.InteractionSystem;
@@ -17,7 +18,7 @@ public class EyetrackingDataRecorder : MonoBehaviour
     private bool recordingEnded;
     void Start()
     {
-        
+        SceneManager.sceneLoaded += OnSceneLoaded;
         _recordedEyeTrackingData= new List<EyeTrackingDataFrame>();
         
         _eyetrackingManager= EyetrackingManager.Instance;
@@ -30,8 +31,14 @@ public class EyetrackingDataRecorder : MonoBehaviour
     {
         
     }
+    
+    private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)  // generally I am not proud of this call, but seems necessary for the moment.
+    {
+        _hmdTransform = _eyetrackingManager.GetHmdTransform();        //refresh the HMD transform after sceneload;
+        //Debug.Log("hello new World");
+    }
 
-
+    
     public void StartRecording()
     {
         recordingEnded = false;
@@ -80,9 +87,9 @@ public class EyetrackingDataRecorder : MonoBehaviour
 
             dataFrame.TimeStamp = eyeTrackingDataWorld.Timestamp;
             
-            dataFrame.HmdPosition = _hmdTransform.position;
+            dataFrame.HmdPosition = EyetrackingManager.Instance.GetHmdTransform().position;
 
-            dataFrame.NoseVector =  _hmdTransform.forward;
+            dataFrame.NoseVector =  EyetrackingManager.Instance.GetHmdTransform().forward;
             
             _recordedEyeTrackingData.Add(dataFrame);
             frameCounter++;

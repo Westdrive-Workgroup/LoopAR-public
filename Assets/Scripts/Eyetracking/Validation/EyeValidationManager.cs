@@ -169,10 +169,10 @@ public class EyeValidationManager : MonoBehaviour
             
             if (wasSuccessful)
             {
-                Debug.Log("was successful");
                 ValidationSuccessful = true;
                 SetValidationSuccesfulStatus();
                 CalibrationManager.Instance.EyeValidationSuccessful();
+                Debug.Log("was successful");
             }
             else
             {
