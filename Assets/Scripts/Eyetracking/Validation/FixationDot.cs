@@ -43,10 +43,7 @@ public class FixationDot : MonoBehaviour
             fixationDuration = 0f;
             NotifyLeftTargetObservers(true);
         }
-        
-        NotifyFixationTimeObservers(aimedFixationDuration - fixationDuration);
-        
-        
-        
+
+        NotifyFixationTimeObservers?.Invoke(aimedFixationDuration - fixationDuration);
     }
 }

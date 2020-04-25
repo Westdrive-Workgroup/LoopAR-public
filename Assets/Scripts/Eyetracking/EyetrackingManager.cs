@@ -20,6 +20,10 @@ public class EyetrackingManager : MonoBehaviour
 
     private float eyeValidationDelay;
     
+    
+    public delegate void OnCompletedEyeValidation(bool wasSuccessful);
+    public event OnCompletedEyeValidation NotifyEyeValidationCompletnessObservers;
+    
     private void Awake()
     {
         _sampleRate = 1f / SetSampleRate; 
@@ -70,6 +74,7 @@ public class EyetrackingManager : MonoBehaviour
     public void AbortValidation()
     {
         _eyetrackingValidation.AbortValidation();
+        NotifyEyeValidationCompletnessObservers?.Invoke(false);
     }
 
     public void StartValidation(float delay)
@@ -100,6 +105,8 @@ public class EyetrackingManager : MonoBehaviour
     {
         _eyeTrackingRecorder.StopRecording();
         StoreEyeTrackingData();
+        
+
     }
     
     
@@ -138,8 +145,21 @@ public class EyetrackingManager : MonoBehaviour
 
     private void SetEyeValidationStatus(bool eyeValidationWasSucessfull)
     {
+        Debug.Log("eyeValidation Status was called in EyeTrackingManager with " + eyeValidationWasSucessfull);
         _eyeValidationSucessful = eyeValidationWasSucessfull;
+        
+        if (!eyeValidationWasSucessfull)
+        {
+            NotifyEyeValidationCompletnessObservers?.Invoke(false);
+        }
+        else
+        {
+            NotifyEyeValidationCompletnessObservers?.Invoke(true);
+        }
+        
+        
     }
+    
 
     public bool GetEyeValidationStatus()
     {

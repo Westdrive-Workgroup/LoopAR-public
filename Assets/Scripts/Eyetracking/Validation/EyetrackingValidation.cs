@@ -112,17 +112,21 @@ public class EyetrackingValidation : MonoBehaviour
                                     CalculateValidationError(anglesZ).ToString("0.00") + ")";
         Debug.Log("<color=yellow> Validation Results"+ validationResult+ "(</color>");
         gameObject.transform.position = Vector3.zero;
-        gameObject.SetActive(false);
+        
         if (CalculateValidationError(anglesX) > 1 || CalculateValidationError(anglesY) > 1 ||
             CalculateValidationError(anglesZ) > 1)
         {
+            _isRunning = false;
             NotifyEyeValidationObservers?.Invoke(false);
             Debug.LogWarning("<color=red>Validation Error is too big (error angles >1) , please relaunch a calibration first </color>");
         }
         else
         {
+            _isRunning = false;
             NotifyEyeValidationObservers?.Invoke(true);
         }
+        
+        gameObject.SetActive(false);
         
     }
 

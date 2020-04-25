@@ -9,7 +9,7 @@ public class EyeValidationManager : MonoBehaviour
     private float participantHeight;
 
     public TextMesh HeadfixationText;
-    public TextMesh FixingPoint;
+    public TextMesh FixingPointText;
     public TextMesh CounterText;
     public TextMesh SuccessfulValidation;
     public TextMesh FailedValidationText;
@@ -27,16 +27,25 @@ public class EyeValidationManager : MonoBehaviour
     private bool ValidationSuccessful;
     
     private bool runningValidation;
+
+    private EyetrackingManager _eyetrackingManager;
+    
+    
     // Start is called before the first frame update
     void Start()
     {
+        _eyetrackingManager = EyetrackingManager.Instance;
+        _eyetrackingManager.NotifyEyeValidationCompletnessObservers += HandleEyeValidationCompletnessStatus;
+        
         resettetCountdown = validationCountdown;
-        _fixationDot = EyetrackingManager.Instance.GetHmdTransform().transform.GetComponentInChildren<FixationDot>();
+        _fixationDot = _eyetrackingManager.GetHmdTransform().transform.GetComponentInChildren<FixationDot>();
         
         _fixationDot.NotifyFixationTimeObservers+= HandleFixationCountdownNumber;
         _fixationDot.NotifyLeftTargetObservers+= HandleLeftFixation;
         
-        participantHeight = EyetrackingManager.Instance.GetHmdTransform().transform.position.y;
+        
+        
+        participantHeight = _eyetrackingManager.GetHmdTransform().transform.position.y;
         
         fixationPoint.transform.position= new Vector3(fixationPoint.transform.position.x,participantHeight,fixationPoint.transform.position.z);
         SuccessfulValidation.gameObject.SetActive(false);
@@ -57,16 +66,13 @@ public class EyeValidationManager : MonoBehaviour
                 validationCountdown -= Time.deltaTime;
                 if (validationCountdown >= 0)
                 {
-                    Debug.Log("prepareValidation");
                     CounterText.text = Mathf.RoundToInt(validationCountdown).ToString();
                     SetPrepareForValidationStatus();
                 }
                 else
                 {
-                    Debug.Log("validating");
                     SetRunningValidationStatus();
                     EyetrackingManager.Instance.StartValidation(0f);
-                    
                 }
                 
             }
@@ -74,31 +80,21 @@ public class EyeValidationManager : MonoBehaviour
             {
                 validationCountdown = resettetCountdown;
                 SetFixationStatus();
-               
             }
         }
-        else
-        {
-            SetValidationSuccesfulStatus();
-            runningValidation = false;
-        }
-       
-        
-       
         
         
     }
 
     private void ShowFailedValidationStatus(float time)
     {
-        
-        Debug.Log("failed Validation");
         StartCoroutine(showingFailedValidation(time));
-        
+
     }
 
     private IEnumerator showingFailedValidation(float time)
     {
+        validationCountdown = resettetCountdown;
         Debug.Log("Started Coroutine at timestamp : " + Time.time);
         FailedValidationText.gameObject.SetActive(true);
         yield return new WaitForSeconds(time);
@@ -110,16 +106,17 @@ public class EyeValidationManager : MonoBehaviour
     private void SetValidationSuccesfulStatus()
     {
         CounterText.gameObject.SetActive(false); 
-        FixingPoint.gameObject.SetActive(false);
+        FixingPointText.gameObject.SetActive(false);
         HeadfixationText.gameObject.SetActive(false);
         SuccessfulValidation.gameObject.SetActive(true);
+        fixationPoint.gameObject.SetActive(false);
     }
 
     private void SetRunningValidationStatus()
     {
         CounterText.gameObject.SetActive(false);
         HeadfixationText.gameObject.SetActive(false);
-        FixingPoint.gameObject.SetActive(false);
+        FixingPointText.gameObject.SetActive(false);
         SuccessfulValidation.gameObject.SetActive(false);
         runningValidation = true;
     }
@@ -127,14 +124,14 @@ public class EyeValidationManager : MonoBehaviour
     {
         HeadfixationText.gameObject.SetActive(false);
         CounterText.color = Color.green;
-        FixingPoint.gameObject.SetActive(true);
+        FixingPointText.gameObject.SetActive(true);
     }
     private void SetFixationStatus()
     {
         CounterText.gameObject.SetActive(true);
         HeadfixationText.gameObject.SetActive(true);
         CounterText.color = Color.white;
-        FixingPoint.gameObject.SetActive(false);
+        FixingPointText.gameObject.SetActive(false);
         CounterText.text = _fixationCounterNumber.ToString();
     }
     
@@ -160,10 +157,27 @@ public class EyeValidationManager : MonoBehaviour
             if (runningValidation)
             {
                 EyetrackingManager.Instance.AbortValidation();
-                ShowFailedValidationStatus(5f);
-                runningValidation = false;
             }
         }
+    }
+
+    private void HandleEyeValidationCompletnessStatus(bool wasSuccessful)
+    {
+        Debug.Log("...and it was also propagated to here... with "+  wasSuccessful);
+            
+            if (wasSuccessful)
+            {
+                Debug.Log("was successful");
+                ValidationSuccessful = true;
+                SetValidationSuccesfulStatus();
+            }
+            else
+            {
+                ShowFailedValidationStatus(5f);
+            }
+            runningValidation = false;
+
+
     }
     
 }
