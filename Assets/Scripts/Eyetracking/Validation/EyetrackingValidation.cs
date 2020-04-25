@@ -17,25 +17,36 @@ public class EyetrackingValidation : MonoBehaviour
     private Transform _hmdTransform;
     private EyeValidationData _eyeValidationData;
     private bool _isRunning;
-    
+    private IEnumerator runningValidation;
     public delegate void OnFinishedEyeValidation(bool wasSuccessful);
     public event OnFinishedEyeValidation NotifyEyeValidationObservers;
 
-
+    
     private void Start()
     {
         _hmdTransform = EyetrackingManager.Instance.GetHmdTransform();
         _isRunning = false;
     }
 
-
+    public void AbortValidation()
+    {
+        if (_isRunning)
+        {
+            Debug.Log("EyeValidation was aborted");
+            StopCoroutine(runningValidation);
+            gameObject.transform.position = Vector3.zero;
+            _isRunning = false;
+            gameObject.SetActive(false);
+        }
+    }
     public void StartValidation(float delay)
     {
         if (!_isRunning)
         {
             _isRunning = true;
             gameObject.SetActive(true);
-            StartCoroutine(Validate(delay));
+            runningValidation = Validate(delay);
+            StartCoroutine(runningValidation);
         }
     }
     

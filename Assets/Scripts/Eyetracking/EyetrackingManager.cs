@@ -42,7 +42,10 @@ public class EyetrackingManager : MonoBehaviour
 
     private void Update()
     {
-     
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            StartCalibration();
+        }
     }
 
     // Start is called before the first frame update
@@ -62,6 +65,11 @@ public class EyetrackingManager : MonoBehaviour
     {
         Debug.Log("validating...");
         _eyetrackingValidation.StartValidation(eyeValidationDelay);
+    }
+
+    public void AbortValidation()
+    {
+        _eyetrackingValidation.AbortValidation();
     }
 
     public void StartValidation(float delay)
