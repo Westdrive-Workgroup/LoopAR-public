@@ -70,6 +70,7 @@ public class TrainingHandler : MonoBehaviour
             
             if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "End"))
             {
+                SceneLoader.Instance.AsyncLoad(3);
                 _state = State.TrainingMenu;
             }
         }
