@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
+[DisallowMultipleComponent]
 public class CalibrationManager : MonoBehaviour
 {
     public static CalibrationManager Instance { get; private set; }
@@ -36,7 +36,7 @@ public class CalibrationManager : MonoBehaviour
     
     public void EyeValidation()
     {
-        SceneManager.LoadScene(1);
+        SceneLoader.Instance.AsyncLoad(1);
         // todo write the GUI in eye validation manager
     }
 
@@ -47,7 +47,7 @@ public class CalibrationManager : MonoBehaviour
 
     public void SeatCalibration()
     {
-        SceneManager.LoadScene(2);
+        SceneLoader.Instance.AsyncLoad(2);
         // todo write the GUI in seat calibration manager
     }
 
@@ -58,7 +58,7 @@ public class CalibrationManager : MonoBehaviour
 
     public void StartTestDrive()
     {
-        SceneManager.LoadScene(3);
+        SceneLoader.Instance.AsyncLoad(3);
     }
     
     public void StartTestDriveSuccessful()
@@ -68,7 +68,7 @@ public class CalibrationManager : MonoBehaviour
 
     public void GoToTheExperiment()
     {
-        SceneManager.LoadScene(4);
+        SceneLoader.Instance.AsyncLoad(4);
     }
 
     public void RestartProject()

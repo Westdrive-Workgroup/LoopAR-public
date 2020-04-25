@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+[DisallowMultipleComponent]
 public class SeatCalibrationHandler : MonoBehaviour
 {
+    private bool _successful;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,52 +32,58 @@ public class SeatCalibrationHandler : MonoBehaviour
 
         
         // Lable
-        GUI.color = Color.white;
+        GUI.color = Color.black;
         GUI.skin.label.fontSize = labelFontSize;
         GUI.skin.label.fontStyle = FontStyle.Bold;
+        
+        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Seat Calibration");
+        
+        
+        GUI.backgroundColor = Color.red;
+        GUI.color = Color.white;
+        
+        if (GUI.Button(new Rect(xForButtons*9, yForButtons - heightDifference, buttonWidth, buttonHeight), "Start again"))
+        {
+            // todo
+            _successful = false;
+        }
         
                 
         // Buttons
         GUI.backgroundColor = Color.cyan;
         GUI.color = Color.white;
 
-        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Seat Calibration");
-        
-        if (GUI.Button(new Rect(xForButtons*9, yForButtons - heightDifference, buttonWidth, buttonHeight), "Start again"))
-        {
-            // MainMenu.Instance.ReStartMainMenu();
-        }
-        
         if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Delete Calibration"))
         {
-            // EyetrackingManager.Instance.StartCalibration();
+            // todo
         }
         
         if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Test Positioning"))
         {
-            // EyetrackingManager.Instance.StartValidation();
+            // todo
         }
         
         if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight),
             "Calibrate and Store"))
         {
-            // SceneLoader.Instance.AsyncLoad(2);
+            // todo
         }
         
-        if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight),
+        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*2), buttonWidth, buttonHeight),
             "Apply Calibration"))
         {
-            // SceneLoader.Instance.AsyncLoad(3);
+            // todo
+            _successful = true;
         }
-        
-        if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Confirm Calibration"))
-        {
-            CalibrationSuccessful();
-        }
-    }
 
-    private void CalibrationSuccessful()
-    {
-        
+        if (_successful)
+        {
+            GUI.backgroundColor = Color.green;
+            
+            if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*3), buttonWidth, buttonHeight), "Confirm Calibration"))
+            {
+                CalibrationManager.Instance.SeatCalibrationSuccessful();
+            }
+        }
     }
 }
