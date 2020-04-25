@@ -17,6 +17,8 @@ public class EyetrackingManager : MonoBehaviour
     private bool _eyeValidationSucessful;
     private EyetrackingDataRecorder _eyeTrackingRecorder;
     private float _sampleRate;
+
+    private float eyeValidationDelay;
     
     private void Awake()
     {
@@ -50,6 +52,8 @@ public class EyetrackingManager : MonoBehaviour
         _eyeTrackingRecorder = GetComponent<EyetrackingDataRecorder>();
 
         _eyetrackingValidation = GetComponentInChildren<EyetrackingValidation>();
+
+        _eyetrackingValidation.NotifyEyeValidationObservers += SetEyeValidationStatus;
     }
 
     // Update is called once per frame
@@ -57,7 +61,12 @@ public class EyetrackingManager : MonoBehaviour
     public void StartValidation()
     {
         Debug.Log("validating...");
-        _eyetrackingValidation.StartValidation();
+        _eyetrackingValidation.StartValidation(eyeValidationDelay);
+    }
+
+    public void StartValidation(float delay)
+    {
+        _eyetrackingValidation.StartValidation(delay);
     }
     
     
@@ -118,9 +127,16 @@ public class EyetrackingManager : MonoBehaviour
             throw new Exception("There are no Eyetrackingdata");
         }
     }
-    
-    
 
+    private void SetEyeValidationStatus(bool eyeValidationWasSucessfull)
+    {
+        _eyeValidationSucessful = eyeValidationWasSucessfull;
+    }
+
+    public bool GetEyeValidationStatus()
+    {
+        return _eyeValidationSucessful;
+    }
     
     public double getCurrentTimestamp()
     {

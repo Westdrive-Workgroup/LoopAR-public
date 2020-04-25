@@ -14,24 +14,33 @@ public class EyetrackingValidation : MonoBehaviour
     public List<Vector3> keyPositions;
     private int validationPointIdx;
     private int validationTrial;
-    public float delay;
     private Transform _hmdTransform;
     private EyeValidationData _eyeValidationData;
+    private bool _isRunning;
+    
+    public delegate void OnFinishedEyeValidation(bool wasSuccessful);
+    public event OnFinishedEyeValidation NotifyEyeValidationObservers;
+
 
     private void Start()
     {
         _hmdTransform = EyetrackingManager.Instance.GetHmdTransform();
+        _isRunning = false;
     }
 
 
-    public void StartValidation()
+    public void StartValidation(float delay)
     {
-        gameObject.SetActive(true);
-        StartCoroutine(Validate());
+        if (!_isRunning)
+        {
+            _isRunning = true;
+            gameObject.SetActive(true);
+            StartCoroutine(Validate(delay));
+        }
     }
     
 
-    private IEnumerator Validate()
+    private IEnumerator Validate(float delay)
     {
         yield return new WaitForSeconds(delay);
         List<float> anglesX = new List<float>();
@@ -96,8 +105,14 @@ public class EyetrackingValidation : MonoBehaviour
         if (CalculateValidationError(anglesX) > 1 || CalculateValidationError(anglesY) > 1 ||
             CalculateValidationError(anglesZ) > 1)
         {
+            NotifyEyeValidationObservers?.Invoke(false);
             Debug.LogWarning("<color=red>Validation Error is too big (error angles >1) , please relaunch a calibration first </color>");
         }
+        else
+        {
+            NotifyEyeValidationObservers?.Invoke(true);
+        }
+        
     }
 
 
