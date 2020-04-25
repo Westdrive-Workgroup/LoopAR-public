@@ -14,24 +14,44 @@ public class EyetrackingValidation : MonoBehaviour
     public List<Vector3> keyPositions;
     private int validationPointIdx;
     private int validationTrial;
-    public float delay;
     private Transform _hmdTransform;
     private EyeValidationData _eyeValidationData;
+    private bool _isRunning;
+    private IEnumerator runningValidation;
+    public delegate void OnFinishedEyeValidation(bool wasSuccessful);
+    public event OnFinishedEyeValidation NotifyEyeValidationObservers;
 
+    
     private void Start()
     {
         _hmdTransform = EyetrackingManager.Instance.GetHmdTransform();
+        _isRunning = false;
     }
 
-
-    public void StartValidation()
+    public void AbortValidation()
     {
-        gameObject.SetActive(true);
-        StartCoroutine(Validate());
+        if (_isRunning)
+        {
+            Debug.Log("EyeValidation was aborted");
+            StopCoroutine(runningValidation);
+            gameObject.transform.position = Vector3.zero;
+            _isRunning = false;
+            gameObject.SetActive(false);
+        }
+    }
+    public void StartValidation(float delay)
+    {
+        if (!_isRunning)
+        {
+            _isRunning = true;
+            gameObject.SetActive(true);
+            runningValidation = Validate(delay);
+            StartCoroutine(runningValidation);
+        }
     }
     
 
-    private IEnumerator Validate()
+    private IEnumerator Validate(float delay)
     {
         yield return new WaitForSeconds(delay);
         List<float> anglesX = new List<float>();
@@ -92,12 +112,22 @@ public class EyetrackingValidation : MonoBehaviour
                                     CalculateValidationError(anglesZ).ToString("0.00") + ")";
         Debug.Log("<color=yellow> Validation Results"+ validationResult+ "(</color>");
         gameObject.transform.position = Vector3.zero;
-        gameObject.SetActive(false);
+        
         if (CalculateValidationError(anglesX) > 1 || CalculateValidationError(anglesY) > 1 ||
             CalculateValidationError(anglesZ) > 1)
         {
+            _isRunning = false;
+            NotifyEyeValidationObservers?.Invoke(false);
             Debug.LogWarning("<color=red>Validation Error is too big (error angles >1) , please relaunch a calibration first </color>");
         }
+        else
+        {
+            _isRunning = false;
+            NotifyEyeValidationObservers?.Invoke(true);
+        }
+        
+        gameObject.SetActive(false);
+        
     }
 
 

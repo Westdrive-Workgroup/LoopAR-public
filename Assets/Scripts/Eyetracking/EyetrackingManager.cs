@@ -19,6 +19,12 @@ public class EyetrackingManager : MonoBehaviour
     private float _sampleRate;
 
     private bool _calibrationSuccess;
+
+    private float eyeValidationDelay;
+    
+    
+    public delegate void OnCompletedEyeValidation(bool wasSuccessful);
+    public event OnCompletedEyeValidation NotifyEyeValidationCompletnessObservers;
     
     private void Awake()
     {
@@ -42,7 +48,10 @@ public class EyetrackingManager : MonoBehaviour
 
     private void Update()
     {
-     
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            StartCalibration();
+        }
     }
 
     // Start is called before the first frame update
@@ -52,6 +61,8 @@ public class EyetrackingManager : MonoBehaviour
         _eyeTrackingRecorder = GetComponent<EyetrackingDataRecorder>();
 
         _eyetrackingValidation = GetComponentInChildren<EyetrackingValidation>();
+
+        _eyetrackingValidation.NotifyEyeValidationObservers += SetEyeValidationStatus;
     }
 
     // Update is called once per frame
@@ -59,7 +70,18 @@ public class EyetrackingManager : MonoBehaviour
     public void StartValidation()
     {
         Debug.Log("validating...");
-        _eyetrackingValidation.StartValidation();
+        _eyetrackingValidation.StartValidation(eyeValidationDelay);
+    }
+
+    public void AbortValidation()
+    {
+        _eyetrackingValidation.AbortValidation();
+        NotifyEyeValidationCompletnessObservers?.Invoke(false);
+    }
+
+    public void StartValidation(float delay)
+    {
+        _eyetrackingValidation.StartValidation(delay);
     }
     
     
@@ -86,6 +108,8 @@ public class EyetrackingManager : MonoBehaviour
     {
         _eyeTrackingRecorder.StopRecording();
         StoreEyeTrackingData();
+        
+
     }
     
     
@@ -121,9 +145,29 @@ public class EyetrackingManager : MonoBehaviour
             throw new Exception("There are no Eyetrackingdata");
         }
     }
-    
+
+    private void SetEyeValidationStatus(bool eyeValidationWasSucessfull)
+    {
+        Debug.Log("eyeValidation Status was called in EyeTrackingManager with " + eyeValidationWasSucessfull);
+        _eyeValidationSucessful = eyeValidationWasSucessfull;
+        
+        if (!eyeValidationWasSucessfull)
+        {
+            NotifyEyeValidationCompletnessObservers?.Invoke(false);
+        }
+        else
+        {
+            NotifyEyeValidationCompletnessObservers?.Invoke(true);
+        }
+        
+        
+    }
     
 
+    public bool GetEyeValidationStatus()
+    {
+        return _eyeValidationSucessful;
+    }
     
     public double getCurrentTimestamp()
     {
