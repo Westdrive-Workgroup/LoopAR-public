@@ -401,7 +401,7 @@ GameObject:
   m_Component:
   - component: {fileID: 646001061}
   m_Layer: 0
-  m_Name: GameObject (1)
+  m_Name: Cross
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -453,12 +453,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1f3c4bfeb45c7a45ae1ae8a205b0ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  relativeFixedPoint: {fileID: 1925294206}
   fixationPoint: {fileID: 646001060}
   HeadfixationText: {fileID: 1531516365}
-  FixingPoint: {fileID: 501369244}
+  FixingPointText: {fileID: 501369244}
   CounterText: {fileID: 42917763}
   SuccessfulValidation: {fileID: 1271847344}
-  FailedValidation: {fileID: 0}
+  FailedValidationText: {fileID: 2098146341}
   validationCountdown: 3
 --- !u!4 &1014067849
 Transform:
@@ -1261,7 +1262,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2098146340
 Transform:
   m_ObjectHideFlags: 0

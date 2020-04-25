@@ -41,7 +41,7 @@ public class FixationDot : MonoBehaviour
         {
             TargetPoint.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
             fixationDuration = 0f;
-            NotifyLeftTargetObservers(true);
+            NotifyLeftTargetObservers?.Invoke(true);
         }
 
         NotifyFixationTimeObservers?.Invoke(aimedFixationDuration - fixationDuration);

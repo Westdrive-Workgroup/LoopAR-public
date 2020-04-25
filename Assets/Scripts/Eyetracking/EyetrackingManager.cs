@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Tobii.XR;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using ViveSR.anipal.Eye;
 
 public class EyetrackingManager : MonoBehaviour
@@ -28,6 +29,7 @@ public class EyetrackingManager : MonoBehaviour
     
     private void Awake()
     {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         _sampleRate = 1f / SetSampleRate; 
         //singleton pattern a la Unity
         if (Instance == null)
@@ -40,10 +42,23 @@ public class EyetrackingManager : MonoBehaviour
             Destroy(gameObject);
         }
         
-        _hmdTransform = Camera.main.transform;
-        
         
         //  I do not like this: we still needs tags to find that out.
+    }
+
+    private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("hello");
+    }
+
+    private void OnEnable()
+    {
+        _hmdTransform = Camera.main.transform;
+    }
+
+    private void OnLevelWasLoaded()
+    {
+        
     }
 
     private void Update()

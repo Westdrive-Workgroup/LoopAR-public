@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EyeValidationManager : MonoBehaviour
 {
+    public GameObject relativeFixedPoint;
     public GameObject fixationPoint;
     
     private float participantHeight;
@@ -38,7 +39,7 @@ public class EyeValidationManager : MonoBehaviour
         _eyetrackingManager.NotifyEyeValidationCompletnessObservers += HandleEyeValidationCompletnessStatus;
         
         resettetCountdown = validationCountdown;
-        _fixationDot = _eyetrackingManager.GetHmdTransform().transform.GetComponentInChildren<FixationDot>();
+        _fixationDot = relativeFixedPoint.GetComponent<FixationDot>();
         
         _fixationDot.NotifyFixationTimeObservers+= HandleFixationCountdownNumber;
         _fixationDot.NotifyLeftTargetObservers+= HandleLeftFixation;
@@ -171,6 +172,7 @@ public class EyeValidationManager : MonoBehaviour
                 Debug.Log("was successful");
                 ValidationSuccessful = true;
                 SetValidationSuccesfulStatus();
+                CalibrationManager.Instance.EyeValidationSuccessful();
             }
             else
             {
