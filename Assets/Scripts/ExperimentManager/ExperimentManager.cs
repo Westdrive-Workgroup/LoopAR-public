@@ -24,6 +24,7 @@ public class ExperimentManager : MonoBehaviour
     private enum Scene
     {
         MainMenu,
+        Experiment,
         CountryRoad,
         MountainRoad,
         Autobahn,
@@ -123,7 +124,7 @@ public class ExperimentManager : MonoBehaviour
 
     private void StartExperiment()
     {
-        _scene = Scene.CountryRoad;
+        _scene = Scene.Experiment;
         _camera.enabled = false;
         
         if (vRCamera == null)
@@ -199,8 +200,8 @@ public class ExperimentManager : MonoBehaviour
         float xForButtons = width / 12f;
         float yForButtons = height / 7f;
         
-        float xForLable = (Screen.width / 2f);
-        float yForLable = (height/2f) + (height / 3f);
+        float xForLable = (width / 2f);
+        float yForLable = height/1.35f;
 
         float buttonWidth = 200f;
         float buttonHeight = 30f;
@@ -214,15 +215,6 @@ public class ExperimentManager : MonoBehaviour
         GUI.skin.label.fontSize = labelFontSize;
         GUI.skin.label.fontStyle = FontStyle.Bold;
         
-        // Reset Button
-        GUI.backgroundColor = Color.red;
-        GUI.color = Color.white;
-        
-        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*8), buttonWidth, buttonHeight), "Reset the project"))
-        {
-            CalibrationManager.Instance.RestartProject();
-        }
-                
         // Buttons
         GUI.backgroundColor = Color.cyan;
         GUI.color = Color.white;
@@ -231,14 +223,26 @@ public class ExperimentManager : MonoBehaviour
         {
             GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Experiment");
 
-            if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight), "Start the experiment"))
+            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start"))
             {
                 StartExperiment();
             }
+            
+            // Reset Button
+            GUI.backgroundColor = Color.red;
+            GUI.color = Color.white;
+        
+            if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*8), buttonWidth, buttonHeight), "Abort"))
+            {
+                CalibrationManager.Instance.AbortExperiment();
+            }
         } 
-        else if (_scene == Scene.CountryRoad)
+        else if (_scene == Scene.Experiment)
         {
-            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "End the experiment"))
+            GUI.backgroundColor = Color.red;
+            GUI.color = Color.white;
+            
+            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "End"))
             {
                 EndTheExperiment();
             }
