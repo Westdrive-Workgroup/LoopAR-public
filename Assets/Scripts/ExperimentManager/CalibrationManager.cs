@@ -36,13 +36,11 @@ public class CalibrationManager : MonoBehaviour
     public void EyeValidation()
     {
         SceneLoader.Instance.AsyncLoad(1);
-        // todo write the GUI in eye validation manager
     }
 
     public void EyeValidationSuccessful()
     {
         MainMenu.Instance.EyeValidated();
-        // todo get the confirmation from eye validation
     }
 
     public void SeatCalibration()
