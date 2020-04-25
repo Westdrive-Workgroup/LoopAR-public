@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SeatCalibrationManager : MonoBehaviour
+public class SeatCalibrationHandler : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -43,7 +43,7 @@ public class SeatCalibrationManager : MonoBehaviour
         
         if (GUI.Button(new Rect(xForButtons*9, yForButtons - heightDifference, buttonWidth, buttonHeight), "Start again"))
         {
-            MainMenu.Instance.ReStartMainMenu();
+            // MainMenu.Instance.ReStartMainMenu();
         }
         
         if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Delete Calibration"))

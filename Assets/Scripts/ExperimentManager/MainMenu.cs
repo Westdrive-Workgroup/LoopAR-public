@@ -2,14 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 public class MainMenu : MonoBehaviour
 {
     public static MainMenu Instance { get; private set; }
-    
-    [Space] [Header("Scene Type")]
+
+        [Space] [Header("Scene Type")]
     [SerializeField] private bool vRScene;
     private enum Section
     {
@@ -23,15 +22,16 @@ public class MainMenu : MonoBehaviour
 
     private Section _section;
 
-    private int _test;
+    private bool _eyeCalibrated;
+    private bool _validated;
+    private bool _seatCalibrated;
+    private bool _trained;
 
     private void Awake()
     {
-        //singleton pattern a la Unity
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);         //the Eyetracking Manager should be persitent by changing the scenes maybe change it on the the fly
         }
         else
         {
@@ -41,7 +41,6 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        _test = 0;
         _section = Section.MainMenu;
     }
 
@@ -68,66 +67,65 @@ public class MainMenu : MonoBehaviour
         GUI.skin.label.fontSize = labelFontSize;
         GUI.skin.label.fontStyle = FontStyle.Bold;
         
-                
+        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
+        
+        // Reset Button
+        GUI.backgroundColor = Color.red;
+        GUI.color = Color.white;
+        
+        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*8), buttonWidth, buttonHeight), "Reset"))
+        {
+            _section = Section.MainMenu;
+        }
+            
+        
         // Buttons
         GUI.backgroundColor = Color.cyan;
         GUI.color = Color.white;
 
-        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
-        
-        if (GUI.Button(new Rect(xForButtons*9, yForButtons - heightDifference, buttonWidth, buttonHeight), "Start again"))
-        {
-            _section = Section.MainMenu;
-        }
         
         if (vRScene)
         {
             if (_section == Section.MainMenu)
             {
-                if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Eye Calibration"))
+                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Calibration"))
                 {
-                    // EyetrackingManager.Instance.StartCalibration();
                     _section = Section.EyeCalibration;
+                    CalibrationManager.Instance.EyeCalibration();
                 }
             }
-            else if (_section == Section.EyeCalibration /* && EyetrackingManager.Instance.StartCalibration()*/)
+            else if (_eyeCalibrated && !_validated)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Validation"))
                 {
-                    // EyetrackingManager.Instance.StartValidation();
                     _section = Section.EyeValidation;
+                    CalibrationManager.Instance.EyeValidation();
                 }
             }
-            else if (_section == Section.EyeValidation /*&& dummy eyevalidation bool*/)
+            else if (_validated && !_seatCalibrated)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight),
                     "Seat Calibration"))
                 {
-                    LoadScene(2);
-                    
-                    // SceneLoader.Instance.AsyncLoad(2);
                     _section = Section.SeatCalibration;
+                    CalibrationManager.Instance.SeatCalibration();
                 }
             }
-            else if (_section == Section.SeatCalibration /*&& dummy seatcalibration bool*/)
+            else if (_seatCalibrated && !_trained)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight),
                     "Test Drive Scene"))
                 {
-                    LoadScene(3);
-                    
-                    // SceneLoader.Instance.AsyncLoad(3);
                     _section = Section.TrainingBlock;
+                    CalibrationManager.Instance.StartTestDrive();
                 }
             }
-            else if (_section == Section.TrainingBlock /*&& drive training true*/)
+            else if (_trained)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
                 {
-                    LoadScene(4);
-                    
-                    // SceneLoader.Instance.AsyncLoad(4);
-                    _section = Section.MainExperiment;           
+                    _section = Section.MainExperiment;    
+                    CalibrationManager.Instance.GoToTheExperiment();
                 }
             }
         }
@@ -135,10 +133,8 @@ public class MainMenu : MonoBehaviour
         {
             if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
             {
-                LoadScene(4);
-                
-                // SceneLoader.Instance.AsyncLoad(4);
-                _section = Section.MainExperiment;           
+                _section = Section.MainExperiment;    
+                CalibrationManager.Instance.GoToTheExperiment();          
             }
         }
     }
@@ -148,8 +144,23 @@ public class MainMenu : MonoBehaviour
         _section = Section.MainMenu;
     }
 
-    private void LoadScene(int index)
+    public void EyeCalibrated()
     {
-        SceneManager.LoadScene(index);
+        _eyeCalibrated = true;
+    }
+
+    public void EyeValidated()
+    {
+        _validated = true;
+    }
+
+    public void SeatCalibrated()
+    {
+        _seatCalibrated = true;
+    }
+
+    public void TrainingDone()
+    {
+        _trained = true;
     }
 }
