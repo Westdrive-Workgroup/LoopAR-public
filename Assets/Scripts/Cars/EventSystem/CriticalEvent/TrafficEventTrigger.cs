@@ -25,7 +25,6 @@ public class TrafficEventTrigger : MonoBehaviour
             Debug.Log("Informed HUD " + Time.time);
             
             StartCoroutine(StartDelayedEvent(delay));
-            Debug.Log("Triggered " + other.gameObject + " " + Time.time);
             //PersistentTrafficEventManager.Instance.HandleEvent();
         }
     }
@@ -34,6 +33,7 @@ public class TrafficEventTrigger : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         _eventController.Triggered();
+        Debug.Log("Event started " + Time.time);
     }
 
     public void TargetVehicle(GameObject vehicle)

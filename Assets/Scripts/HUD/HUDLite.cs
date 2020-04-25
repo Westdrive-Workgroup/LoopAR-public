@@ -55,7 +55,7 @@ public class HUDLite : MonoBehaviour
 
     private void MarkObjects()
     {
-        Debug.Log("mark objects");
+        // Debug.Log("mark objects");
         foreach (var eventObject in _eventObjectsToMark)
         {
             GameObject clone= Instantiate(highlightSymbol, eventObject.transform);
