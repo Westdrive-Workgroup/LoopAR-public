@@ -63,7 +63,9 @@ public class EyeValidationManager : MonoBehaviour
             
             if (fixationSuccess)
             {
-                validationCountdown -= Time.deltaTime;
+                if(!runningValidation)
+                    validationCountdown -= Time.deltaTime;
+                
                 if (validationCountdown >= 0)
                 {
                     CounterText.text = Mathf.RoundToInt(validationCountdown).ToString();
@@ -95,10 +97,8 @@ public class EyeValidationManager : MonoBehaviour
     private IEnumerator showingFailedValidation(float time)
     {
         validationCountdown = resettetCountdown;
-        Debug.Log("Started Coroutine at timestamp : " + Time.time);
         FailedValidationText.gameObject.SetActive(true);
         yield return new WaitForSeconds(time);
-        Debug.Log("Finished Coroutine at timestamp : " + Time.time);
         FailedValidationText.gameObject.SetActive(false);
         
     }
@@ -122,6 +122,7 @@ public class EyeValidationManager : MonoBehaviour
     }
     private void SetPrepareForValidationStatus()
     {
+        CounterText.gameObject.SetActive(true);
         HeadfixationText.gameObject.SetActive(false);
         CounterText.color = Color.green;
         FixingPointText.gameObject.SetActive(true);
