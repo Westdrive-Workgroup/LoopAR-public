@@ -30,15 +30,7 @@ public class ExperimentManager : MonoBehaviour
         City,
         EndOfExperiment
     }
-    
-    // todo see if they are needed
-    private enum Event
-    {
-        Deer,
-        BrokenCar,
-        ChildAtTheMarket
-    }
-    
+
     private Scene _scene;
     
     private List<ActivationTrigger> _activationTriggers;
@@ -82,6 +74,11 @@ public class ExperimentManager : MonoBehaviour
         }
         
         RunMainMenu();
+
+        if (CalibrationManager.Instance == null)
+        {
+            Debug.Log("<color=red>Please start from MainMenu! </color>");
+        }
     }
     
 
@@ -217,6 +214,14 @@ public class ExperimentManager : MonoBehaviour
         GUI.skin.label.fontSize = labelFontSize;
         GUI.skin.label.fontStyle = FontStyle.Bold;
         
+        // Reset Button
+        GUI.backgroundColor = Color.red;
+        GUI.color = Color.white;
+        
+        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*8), buttonWidth, buttonHeight), "Reset the project"))
+        {
+            CalibrationManager.Instance.RestartProject();
+        }
                 
         // Buttons
         GUI.backgroundColor = Color.cyan;
@@ -225,17 +230,7 @@ public class ExperimentManager : MonoBehaviour
         if (_scene == Scene.MainMenu)
         {
             GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Experiment");
-            
-            if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Calibration"))
-            {
-                EyetrackingManager.Instance.StartCalibration();
-            }
 
-            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Validation"))
-            {
-                EyetrackingManager.Instance.StartValidation();
-            }
-            
             if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight), "Start the experiment"))
             {
                 StartExperiment();
