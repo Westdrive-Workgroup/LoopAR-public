@@ -90,6 +90,11 @@ public class MainMenu : MonoBehaviour
             {
                 _section = Section.MainMenu;
             }
+
+            if (CalibrationManager.Instance.GetEyeTrackerCalibrationState())
+            {
+                
+            }
             
             // Buttons
             GUI.backgroundColor = Color.cyan;

@@ -10,6 +10,15 @@ public class CalibrationManager : MonoBehaviour
     public static CalibrationManager Instance { get; private set; }
     private int _state;
 
+
+    private bool _eyeTrackerCalibrationSuccessful;
+    private bool _eyeTrackerValidationSuccessful;
+    //...
+
+
+    private Vector3 _eyeValidationError;
+    private Vector3 _seatCalibrationOffset;
+
     private void Awake()
     {
         //singleton pattern a la Unity
@@ -78,5 +87,10 @@ public class CalibrationManager : MonoBehaviour
     public int GetMenuState()
     {
         return _state;
+    }
+
+    public bool GetEyeTrackerCalibrationState()
+    {
+        return _eyeTrackerCalibrationSuccessful;
     }
 }
