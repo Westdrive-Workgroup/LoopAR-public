@@ -8,6 +8,7 @@ using UnityEngine;
 public class CalibrationManager : MonoBehaviour
 {
     public static CalibrationManager Instance { get; private set; }
+    private int _state;
 
     private void Awake()
     {
@@ -30,7 +31,7 @@ public class CalibrationManager : MonoBehaviour
 
     public void EyeCalibrationSuccessful()
     {
-        MainMenu.Instance.EyeCalibrated();
+        _state = 1;
     }
     
     public void EyeValidation()
@@ -40,7 +41,7 @@ public class CalibrationManager : MonoBehaviour
 
     public void EyeValidationSuccessful()
     {
-        MainMenu.Instance.EyeValidated();
+        _state = 2;
     }
 
     public void SeatCalibration()
@@ -50,7 +51,7 @@ public class CalibrationManager : MonoBehaviour
 
     public void SeatCalibrationSuccessful()
     {
-        MainMenu.Instance.SeatCalibrated();
+        _state = 3;
     }
 
     public void StartTestDrive()
@@ -60,7 +61,7 @@ public class CalibrationManager : MonoBehaviour
     
     public void StartTestDriveSuccessful()
     {
-        MainMenu.Instance.TrainingDone();
+        _state = 4;
     }
 
     public void GoToTheExperiment()
@@ -72,5 +73,10 @@ public class CalibrationManager : MonoBehaviour
     {
         SceneLoader.Instance.AsyncLoad(0);
         MainMenu.Instance.ReStartMainMenu();
+    }
+
+    public int GetMenuState()
+    {
+        return _state;
     }
 }

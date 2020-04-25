@@ -58,7 +58,7 @@ public class TrainingHandler : MonoBehaviour
             GUI.backgroundColor = Color.red;
             GUI.color = Color.white;
         
-            if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*8), buttonWidth, buttonHeight), "Abort"))
+            if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*9.5f), buttonWidth, buttonHeight), "Abort"))
             {
                 CalibrationManager.Instance.AbortExperiment();
             }
