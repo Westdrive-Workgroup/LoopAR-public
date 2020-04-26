@@ -19,6 +19,7 @@ public class CriticalEventController: MonoBehaviour
     private List<GameObject> _setEventObjects;
     [Tooltip("Should the event subject be active or not when experiment begins")] 
     [SerializeField] private bool eventObjectActive;
+    [SerializeField] private GameObject respawnPoint;
     
     // [SerializeField] private GameObject eventObject;
     
