@@ -168,8 +168,12 @@ public class ExperimentManager : MonoBehaviour
         participantsCar.SetActive(false);
         SceneLoader.Instance.AsyncLoad(0);
     }
-    
 
+    public void ParticipantFailed()
+    {
+        
+    }
+    
     public GameObject GetParticipantCar()
     {
         return participantsCar;
