@@ -68,7 +68,7 @@ public class TrainingHandler : MonoBehaviour
             GUI.backgroundColor = Color.red;
             GUI.color = Color.white;
             
-            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "End"))
+            if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "End"))
             {
                 SceneLoader.Instance.AsyncLoad(3);
                 _state = State.TrainingMenu;
