@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
-public class SeatCalibrationHandler : MonoBehaviour
+public class SeatCalibrationManager : MonoBehaviour
 {
     private bool _successful;
     // Start is called before the first frame update
@@ -94,5 +94,39 @@ public class SeatCalibrationHandler : MonoBehaviour
                 CalibrationManager.Instance.SeatCalibrationSuccessful();
             }
         }
+
+
+        
     }
+    
+    
+    private void DeleteSeatCalibration()
+    {
+            
+    }
+
+    private void TestPositioning()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            GetComponent<VRCam>().Seat();
+            
+        }
+    }
+
+    private void CalibrateAndStore()
+    {
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            distanceVector.x = _cameraArm.transform.position.x - _camera.transform.position.x;
+            distanceVector.y = _cameraArm.transform.position.y - _camera.transform.position.y;
+            distanceVector.z = _cameraArm.transform.position.z - _camera.transform.position.z;
+            
+            Debug.Log(distanceVector);
+            
+
+        }
+    }
+    
+    
 }
