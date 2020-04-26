@@ -75,8 +75,9 @@ public class PersistentTrafficEventManager : MonoBehaviour
         _eventObjects = eventObjects;
         
         _participantsControlSwitch.SwitchControl();
-        Debug.Log("activate HUD with " + _eventObject);
+        _participantsControlSwitch.GetComponentInChildren<WindscreenHUD>().ActivateHUD();
         _participantsControlSwitch.GetComponentInChildren<HUDLite>().ActivateHUD(_eventObjects);
+        
     }
 
     public void FinalizeEvent()
@@ -89,6 +90,8 @@ public class PersistentTrafficEventManager : MonoBehaviour
         
         _participantsControlSwitch.SwitchControl();
         _participantsControlSwitch.GetComponentInChildren<HUDLite>().DeactivateHUD();
+        _participantsControlSwitch.GetComponentInChildren<WindscreenHUD>().DeactivateHUD();
+
         // _eventObjects.Clear();
     }
 
