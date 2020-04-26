@@ -13,7 +13,8 @@ public class CalibrationManager : MonoBehaviour
 
     private bool _eyeTrackerCalibrationSuccessful;
     private bool _eyeTrackerValidationSuccessful;
-    //...
+    private bool _seatCalibrationSuccessful;
+    private bool _testDriveSuccessful;
 
 
     private Vector3 _eyeValidationError;
@@ -40,7 +41,7 @@ public class CalibrationManager : MonoBehaviour
 
     public void EyeCalibrationSuccessful()
     {
-        _state = 1;
+        _eyeTrackerCalibrationSuccessful = true;
     }
     
     public void EyeValidation()
@@ -50,7 +51,7 @@ public class CalibrationManager : MonoBehaviour
 
     public void EyeValidationSuccessful()
     {
-        _state = 2;
+        _eyeTrackerValidationSuccessful = true;
     }
 
     public void SeatCalibration()
@@ -60,7 +61,7 @@ public class CalibrationManager : MonoBehaviour
 
     public void SeatCalibrationSuccessful()
     {
-        _state = 3;
+        _seatCalibrationSuccessful = true;
     }
 
     public void StartTestDrive()
@@ -68,9 +69,9 @@ public class CalibrationManager : MonoBehaviour
         SceneLoader.Instance.AsyncLoad(3);
     }
     
-    public void StartTestDriveSuccessful()
+    public void TestDriveSuccessful()
     {
-        _state = 4;
+        _testDriveSuccessful = true;
     }
 
     public void GoToTheExperiment()
@@ -84,13 +85,23 @@ public class CalibrationManager : MonoBehaviour
         MainMenu.Instance.ReStartMainMenu();
     }
 
-    public int GetMenuState()
-    {
-        return _state;
-    }
-
     public bool GetEyeTrackerCalibrationState()
     {
         return _eyeTrackerCalibrationSuccessful;
+    }
+
+    public bool GetEyeTrackerValidationState()
+    {
+        return _eyeTrackerValidationSuccessful;
+    }
+
+    public bool GetSeatCalibrationState()
+    {
+        return _seatCalibrationSuccessful;
+    }
+
+    public bool GetTestDriveState()
+    {
+        return _testDriveSuccessful;
     }
 }
