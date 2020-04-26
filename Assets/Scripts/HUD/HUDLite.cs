@@ -6,8 +6,11 @@ using UnityEngine;
 public class HUDLite : MonoBehaviour
 {
     private List<GameObject> _eventObjectsToMark;
-
     public GameObject highlightSymbol;
+    public GameObject EventAnzeigen;
+    public GameObject NonEventAnzeigen;
+    
+
 
     private List<GameObject> _highlightedObjects;
 
@@ -17,6 +20,8 @@ public class HUDLite : MonoBehaviour
     private void Start()
     {
         _highlightedObjects = new List<GameObject>();
+       NonEventAnzeigen.SetActive(true); 
+       EventAnzeigen.SetActive(false);
     }
 
     public void ActivateHUD(GameObject testAccidentObject)
@@ -30,6 +35,7 @@ public class HUDLite : MonoBehaviour
         ObjectToMark.Add(testAccidentObject);
         ActivateHUD(ObjectToMark);
         
+        
         /*_objectToHighlight = testAccidentObject;
         MarkObject(_objectToHighlight);*/
     }
@@ -38,6 +44,8 @@ public class HUDLite : MonoBehaviour
     {
         _eventObjectsToMark = testAccidentSubjects;
         MarkObjects();
+        EventAnzeigen.SetActive(true);
+        NonEventAnzeigen.SetActive(false);
     }
 
     public void DeactivateHUD()
@@ -48,6 +56,8 @@ public class HUDLite : MonoBehaviour
         {
             // Destroy(highlightedObject);
         }
+        NonEventAnzeigen.SetActive(true);
+        EventAnzeigen.SetActive(false);
         
         _highlightedObjects.Clear();
     }
@@ -59,7 +69,7 @@ public class HUDLite : MonoBehaviour
         foreach (var eventObject in _eventObjectsToMark)
         {
             GameObject clone= Instantiate(highlightSymbol, eventObject.transform);
-            clone.transform.localPosition = Vector3.up;
+            clone.transform.localPosition = Vector3.RotateTowards(transform.forward, Camera.main.transform.position , 0 , 0.0f);
             _highlightedObjects.Add(clone); // just to 
         }
     }
