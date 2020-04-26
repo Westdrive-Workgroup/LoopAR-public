@@ -110,4 +110,9 @@ public class CriticalEventController: MonoBehaviour
         else
             parent.SetActive(false);
     }
+
+    public GameObject GetRespawnPoint()
+    {
+        return respawnPoint;
+    }
 }

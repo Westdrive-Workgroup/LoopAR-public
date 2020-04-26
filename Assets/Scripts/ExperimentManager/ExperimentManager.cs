@@ -22,8 +22,9 @@ public class ExperimentManager : MonoBehaviour
     private SavingManager _savingManager;
     private Scene _scene;
     private List<ActivationTrigger> _activationTriggers;
+    private CriticalEventController _criticalEventController;
     private bool _participantFailed;
-    
+
     // registers in which scene or state the experiment is
     private enum Scene
     {
@@ -178,8 +179,9 @@ public class ExperimentManager : MonoBehaviour
         // todo fade to black
         // todo inform HUD
         // todo switch the control to AI
-        // todo take transform from event controller
-        // todo move the car to after the event
+        
+        // move the car to after the event
+        participantsCar.transform.position = _criticalEventController.GetRespawnPoint().transform.position;
         // todo manual spawn button
     }
     
