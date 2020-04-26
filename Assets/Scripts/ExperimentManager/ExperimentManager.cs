@@ -20,6 +20,9 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private VRCam vRCamera;
 
     private SavingManager _savingManager;
+    private Scene _scene;
+    private List<ActivationTrigger> _activationTriggers;
+    
     // registers in which scene or state the experiment is
     private enum Scene
     {
@@ -32,10 +35,7 @@ public class ExperimentManager : MonoBehaviour
         EndOfExperiment
     }
 
-    private Scene _scene;
     
-    private List<ActivationTrigger> _activationTriggers;
-
     private void Awake()
     {
         _activationTriggers = new List<ActivationTrigger>();
@@ -121,7 +121,6 @@ public class ExperimentManager : MonoBehaviour
 
 
     // starting the experiment
-
     private void StartExperiment()
     {
         _scene = Scene.Experiment;
@@ -148,6 +147,7 @@ public class ExperimentManager : MonoBehaviour
     // ending the experiment
     public void EndTheExperiment()
     {
+        _scene = Scene.EndOfExperiment;
         if (SavingManager.Instance != null)
         {
             SavingManager.Instance.StopRecordingData();
@@ -166,15 +166,7 @@ public class ExperimentManager : MonoBehaviour
         }
         _camera.enabled=true;
         participantsCar.SetActive(false);
-        SceneLoader.Instance.AsyncLoad(4);
-        _scene = Scene.EndOfExperiment;
-    }
-
-
-    // used for respawning the participant car in case of screwing up
-    private void FadeIn()
-    {
-        SteamVR_Fade.Start(Color.clear, 2f);
+        SceneLoader.Instance.AsyncLoad(0);
     }
     
 
@@ -223,7 +215,7 @@ public class ExperimentManager : MonoBehaviour
             GUI.backgroundColor = Color.red;
             GUI.color = Color.white;
         
-            if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*9.5f), buttonWidth, buttonHeight), "Abort"))
+            if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*9.5f), buttonWidth, buttonHeight), "Main Menu"))
             {
                 CalibrationManager.Instance.AbortExperiment();
             }
@@ -235,7 +227,8 @@ public class ExperimentManager : MonoBehaviour
             
             if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "End"))
             {
-                EndTheExperiment();
+                SceneLoader.Instance.AsyncLoad(4);
+                _scene = Scene.MainMenu;
             }
         }
     }

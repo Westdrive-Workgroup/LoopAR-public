@@ -62,14 +62,7 @@ public class MainMenu : MonoBehaviour
         
         int labelFontSize = 33;
 
-        
-        // Lable
-        GUI.color = Color.white;
-        GUI.skin.label.fontSize = labelFontSize;
-        GUI.skin.label.fontStyle = FontStyle.Bold;
-        
-        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
-        
+        // Quit
         GUI.backgroundColor = Color.red;
         GUI.color = Color.white;
         
@@ -78,6 +71,12 @@ public class MainMenu : MonoBehaviour
             Application.Quit();
         }
         
+        // Lable
+        GUI.color = Color.white;
+        GUI.skin.label.fontSize = labelFontSize;
+        GUI.skin.label.fontStyle = FontStyle.Bold;
+
+        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
         
         if (vRScene)
         {
@@ -95,7 +94,7 @@ public class MainMenu : MonoBehaviour
             GUI.backgroundColor = Color.cyan;
             GUI.color = Color.white;
             
-            if (_section == Section.MainMenu)
+            if (!_calibrationManager.GetEyeTrackerCalibrationState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Calibration"))
                 {
@@ -133,8 +132,9 @@ public class MainMenu : MonoBehaviour
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
                 {
-                    _section = Section.MainExperiment;    
-                    CalibrationManager.Instance.GoToTheExperiment();
+                    _section = Section.MainExperiment; 
+                    // TODO check with calibration manager if it is allowed to go to the experiment (not mvp)
+                    SceneLoader.Instance.AsyncLoad(4);
                 }
             }
         }
@@ -146,8 +146,7 @@ public class MainMenu : MonoBehaviour
             if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
             {
                 _section = Section.MainExperiment;    
-                CalibrationManager.Instance.GoToTheExperiment();
-                Debug.Log("Main experiment clicked");
+                SceneLoader.Instance.AsyncLoad(4);
             }
         }
     }
