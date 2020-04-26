@@ -29,9 +29,9 @@ public class TrafficEventTrigger : MonoBehaviour
         }
     }
 
-    IEnumerator StartDelayedEvent(float delay)
+    IEnumerator StartDelayedEvent(float delaySeconds)
     {
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delaySeconds);
         _eventController.Triggered();
         Debug.Log("Event started " + Time.time);
     }

@@ -10,20 +10,16 @@ public class ExperimentManager : MonoBehaviour
 {
     public static ExperimentManager Instance { get; private set; }
     
-    [Space] [Header("Necessary Objects")]
+    [Space] [Header("Necessary Elements")]
     [SerializeField] private GameObject participantsCar;
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera firstPersonCamera;
+    [Tooltip("0 to 10 seconds")] [Range(0, 10)] [SerializeField] private float respawnDelay;
     
     [Space] [Header("VR setup")]
     [SerializeField] private bool vRScene;
     [SerializeField] private VRCam vRCamera;
 
-    private SavingManager _savingManager;
-    private Scene _scene;
-    private List<ActivationTrigger> _activationTriggers;
-    
-    // registers in which scene or state the experiment is
     private enum Scene
     {
         MainMenu,
@@ -34,6 +30,16 @@ public class ExperimentManager : MonoBehaviour
         City,
         EndOfExperiment
     }
+    
+    private SavingManager _savingManager;
+    private List<ActivationTrigger> _activationTriggers;
+    private CriticalEventController _criticalEventController;
+    private Vector3 _respawnPosition;
+    private Quaternion _respawnRotation;
+    private Scene _scene;
+    private bool _activatedEvent;
+
+    // registers in which scene or state the experiment is
 
     
     private void Awake()
@@ -168,8 +174,43 @@ public class ExperimentManager : MonoBehaviour
         participantsCar.SetActive(false);
         SceneLoader.Instance.AsyncLoad(0);
     }
-    
 
+    
+    public void ParticipantFailed()
+    {
+        _activatedEvent = false;
+        
+        // todo fade to black
+        // todo inform HUD
+        // switch the control to AI
+        participantsCar.GetComponent<ControlSwitch>().SwitchControl();
+        // move the car to after the event
+        participantsCar.SetActive(false);
+
+        StartCoroutine(RespawnParticipant(respawnDelay));
+
+    }
+
+    IEnumerator RespawnParticipant(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
+        participantsCar.GetComponent<AIController>().SetLocalTarget();
+        participantsCar.SetActive(true);
+    }
+
+    public void SetRespawnPositionAndRotation(Vector3 position, Quaternion rotation)
+    {
+        _respawnPosition = position;
+        _respawnRotation = rotation;
+    }
+
+    public void SetEventActivationState(bool activationState)
+    {
+        _activatedEvent = activationState;
+        Debug.Log("event activation state: " + _activatedEvent) ;
+    }
+    
     public GameObject GetParticipantCar()
     {
         return participantsCar;
@@ -229,6 +270,16 @@ public class ExperimentManager : MonoBehaviour
             {
                 SceneLoader.Instance.AsyncLoad(4);
                 _scene = Scene.MainMenu;
+            }
+
+            if (_activatedEvent)
+            {
+                GUI.backgroundColor = Color.magenta;
+
+                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Respawn Manualy"))
+                {
+                    ParticipantFailed();
+                }
             }
         }
     }
