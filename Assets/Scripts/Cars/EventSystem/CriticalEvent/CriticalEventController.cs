@@ -46,7 +46,7 @@ public class CriticalEventController: MonoBehaviour
         _restrictedZoneTriggers = GetComponentsInChildren<RestrictedZoneTrigger>();
 
        DeactivateRestrictedZones();
-       EventSubjectsActivationSwitch(eventObjectParent);
+       EventObjectsActivationSwitch(eventObjectParent);
        
        TurnOffMeshRenderers(consistentEventObjects);
     }
@@ -57,22 +57,23 @@ public class CriticalEventController: MonoBehaviour
         // PersistentTrafficEventManager.Instance.HandleEvent();
         if (!_activatedEvent)
         {
+            _activatedEvent = true;
             ActivateRestrictedZones();
             eventObjectParent.SetActive(true);
             PersistentTrafficEventManager.Instance.InitiateEvent(eventObjects);
             // PersistentTrafficEventManager.Instance.SetEventObject(_setEventObjects);
             // PersistentTrafficEventManager.Instance.SetEventObject(eventObject);
-            _activatedEvent = true;
+            ExperimentManager.Instance.SetRespawnPositionAndRotation(respawnPoint.transform.position, respawnPoint.transform.rotation);
+            ExperimentManager.Instance.SetEventActivationState(_activatedEvent);
         }
         else
         {
+            _activatedEvent = false;
             DeactivateRestrictedZones();
             PersistentTrafficEventManager.Instance.FinalizeEvent();
             if (!eventObjectActive)
                 eventObjectParent.SetActive(false);
         }
-        
-        
     }
 
     private void ActivateRestrictedZones()
@@ -90,7 +91,6 @@ public class CriticalEventController: MonoBehaviour
         {
             restrictedZoneTrigger.gameObject.SetActive(false);
         }
-        _activatedEvent = false;
     }
 
     public void TurnOffMeshRenderers(GameObject trigger)
@@ -103,16 +103,11 @@ public class CriticalEventController: MonoBehaviour
         }
     }
 
-    private void EventSubjectsActivationSwitch(GameObject parent)
+    private void EventObjectsActivationSwitch(GameObject parent)
     {
         if (eventObjectActive)
             parent.SetActive(true);
         else
             parent.SetActive(false);
-    }
-
-    public GameObject GetRespawnPoint()
-    {
-        return respawnPoint;
     }
 }

@@ -9,7 +9,7 @@ public class AIController : MonoBehaviour
 {
     [Space] [Header("Debug")] public bool showLocalTargetGizmos = false;
     [Range(0f,100f)]
-    [SerializeField] private float localTargetVisualizerRadius  = 30f;
+    [SerializeField] private float localTargetVisualizerRadius  = 5f;
     [SerializeField] private Color localTargetColor = Color.red;
     
     private CarController _carController;
@@ -55,7 +55,12 @@ public class AIController : MonoBehaviour
         
         _targetAngle = 0;
         manualOverride = false;
-        
+
+        SetLocalTarget();
+    }
+
+    public void SetLocalTarget()
+    {
         _nearestPoint = GetClosestPoint(path);
         SetProgressPercentage(path);
         _localTarget = path.GetPoint(progressPercentage);

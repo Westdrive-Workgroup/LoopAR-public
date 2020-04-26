@@ -30,10 +30,10 @@ public class InputRecorder: MonoBehaviour
         
         if (_participantCar != null)
         {
-            if (_participantCar.GetComponentInChildren<ManualController>()!=null)
+            if (_participantCar.GetComponent<ManualController>()!=null)
             {
                 Debug.Log("found");
-                _participantCar.GetComponentInChildren<ManualController>().NotifyInputObservers += ReceiveInput;
+                _participantCar.GetComponent<ManualController>().NotifyInputObservers += ReceiveInput;
             }
 
         }
@@ -103,12 +103,5 @@ public class InputRecorder: MonoBehaviour
         {
             throw new Exception("Input Data Recording has not been finished");
         }
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
