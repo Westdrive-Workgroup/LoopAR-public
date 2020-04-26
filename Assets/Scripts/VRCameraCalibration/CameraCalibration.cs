@@ -8,8 +8,8 @@ using Valve.VR;
 
 public class CameraCalibration : MonoBehaviour
 {
-    private GameObject _camera;
-    public GameObject calibrationOffset;
+    [SerializeField] private GameObject _camera;
+    [SerializeField] private GameObject calibrationOffset;
     // Start is called before the first frame update
 
     private void Start()
@@ -25,13 +25,9 @@ public class CameraCalibration : MonoBehaviour
     void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            GetComponent<VRCam>().Seat();
-            
-        }
         
     }
+    
 
   
     

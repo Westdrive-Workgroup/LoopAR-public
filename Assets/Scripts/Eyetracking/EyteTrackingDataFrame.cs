@@ -30,24 +30,5 @@ using UnityEngine;
 
     //why though?
     // trigger pressed 
-
-
-    public int NumberOfDataStrings()
-    {
-        return 1 + //TimeStamp
-               1 + //TimeStamp
-               1 + //TobiiTimeStamp
-               3 + //HmdPosition
-               3 + //NoseVector
-               3 + //EyePosWorld
-               3 + //EyeDirWorld      
-               3 + //EyePosLocal
-               3 + //EyeDirLocal
-               1 +
-               1 +
-               1 +
-               1 +
-               1 +
-               hitObjects.Count;
-    }
+    
 }

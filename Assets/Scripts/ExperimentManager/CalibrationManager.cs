@@ -28,10 +28,13 @@ public class CalibrationManager : MonoBehaviour
         
         calibrationFilePath = GetPathForSaveFile("CalibrationData");
 
-        if (!File.Exists(calibrationFilePath))
+        if (File.Exists(calibrationFilePath))
         {
             _calibrationData = LoadCalibrationFile(calibrationFilePath);
-            _seatCalibrationOffset = _calibrationData.SeatCalibrationOffset;
+        }
+        else
+        {
+            _calibrationData = new CalibrationData();
         }
         //singleton pattern a la Unity
         if (Instance == null)
@@ -122,7 +125,7 @@ public class CalibrationManager : MonoBehaviour
 
     public Vector3 GetSeatCalibrationOffset()
     {
-        return _seatCalibrationOffset;
+        return _calibrationData.SeatCalibrationOffset;
     }
     void SaveCalibrationFile(CalibrationData calibrationData)
     {
@@ -141,7 +144,7 @@ public class CalibrationManager : MonoBehaviour
         if(!File.Exists(dataPath))
         {
             Debug.Log("file not found");
-            
+            return null;
         }
         
         else
@@ -155,7 +158,7 @@ public class CalibrationManager : MonoBehaviour
 
     public void StoreSeatCalibrationData(Vector3 seatOffset)
     {
-        _seatCalibrationOffset = seatOffset;
+        //_seatCalibrationOffset = seatOffset;
         _calibrationData.SeatCalibrationOffset = seatOffset;
     }
     

@@ -7,10 +7,24 @@ using UnityEngine.SceneManagement;
 public class SeatCalibrationManager : MonoBehaviour
 {
     private bool _successful;
+
+    private Vector3 distanceVector;
+    private GameObject vrCameraObject;
+    private GameObject cameraOffsetObject;
+
+    [SerializeField]private VRCam _vrCam;
+    private 
     // Start is called before the first frame update
     void Start()
     {
+        distanceVector = CalibrationManager.Instance.GetSeatCalibrationOffset();
+        vrCameraObject = _vrCam.GetCamera();
+        cameraOffsetObject = _vrCam.GetCameraOffset();
         
+        if (_vrCam == null)
+        {
+            Debug.LogError("Please add the VRCam Prefab in the Inspector");
+        }
     }
 
     public void OnGUI()
@@ -60,13 +74,13 @@ public class SeatCalibrationManager : MonoBehaviour
         
         if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Test Positioning"))
         {
-            // todo
+            TestPositioning();
         }
         
         if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight),
             "Calibrate and Store"))
         {
-            // todo
+            CalibrateAndStore();
         }
         
         if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*2), buttonWidth, buttonHeight),
@@ -107,25 +121,18 @@ public class SeatCalibrationManager : MonoBehaviour
 
     private void TestPositioning()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            GetComponent<VRCam>().Seat();
-            
-        }
+        _vrCam.Seat();
     }
 
     private void CalibrateAndStore()
     {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            distanceVector.x = _cameraArm.transform.position.x - _camera.transform.position.x;
-            distanceVector.y = _cameraArm.transform.position.y - _camera.transform.position.y;
-            distanceVector.z = _cameraArm.transform.position.z - _camera.transform.position.z;
+       
+            distanceVector.x = cameraOffsetObject.transform.position.x - vrCameraObject.transform.position.x;
+            distanceVector.y = cameraOffsetObject.transform.position.y - vrCameraObject.transform.position.y;
+            distanceVector.z = cameraOffsetObject.transform.position.z - vrCameraObject.transform.position.z;
             
-            Debug.Log(distanceVector);
+            CalibrationManager.Instance.StoreSeatCalibrationData(distanceVector);
             
-
-        }
     }
     
     
