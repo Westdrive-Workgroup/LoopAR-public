@@ -7,36 +7,35 @@ public class VRCam : MonoBehaviour
 {
     
     public GameObject seatPosition;
-    public bool UseCalibrationOffset;
     private bool SeatActivated;
-    private GameObject _camera;
+    
     
     private Vector3 _formerPosition;
 
-    private Vector3 CalibrationOffset;
+    [SerializeField] private GameObject _calibrationOffset;
+    [SerializeField] private GameObject _camera;
 
     private void Awake()
     {
-        CalibrationOffset.x = PlayerPrefs.GetFloat("_hmd_offset_x");
-        CalibrationOffset.y = PlayerPrefs.GetFloat("_hmd_offset_y");
-        CalibrationOffset.z = PlayerPrefs.GetFloat("_hmd_offset_z");
-        
-        _camera= this.transform.GetChild(0).gameObject;
-        if (UseCalibrationOffset)
-        {
-            _camera.transform.position = CalibrationOffset;
-        }
+      
     }
 
     private void Start()
     {
-        CalibrationOffset = new Vector3();
-        SeatActivated = false;
-        _formerPosition = new Vector3();
-        _camera= this.transform.GetChild(0).gameObject;
+        if (CalibrationManager.Instance != null)
+        {
+            _calibrationOffset.transform.localPosition = CalibrationManager.Instance.GetSeatCalibrationOffset();
+        }
+        else
+        {
+            _calibrationOffset.transform.localPosition = Vector3.zero;
+            Debug.LogWarning("no Calibration Manager found, please at to the scene");
+        }
         
-       
-        _camera.transform.localPosition = CalibrationOffset;
+        
+        _formerPosition = new Vector3();
+
+        
 
     }
 
@@ -70,8 +69,17 @@ public class VRCam : MonoBehaviour
 
     public GameObject GetCamera()
     {
-        return this.transform.GetChild(0).gameObject;
+        return _camera;
     }
 
+    public GameObject GetCameraOffset()
+    {
+        return _calibrationOffset;
+    }
+    
+    public void SetOffset(Vector3 localOffset)
+    {
+        _calibrationOffset.transform.localPosition = localOffset;
+    }
 
 }

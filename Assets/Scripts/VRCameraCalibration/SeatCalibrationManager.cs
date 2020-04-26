@@ -4,13 +4,27 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
-public class SeatCalibrationHandler : MonoBehaviour
+public class SeatCalibrationManager : MonoBehaviour
 {
     private bool _successful;
+
+    private Vector3 distanceVector;
+    private GameObject vrCameraObject;
+    private GameObject cameraOffsetObject;
+
+    [SerializeField]private VRCam _vrCam;
+    private 
     // Start is called before the first frame update
     void Start()
     {
+        distanceVector = new Vector3();
+        vrCameraObject = _vrCam.GetCamera();
+        cameraOffsetObject = _vrCam.GetCameraOffset();
         
+        if (_vrCam == null)
+        {
+            Debug.LogError("Please add the VRCam Prefab in the Inspector");
+        }
     }
 
     public void OnGUI()
@@ -55,26 +69,33 @@ public class SeatCalibrationHandler : MonoBehaviour
 
         if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Delete Calibration"))
         {
-            // todo
+            DeleteSeatCalibration();
         }
         
         if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Test Positioning"))
         {
-            // todo
+            TestPositioning();
         }
         
         if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight),
             "Calibrate and Store"))
         {
-            // todo
+            CalibrateAndStore();
         }
         
         if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*2), buttonWidth, buttonHeight),
             "Apply Calibration"))
         {
-            // todo
-            _successful = true;
+            ApplyCalibration();
         }
+        
+        GUI.backgroundColor = Color.green;
+            
+        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*3), buttonWidth, buttonHeight), "Confirm Calibration"))
+        {
+            CalibrationManager.Instance.SeatCalibrationSuccessful();
+        }
+        
         
         // Reset Button
         GUI.backgroundColor = Color.red;
@@ -84,15 +105,36 @@ public class SeatCalibrationHandler : MonoBehaviour
         {
             CalibrationManager.Instance.AbortExperiment();
         }
-
-        if (_successful)
-        {
-            GUI.backgroundColor = Color.green;
-            
-            if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*3), buttonWidth, buttonHeight), "Confirm Calibration"))
-            {
-                CalibrationManager.Instance.SeatCalibrationSuccessful();
-            }
-        }
     }
+    
+    
+    private void DeleteSeatCalibration()
+    {
+        CalibrationManager.Instance.StoreSeatCalibrationData(Vector3.zero);
+    }
+
+    private void TestPositioning()
+    {
+        _vrCam.Seat();
+    }
+
+    private void CalibrateAndStore()
+    {
+       
+            distanceVector.x = cameraOffsetObject.transform.position.x - vrCameraObject.transform.position.x;
+            distanceVector.y = cameraOffsetObject.transform.position.y - vrCameraObject.transform.position.y;
+            distanceVector.z = cameraOffsetObject.transform.position.z - vrCameraObject.transform.position.z;
+            
+            CalibrationManager.Instance.StoreSeatCalibrationData(distanceVector);
+
+    }
+
+    private void ApplyCalibration()
+    {
+        SceneLoader.Instance.AsyncLoad(2);
+    }
+    
+    
+    
+    
 }

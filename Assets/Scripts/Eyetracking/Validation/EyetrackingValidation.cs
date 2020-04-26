@@ -19,7 +19,7 @@ public class EyetrackingValidation : MonoBehaviour
     private EyeValidationData _eyeValidationData;
     private bool _isRunning;
     private IEnumerator runningValidation;
-    public delegate void OnFinishedEyeValidation(bool wasSuccessful);
+    public delegate void OnFinishedEyeValidation(bool wasSuccessful, Vector3 ErrorAngles);
     public event OnFinishedEyeValidation NotifyEyeValidationObservers;
     private EyetrackingManager _eyetrackingManager;
 
@@ -135,13 +135,13 @@ public class EyetrackingValidation : MonoBehaviour
             CalculateValidationError(anglesZ) > 1)
         {
             _isRunning = false;
-            NotifyEyeValidationObservers?.Invoke(false);
+            NotifyEyeValidationObservers?.Invoke(false, _eyeValidationData.ValidationResults);
             Debug.LogWarning("<color=red>Validation Error is too big (error angles >1) , please relaunch a calibration first </color>");
         }
         else
         {
             _isRunning = false;
-            NotifyEyeValidationObservers?.Invoke(true);
+            NotifyEyeValidationObservers?.Invoke(true, _eyeValidationData.ValidationResults);
         }
         
         gameObject.SetActive(false);

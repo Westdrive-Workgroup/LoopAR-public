@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Security;
 using UnityEngine;
 
@@ -10,18 +11,31 @@ public class CalibrationManager : MonoBehaviour
     public static CalibrationManager Instance { get; private set; }
     private int _state;
 
-
+    private String calibrationFilePath;
+    
     private bool _eyeTrackerCalibrationSuccessful;
     private bool _eyeTrackerValidationSuccessful;
     private bool _seatCalibrationSuccessful;
     private bool _testDriveSuccessful;
 
 
+    private CalibrationData _calibrationData;
     private Vector3 _eyeValidationError;
     private Vector3 _seatCalibrationOffset;
-
+    
     private void Awake()
     {
+        
+        calibrationFilePath = GetPathForSaveFile("CalibrationData");
+
+        if (File.Exists(calibrationFilePath))
+        {
+            _calibrationData = LoadCalibrationFile(calibrationFilePath);
+        }
+        else
+        {
+            _calibrationData = new CalibrationData();
+        }
         //singleton pattern a la Unity
         if (Instance == null)
         {
@@ -33,7 +47,7 @@ public class CalibrationManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    
     public void EyeCalibration()
     {
         EyetrackingManager.Instance.StartCalibration();
@@ -52,6 +66,7 @@ public class CalibrationManager : MonoBehaviour
     public void EyeValidationSuccessful()
     {
         _eyeTrackerValidationSuccessful = true;
+        SceneLoader.Instance.AsyncLoad(0);
     }
 
     public void SeatCalibration()
@@ -62,6 +77,7 @@ public class CalibrationManager : MonoBehaviour
     public void SeatCalibrationSuccessful()
     {
         _seatCalibrationSuccessful = true;
+        SceneLoader.Instance.AsyncLoad(0);
     }
 
     public void StartTestDrive()
@@ -72,6 +88,7 @@ public class CalibrationManager : MonoBehaviour
     public void TestDriveSuccessful()
     {
         _testDriveSuccessful = true;
+        SceneLoader.Instance.AsyncLoad(0);
     }
 
     public void AbortExperiment()
@@ -99,4 +116,78 @@ public class CalibrationManager : MonoBehaviour
     {
         return _testDriveSuccessful;
     }
+
+    public Vector3 GetSeatCalibrationOffset()
+    {
+        return _calibrationData.SeatCalibrationOffset;
+    }
+
+    public Vector3 GetValidationError()
+    {
+        return _calibrationData.EyeValidationError;
+    }
+
+    public void StoreSeatCalibrationData(Vector3 seatOffset)
+    {
+        //_seatCalibrationOffset = seatOffset;
+        _calibrationData.SeatCalibrationOffset = seatOffset;
+        SaveCalibrationData();
+    }
+
+    public void StoreValidationErrorData(Vector3 validationError)
+    {
+        _calibrationData.EyeValidationError = validationError;
+        SaveCalibrationData();
+    }
+    
+    public void SaveCalibrationData()
+    {
+        SaveCalibrationFile(_calibrationData);
+    }
+    public void DeleteCalibrationData()
+    {
+        DeleteCalibrationFile(calibrationFilePath);
+    }
+    
+    private void DeleteCalibrationFile(string dataPath)
+    {
+        if(!File.Exists(dataPath))
+        {
+            Debug.Log("file not found, can not be deleted");
+        }
+        else
+        {
+            File.Delete(dataPath);
+        }
+    }
+    private void SaveCalibrationFile(CalibrationData calibrationData)
+    {
+        string jsonString = JsonUtility.ToJson(calibrationData);
+        File.WriteAllText(calibrationFilePath, jsonString);
+    }
+    
+    private string GetPathForSaveFile(string saveFileName)
+    {
+        return Path.Combine(Application.persistentDataPath, saveFileName + ".txt");
+    }
+    
+    private CalibrationData LoadCalibrationFile(string dataPath)
+    {
+        string jsonString;
+        if(!File.Exists(dataPath))
+        {
+            Debug.Log("file not found");
+            return null;
+        }
+        
+        else
+        {
+            Debug.Log("found Calibration Data, loading...");
+            jsonString = File.ReadAllText(dataPath);
+            //Debug.Log(jsonString);
+            return JsonUtility.FromJson<CalibrationData>(jsonString);
+        }
+    }
+    
+    
 }
