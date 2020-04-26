@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -17,15 +18,15 @@ public class MainMenu : MonoBehaviour
         EyeValidation = 2,
         SeatCalibration = 3,
         TrainingBlock = 4,
-        // MainExperiment = 5
+        MainExperiment = 5
     }
 
     private Section _section;
 
-    /*private bool _eyeCalibrated;
-    private bool _validated;
+    private bool _eyeCalibrated;
+    private bool _eyeValidated;
     private bool _seatCalibrated;
-    private bool _trained;*/
+    private bool _trained;
 
     private void Awake()
     {
@@ -43,7 +44,11 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        _section = (Section)CalibrationManager.Instance.GetMenuState();
+        _section = Section.MainMenu;
+        _eyeCalibrated = CalibrationManager.Instance.GetEyeTrackerCalibrationState();
+        _eyeValidated = CalibrationManager.Instance.GetEyeTrackerValidationState();
+        _seatCalibrated = CalibrationManager.Instance.GetSeatCalibrationState();
+        _trained = CalibrationManager.Instance.GetTestDriveState();
     }
 
     public void OnGUI()
@@ -90,11 +95,7 @@ public class MainMenu : MonoBehaviour
             {
                 _section = Section.MainMenu;
             }
-
-            if (CalibrationManager.Instance.GetEyeTrackerCalibrationState())
-            {
-                
-            }
+            
             
             // Buttons
             GUI.backgroundColor = Color.cyan;
@@ -104,37 +105,41 @@ public class MainMenu : MonoBehaviour
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Calibration"))
                 {
+                    _section = Section.EyeCalibration;
                     CalibrationManager.Instance.EyeCalibration();
                 }
             }
-            else if (_section == Section.EyeCalibration /*_eyeCalibrated && !_validated*/)
+            else if (_eyeCalibrated && !_eyeValidated)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Validation"))
                 {
+                    _section = Section.EyeValidation;
                     CalibrationManager.Instance.EyeValidation();
                 }
             }
-            else if (_section == Section.EyeValidation /*_validated && !_seatCalibrated*/)
+            else if (_eyeValidated && !_seatCalibrated)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight),
                     "Seat Calibration"))
                 {
+                    _section = Section.SeatCalibration;
                     CalibrationManager.Instance.SeatCalibration();
                 }
             }
-            else if (_section == Section.SeatCalibration /*_seatCalibrated && !_trained*/)
+            else if (_seatCalibrated && !_trained)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight),
                     "Test Drive Scene"))
                 {
+                    _section = Section.TrainingBlock;
                     CalibrationManager.Instance.StartTestDrive();
                 }
             }
-            else if (_section == Section.TrainingBlock /*_trained*/)
+            else if (_trained)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
                 {
-                    // _section = Section.MainExperiment;    
+                    _section = Section.MainExperiment;    
                     CalibrationManager.Instance.GoToTheExperiment();
                 }
             }
@@ -146,34 +151,13 @@ public class MainMenu : MonoBehaviour
             
             if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
             {
-                // _section = Section.MainExperiment;    
+                _section = Section.MainExperiment;    
                 CalibrationManager.Instance.GoToTheExperiment();
                 Debug.Log("Main experiment clicked");
             }
         }
     }
 
-
-    /*public void EyeCalibrated()
-    {
-        _eyeCalibrated = true;
-    }
-
-    public void EyeValidated()
-    {
-        _validated = true;
-    }
-
-    public void SeatCalibrated()
-    {
-        _seatCalibrated = true;
-    }
-
-    public void TrainingDone()
-    {
-        _trained = true;
-    }*/
-    
     public void ReStartMainMenu()
     {
         _section = Section.MainMenu;
