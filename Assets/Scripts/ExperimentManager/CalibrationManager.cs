@@ -139,6 +139,12 @@ public class CalibrationManager : MonoBehaviour
         _calibrationData.SeatCalibrationOffset = seatOffset;
         SaveCalibrationData();
     }
+
+    public void StoreValidationErrorData(Vector3 validationError)
+    {
+        _calibrationData.EyeValidationError = validationError;
+        SaveCalibrationData();
+    }
     
     public void SaveCalibrationData()
     {

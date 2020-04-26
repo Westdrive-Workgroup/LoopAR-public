@@ -22,7 +22,8 @@ public class EyetrackingManager : MonoBehaviour
     private bool _calibrationSuccess;
 
     private float eyeValidationDelay;
-    
+
+    private Vector3 _eyeValidationErrorAngles;
     
     public delegate void OnCompletedEyeValidation(bool wasSuccessful);
     public event OnCompletedEyeValidation NotifyEyeValidationCompletnessObservers;
@@ -143,6 +144,11 @@ public class EyetrackingManager : MonoBehaviour
     {
         _eyeValidationData = data;
     }
+
+    public Vector3 GetEyeValidationErrorAngles()
+    {
+        return _eyeValidationErrorAngles;
+    }
     
 
     private void StoreEyeTrackingData()
@@ -162,17 +168,20 @@ public class EyetrackingManager : MonoBehaviour
         }
     }
 
-    private void SetEyeValidationStatus(bool eyeValidationWasSucessfull)
+    private void SetEyeValidationStatus(bool eyeValidationWasSucessfull, Vector3 errorAngles)
     {
         Debug.Log("eyeValidation Status was called in EyeTrackingManager with " + eyeValidationWasSucessfull);
         _eyeValidationSucessful = eyeValidationWasSucessfull;
         
         if (!eyeValidationWasSucessfull)
         {
+            _eyeValidationErrorAngles = errorAngles;
             NotifyEyeValidationCompletnessObservers?.Invoke(false);
+            
         }
         else
         {
+            _eyeValidationErrorAngles = errorAngles;
             NotifyEyeValidationCompletnessObservers?.Invoke(true);
         }
         

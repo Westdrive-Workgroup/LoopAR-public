@@ -30,8 +30,9 @@ public class EyeValidationManager : MonoBehaviour
     private bool runningValidation;
 
     private EyetrackingManager _eyetrackingManager;
-    
-    
+
+
+    private Vector3 _validationError;
     // Start is called before the first frame update
     void Start()
     {
@@ -171,6 +172,7 @@ public class EyeValidationManager : MonoBehaviour
             {
                 ValidationSuccessful = true;
                 SetValidationSuccesfulStatus();
+                CalibrationManager.Instance.StoreValidationErrorData(EyetrackingManager.Instance.GetEyeValidationErrorAngles());
                 CalibrationManager.Instance.EyeValidationSuccessful();
                 Debug.Log("was successful");
             }
