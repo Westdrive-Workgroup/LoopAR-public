@@ -23,10 +23,7 @@ public class MainMenu : MonoBehaviour
 
     private Section _section;
 
-    private bool _eyeCalibrated;
-    private bool _eyeValidated;
-    private bool _seatCalibrated;
-    private bool _trained;
+    private CalibrationManager _calibrationManager;
 
     private void Awake()
     {
@@ -45,10 +42,7 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         _section = Section.MainMenu;
-        _eyeCalibrated = CalibrationManager.Instance.GetEyeTrackerCalibrationState();
-        _eyeValidated = CalibrationManager.Instance.GetEyeTrackerValidationState();
-        _seatCalibrated = CalibrationManager.Instance.GetSeatCalibrationState();
-        _trained = CalibrationManager.Instance.GetTestDriveState();
+        _calibrationManager = CalibrationManager.Instance;
     }
 
     public void OnGUI()
@@ -109,7 +103,7 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.EyeCalibration();
                 }
             }
-            else if (_eyeCalibrated && !_eyeValidated)
+            else if (_calibrationManager.GetEyeTrackerCalibrationState() && !_calibrationManager.GetEyeTrackerValidationState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Validation"))
                 {
@@ -117,7 +111,7 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.EyeValidation();
                 }
             }
-            else if (_eyeValidated && !_seatCalibrated)
+            else if (_calibrationManager.GetEyeTrackerValidationState() && !_calibrationManager.GetSeatCalibrationState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight),
                     "Seat Calibration"))
@@ -126,7 +120,7 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.SeatCalibration();
                 }
             }
-            else if (_seatCalibrated && !_trained)
+            else if (_calibrationManager.GetSeatCalibrationState() && !_calibrationManager.GetTestDriveState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight),
                     "Test Drive Scene"))
@@ -135,7 +129,7 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.StartTestDrive();
                 }
             }
-            else if (_trained)
+            else if (_calibrationManager.GetTestDriveState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
                 {
