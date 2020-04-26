@@ -215,13 +215,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &508772972 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3511108016897844660, guid: 42869962d24d9094487ac69724616526,
+    type: 3}
+  m_PrefabInstance: {fileID: 2016306223}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &508772973 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3511108016897844663, guid: 42869962d24d9094487ac69724616526,
     type: 3}
   m_PrefabInstance: {fileID: 2016306223}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 508772972}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7bdabc8095e8a545859d06fb5e7a79e, type: 3}
@@ -321,6 +327,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1e1f7002f54d14409a3d0c03f76e018, type: 3}
+--- !u!1 &809683799 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5956370727506629608, guid: 42869962d24d9094487ac69724616526,
+    type: 3}
+  m_PrefabInstance: {fileID: 2016306223}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1210043053 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3511108017593222662, guid: 42869962d24d9094487ac69724616526,
@@ -426,6 +438,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1526214285}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1853681768 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3511108017593222663, guid: 42869962d24d9094487ac69724616526,
+    type: 3}
+  m_PrefabInstance: {fileID: 2016306223}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1866187669
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,6 +682,16 @@ PrefabInstance:
       propertyPath: UseCalibrationOffset
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3511108016897844663, guid: 42869962d24d9094487ac69724616526,
+        type: 3}
+      propertyPath: _calibrationOffset
+      value: 
+      objectReference: {fileID: 809683799}
+    - target: {fileID: 3511108016897844663, guid: 42869962d24d9094487ac69724616526,
+        type: 3}
+      propertyPath: _camera
+      value: 
+      objectReference: {fileID: 1853681768}
     - target: {fileID: 3511108017593222662, guid: 42869962d24d9094487ac69724616526,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -739,6 +767,11 @@ PrefabInstance:
       propertyPath: _vrCam
       value: 
       objectReference: {fileID: 508772973}
+    - target: {fileID: 1845465369818803127, guid: 6f4f53ae729ef1145aac35d944841c95,
+        type: 3}
+      propertyPath: vrCameraObject
+      value: 
+      objectReference: {fileID: 508772972}
     - target: {fileID: 2072410070240306456, guid: 6f4f53ae729ef1145aac35d944841c95,
         type: 3}
       propertyPath: m_Name

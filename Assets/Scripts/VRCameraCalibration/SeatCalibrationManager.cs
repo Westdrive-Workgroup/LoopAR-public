@@ -17,7 +17,7 @@ public class SeatCalibrationManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        distanceVector = CalibrationManager.Instance.GetSeatCalibrationOffset();
+        distanceVector = new Vector3();
         vrCameraObject = _vrCam.GetCamera();
         cameraOffsetObject = _vrCam.GetCameraOffset();
         
@@ -86,7 +86,7 @@ public class SeatCalibrationManager : MonoBehaviour
         if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*2), buttonWidth, buttonHeight),
             "Apply Calibration"))
         {
-            // todo
+            ApplyCalibration();
             _successful = true;
         }
         
@@ -134,6 +134,13 @@ public class SeatCalibrationManager : MonoBehaviour
             CalibrationManager.Instance.StoreSeatCalibrationData(distanceVector);
             
     }
+
+    private void ApplyCalibration()
+    {
+        SceneLoader.Instance.AsyncLoad(2);
+    }
+    
+    
     
     
 }
