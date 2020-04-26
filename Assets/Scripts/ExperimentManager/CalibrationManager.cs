@@ -74,11 +74,6 @@ public class CalibrationManager : MonoBehaviour
         _testDriveSuccessful = true;
     }
 
-    public void GoToTheExperiment()
-    {
-        SceneLoader.Instance.AsyncLoad(4);
-    }
-
     public void AbortExperiment()
     {
         SceneLoader.Instance.AsyncLoad(0);

@@ -20,7 +20,6 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private VRCam vRCamera;
 
     private SavingManager _savingManager;
-    private bool _endOfExperiment;
     private Scene _scene;
     private List<ActivationTrigger> _activationTriggers;
     
@@ -167,14 +166,9 @@ public class ExperimentManager : MonoBehaviour
         }
         _camera.enabled=true;
         participantsCar.SetActive(false);
-        _endOfExperiment = true;
         SceneLoader.Instance.AsyncLoad(0);
     }
-
-    public bool GetEndOfExperimentState()
-    {
-        return _endOfExperiment;
-    }
+    
 
     public GameObject GetParticipantCar()
     {
@@ -221,7 +215,7 @@ public class ExperimentManager : MonoBehaviour
             GUI.backgroundColor = Color.red;
             GUI.color = Color.white;
         
-            if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*9.5f), buttonWidth, buttonHeight), "Abort"))
+            if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*9.5f), buttonWidth, buttonHeight), "Main Menu"))
             {
                 CalibrationManager.Instance.AbortExperiment();
             }
@@ -233,7 +227,8 @@ public class ExperimentManager : MonoBehaviour
             
             if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "End"))
             {
-                EndTheExperiment();
+                SceneLoader.Instance.AsyncLoad(4);
+                _scene = Scene.MainMenu;
             }
         }
     }

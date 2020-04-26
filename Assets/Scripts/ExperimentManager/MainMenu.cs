@@ -24,7 +24,6 @@ public class MainMenu : MonoBehaviour
     private Section _section;
 
     private CalibrationManager _calibrationManager;
-    private ExperimentManager _experimentManager;
 
     private void Awake()
     {
@@ -44,7 +43,6 @@ public class MainMenu : MonoBehaviour
     {
         _section = Section.MainMenu;
         _calibrationManager = CalibrationManager.Instance;
-        _experimentManager = ExperimentManager.Instance;
     }
 
     public void OnGUI()
@@ -78,20 +76,7 @@ public class MainMenu : MonoBehaviour
         GUI.skin.label.fontSize = labelFontSize;
         GUI.skin.label.fontStyle = FontStyle.Bold;
 
-        if (_section == Section.MainMenu)
-        {
-            GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
-        } 
-        else if (!_experimentManager.GetEndOfExperimentState())
-        {
-            GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Menu");
-        }
-        else
-        {
-            GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "End of Experiment");
-        }
-        
-        
+        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
         
         if (vRScene)
         {
@@ -109,7 +94,7 @@ public class MainMenu : MonoBehaviour
             GUI.backgroundColor = Color.cyan;
             GUI.color = Color.white;
             
-            if (!_calibrationManager.GetEyeTrackerCalibrationState() && !_experimentManager.GetEndOfExperimentState())
+            if (!_calibrationManager.GetEyeTrackerCalibrationState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Calibration"))
                 {
@@ -147,8 +132,9 @@ public class MainMenu : MonoBehaviour
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
                 {
-                    _section = Section.MainExperiment;    
-                    CalibrationManager.Instance.GoToTheExperiment();
+                    _section = Section.MainExperiment; 
+                    // TODO check with calibration manager if it is allowed to go to the experiment (not mvp)
+                    SceneLoader.Instance.AsyncLoad(4);
                 }
             }
         }
@@ -160,7 +146,7 @@ public class MainMenu : MonoBehaviour
             if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
             {
                 _section = Section.MainExperiment;    
-                CalibrationManager.Instance.GoToTheExperiment();
+                SceneLoader.Instance.AsyncLoad(4);
             }
         }
     }
