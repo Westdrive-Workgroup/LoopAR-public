@@ -3,35 +3,73 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 using Valve.VR.InteractionSystem;
 using ViveSR.anipal.Eye;
 
 public class EyetrackingValidation : MonoBehaviour
 {
-
+    
 
     public float distance;
     public List<Vector3> keyPositions;
     private int validationPointIdx;
     private int validationTrial;
-    public float delay;
     private Transform _hmdTransform;
     private EyeValidationData _eyeValidationData;
+    private bool _isRunning;
+    private IEnumerator runningValidation;
+    public delegate void OnFinishedEyeValidation(bool wasSuccessful, Vector3 ErrorAngles);
+    public event OnFinishedEyeValidation NotifyEyeValidationObservers;
+    private EyetrackingManager _eyetrackingManager;
 
+    private void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        
+    }
+    
+    
+
+    
     private void Start()
     {
+        EyetrackingManager _eyetrackingManager = EyetrackingManager.Instance;
         _hmdTransform = EyetrackingManager.Instance.GetHmdTransform();
+        _isRunning = false;
+    }
+    
+    private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)  // generally I am not proud of this call, but seems necessary for the moment.
+    {
+        _hmdTransform = EyetrackingManager.Instance.GetHmdTransform();        //refresh the HMD transform after sceneload;
+        //Debug.Log("hello new World");
     }
 
-
-    public void StartValidation()
+    public void AbortValidation()
     {
-        gameObject.SetActive(true);
-        StartCoroutine(Validate());
+        if (_isRunning)
+        {
+            Debug.Log("EyeValidation was aborted");
+            StopCoroutine(runningValidation);
+            gameObject.transform.position = Vector3.zero;
+            _isRunning = false;
+            gameObject.SetActive(false);
+        }
+    }
+    public void StartValidation(float delay)
+    {
+        if (!_isRunning)
+        {
+            _isRunning = true;
+            gameObject.SetActive(true);
+            _hmdTransform = EyetrackingManager.Instance.GetHmdTransform();
+            runningValidation = Validate(delay);
+            StartCoroutine(runningValidation);
+        }
     }
     
 
-    private IEnumerator Validate()
+    private IEnumerator Validate(float delay)
     {
         yield return new WaitForSeconds(delay);
         List<float> anglesX = new List<float>();
@@ -91,12 +129,23 @@ public class EyetrackingValidation : MonoBehaviour
                                     ", " +
                                     CalculateValidationError(anglesZ).ToString("0.00") + ")";
         Debug.Log("<color=yellow> Validation Results"+ validationResult+ "(</color>");
-        gameObject.SetActive(false);
+        gameObject.transform.position = Vector3.zero;
+        
         if (CalculateValidationError(anglesX) > 1 || CalculateValidationError(anglesY) > 1 ||
             CalculateValidationError(anglesZ) > 1)
         {
+            _isRunning = false;
+            NotifyEyeValidationObservers?.Invoke(false, _eyeValidationData.ValidationResults);
             Debug.LogWarning("<color=red>Validation Error is too big (error angles >1) , please relaunch a calibration first </color>");
         }
+        else
+        {
+            _isRunning = false;
+            NotifyEyeValidationObservers?.Invoke(true, _eyeValidationData.ValidationResults);
+        }
+        
+        gameObject.SetActive(false);
+        
     }
 
 
@@ -120,9 +169,9 @@ public class EyetrackingValidation : MonoBehaviour
         eyeValidationData.UnixTimestamp = GetCurrentTimestamp();
         eyeValidationData.Timestamp = Time.realtimeSinceStartup;
         
-        _eyeValidationData.HeadTransform = _hmdTransform;
+        eyeValidationData.HeadTransform = _hmdTransform.transform;
         
-        _eyeValidationData.PointToFocus = transform.position;
+        eyeValidationData.PointToFocus = transform.position;
 
         if (SRanipal_Eye.GetGazeRay(GazeIndex.LEFT, out ray))
         {

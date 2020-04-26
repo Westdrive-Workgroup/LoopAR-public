@@ -10,20 +10,20 @@ public class ExperimentManager : MonoBehaviour
 {
     public static ExperimentManager Instance { get; private set; }
     
-    [Space] [Header("Necessary Objects")]
+    [Space] [Header("Necessary Elements")]
     [SerializeField] private GameObject participantsCar;
     [SerializeField] private Camera _camera;
     [SerializeField] private Camera firstPersonCamera;
+    [Tooltip("0 to 10 seconds")] [Range(0, 10)] [SerializeField] private float respawnDelay;
     
     [Space] [Header("VR setup")]
     [SerializeField] private bool vRScene;
     [SerializeField] private VRCam vRCamera;
 
-    private SavingManager _savingManager;
-    // registers in which scene or state the experiment is
     private enum Scene
     {
         MainMenu,
+        Experiment,
         CountryRoad,
         MountainRoad,
         Autobahn,
@@ -31,18 +31,17 @@ public class ExperimentManager : MonoBehaviour
         EndOfExperiment
     }
     
-    // todo see if they are needed
-    private enum Event
-    {
-        Deer,
-        BrokenCar,
-        ChildAtTheMarket
-    }
-    
-    private Scene _scene;
-    
+    private SavingManager _savingManager;
     private List<ActivationTrigger> _activationTriggers;
+    private CriticalEventController _criticalEventController;
+    private Vector3 _respawnPosition;
+    private Quaternion _respawnRotation;
+    private Scene _scene;
+    private bool _activatedEvent;
 
+    // registers in which scene or state the experiment is
+
+    
     private void Awake()
     {
         _activationTriggers = new List<ActivationTrigger>();
@@ -82,6 +81,11 @@ public class ExperimentManager : MonoBehaviour
         }
         
         RunMainMenu();
+
+        if (CalibrationManager.Instance == null)
+        {
+            Debug.Log("<color=red>Please start from MainMenu! </color>");
+        }
     }
     
 
@@ -123,10 +127,9 @@ public class ExperimentManager : MonoBehaviour
 
 
     // starting the experiment
-
     private void StartExperiment()
     {
-        _scene = Scene.CountryRoad;
+        _scene = Scene.Experiment;
         _camera.enabled = false;
         
         if (vRCamera == null)
@@ -151,7 +154,6 @@ public class ExperimentManager : MonoBehaviour
     public void EndTheExperiment()
     {
         _scene = Scene.EndOfExperiment;
-        
         if (SavingManager.Instance != null)
         {
             SavingManager.Instance.StopRecordingData();
@@ -170,25 +172,45 @@ public class ExperimentManager : MonoBehaviour
         }
         _camera.enabled=true;
         participantsCar.SetActive(false);
+        SceneLoader.Instance.AsyncLoad(0);
+    }
+
+    
+    public void ParticipantFailed()
+    {
+        _activatedEvent = false;
         
-        FadeOut();
+        // todo fade to black
+        // todo inform HUD
+        // switch the control to AI
+        participantsCar.GetComponent<ControlSwitch>().SwitchControl();
+        // move the car to after the event
+        participantsCar.SetActive(false);
+
+        StartCoroutine(RespawnParticipant(respawnDelay));
+
     }
 
-
-    // used for respawning the participant car in case of screwing up
-    private void FadeIn()
+    IEnumerator RespawnParticipant(float seconds)
     {
-        SteamVR_Fade.Start(Color.clear, 2f);
+        yield return new WaitForSeconds(seconds);
+        participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
+        participantsCar.GetComponent<AIController>().SetLocalTarget();
+        participantsCar.SetActive(true);
     }
 
-
-    // usage: in case the participant screws up and end of the experiment
-    private void FadeOut()
+    public void SetRespawnPositionAndRotation(Vector3 position, Quaternion rotation)
     {
-        SteamVR_Fade.Start(Color.black, 2f);
+        _respawnPosition = position;
+        _respawnRotation = rotation;
     }
 
-
+    public void SetEventActivationState(bool activationState)
+    {
+        _activatedEvent = activationState;
+        Debug.Log("event activation state: " + _activatedEvent) ;
+    }
+    
     public GameObject GetParticipantCar()
     {
         return participantsCar;
@@ -202,8 +224,8 @@ public class ExperimentManager : MonoBehaviour
         float xForButtons = width / 12f;
         float yForButtons = height / 7f;
         
-        float xForLable = (Screen.width / 2f);
-        float yForLable = (height/2f) + (height / 3f);
+        float xForLable = (width / 2f);
+        float yForLable = height/1.35f;
 
         float buttonWidth = 200f;
         float buttonHeight = 30f;
@@ -216,35 +238,48 @@ public class ExperimentManager : MonoBehaviour
         GUI.color = Color.white;
         GUI.skin.label.fontSize = labelFontSize;
         GUI.skin.label.fontStyle = FontStyle.Bold;
-        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
-                
+        
         // Buttons
         GUI.backgroundColor = Color.cyan;
         GUI.color = Color.white;
         
         if (_scene == Scene.MainMenu)
         {
-            
-            if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Calibration"))
-            {
-                EyetrackingManager.Instance.StartCalibration();
-            }
+            GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Experiment");
 
-            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Validation"))
-            {
-                EyetrackingManager.Instance.StartValidation();
-            }
-            
-            if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight), "Start the experiment"))
+            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start"))
             {
                 StartExperiment();
             }
-        } 
-        else if (_scene == Scene.CountryRoad)
-        {
-            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "End the experiment"))
+            
+            // Reset Button
+            GUI.backgroundColor = Color.red;
+            GUI.color = Color.white;
+        
+            if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*9.5f), buttonWidth, buttonHeight), "Main Menu"))
             {
-                EndTheExperiment();
+                CalibrationManager.Instance.AbortExperiment();
+            }
+        } 
+        else if (_scene == Scene.Experiment)
+        {
+            GUI.backgroundColor = Color.red;
+            GUI.color = Color.white;
+            
+            if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "End"))
+            {
+                SceneLoader.Instance.AsyncLoad(4);
+                _scene = Scene.MainMenu;
+            }
+
+            if (_activatedEvent)
+            {
+                GUI.backgroundColor = Color.magenta;
+
+                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Respawn Manualy"))
+                {
+                    ParticipantFailed();
+                }
             }
         }
     }

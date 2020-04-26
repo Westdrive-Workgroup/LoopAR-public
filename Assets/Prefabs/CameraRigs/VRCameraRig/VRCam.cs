@@ -5,17 +5,43 @@ using UnityEngine;
 
 public class VRCam : MonoBehaviour
 {
+    
     public GameObject seatPosition;
     private bool SeatActivated;
+    
+    
     private Vector3 _formerPosition;
+
+    [SerializeField] private GameObject _calibrationOffset;
+    [SerializeField] private GameObject _camera;
+
+    private void Awake()
+    {
+      
+    }
+
     private void Start()
     {
-        SeatActivated = false;
+        if (CalibrationManager.Instance != null)
+        {
+            _calibrationOffset.transform.localPosition = CalibrationManager.Instance.GetSeatCalibrationOffset();
+        }
+        else
+        {
+            _calibrationOffset.transform.localPosition = Vector3.zero;
+            Debug.LogWarning("no Calibration Manager found, please at to the scene");
+        }
+        
+        
         _formerPosition = new Vector3();
+
+        
+
     }
 
     private void LateUpdate()
     {
+        
         if (SeatActivated)
         {
             transform.SetPositionAndRotation(seatPosition.transform.position,seatPosition.transform.rotation);
@@ -40,6 +66,20 @@ public class VRCam : MonoBehaviour
     {
         transform.position = _formerPosition;
     }
+
+    public GameObject GetCamera()
+    {
+        return _camera;
+    }
+
+    public GameObject GetCameraOffset()
+    {
+        return _calibrationOffset;
+    }
     
-    
+    public void SetOffset(Vector3 localOffset)
+    {
+        _calibrationOffset.transform.localPosition = localOffset;
+    }
+
 }
