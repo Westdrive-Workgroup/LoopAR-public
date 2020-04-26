@@ -5,16 +5,15 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class CriticalEventController: MonoBehaviour
 {
-    [Space] [Header("Triggers")]
+    [Space] [Header("Consistent Event Objects")]
     [SerializeField] private TrafficEventTrigger startTrigger;
     [SerializeField] private TrafficEventTrigger endTrigger;
-    [Tooltip("The gameobject which is the parents of the event subjects")]
-    [SerializeField] private GameObject triggers;
+    [SerializeField] private GameObject consistentEventObjects;
 
     [Space]
     [Header("Event Objects")]
     
-    [Tooltip("The gameobject which is the parents of the event object")]
+    [Tooltip("The gameobject which is the parent of the event object")]
     [SerializeField] private GameObject eventObjectParent;
     [SerializeField] private List<GameObject> eventObjects;
     private List<GameObject> _setEventObjects;
@@ -48,7 +47,7 @@ public class CriticalEventController: MonoBehaviour
        DeactivateRestrictedZones();
        EventSubjectsActivationSwitch(eventObjectParent);
        
-       TurnOffMeshRenderers(triggers);
+       TurnOffMeshRenderers(consistentEventObjects);
     }
     
 
