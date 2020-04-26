@@ -24,6 +24,7 @@ public class MainMenu : MonoBehaviour
     private Section _section;
 
     private CalibrationManager _calibrationManager;
+    private ExperimentManager _experimentManager;
 
     private void Awake()
     {
@@ -43,6 +44,7 @@ public class MainMenu : MonoBehaviour
     {
         _section = Section.MainMenu;
         _calibrationManager = CalibrationManager.Instance;
+        _experimentManager = ExperimentManager.Instance;
     }
 
     public void OnGUI()
@@ -62,14 +64,7 @@ public class MainMenu : MonoBehaviour
         
         int labelFontSize = 33;
 
-        
-        // Lable
-        GUI.color = Color.white;
-        GUI.skin.label.fontSize = labelFontSize;
-        GUI.skin.label.fontStyle = FontStyle.Bold;
-        
-        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
-        
+        // Quit
         GUI.backgroundColor = Color.red;
         GUI.color = Color.white;
         
@@ -77,6 +72,25 @@ public class MainMenu : MonoBehaviour
         {
             Application.Quit();
         }
+        
+        // Lable
+        GUI.color = Color.white;
+        GUI.skin.label.fontSize = labelFontSize;
+        GUI.skin.label.fontStyle = FontStyle.Bold;
+
+        if (_section == Section.MainMenu)
+        {
+            GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
+        } 
+        else if (!_experimentManager.GetEndOfExperimentState())
+        {
+            GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Menu");
+        }
+        else
+        {
+            GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "End of Experiment");
+        }
+        
         
         
         if (vRScene)
@@ -95,7 +109,7 @@ public class MainMenu : MonoBehaviour
             GUI.backgroundColor = Color.cyan;
             GUI.color = Color.white;
             
-            if (_section == Section.MainMenu)
+            if (!_calibrationManager.GetEyeTrackerCalibrationState() && !_experimentManager.GetEndOfExperimentState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Calibration"))
                 {
@@ -147,7 +161,6 @@ public class MainMenu : MonoBehaviour
             {
                 _section = Section.MainExperiment;    
                 CalibrationManager.Instance.GoToTheExperiment();
-                Debug.Log("Main experiment clicked");
             }
         }
     }
