@@ -47,7 +47,7 @@ public class CalibrationManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    
     public void EyeCalibration()
     {
         EyetrackingManager.Instance.StartCalibration();
@@ -127,7 +127,40 @@ public class CalibrationManager : MonoBehaviour
     {
         return _calibrationData.SeatCalibrationOffset;
     }
-    void SaveCalibrationFile(CalibrationData calibrationData)
+
+    public Vector3 GetValidationError()
+    {
+        return _calibrationData.EyeValidationError;
+    }
+
+    public void StoreSeatCalibrationData(Vector3 seatOffset)
+    {
+        //_seatCalibrationOffset = seatOffset;
+        _calibrationData.SeatCalibrationOffset = seatOffset;
+        SaveCalibrationData();
+    }
+    
+    public void SaveCalibrationData()
+    {
+        SaveCalibrationFile(_calibrationData);
+    }
+    public void DeleteCalibrationData()
+    {
+        DeleteCalibrationFile(calibrationFilePath);
+    }
+    
+    private void DeleteCalibrationFile(string dataPath)
+    {
+        if(!File.Exists(dataPath))
+        {
+            Debug.Log("file not found, can not be deleted");
+        }
+        else
+        {
+            File.Delete(dataPath);
+        }
+    }
+    private void SaveCalibrationFile(CalibrationData calibrationData)
     {
         string jsonString = JsonUtility.ToJson(calibrationData);
         File.WriteAllText(calibrationFilePath, jsonString);
@@ -149,17 +182,11 @@ public class CalibrationManager : MonoBehaviour
         
         else
         {
-            Debug.Log("found data");
+            Debug.Log("found Calibration Data, loading...");
             jsonString = File.ReadAllText(dataPath);
             //Debug.Log(jsonString);
             return JsonUtility.FromJson<CalibrationData>(jsonString);
         }
-    }
-
-    public void StoreSeatCalibrationData(Vector3 seatOffset)
-    {
-        //_seatCalibrationOffset = seatOffset;
-        _calibrationData.SeatCalibrationOffset = seatOffset;
     }
     
     

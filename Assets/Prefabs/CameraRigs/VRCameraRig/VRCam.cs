@@ -21,8 +21,17 @@ public class VRCam : MonoBehaviour
     }
 
     private void Start()
-    { 
-        _calibrationOffset.transform.localPosition = CalibrationManager.Instance.GetSeatCalibrationOffset();
+    {
+        if (CalibrationManager.Instance != null)
+        {
+            _calibrationOffset.transform.localPosition = CalibrationManager.Instance.GetSeatCalibrationOffset();
+        }
+        else
+        {
+            _calibrationOffset.transform.localPosition = Vector3.zero;
+            Debug.LogWarning("no Calibration Manager found, please at to the scene");
+        }
+        
         
         _formerPosition = new Vector3();
 
