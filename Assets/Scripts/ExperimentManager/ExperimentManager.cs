@@ -104,7 +104,7 @@ public class ExperimentManager : MonoBehaviour
             _camera.transform.position = Vector3.zero;
         }
         
-        participantsCar.SetActive(false);
+        participantsCar.transform.parent.gameObject.SetActive(false);
     }
 
     // inform all triggers to disable their gameobjects at the beginning of the experiment
@@ -142,8 +142,8 @@ public class ExperimentManager : MonoBehaviour
             vRCamera.Seat();
         }
         
-        participantsCar.SetActive(true);
-
+        participantsCar.transform.parent.gameObject.SetActive(true);
+        
         if (SavingManager.Instance != null)
         {
             SavingManager.Instance.StartRecordingData();
@@ -171,24 +171,18 @@ public class ExperimentManager : MonoBehaviour
             vRCamera.UnSeat();
         }
         _camera.enabled=true;
-        participantsCar.SetActive(false);
+        participantsCar.transform.parent.gameObject.SetActive(false);
         SceneLoader.Instance.AsyncLoad(0);
     }
 
     
     public void ParticipantFailed()
     {
-        _activatedEvent = false;
-        
         // todo fade to black
-        // todo inform HUD
-        // switch the control to AI
-        participantsCar.GetComponent<ControlSwitch>().SwitchControl();
-        // move the car to after the event
-        participantsCar.SetActive(false);
-
+        PersistentTrafficEventManager.Instance.FinalizeEvent();
+        participantsCar.transform.parent.gameObject.SetActive(false);
         StartCoroutine(RespawnParticipant(respawnDelay));
-
+        _activatedEvent = false;
     }
 
     IEnumerator RespawnParticipant(float seconds)
@@ -196,7 +190,7 @@ public class ExperimentManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
         participantsCar.GetComponent<AIController>().SetLocalTarget();
-        participantsCar.SetActive(true);
+        participantsCar.transform.parent.gameObject.SetActive(true);
     }
 
     public void SetRespawnPositionAndRotation(Vector3 position, Quaternion rotation)

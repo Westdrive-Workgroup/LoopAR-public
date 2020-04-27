@@ -67,6 +67,8 @@ public class PersistentTrafficEventManager : MonoBehaviour
 
     public void InitiateEvent(List<GameObject> eventObjects)
     {
+        _activatedEvent = true;
+        
         foreach (var eventListener in _eventBehaviorListeners)
         {
             eventListener.AvoidInterference(10f);
@@ -77,11 +79,14 @@ public class PersistentTrafficEventManager : MonoBehaviour
         _participantsControlSwitch.SwitchControl();
         _participantsControlSwitch.GetComponentInChildren<WindscreenHUD>().DriverAlert();
         _participantsControlSwitch.GetComponentInChildren<HUDLite>().ActivateHUD(_eventObjects);
-        
+        ExperimentManager.Instance.SetEventActivationState(_activatedEvent);
+
     }
 
     public void FinalizeEvent()
     {
+        _activatedEvent = false;
+        
         foreach (var eventListener in _eventBehaviorListeners)
         {
             Debug.Log("setting back to normal");
@@ -91,8 +96,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
         _participantsControlSwitch.SwitchControl();
         _participantsControlSwitch.GetComponentInChildren<HUDLite>().DeactivateHUD();
         _participantsControlSwitch.GetComponentInChildren<WindscreenHUD>().DeactivateHUD();
-
-        // _eventObjects.Clear();
+        ExperimentManager.Instance.SetEventActivationState(_activatedEvent);
     }
 
     public GameObject GetParticipantsCar()

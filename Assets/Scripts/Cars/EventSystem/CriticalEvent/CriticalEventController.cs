@@ -64,7 +64,6 @@ public class CriticalEventController: MonoBehaviour
             // PersistentTrafficEventManager.Instance.SetEventObject(_setEventObjects);
             // PersistentTrafficEventManager.Instance.SetEventObject(eventObject);
             ExperimentManager.Instance.SetRespawnPositionAndRotation(respawnPoint.transform.position, respawnPoint.transform.rotation);
-            ExperimentManager.Instance.SetEventActivationState(_activatedEvent);
         }
         else
         {
