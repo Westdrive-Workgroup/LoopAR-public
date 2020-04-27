@@ -24,14 +24,15 @@ public class WindscreenHUD : MonoBehaviour
     }
 
 
-    public void ActivateHUD()
-    {
-        Event = true;
-        //Debug.Log(" bis hier alles gut");
-    }
     public void DeactivateHUD()
     {
         Event = false;
+    }
+    public void DriverAlert()
+    {
+        Event = true;
+        //Debug.Log(" bis hier alles gut");
+
     }
 
 
@@ -39,6 +40,12 @@ public class WindscreenHUD : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!Event)
+        {
+            NonEventAnzeigen.SetActive(true);
+        }else{
+            NonEventAnzeigen.SetActive(false);
+        }
         // If the next update is reached
         if (Time.time >= nextUpdate)
         {
@@ -46,50 +53,46 @@ public class WindscreenHUD : MonoBehaviour
             nextUpdate = (Mathf.FloorToInt(Time.time) + 1);
             // Call your function
             UpdateEverySecond();
-
         }
 
         // Update is called once per second
         void UpdateEverySecond()
         {
-            if (!Event)
+
+
+            speed = Mathf.Round(_carController.GetCurrentSpeedInKmH());
+            Speed.text = speed + "";
+            //speedLimit = Mathf.RoundToInt(_aimedSpeed.GetAimedSpeed());
+            speedLimit = Mathf.RoundToInt(_aimedSpeed.GetAimedSpeed() * 3.6f);
+            float quotientSpeed = speed / speedLimit;
+            SpeedGauge.fillAmount = 0.75f * (Mathf.Round(quotientSpeed * 36) / 36);
+
+
+            if (speed >= (speedLimit + 5))
             {
-                NonEventAnzeigen.SetActive(true);
-                speed = Mathf.Round(_carController.GetCurrentSpeedInKmH());
-                Speed.text = speed + "";
-                //speedLimit = Mathf.RoundToInt(_aimedSpeed.GetAimedSpeed());
-                speedLimit = Mathf.RoundToInt(_aimedSpeed.GetAimedSpeed()*3.6f);
-                float quotientSpeed = speed / speedLimit;
-                SpeedGauge.fillAmount = 0.75f * (Mathf.Round(quotientSpeed * 36) / 36);
-
-
-                if (speed >= (speedLimit+5))
-                {
-                    SpeedGauge.color = Color.red;
-                    Speed.color = Color.red;
-                    MaxSpeed.color = Color.red;
-                }
-                else
-                {
-                    SpeedGauge.color = Color.green;
-                    Speed.color = Color.green;
-                    MaxSpeed.color = Color.white;
-                }
-
-                //Datum
-                var today = System.DateTime.Now;
-                Date.text = today.ToString("HH:mm");
-                //MaxSpeed
-                MaxSpeed.text = speedLimit + "";
-                //Weather.text = "Westbrueck \n 22°C";
-
-
-
-
-            }else{
-                //Debug.Log("Event gestartet aber ich bin immer noch hier");
-                NonEventAnzeigen.SetActive(false);
+                SpeedGauge.color = Color.red;
+                Speed.color = Color.red;
+                MaxSpeed.color = Color.red;
             }
+            else
+            {
+                SpeedGauge.color = Color.green;
+                Speed.color = Color.green;
+                MaxSpeed.color = Color.white;
+            }
+
+            //Datum
+            var today = System.DateTime.Now;
+            Date.text = today.ToString("HH:mm");
+            //MaxSpeed
+            MaxSpeed.text = speedLimit + "";
+            //Weather.text = "Westbrueck \n 22°C";
+
+
+
+
+
+
         }
 
     }

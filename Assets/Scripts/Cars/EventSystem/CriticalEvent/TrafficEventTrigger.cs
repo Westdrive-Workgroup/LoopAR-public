@@ -23,8 +23,10 @@ public class TrafficEventTrigger : MonoBehaviour
         {
             // todo inform HUD
             Debug.Log("Informed HUD " + Time.time);
-            
+            _targetVehicle.gameObject.GetComponentInChildren<HUDLite>().DriverAlert();
+            _targetVehicle.gameObject.GetComponentInChildren<WindscreenHUD>().DriverAlert();
             StartCoroutine(StartDelayedEvent(delay));
+            
             //PersistentTrafficEventManager.Instance.HandleEvent();
         }
     }

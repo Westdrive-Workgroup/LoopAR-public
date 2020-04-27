@@ -44,6 +44,9 @@ public class HUDLite : MonoBehaviour
     {
         _eventObjectsToMark = testAccidentSubjects;
         MarkObjects();
+    }
+    public void DriverAlert(){
+        
         EventAnzeigen.SetActive(true);
         NonEventAnzeigen.SetActive(false);
     }

@@ -75,7 +75,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
         _eventObjects = eventObjects;
         
         _participantsControlSwitch.SwitchControl();
-        _participantsControlSwitch.GetComponentInChildren<WindscreenHUD>().ActivateHUD();
+        _participantsControlSwitch.GetComponentInChildren<WindscreenHUD>().DriverAlert();
         _participantsControlSwitch.GetComponentInChildren<HUDLite>().ActivateHUD(_eventObjects);
         
     }
