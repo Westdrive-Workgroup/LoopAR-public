@@ -13,12 +13,13 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private bool vRScene;
     private enum Section
     {
-        MainMenu = 0,
-        EyeCalibration = 1,
-        EyeValidation = 2,
-        SeatCalibration = 3,
-        TrainingBlock = 4,
-        MainExperiment = 5
+        MainMenu,
+        IDGeneration,
+        EyeCalibration,
+        EyeValidation,
+        SeatCalibration,
+        TrainingBlock,
+        MainExperiment
     }
 
     private Section _section;
@@ -94,7 +95,15 @@ public class MainMenu : MonoBehaviour
             GUI.backgroundColor = Color.cyan;
             GUI.color = Color.white;
             
-            if (!_calibrationManager.GetEyeTrackerCalibrationState())
+            if (!_calibrationManager.GetParticipantUUIDState())
+            {
+                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Generate Participant ID"))
+                {
+                    _section = Section.IDGeneration;
+                    CalibrationManager.Instance.GenerateID();
+                }
+            }
+            else if (_calibrationManager.GetParticipantUUIDState() && !_calibrationManager.GetEyeTrackerCalibrationState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Calibration"))
                 {
