@@ -47,6 +47,7 @@ public class ExperimentManager : MonoBehaviour
     private void Awake()
     {
         _activationTriggers = new List<ActivationTrigger>();
+
         
         //singleton pattern a la Unity
         if (Instance == null)
@@ -69,6 +70,7 @@ public class ExperimentManager : MonoBehaviour
 
     void Start()
     {
+        vRScene = CalibrationManager.Instance.GetVRModeState();
         
         InformTriggers();
         
@@ -135,7 +137,7 @@ public class ExperimentManager : MonoBehaviour
         _scene = Scene.Experiment;
         _camera.enabled = false;
         
-        if (vRCamera == null)
+        if (!vRScene)
         {
             firstPersonCamera.enabled = true;
         }
@@ -163,7 +165,7 @@ public class ExperimentManager : MonoBehaviour
             SavingManager.Instance.SaveData();
         }
         
-        if (vRCamera == null)
+        if (!vRScene)
         {
             firstPersonCamera.enabled = false;
             _camera.enabled = true;

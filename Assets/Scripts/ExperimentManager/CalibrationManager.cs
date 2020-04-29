@@ -24,6 +24,8 @@ public class CalibrationManager : MonoBehaviour
     private Vector3 _eyeValidationError;
     private Vector3 _seatCalibrationOffset;
     
+    public bool VR_activated;
+    
     private void Awake()
     {
         
@@ -110,6 +112,7 @@ public class CalibrationManager : MonoBehaviour
         return _uUIDGenerated;
     }
     
+    
     public bool GetEyeTrackerCalibrationState()
     {
         return _eyeTrackerCalibrationSuccessful;
@@ -140,6 +143,10 @@ public class CalibrationManager : MonoBehaviour
         return _calibrationData.EyeValidationError;
     }
 
+    public bool GetVRModeState()
+    {
+        return _calibrationData.VRmode;
+    }
     private void StoreParticipantUuid(string iD)
     {
         _calibrationData.ParticipantUuid = iD;
@@ -149,6 +156,7 @@ public class CalibrationManager : MonoBehaviour
     {
         //_seatCalibrationOffset = seatOffset;
         _calibrationData.SeatCalibrationOffset = seatOffset;
+        StoreVRState(true);
         SaveCalibrationData();
     }
     
@@ -158,7 +166,14 @@ public class CalibrationManager : MonoBehaviour
         _calibrationData.EyeValidationError = validationError;
         SaveCalibrationData();
     }
-    
+
+    public void StoreVRState(bool VRmode)
+    {
+        _calibrationData.VRmode=VRmode;
+        SaveCalibrationData();
+    }
+
+
     public void SaveCalibrationData()
     {
         SaveCalibrationFile(_calibrationData);
