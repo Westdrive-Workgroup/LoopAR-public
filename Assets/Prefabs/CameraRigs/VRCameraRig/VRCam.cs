@@ -7,7 +7,7 @@ public class VRCam : MonoBehaviour
 {
     
     public GameObject seatPosition;
-    private bool SeatActivated;
+    public bool SeatActivated;
     
     
     private Vector3 _formerPosition;
