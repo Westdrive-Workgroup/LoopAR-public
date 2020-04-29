@@ -20,6 +20,8 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private bool vRScene;
     [SerializeField] private VRCam vRCamera;
 
+    [Space] [Header("Temporarily-Debug")]
+    [SerializeField] private GameObject failurePatch;
     private enum Scene
     {
         MainMenu,
@@ -105,6 +107,7 @@ public class ExperimentManager : MonoBehaviour
         }
         
         participantsCar.transform.parent.gameObject.SetActive(false);
+        failurePatch.SetActive(false);
     }
 
     // inform all triggers to disable their gameobjects at the beginning of the experiment
@@ -178,7 +181,8 @@ public class ExperimentManager : MonoBehaviour
     
     public void ParticipantFailed()
     {
-        // todo fade to black
+        // todo fade to black in VR
+        failurePatch.SetActive(true);
         PersistentTrafficEventManager.Instance.FinalizeEvent();
         participantsCar.transform.parent.gameObject.SetActive(false);
         StartCoroutine(RespawnParticipant(respawnDelay));
@@ -191,6 +195,7 @@ public class ExperimentManager : MonoBehaviour
         participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
         participantsCar.GetComponent<AIController>().SetLocalTarget();
         participantsCar.transform.parent.gameObject.SetActive(true);
+        failurePatch.SetActive(false);
     }
 
     public void SetRespawnPositionAndRotation(Vector3 position, Quaternion rotation)
