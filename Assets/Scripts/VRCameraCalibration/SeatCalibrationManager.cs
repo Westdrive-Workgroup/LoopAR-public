@@ -122,13 +122,15 @@ public class SeatCalibrationManager : MonoBehaviour
     private void CalibrateAndStore()
     {
        
-            //distanceVector.x = cameraOffsetObject.transform.position.x - vrCameraObject.transform.position.x;
-            //distanceVector.y = cameraOffsetObject.transform.position.y - vrCameraObject.transform.position.y;
-            //distanceVector.z = cameraOffsetObject.transform.position.z - vrCameraObject.transform.position.z;
+            distanceVector.x = cameraOffsetObject.transform.position.x - vrCameraObject.transform.position.x;
+            distanceVector.y = cameraOffsetObject.transform.position.y - vrCameraObject.transform.position.y;
+            distanceVector.z = cameraOffsetObject.transform.position.z - vrCameraObject.transform.position.z;
             
-            distanceVector.x = cameraOffsetObject.transform.position.x - SeatPosition.transform.position.x;
-            distanceVector.y = cameraOffsetObject.transform.position.y - SeatPosition.transform.position.y;
-            distanceVector.z = cameraOffsetObject.transform.position.z - SeatPosition.transform.position.z;
+            //distanceVector.x = vrCameraObject.transform.position.x - SeatPosition.transform.position.x;
+            //distanceVector.y = vrCameraObject.transform.position.y - SeatPosition.transform.position.y;
+            //distanceVector.z = vrCameraObject.transform.position.z - SeatPosition.transform.position.z;
+
+            
             
             CalibrationManager.Instance.StoreSeatCalibrationData(distanceVector);
 
