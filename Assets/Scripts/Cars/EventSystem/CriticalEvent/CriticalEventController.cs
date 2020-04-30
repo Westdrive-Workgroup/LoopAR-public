@@ -52,12 +52,14 @@ public class CriticalEventController: MonoBehaviour
     }
     
 
-    public void Triggered()
+    public void Triggered(bool state)
     {
+        _activatedEvent = state;
+        
         // PersistentTrafficEventManager.Instance.HandleEvent();
-        if (!_activatedEvent)
+        if (_activatedEvent)
         {
-            _activatedEvent = true;
+            // _activatedEvent = true;
             ActivateRestrictedZones();
             eventObjectParent.SetActive(true);
             PersistentTrafficEventManager.Instance.InitiateEvent(eventObjects);
@@ -67,7 +69,7 @@ public class CriticalEventController: MonoBehaviour
         }
         else
         {
-            _activatedEvent = false;
+            // _activatedEvent = false;
             DeactivateRestrictedZones();
             PersistentTrafficEventManager.Instance.FinalizeEvent();
             if (!eventObjectActive)

@@ -26,10 +26,6 @@ public class ExperimentManager : MonoBehaviour
     {
         MainMenu,
         Experiment,
-        CountryRoad,
-        MountainRoad,
-        Autobahn,
-        City,
         EndOfExperiment
     }
     
@@ -106,6 +102,7 @@ public class ExperimentManager : MonoBehaviour
         {
             firstPersonCamera.enabled = true;
             _camera.transform.position = Vector3.zero;
+            vRCamera.gameObject.SetActive(false);
         }
         
         participantsCar.transform.parent.gameObject.SetActive(false);
@@ -113,7 +110,6 @@ public class ExperimentManager : MonoBehaviour
     }
 
     // inform all triggers to disable their gameobjects at the beginning of the experiment
-
     private void InformTriggers()
     {
         foreach (var trigger in _activationTriggers)
@@ -124,7 +120,6 @@ public class ExperimentManager : MonoBehaviour
 
 
     // Reception desk for ActivationTriggers to register themselves
-
     public void RegisterToExperimentManager(ActivationTrigger listener)
     {
         _activationTriggers.Add(listener);
@@ -183,19 +178,19 @@ public class ExperimentManager : MonoBehaviour
     
     public void ParticipantFailed()
     {
+        _activatedEvent = false;
         // todo fade to black in VR
         failurePatch.SetActive(true);
         PersistentTrafficEventManager.Instance.FinalizeEvent();
         participantsCar.transform.parent.gameObject.SetActive(false);
+        participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
+        participantsCar.GetComponent<AIController>().SetLocalTarget();
         StartCoroutine(RespawnParticipant(respawnDelay));
-        _activatedEvent = false;
     }
 
     IEnumerator RespawnParticipant(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
-        participantsCar.GetComponent<AIController>().SetLocalTarget();
         participantsCar.transform.parent.gameObject.SetActive(true);
         failurePatch.SetActive(false);
     }
