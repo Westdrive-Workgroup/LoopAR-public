@@ -26,10 +26,6 @@ public class ExperimentManager : MonoBehaviour
     {
         MainMenu,
         Experiment,
-        CountryRoad,
-        MountainRoad,
-        Autobahn,
-        City,
         EndOfExperiment
     }
     
@@ -113,7 +109,6 @@ public class ExperimentManager : MonoBehaviour
     }
 
     // inform all triggers to disable their gameobjects at the beginning of the experiment
-
     private void InformTriggers()
     {
         foreach (var trigger in _activationTriggers)
@@ -124,7 +119,6 @@ public class ExperimentManager : MonoBehaviour
 
 
     // Reception desk for ActivationTriggers to register themselves
-
     public void RegisterToExperimentManager(ActivationTrigger listener)
     {
         _activationTriggers.Add(listener);
