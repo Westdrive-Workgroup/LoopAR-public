@@ -178,19 +178,19 @@ public class ExperimentManager : MonoBehaviour
     
     public void ParticipantFailed()
     {
+        _activatedEvent = false;
         // todo fade to black in VR
         failurePatch.SetActive(true);
         PersistentTrafficEventManager.Instance.FinalizeEvent();
         participantsCar.transform.parent.gameObject.SetActive(false);
+        participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
+        participantsCar.GetComponent<AIController>().SetLocalTarget();
         StartCoroutine(RespawnParticipant(respawnDelay));
-        _activatedEvent = false;
     }
 
     IEnumerator RespawnParticipant(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
-        participantsCar.GetComponent<AIController>().SetLocalTarget();
         participantsCar.transform.parent.gameObject.SetActive(true);
         failurePatch.SetActive(false);
     }
