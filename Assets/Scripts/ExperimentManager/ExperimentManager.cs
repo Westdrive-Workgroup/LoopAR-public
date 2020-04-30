@@ -102,6 +102,7 @@ public class ExperimentManager : MonoBehaviour
         {
             firstPersonCamera.enabled = true;
             _camera.transform.position = Vector3.zero;
+            vRCamera.gameObject.SetActive(false);
         }
         
         participantsCar.transform.parent.gameObject.SetActive(false);

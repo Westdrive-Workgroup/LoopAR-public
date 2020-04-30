@@ -52,8 +52,10 @@ public class CriticalEventController: MonoBehaviour
     }
     
 
-    public void Triggered()
+    public void Triggered(bool state)
     {
+        _activatedEvent = state;
+        
         // PersistentTrafficEventManager.Instance.HandleEvent();
         if (!_activatedEvent)
         {
