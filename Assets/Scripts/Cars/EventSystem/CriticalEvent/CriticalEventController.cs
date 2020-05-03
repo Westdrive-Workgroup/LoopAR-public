@@ -21,7 +21,7 @@ public class CriticalEventController: MonoBehaviour
 
     [Space] [Header("Event Setting")]
     [Tooltip("End the event automatically after given (0 - 15) seconds in case the participant stays idle.")] 
-    [Range(0,15)] [SerializeField] private float eventIdleDuration;
+    [Range(0,20)] [SerializeField] private float eventIdleDuration;
     [SerializeField] private bool eventObjectActive;
     // [SerializeField] private GameObject eventObject;
     
@@ -65,6 +65,8 @@ public class CriticalEventController: MonoBehaviour
         {
             DeactivateTheEvent();
         }
+        
+        StartCoroutine(EndIdleEvent(eventIdleDuration));
     }
 
     private IEnumerator EndIdleEvent(float seconds)
@@ -72,8 +74,6 @@ public class CriticalEventController: MonoBehaviour
         yield return new WaitForSeconds(seconds);
         if (_activatedEvent)
             ExperimentManager.Instance.ParticipantFailed();
-        else
-            yield break;
     }
 
     private void ActivateTheEvent()
@@ -82,7 +82,6 @@ public class CriticalEventController: MonoBehaviour
         eventObjectParent.SetActive(true);
         PersistentTrafficEventManager.Instance.InitiateEvent(eventObjects);
         ExperimentManager.Instance.SetRespawnPositionAndRotation(respawnPoint.transform.position, respawnPoint.transform.rotation);
-        StartCoroutine(EndIdleEvent(eventIdleDuration));
     }
     
     private void DeactivateTheEvent()
