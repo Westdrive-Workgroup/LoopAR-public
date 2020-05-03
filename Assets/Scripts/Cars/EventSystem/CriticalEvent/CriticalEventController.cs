@@ -5,22 +5,24 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class CriticalEventController: MonoBehaviour
 {
-    [Space] [Header("Consistent Event Objects")]
+    [Space]
+    [Header("Consistent Event Objects")]
     [SerializeField] private TrafficEventTrigger startTrigger;
     [SerializeField] private TrafficEventTrigger endTrigger;
     [SerializeField] private GameObject consistentEventObjects;
 
     [Space]
     [Header("Event Objects")]
-    
-    [Tooltip("The gameobject which is the parent of the event object")]
+    [Tooltip("The gameObject which is the parent of the event object")]
     [SerializeField] private GameObject eventObjectParent;
     [SerializeField] private List<GameObject> eventObjects;
-    private List<GameObject> _setEventObjects;
     [Tooltip("Should the event subject be active or not when experiment begins")] 
-    [SerializeField] private bool eventObjectActive;
     [SerializeField] private GameObject respawnPoint;
-    
+
+    [Space] [Header("Event Setting")]
+    [Tooltip("End the event automatically after given (0 - 15) seconds in case the participant stays idle.")] 
+    [Range(0,15)] [SerializeField] private float eventIdleDuration;
+    [SerializeField] private bool eventObjectActive;
     // [SerializeField] private GameObject eventObject;
     
     private RestrictedZoneTrigger[] _restrictedZoneTriggers;
@@ -40,8 +42,6 @@ public class CriticalEventController: MonoBehaviour
         
         startTrigger.SetController(this);
         endTrigger.SetController(this);
-
-        _setEventObjects = eventObjects;
         
         _restrictedZoneTriggers = GetComponentsInChildren<RestrictedZoneTrigger>();
 
@@ -59,24 +59,40 @@ public class CriticalEventController: MonoBehaviour
         // PersistentTrafficEventManager.Instance.HandleEvent();
         if (_activatedEvent)
         {
-            // _activatedEvent = true;
-            ActivateRestrictedZones();
-            eventObjectParent.SetActive(true);
-            PersistentTrafficEventManager.Instance.InitiateEvent(eventObjects);
-            // PersistentTrafficEventManager.Instance.SetEventObject(_setEventObjects);
-            // PersistentTrafficEventManager.Instance.SetEventObject(eventObject);
-            ExperimentManager.Instance.SetRespawnPositionAndRotation(respawnPoint.transform.position, respawnPoint.transform.rotation);
+            ActivateTheEvent();
         }
         else
         {
-            // _activatedEvent = false;
-            DeactivateRestrictedZones();
-            PersistentTrafficEventManager.Instance.FinalizeEvent();
-            if (!eventObjectActive)
-                eventObjectParent.SetActive(false);
+            DeactivateTheEvent();
         }
     }
 
+    private IEnumerator EndIdleEvent(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        if (_activatedEvent)
+            ExperimentManager.Instance.ParticipantFailed();
+        else
+            yield break;
+    }
+
+    private void ActivateTheEvent()
+    {
+        ActivateRestrictedZones();
+        eventObjectParent.SetActive(true);
+        PersistentTrafficEventManager.Instance.InitiateEvent(eventObjects);
+        ExperimentManager.Instance.SetRespawnPositionAndRotation(respawnPoint.transform.position, respawnPoint.transform.rotation);
+        StartCoroutine(EndIdleEvent(eventIdleDuration));
+    }
+    
+    private void DeactivateTheEvent()
+    {
+        DeactivateRestrictedZones();
+        PersistentTrafficEventManager.Instance.FinalizeEvent();
+        if (!eventObjectActive)
+            eventObjectParent.SetActive(false);
+    }
+    
     private void ActivateRestrictedZones()
     {
         foreach (var restrictedZoneTrigger in _restrictedZoneTriggers)
@@ -93,7 +109,8 @@ public class CriticalEventController: MonoBehaviour
             restrictedZoneTrigger.gameObject.SetActive(false);
         }
     }
-
+    
+    
     public void TurnOffMeshRenderers(GameObject trigger)
     {
         _meshRenderers = trigger.GetComponentsInChildren<MeshRenderer>();
