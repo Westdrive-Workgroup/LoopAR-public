@@ -72,6 +72,8 @@ public class CriticalEventController: MonoBehaviour
     private IEnumerator EndIdleEvent(float seconds)
     {
         yield return new WaitForSeconds(seconds);
+        _activatedEvent = ExperimentManager.Instance.GetEventActivationState();
+        Debug.Log("<color=red>event is active: </color>" + _activatedEvent);
         if (_activatedEvent)
             ExperimentManager.Instance.ParticipantFailed();
     }
@@ -126,5 +128,10 @@ public class CriticalEventController: MonoBehaviour
             parent.SetActive(true);
         else
             parent.SetActive(false);
+    }
+
+    public void SetEventActivationState(bool state)
+    {
+        _activatedEvent = state;
     }
 }
