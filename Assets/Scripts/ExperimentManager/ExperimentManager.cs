@@ -72,18 +72,21 @@ public class ExperimentManager : MonoBehaviour
         
         if (_activationTriggers.Count == 0)
         {
+            // Debug.LogWarning("Please ensure that ActivationTrigger is being executed before ExperimentManager if there are triggers present in the scene.");
             Debug.Log("<color=red>Error: </color>Please ensure that ActivationTrigger is being executed before ExperimentManager if there are triggers present in the scene.");
         }
 
         if (EyetrackingManager.Instance == null)
         {
             Debug.Log("<color=red>Error: </color>EyetrackingManager should be present in the scene.");
+            // Debug.LogError("EyetrackingManager should be present in the scene.");
         }
         
         RunMainMenu();
 
         if (CalibrationManager.Instance == null)
         {
+            // Debug.LogError("Please start from MainMenu!");
             Debug.Log("<color=red>Please start from MainMenu! </color>");
         }
     }
@@ -203,8 +206,14 @@ public class ExperimentManager : MonoBehaviour
 
     public void SetEventActivationState(bool activationState)
     {
+        
         _activatedEvent = activationState;
         Debug.Log("event activation state: " + _activatedEvent) ;
+    }
+
+    public bool GetEventActivationState()
+    {
+        return _activatedEvent;
     }
     
     public GameObject GetParticipantCar()

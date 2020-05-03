@@ -19,7 +19,6 @@ public class PersistentTrafficEventManager : MonoBehaviour
     
     private List<EventBehavior> _eventBehaviorListeners;
     private ControlSwitch _participantsControlSwitch;
-    private bool _activatedEvent;
     private List<GameObject> _eventObjects;
     private GameObject _eventObject;
 
@@ -43,7 +42,6 @@ public class PersistentTrafficEventManager : MonoBehaviour
     void Start()
     {
         _participantsControlSwitch = participantsCar.GetComponent<ControlSwitch>();
-        _activatedEvent = false; 
     }
 
     public void RegisterTrafficListeners(EventBehavior listener)
@@ -67,8 +65,6 @@ public class PersistentTrafficEventManager : MonoBehaviour
 
     public void InitiateEvent(List<GameObject> eventObjects)
     {
-        _activatedEvent = true;
-        
         foreach (var eventListener in _eventBehaviorListeners)
         {
             eventListener.AvoidInterference(10f);
@@ -79,14 +75,12 @@ public class PersistentTrafficEventManager : MonoBehaviour
         _participantsControlSwitch.SwitchControl(true);
         _participantsControlSwitch.GetComponentInChildren<WindscreenHUD>().DriverAlert();
         _participantsControlSwitch.GetComponentInChildren<HUDLite>().ActivateHUD(_eventObjects);
-        ExperimentManager.Instance.SetEventActivationState(_activatedEvent);
+        ExperimentManager.Instance.SetEventActivationState(true);
 
     }
 
     public void FinalizeEvent()
     {
-        _activatedEvent = false;
-        
         foreach (var eventListener in _eventBehaviorListeners)
         {
             Debug.Log("setting back to normal");
@@ -96,7 +90,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
         _participantsControlSwitch.SwitchControl(false);
         _participantsControlSwitch.GetComponentInChildren<HUDLite>().DeactivateHUD();
         _participantsControlSwitch.GetComponentInChildren<WindscreenHUD>().DeactivateHUD();
-        ExperimentManager.Instance.SetEventActivationState(_activatedEvent);
+        ExperimentManager.Instance.SetEventActivationState(false);
     }
 
     public GameObject GetParticipantsCar()
