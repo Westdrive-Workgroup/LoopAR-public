@@ -38,5 +38,7 @@ public class ControlSwitch : MonoBehaviour
     public void SwitchControl(bool state)
     {
         _manualDrivingState = state;
+        
+        SetManualDrivingState(_manualDrivingState);
     }
 }
