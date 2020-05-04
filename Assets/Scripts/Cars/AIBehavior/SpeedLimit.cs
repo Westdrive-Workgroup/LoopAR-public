@@ -11,6 +11,10 @@ public class SpeedLimit : MonoBehaviour
     [Tooltip("0 - 130")] [Range(0, 130)] [SerializeField] private float speedInNormalPath = 50f;
     [Tooltip("0 - 130")] [Range(0, 130)] [SerializeField] private float speedInReversePath = 50f;
 
+    private void Start()
+    {
+        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+    }
 
     private void OnTriggerEnter(Collider other)
     {

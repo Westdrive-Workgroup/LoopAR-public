@@ -19,7 +19,6 @@ public class PersistentTrafficEventManager : MonoBehaviour
     
     private List<EventBehavior> _eventBehaviorListeners;
     private ControlSwitch _participantsControlSwitch;
-    private bool _activatedEvent;
     private List<GameObject> _eventObjects;
     private GameObject _eventObject;
 
@@ -43,7 +42,6 @@ public class PersistentTrafficEventManager : MonoBehaviour
     void Start()
     {
         _participantsControlSwitch = participantsCar.GetComponent<ControlSwitch>();
-        _activatedEvent = false; 
     }
 
     public void RegisterTrafficListeners(EventBehavior listener)
@@ -74,10 +72,11 @@ public class PersistentTrafficEventManager : MonoBehaviour
 
         _eventObjects = eventObjects;
         
-        _participantsControlSwitch.SwitchControl();
-        _participantsControlSwitch.GetComponentInChildren<WindscreenHUD>().ActivateHUD();
+        _participantsControlSwitch.SwitchControl(true);
+        _participantsControlSwitch.GetComponentInChildren<WindscreenHUD>().DriverAlert();
         _participantsControlSwitch.GetComponentInChildren<HUDLite>().ActivateHUD(_eventObjects);
-        
+        ExperimentManager.Instance.SetEventActivationState(true);
+
     }
 
     public void FinalizeEvent()
@@ -88,11 +87,10 @@ public class PersistentTrafficEventManager : MonoBehaviour
             eventListener.ReestablishNormalBehavior();
         }
         
-        _participantsControlSwitch.SwitchControl();
+        _participantsControlSwitch.SwitchControl(false);
         _participantsControlSwitch.GetComponentInChildren<HUDLite>().DeactivateHUD();
         _participantsControlSwitch.GetComponentInChildren<WindscreenHUD>().DeactivateHUD();
-
-        // _eventObjects.Clear();
+        ExperimentManager.Instance.SetEventActivationState(false);
     }
 
     public GameObject GetParticipantsCar()

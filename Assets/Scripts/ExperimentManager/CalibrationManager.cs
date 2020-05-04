@@ -12,16 +12,19 @@ public class CalibrationManager : MonoBehaviour
     private int _state;
 
     private String calibrationFilePath;
-    
+
+    private bool _uUIDGenerated;
     private bool _eyeTrackerCalibrationSuccessful;
     private bool _eyeTrackerValidationSuccessful;
     private bool _seatCalibrationSuccessful;
     private bool _testDriveSuccessful;
-
-
+    
+    
     private CalibrationData _calibrationData;
     private Vector3 _eyeValidationError;
     private Vector3 _seatCalibrationOffset;
+    
+    public bool VR_activated;
     
     private void Awake()
     {
@@ -97,6 +100,19 @@ public class CalibrationManager : MonoBehaviour
         MainMenu.Instance.ReStartMainMenu();
     }
 
+    public void GenerateID()
+    {
+         string newParticipantId = System.Guid.NewGuid().ToString();
+        StoreParticipantUuid(newParticipantId);
+        _uUIDGenerated = true;
+    }
+
+    public bool GetParticipantUUIDState()
+    {
+        return _uUIDGenerated;
+    }
+    
+    
     public bool GetEyeTrackerCalibrationState()
     {
         return _eyeTrackerCalibrationSuccessful;
@@ -127,19 +143,37 @@ public class CalibrationManager : MonoBehaviour
         return _calibrationData.EyeValidationError;
     }
 
+    public bool GetVRModeState()
+    {
+        return _calibrationData.VRmode;
+    }
+    private void StoreParticipantUuid(string iD)
+    {
+        _calibrationData.ParticipantUuid = iD;
+        SaveCalibrationData();
+    }
     public void StoreSeatCalibrationData(Vector3 seatOffset)
     {
         //_seatCalibrationOffset = seatOffset;
         _calibrationData.SeatCalibrationOffset = seatOffset;
+        StoreVRState(true);
         SaveCalibrationData();
     }
-
+    
+    
     public void StoreValidationErrorData(Vector3 validationError)
     {
         _calibrationData.EyeValidationError = validationError;
         SaveCalibrationData();
     }
-    
+
+    public void StoreVRState(bool VRmode)
+    {
+        _calibrationData.VRmode=VRmode;
+        SaveCalibrationData();
+    }
+
+
     public void SaveCalibrationData()
     {
         SaveCalibrationFile(_calibrationData);

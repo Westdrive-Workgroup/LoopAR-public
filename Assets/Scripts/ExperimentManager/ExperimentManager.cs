@@ -20,14 +20,12 @@ public class ExperimentManager : MonoBehaviour
     [SerializeField] private bool vRScene;
     [SerializeField] private VRCam vRCamera;
 
+    [Space] [Header("Temporarily-Debug")]
+    [SerializeField] private GameObject failurePatch;
     private enum Scene
     {
         MainMenu,
         Experiment,
-        CountryRoad,
-        MountainRoad,
-        Autobahn,
-        City,
         EndOfExperiment
     }
     
@@ -45,6 +43,7 @@ public class ExperimentManager : MonoBehaviour
     private void Awake()
     {
         _activationTriggers = new List<ActivationTrigger>();
+
         
         //singleton pattern a la Unity
         if (Instance == null)
@@ -67,23 +66,27 @@ public class ExperimentManager : MonoBehaviour
 
     void Start()
     {
+        vRScene = CalibrationManager.Instance.GetVRModeState();
         
         InformTriggers();
         
         if (_activationTriggers.Count == 0)
         {
+            // Debug.LogWarning("Please ensure that ActivationTrigger is being executed before ExperimentManager if there are triggers present in the scene.");
             Debug.Log("<color=red>Error: </color>Please ensure that ActivationTrigger is being executed before ExperimentManager if there are triggers present in the scene.");
         }
 
         if (EyetrackingManager.Instance == null)
         {
             Debug.Log("<color=red>Error: </color>EyetrackingManager should be present in the scene.");
+            // Debug.LogError("EyetrackingManager should be present in the scene.");
         }
         
         RunMainMenu();
 
         if (CalibrationManager.Instance == null)
         {
+            // Debug.LogError("Please start from MainMenu!");
             Debug.Log("<color=red>Please start from MainMenu! </color>");
         }
     }
@@ -102,13 +105,14 @@ public class ExperimentManager : MonoBehaviour
         {
             firstPersonCamera.enabled = true;
             _camera.transform.position = Vector3.zero;
+            vRCamera.gameObject.SetActive(false);
         }
         
-        participantsCar.SetActive(false);
+        participantsCar.transform.parent.gameObject.SetActive(false);
+        failurePatch.SetActive(false);
     }
 
     // inform all triggers to disable their gameobjects at the beginning of the experiment
-
     private void InformTriggers()
     {
         foreach (var trigger in _activationTriggers)
@@ -119,7 +123,6 @@ public class ExperimentManager : MonoBehaviour
 
 
     // Reception desk for ActivationTriggers to register themselves
-
     public void RegisterToExperimentManager(ActivationTrigger listener)
     {
         _activationTriggers.Add(listener);
@@ -132,7 +135,7 @@ public class ExperimentManager : MonoBehaviour
         _scene = Scene.Experiment;
         _camera.enabled = false;
         
-        if (vRCamera == null)
+        if (!vRScene)
         {
             firstPersonCamera.enabled = true;
         }
@@ -142,8 +145,8 @@ public class ExperimentManager : MonoBehaviour
             vRCamera.Seat();
         }
         
-        participantsCar.SetActive(true);
-
+        participantsCar.transform.parent.gameObject.SetActive(true);
+        
         if (SavingManager.Instance != null)
         {
             SavingManager.Instance.StartRecordingData();
@@ -160,7 +163,7 @@ public class ExperimentManager : MonoBehaviour
             SavingManager.Instance.SaveData();
         }
         
-        if (vRCamera == null)
+        if (!vRScene)
         {
             firstPersonCamera.enabled = false;
             _camera.enabled = true;
@@ -171,7 +174,7 @@ public class ExperimentManager : MonoBehaviour
             vRCamera.UnSeat();
         }
         _camera.enabled=true;
-        participantsCar.SetActive(false);
+        participantsCar.transform.parent.gameObject.SetActive(false);
         SceneLoader.Instance.AsyncLoad(0);
     }
 
@@ -179,24 +182,20 @@ public class ExperimentManager : MonoBehaviour
     public void ParticipantFailed()
     {
         _activatedEvent = false;
-        
-        // todo fade to black
-        // todo inform HUD
-        // switch the control to AI
-        participantsCar.GetComponent<ControlSwitch>().SwitchControl();
-        // move the car to after the event
-        participantsCar.SetActive(false);
-
+        // todo fade to black in VR
+        failurePatch.SetActive(true);
+        PersistentTrafficEventManager.Instance.FinalizeEvent();
+        participantsCar.transform.parent.gameObject.SetActive(false);
+        participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
+        participantsCar.GetComponent<AIController>().SetLocalTarget();
         StartCoroutine(RespawnParticipant(respawnDelay));
-
     }
 
     IEnumerator RespawnParticipant(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
-        participantsCar.GetComponent<AIController>().SetLocalTarget();
-        participantsCar.SetActive(true);
+        participantsCar.transform.parent.gameObject.SetActive(true);
+        failurePatch.SetActive(false);
     }
 
     public void SetRespawnPositionAndRotation(Vector3 position, Quaternion rotation)
@@ -207,8 +206,14 @@ public class ExperimentManager : MonoBehaviour
 
     public void SetEventActivationState(bool activationState)
     {
+        
         _activatedEvent = activationState;
         Debug.Log("event activation state: " + _activatedEvent) ;
+    }
+
+    public bool GetEventActivationState()
+    {
+        return _activatedEvent;
     }
     
     public GameObject GetParticipantCar()
