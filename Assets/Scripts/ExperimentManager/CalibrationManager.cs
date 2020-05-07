@@ -94,6 +94,12 @@ public class CalibrationManager : MonoBehaviour
         SceneLoader.Instance.AsyncLoad(0);
     }
 
+    public void TestDriveFailed()
+    {
+        // todo save the failed data onto the calibration data
+        SceneLoader.Instance.AsyncLoad(0);
+    }
+
     public void AbortExperiment()
     {
         SceneLoader.Instance.AsyncLoad(0);
