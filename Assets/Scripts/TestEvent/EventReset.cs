@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using RoboRyanTron.Unite2017.Events;
 using RoboRyanTron.Unite2017.Variables;
 using UnityEngine;
 
@@ -10,6 +11,8 @@ public class EventReset : MonoBehaviour
 
     public FloatVariable maxTrials;
     public FloatVariable trialsDone;
+
+    public GameEvent trialFailed;
 
     public GameObject carBody;
     public GameObject resetPosition;
@@ -43,7 +46,7 @@ public class EventReset : MonoBehaviour
         }
         else
         {
-            endTestTrial(true, trialsDone);
+            trialFailed.Raise();
         }
     }
 
