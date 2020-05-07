@@ -103,7 +103,8 @@ public class ExperimentManager : MonoBehaviour
         }
         else
         {
-            firstPersonCamera.enabled = true;
+            _camera.enabled = true;
+            firstPersonCamera.enabled = false;
             _camera.transform.position = Vector3.zero;
             vRCamera.gameObject.SetActive(false);
         }
@@ -133,8 +134,11 @@ public class ExperimentManager : MonoBehaviour
     private void StartExperiment()
     {
         _scene = Scene.Experiment;
-        _camera.enabled = false;
         
+        participantsCar.transform.parent.gameObject.SetActive(true);
+
+        _camera.enabled = false;
+
         if (!vRScene)
         {
             firstPersonCamera.enabled = true;
@@ -144,8 +148,6 @@ public class ExperimentManager : MonoBehaviour
             Debug.Log("vr ");
             vRCamera.Seat();
         }
-        
-        participantsCar.transform.parent.gameObject.SetActive(true);
         
         if (SavingManager.Instance != null)
         {
