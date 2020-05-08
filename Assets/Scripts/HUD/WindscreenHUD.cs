@@ -20,7 +20,7 @@ public class WindscreenHUD : MonoBehaviour
     public CarController _carController;
     void Start()
     {
-        _aimedSpeed = FindObjectOfType<AimedSpeed>();
+        _aimedSpeed = _carController.gameObject.GetComponent<AimedSpeed>();
     }
 
 
@@ -32,11 +32,9 @@ public class WindscreenHUD : MonoBehaviour
     {
         Event = true;
         //Debug.Log(" bis hier alles gut");
-
     }
 
-
-
+    
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -58,8 +56,6 @@ public class WindscreenHUD : MonoBehaviour
         // Update is called once per second
         void UpdateEverySecond()
         {
-
-
             speed = Mathf.Round(_carController.GetCurrentSpeedInKmH());
             Speed.text = speed + "";
             //speedLimit = Mathf.RoundToInt(_aimedSpeed.GetAimedSpeed());
@@ -87,13 +83,6 @@ public class WindscreenHUD : MonoBehaviour
             //MaxSpeed
             MaxSpeed.text = speedLimit + "";
             //Weather.text = "Westbrueck \n 22°C";
-
-
-
-
-
-
         }
-
     }
 }
