@@ -68,7 +68,7 @@ public class WindscreenHUD : MonoBehaviour
             {
                 SpeedGauge.color = Color.red;
                 Speed.color = Color.red;
-                MaxSpeed.color = Color.red;
+                //MaxSpeed.color = Color.red;
             }
             else
             {
@@ -79,7 +79,8 @@ public class WindscreenHUD : MonoBehaviour
 
             //Datum
             var today = System.DateTime.Now;
-            Date.text = today.ToString("HH:mm");
+            //Date.text = today.ToString("HH:mm");
+            Date.text = "13:22";
             //MaxSpeed
             MaxSpeed.text = speedLimit + "";
             //Weather.text = "Westbrueck \n 22°C";
