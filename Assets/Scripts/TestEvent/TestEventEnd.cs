@@ -10,10 +10,10 @@ public class TestEventEnd : MonoBehaviour
         {
             CalibrationManager.Instance.TestDriveSuccessful();
         }
-        else
-        {
-            CalibrationManager.Instance.TestDriveFailed();
-        }
+        //else
+        //{
+        //    CalibrationManager.Instance.T
+        //}
     }
     
 }
