@@ -36,7 +36,7 @@ public class AIController : MonoBehaviour
     private Vector3 _nearestPoint = Vector3.zero;
 
     [Space] [Header("Car Mode")] 
-    [SerializeField] public bool manualOverride;
+    public bool manualOverride;
     
     
     private void OnDrawGizmosSelected()
@@ -54,8 +54,16 @@ public class AIController : MonoBehaviour
         _carController = this.GetComponent<CarController>();
         
         _targetAngle = 0;
-        manualOverride = false;
 
+        if (this.gameObject.GetComponent<ControlSwitch>() != null)
+        {
+            manualOverride = this.gameObject.GetComponent<ControlSwitch>().GetManualDrivingState();
+        }
+        else
+        {
+            manualOverride = false;
+        }
+        
         SetLocalTarget();
     }
 
@@ -143,6 +151,10 @@ public class AIController : MonoBehaviour
         _localTarget = path.GetPoint(progressPercentage);
     }
 
+    public void SetManualOverride(bool manualState)
+    {
+         manualOverride = manualState;
+    }
     public void SetAimedSpeed(float newSpeed)
     {
         _aimedSpeed = newSpeed;

@@ -11,24 +11,18 @@ public class ManualController : MonoBehaviour
     public delegate void OnReceivedInput(float steeringInput, float accelerationInput, float brakeInput);
     public event OnReceivedInput NotifyInputObservers;
 
-    private void Awake()
-    {
-     
-           
-    }
 
     private void Start()
     {
         _carController = GetComponent<CarController>();
-        _manualDriving = true;
         
         if (GetComponent<ControlSwitch>() != null)
         {
-            if (GetComponent<ControlSwitch>().isActiveAndEnabled)
-            {
-                // Debug.Log("got here");
-                _manualDriving = false;
-            }
+            _manualDriving = GetComponent<ControlSwitch>().GetManualDrivingState();
+        }
+        else
+        {
+            _manualDriving = true;
         }
     }
 
