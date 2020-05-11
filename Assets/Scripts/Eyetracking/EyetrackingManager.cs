@@ -65,10 +65,7 @@ public class EyetrackingManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            StartCalibration();
-        }
+        
     }
 
     // Start is called before the first frame update
