@@ -15,7 +15,7 @@ public class TestDriveManager : MonoBehaviour
         //vielleicht Respawn
         // Pylonen am start der szene aktiv, werden für 1. phase ausgeschaltet, für 2. phase wieder angeschaltet
 
-    // 3. Autonomes Fahren
+        // 3. Autonomes Fahren
     // Respawn zu strecke     
     //Get To the closest point 
     //Manual Driving nach Trigger ( Script ist da) , ausschalten bei start, anschalten zu phase 3
