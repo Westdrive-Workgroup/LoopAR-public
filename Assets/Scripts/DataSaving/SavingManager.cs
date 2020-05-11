@@ -51,6 +51,14 @@ public class SavingManager : MonoBehaviour
         _readyToSaveToFile=false;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            StopRecord();
+            SaveData();
+        }
+    }
     // Update is called once per frame
     
     public float GetSampleRate()
