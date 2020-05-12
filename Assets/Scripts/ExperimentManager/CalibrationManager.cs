@@ -107,8 +107,8 @@ public class CalibrationManager : MonoBehaviour
     }
 
     public void GenerateID()
-    {
-         string newParticipantId = System.Guid.NewGuid().ToString();
+    { 
+        string newParticipantId = System.Guid.NewGuid().ToString();
         StoreParticipantUuid(newParticipantId);
         _uUIDGenerated = true;
     }
@@ -160,7 +160,6 @@ public class CalibrationManager : MonoBehaviour
     }
     public void StoreSeatCalibrationData(Vector3 seatOffset)
     {
-        //_seatCalibrationOffset = seatOffset;
         _calibrationData.SeatCalibrationOffset = seatOffset;
         StoreVRState(true);
         SaveCalibrationData();
@@ -184,6 +183,7 @@ public class CalibrationManager : MonoBehaviour
     {
         SaveCalibrationFile(_calibrationData);
     }
+    
     public void DeleteCalibrationData()
     {
         DeleteCalibrationFile(calibrationFilePath);
@@ -200,6 +200,8 @@ public class CalibrationManager : MonoBehaviour
             File.Delete(dataPath);
         }
     }
+    
+    
     private void SaveCalibrationFile(CalibrationData calibrationData)
     {
         string jsonString = JsonUtility.ToJson(calibrationData);
@@ -228,6 +230,4 @@ public class CalibrationManager : MonoBehaviour
             return JsonUtility.FromJson<CalibrationData>(jsonString);
         }
     }
-    
-    
 }

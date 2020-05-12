@@ -23,7 +23,10 @@ public class CriticalEventController: MonoBehaviour
     [Tooltip("End the event automatically after given (0 - 15) seconds in case the participant stays idle.")] 
     [Range(0,20)] [SerializeField] private float eventIdleDuration;
     [SerializeField] private bool eventObjectActive;
-    // [SerializeField] private GameObject eventObject;
+    
+    // todo
+    // [Tooltip("0 to 15 seconds")] [Range(0,15)] [SerializeField] private float delay;
+    
     
     private RestrictedZoneTrigger[] _restrictedZoneTriggers;
     private GameObject _targetedCar;
@@ -134,4 +137,11 @@ public class CriticalEventController: MonoBehaviour
     {
         _activatedEvent = state;
     }
+
+    //todo
+    /*public float GetEventStartDelay()
+    {
+        return delay;
+    }*/
 }
+
