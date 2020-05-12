@@ -50,8 +50,8 @@ public class TrainingHandler : MonoBehaviour
 
             if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start"))
             {
-                // todo implement the action
                 _state = State.Training;
+                // todo implement the action
             }
             
             // Reset Button
