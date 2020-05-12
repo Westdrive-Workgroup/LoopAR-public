@@ -5,7 +5,7 @@ using UnityEngine;
 public class TrafficEventTrigger : MonoBehaviour
 {
     [Space][Header("Start Event Delay")]
-    [Tooltip("0 to 15 seconds")] [Range(0,15)] [SerializeField] private float delay;
+    [Tooltip("0 to 15 seconds")] [Range(0,15)] [SerializeField] private float delay = 2.5f;
 
     [Space][Header("Event state")]
     [SerializeField] private bool activateEvent;
