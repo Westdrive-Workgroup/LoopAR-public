@@ -9,7 +9,7 @@ public class ControlSwitch : MonoBehaviour
 
     private ManualController _manualControl;
 
-    [SerializeField] private bool manualDrivingState;
+    [SerializeField] private bool manualDriving;
     
     // Start is called before the first frame update
     void Start()
@@ -17,7 +17,7 @@ public class ControlSwitch : MonoBehaviour
         _aiController = GetComponent<AIController>();
         _manualControl = GetComponent<ManualController>();
 
-        _aiController.SetManualOverride(manualDrivingState);
+        _aiController.SetManualOverride(manualDriving);
     }
     
 
@@ -29,20 +29,20 @@ public class ControlSwitch : MonoBehaviour
 
     public bool GetManualDrivingState()
     {
-        return manualDrivingState;
+        return manualDriving;
     }
 
     public void SwitchControl()
     {
         Debug.Log("Manual Driving is  switching");
-        manualDrivingState = !manualDrivingState;
+        manualDriving = !manualDriving;
         
-        SetManualDrivingState(manualDrivingState);
+        SetManualDrivingState(manualDriving);
     }
 
     public void SwitchControl(bool state)
     {
-        manualDrivingState = state;       
-        SetManualDrivingState(manualDrivingState);
+        manualDriving = state;       
+        SetManualDrivingState(manualDriving);
     }
 }
