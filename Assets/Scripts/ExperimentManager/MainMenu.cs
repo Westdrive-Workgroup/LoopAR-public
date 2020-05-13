@@ -54,7 +54,7 @@ public class MainMenu : MonoBehaviour
         float xForButtons = width / 12f;
         float yForButtons = height / 7f;
         
-        float xForLable = (width / 3f);
+        float xForLable = (width / 12f);
         float yForLable = height/1.35f;
 
         float buttonWidth = 200f;
