@@ -99,6 +99,7 @@ public class TestEventManager : MonoBehaviour
 
     private void FinishEvent()
     {
+        _participantCar.GetComponent<AimedSpeed>().SetAimedSpeed(80);
         pylonEvent.SetActive(false);
         
     }
