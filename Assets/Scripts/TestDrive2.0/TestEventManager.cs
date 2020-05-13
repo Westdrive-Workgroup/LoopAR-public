@@ -25,14 +25,19 @@ public class TestEventManager : MonoBehaviour
     
     [SerializeField] private bool resetValue;
 
+    [SerializeField] private GameObject startTrigger;
+
     [SerializeField] private FloatVariable maxTrials;
     [SerializeField] private FloatVariable trialsDone;
-    
-    
-    
-    
-    private GameObject _participantCar;
+
+    [SerializeField] private GameObject _participantCar;
     private bool sceneStart;
+    private ManualController manualController;
+
+    private void Awake()
+    {
+        manualController = _participantCar.GetComponent<ManualController>();
+    }
 
     private void Start()
     {
@@ -40,29 +45,54 @@ public class TestEventManager : MonoBehaviour
         {
             trialsDone.SetValue(0);
         }
+        
         sceneStart = true;
+        
         foreach (var deactivateObjects in pylonEventObjects)
         {
             deactivateObjects.SetActive(false);
         }
+
+        manualController.enabled = false;
+    }
+
+    public void StartTestDrive()
+    {
+        manualController.enabled = true;
+        startTrigger.SetActive(true);
     }
 
     public void StartTrigger(Collider other)
     {
-        if (other.GetComponent<ManualController>())
+        if (other.GetComponent<CarController>())
         {
-            _participantCar = other.gameObject;
-            StartCoroutine(PassControl(_participantCar, timeForControl, manualDriving));
+            //_participantCar = other.gameObject;
+            StartCoroutine(PassControl(timeForControl));
         }
     }
     
     public void EndTrigger(Collider other)
     {
         FinishEvent();
-        if (other.GetComponent<ManualController>())
+        if (other.GetComponent<CarController>())
         {
             StartCoroutine(PassControl(_participantCar, 0, false));
         }
+    }
+    
+    public void TrialEndTrigger()
+    {
+        CalibrationManager.Instance.TestDriveSuccessful();
+    }
+    
+    IEnumerator PassControl(int time)
+    {
+        if (time == 0)
+        {
+            yield break;
+        }
+        yield return new WaitForSeconds(timeForControl);
+        ControlEnded();
     }
     
     IEnumerator PassControl(GameObject car, int time, bool manualControl)
@@ -75,17 +105,17 @@ public class TestEventManager : MonoBehaviour
         car.GetComponent<ControlSwitch>().SwitchControl(manualControl);
         yield return new WaitForSeconds(timeForControl);
         ControlEnded();
-        
-        
     }
 
     private void ControlEnded()
     {
+        Debug.Log("ControlEnded");
         if (sceneStart)
         {
             sceneStart = false;
             ActivateEvent();
             ResetCar(_participantCar);
+            pylonEvent.GetComponent<AudioSource>().Play();
         }
     }
 
@@ -112,7 +142,10 @@ public class TestEventManager : MonoBehaviour
             //Plus whatever the HUD is gonna do
         }
         //whatever happens when they fail
-        
+        else
+        {
+            CalibrationManager.Instance.TestDriveFailed();
+        }
     }
 
     private void ResetCar(GameObject objectToReset)
