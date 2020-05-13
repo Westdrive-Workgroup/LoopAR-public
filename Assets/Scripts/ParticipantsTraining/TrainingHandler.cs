@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class TrainingHandler : MonoBehaviour
 {
+
+    [SerializeField] private TestEventManager testEventManager;
     private enum State
     {
         TrainingMenu,
@@ -52,6 +54,7 @@ public class TrainingHandler : MonoBehaviour
             {
                 _state = State.Training;
                 // todo implement the action
+                testEventManager.StartTestDrive();
             }
             
             // Reset Button
