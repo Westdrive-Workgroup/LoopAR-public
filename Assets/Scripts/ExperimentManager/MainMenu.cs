@@ -67,7 +67,7 @@ public class MainMenu : MonoBehaviour
         GUI.backgroundColor = Color.red;
         GUI.color = Color.white;
         
-        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*9.5f), buttonWidth, buttonHeight), "Quit"))
+        if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "Quit"))
         {
             Application.Quit();
         }
@@ -85,7 +85,7 @@ public class MainMenu : MonoBehaviour
             GUI.backgroundColor = Color.yellow;
             GUI.color = Color.white;
         
-            if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "Reset"))
+            if (GUI.Button(new Rect(xForButtons*5, yForButtons, buttonWidth, buttonHeight), "Reset"))
             {
                 _section = Section.MainMenu;
             }
