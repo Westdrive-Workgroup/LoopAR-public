@@ -198,6 +198,6 @@ your organization from the unity asset store. Developing team of Westdrive does 
 
 > currently there are no assignment
 
-## Licence
+## License
 All Documentation content that resides under the doc/ directory of this repository is licensed under Creative Commons: [![License: CC BY-NC-SA 4.0](https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
