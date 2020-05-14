@@ -1,5 +1,5 @@
 # Westdrive LoopAR Private Repository
-![Westdrive LoopAR Logo](https://raw.githubusercontent.com/farbod69/Westdrive-LoopAR/Workflow/Westworld_LoopAR_Logo.svg)
+![Westdrive LoopAR Logo](https://gitlab.com/farbod69/project-westdrive/raw/master/westdrive%20logo.svg)
 
 ![Westdrive Version](https://img.shields.io/badge/Version-1.0.Alpha-Yellow.svg)
 ![Main Branch](https://img.shields.io/badge/Stable%20Branch-Master-brightgreen.svg)
