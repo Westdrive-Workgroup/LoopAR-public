@@ -23,6 +23,4 @@ public class InformHUDTrigger : MonoBehaviour
             //todo call HUD    
         }
     }
-    
-    
 }

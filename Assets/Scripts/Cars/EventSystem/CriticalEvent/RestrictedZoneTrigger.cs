@@ -5,11 +5,13 @@ using UnityEditor;
 using UnityEngine;
 using Matrix4x4 = System.Numerics.Matrix4x4;
 
+[DisallowMultipleComponent]
 public class RestrictedZoneTrigger : MonoBehaviour
 {
     private Vector3 _colliderDimensions;
 
     private Vector3 _colliderPosition;
+    
     // Start is called before the first frame update
     void Start()
     {
