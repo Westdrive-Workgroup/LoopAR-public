@@ -48,7 +48,7 @@ public class ExperimentManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);         //the Traffic Manager should be persitant by changing the scenes maybe change it on the the fly
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -106,6 +106,7 @@ public class ExperimentManager : MonoBehaviour
         participantsCar.transform.parent.gameObject.SetActive(false);
     }
 
+    
     // inform all triggers to disable their gameobjects at the beginning of the experiment
     private void InformTriggers()
     {
@@ -147,6 +148,7 @@ public class ExperimentManager : MonoBehaviour
         participantsCar.transform.parent.gameObject.SetActive(true);
     }
 
+    
     // ending the experiment
     public void EndTheExperiment()
     {
@@ -186,7 +188,7 @@ public class ExperimentManager : MonoBehaviour
         participantsCar.GetComponent<AIController>().SetLocalTarget();
         StartCoroutine(RespawnParticipant(respawnDelay));
     }
-
+    
     IEnumerator RespawnParticipant(float seconds)
     {
         yield return new WaitForSeconds(seconds);

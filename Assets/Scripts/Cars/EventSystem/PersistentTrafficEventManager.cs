@@ -31,7 +31,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);         //the Traffic Manager should be persistent by changing the scenes maybe change it on the the fly
+            DontDestroyOnLoad(gameObject);    //the Traffic Manager should be persistent by changing the scenes maybe change it on the the fly
         }
         else
         {
@@ -48,20 +48,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
     {
         _eventBehaviorListeners.Add(listener);
     }
-    
 
-    /*public void HandleEvent()
-    {
-        if (_activatedEvent)
-        {
-            FinalizeEvent();
-        }
-        else
-        {
-            _activatedEvent = true;
-            InitiateEvent();
-        }
-    }*/
 
     public void InitiateEvent(List<GameObject> eventObjects)
     {
@@ -76,7 +63,6 @@ public class PersistentTrafficEventManager : MonoBehaviour
         _participantsControlSwitch.GetComponentInChildren<WindscreenHUD>().DriverAlert();
         _participantsControlSwitch.GetComponentInChildren<HUDLite>().ActivateHUD(_eventObjects);
         ExperimentManager.Instance.SetEventActivationState(true);
-
     }
 
     public void FinalizeEvent()

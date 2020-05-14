@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class ManualController : MonoBehaviour
 {
     private CarController _carController;
@@ -30,8 +31,8 @@ public class ManualController : MonoBehaviour
     void Update()
     {
         float brakeInput = Input.GetAxis("Jump");
-        float accelerationInput = Input.GetAxis("Vertical");// W or Arrow up acceleration forward or backwards.
-        float steeringInput = Input.GetAxis("Horizontal"); //A or D steering
+        float accelerationInput = Input.GetAxis("Vertical");    // W or Arrow up acceleration forward or backwards.
+        float steeringInput = Input.GetAxis("Horizontal");    //A or D steering
 
         NotifyInputObservers?.Invoke(steeringInput, accelerationInput, brakeInput);
         

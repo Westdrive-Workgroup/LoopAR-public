@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[DisallowMultipleComponent]
 public class TrafficEventTrigger : MonoBehaviour
 {
     [Space][Header("Start Event Delay")]

@@ -5,9 +5,9 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class AimedSpeed : MonoBehaviour
 {
-    private float _aimedSpeed; //everyone can get this 
-    private float _ruleSpeed; //rule speed is at start Max Speed, until traffic signs set new rules. only traffic signs triggers can set this
-    private float _eventSpeed; //only activated Eventtriggers can change this. Only needs to be set in start
+    private float _aimedSpeed;    //everyone can get this 
+    private float _ruleSpeed;    //rule speed is at start Max Speed, until traffic signs set new rules. only traffic signs triggers can set this
+    private float _eventSpeed;    //only activated Eventtriggers can change this. Only needs to be set in start
     
     private bool _overWrittenAimedSpeed;
     private bool _eventSpeedActivated;
@@ -25,7 +25,6 @@ public class AimedSpeed : MonoBehaviour
         {
             _eventSpeed = 30f;         //will never be used , but just in case
         }
-        
     }
 
     // Update is called once per frame
@@ -56,7 +55,6 @@ public class AimedSpeed : MonoBehaviour
         return _aimedSpeed;
     }
     
-
     public void ActivateEventSpeed()
     {
         _eventSpeedActivated=true;
@@ -66,7 +64,6 @@ public class AimedSpeed : MonoBehaviour
     {
         _eventSpeedActivated = false;
     }
-    
     
     public void SetRuleSpeed(float speed)
     {
