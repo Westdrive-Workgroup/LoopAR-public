@@ -153,11 +153,14 @@ public class ExperimentManager : MonoBehaviour
     public void EndTheExperiment()
     {
         _scene = Scene.EndOfExperiment;
+        
         if (SavingManager.Instance != null)
         {
             SavingManager.Instance.StopRecordingData();
             SavingManager.Instance.SaveData();
         }
+        
+        blackScreen.SetActive(true);
         
         if (!vRScene)
         {
@@ -169,7 +172,7 @@ public class ExperimentManager : MonoBehaviour
             vRCamera.UnSeat();
         }
         
-        blackScreen.SetActive(true);
+        
         participantsCar.transform.parent.gameObject.SetActive(false);
         SceneLoader.Instance.AsyncLoad(0);
     }
