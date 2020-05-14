@@ -21,7 +21,9 @@ public class TestEventManager : MonoBehaviour
     [SerializeField] private GameObject respawnPoint;
     
     [Tooltip("The objects that should be deactivated at the start of the scene.")]
-    [SerializeField] private GameObject[] pylonEventObjects;
+    [SerializeField] private GameObject[] eventObjects;
+
+    [SerializeField] private List<GameObject> parentEventObjectsToMark;
     
     [SerializeField] private bool resetValue;
 
@@ -31,12 +33,16 @@ public class TestEventManager : MonoBehaviour
     [SerializeField] private FloatVariable trialsDone;
 
     [SerializeField] private GameObject _participantCar;
-    private bool sceneStart;
+    [SerializeField] private WindscreenHUD windscreenHUD;
+    [SerializeField] private HUDLite hudLite;
     private ManualController manualController;
+
+    private bool sceneStart;
+
 
     private void Awake()
     {
-        manualController = _participantCar.GetComponent<ManualController>();
+        manualController = _participantCar.GetComponent<ManualController>(); ;
     }
 
     private void Start()
@@ -46,38 +52,42 @@ public class TestEventManager : MonoBehaviour
             trialsDone.SetValue(0);
         }
         
+        startTrigger.SetActive(false);
         sceneStart = true;
         
-        foreach (var deactivateObjects in pylonEventObjects)
+        foreach (var deactivateObjects in eventObjects)
         {
             deactivateObjects.SetActive(false);
         }
 
         manualController.enabled = false;
+        hudLite.gameObject.SetActive(false);
+        windscreenHUD.gameObject.SetActive(false);
     }
 
     public void StartTestDrive()
     {
         manualController.enabled = true;
         startTrigger.SetActive(true);
+        StartCoroutine(PassControl());
     }
 
     public void StartTrigger(Collider other)
     {
-        if (other.GetComponent<CarController>())
-        {
+        //if (other.GetComponent<CarController>())
+        //{
             //_participantCar = other.gameObject;
-            StartCoroutine(PassControl(timeForControl));
-        }
+       //     StartCoroutine(PassControl());
+        //}
     }
     
     public void EndTrigger(Collider other)
     {
-        FinishEvent();
-        if (other.GetComponent<CarController>())
-        {
-            StartCoroutine(PassControl(_participantCar, 0, false));
-        }
+        //FinishEvent();
+        Debug.Log("The End is nigh!");
+        ResetCar(_participantCar);
+        _participantCar.gameObject.GetComponent<ControlSwitch>().SwitchControl(true);
+        Debug.Log("Control Switched");
     }
     
     public void TrialEndTrigger()
@@ -85,12 +95,8 @@ public class TestEventManager : MonoBehaviour
         CalibrationManager.Instance.TestDriveSuccessful();
     }
     
-    IEnumerator PassControl(int time)
+    IEnumerator PassControl()
     {
-        if (time == 0)
-        {
-            yield break;
-        }
         yield return new WaitForSeconds(timeForControl);
         ControlEnded();
     }
@@ -109,22 +115,23 @@ public class TestEventManager : MonoBehaviour
 
     private void ControlEnded()
     {
-        Debug.Log("ControlEnded");
         if (sceneStart)
         {
             sceneStart = false;
             ActivateEvent();
             ResetCar(_participantCar);
-            pylonEvent.GetComponent<AudioSource>().Play();
+            //pylonEvent.GetComponent<AudioSource>().Play();
         }
     }
 
     private void ActivateEvent()
     {
-        foreach (var activateObjects in pylonEventObjects)
+        foreach (var activateObjects in eventObjects)
         {
             activateObjects.SetActive(true);
         }
+
+        //_participantCar.GetComponent<ControlSwitch>().SwitchControl(false);
     }
 
     private void FinishEvent()
@@ -150,11 +157,17 @@ public class TestEventManager : MonoBehaviour
 
     private void ResetCar(GameObject objectToReset)
     {
-        if (objectToReset.GetComponent<ManualController>())
+        if (objectToReset.GetComponent<CarController>())
         {
-            objectToReset.transform.SetPositionAndRotation(respawnPoint.gameObject.transform.position, respawnPoint.gameObject.transform.rotation);
             objectToReset.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+            objectToReset.transform.SetPositionAndRotation(respawnPoint.gameObject.transform.position, respawnPoint.gameObject.transform.rotation);
+            Debug.Log("ResetCar!");
         }
-        
+    }
+
+    public void ActivateHUD()
+    {
+        hudLite.gameObject.SetActive(true);
+        hudLite.ActivateHUD(parentEventObjectsToMark);
     }
 }

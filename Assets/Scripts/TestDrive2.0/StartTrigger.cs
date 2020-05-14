@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class StartTrigger : MonoBehaviour
 {
-    [SerializeField] private TestEventManager testEventManager;
-    private void OnTriggerEnter(Collider other)
+    [SerializeField] private int aimedSpeed;
+    private IEnumerator OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<ManualController>())
+        if (other.GetComponent<CarController>())
         {
-            testEventManager.StartTrigger(other);
+            other.gameObject.GetComponent<ManualController>().enabled = false;
+            yield return new WaitForSeconds(5);
+            other.gameObject.GetComponent<ManualController>().enabled = true;
+            other.gameObject.GetComponent<AIController>().SetAimedSpeed(aimedSpeed);
+            other.gameObject.GetComponent<ControlSwitch>().SwitchControl(false);
             GetComponent<BoxCollider>().enabled = false;
         }
     }

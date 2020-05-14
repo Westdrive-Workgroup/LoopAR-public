@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using RoboRyanTron.Unite2017.Variables;
 using UnityEngine;
 using Object = System.Object;
 
@@ -9,25 +10,42 @@ public class ResetObjectPositionTrigger : MonoBehaviour
 
     [Tooltip("The point where the object will get respawned to.")]
     [SerializeField] private GameObject respawnPoint;
+  
+    [SerializeField] private FloatVariable maxTrials;
+    [SerializeField] private FloatVariable trialsDone;
+   
     private Transform resetPosition;
+
+    
 
     private void Start()
     {
         resetPosition = respawnPoint.transform;
     }
 
-    private void ResetCar(GameObject ObjectToReset)
+    private void ResetCar(GameObject objectToReset)
     {
-        if (ObjectToReset.GetComponent<ManualController>())
+        if (objectToReset.GetComponent<CarController>())
         {
-            ObjectToReset.transform.SetPositionAndRotation(resetPosition.position, resetPosition.rotation);
-            ObjectToReset.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+            objectToReset.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+            objectToReset.transform.SetPositionAndRotation(resetPosition.position, resetPosition.rotation);
         }
         
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        ResetCar(other.gameObject);
+        if (other.gameObject.GetComponent<CarController>())
+        {
+            if (trialsDone.Value < maxTrials.Value)
+            {
+                trialsDone.ApplyChange(1);
+            }
+            else
+            {
+                CalibrationManager.Instance.TestDriveFailed();
+            }
+            ResetCar(other.gameObject);
+        }
     }
 }

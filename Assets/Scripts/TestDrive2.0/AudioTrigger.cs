@@ -18,7 +18,7 @@ public class AudioTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<ManualController>())
+        if (other.gameObject.GetComponent<CarController>())
         {
             source.Play();
             if (turnOffAfterPlay)
