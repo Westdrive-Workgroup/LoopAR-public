@@ -128,16 +128,7 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.SeatCalibration();
                 }
             }
-            else if (_calibrationManager.GetSeatCalibrationState() && !_calibrationManager.GetTestDriveState())
-            {
-                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight),
-                    "Test Drive Scene"))
-                {
-                    _section = Section.TrainingBlock;
-                    CalibrationManager.Instance.StartTestDrive();
-                }
-            }
-            else if (_calibrationManager.GetTestDriveState())
+            else if (_calibrationManager.GetSeatCalibrationState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
                 {
@@ -152,22 +143,10 @@ public class MainMenu : MonoBehaviour
             GUI.backgroundColor = Color.cyan;
             GUI.color = Color.white;
             
-            if (!_calibrationManager.GetTestDriveState())
+            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
             {
-                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight),
-                    "Test Drive Scene"))
-                {
-                    _section = Section.TrainingBlock;
-                    CalibrationManager.Instance.StartTestDrive();
-                }
-            }
-            else if (_calibrationManager.GetTestDriveState())
-            {
-                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
-                {
-                    _section = Section.MainExperiment;    
-                    SceneLoader.Instance.AsyncLoad(4);
-                }
+                _section = Section.MainExperiment;    
+                SceneLoader.Instance.AsyncLoad(4);
             }
         }
     }
