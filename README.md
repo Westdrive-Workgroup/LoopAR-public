@@ -127,11 +127,8 @@ in the following secion all used assets with their links in the unity asset sote
 | Asset Name | Link on Asset Store | Description | Paid / Free | Essentail / Optional |
 | ------ | ------ | ------ | ------ | ------ |
 | SteamVR | [SteamVR Plugin](https://assetstore.unity.com/packages/tools/integration/steamvr-plugin-32647) | main api to use HTV Vive/ Vive Pro HMDs in Unity3d | free | ![note:](https://img.shields.io/badge/note-Essential-yellow.svg) |
-| * EasyRoads3D v3 pro| [EasyRoads3D v3 pro](https://assetstore.unity.com/packages/tools/terrain/easyroads3d-pro-v3-469) | u
-Create unique road networks directly in Unity with both built-in customizable dynamic crossing prefabs and custom crossing prefabs based on your own imported models.
- | paid | ![note:](https://img.shields.io/badge/note-Essential-red.svg) |
-| Conifers [BOTD] | [Conifers](https://assetstore.unity.com/packages/3d/vegetation/trees/conifers-botd-142076) | his package contains 4 conifers derived from Unity's Book of the Dead Demo – reworked, optimized and imported using the Custom Tree Importer to make them compatible with the "legacy" rendering pipeline.
- | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| * EasyRoads3D v3 pro | [EasyRoads3D v3 pro](https://assetstore.unity.com/packages/tools/terrain/easyroads3d-pro-v3-469) |Create unique road networks directly in Unity with both built-in customizable dynamic crossing prefabs and custom crossing prefabs based on your own imported models | paid | ![note:](https://img.shields.io/badge/note-Essential-red.svg) |
+| Conifers [BOTD] | [Conifers](https://assetstore.unity.com/packages/3d/vegetation/trees/conifers-botd-142076) | his package contains 4 conifers derived from Unity's Book of the Dead Demo – reworked, optimized and imported using the Custom Tree Importer to make them compatible with the "legacy" rendering pipeline. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
 
 
 ### ** 
