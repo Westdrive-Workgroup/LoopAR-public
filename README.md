@@ -126,17 +126,26 @@ in the following secion all used assets with their links in the unity asset sote
 ### List of assets
 | Asset Name | Link on Asset Store | Description | Paid / Free | Essentail / Optional |
 | ------ | ------ | ------ | ------ | ------ |
-| SteamVR | [SteamVR Plugin](https://assetstore.unity.com/packages/tools/integration/steamvr-plugin-32647) | main api to use HTV Vive/ Vive Pro HMDs in Unity3d | free | ![note:](https://img.shields.io/badge/note-Essential-yellow.svg) |
+| + SteamVR | [SteamVR Plugin](https://assetstore.unity.com/packages/tools/integration/steamvr-plugin-32647) | main api to use HTV Vive/ Vive Pro HMDs in Unity3d | free | ![note:](https://img.shields.io/badge/note-Essential-yellow.svg) |
 | * EasyRoads3D v3 pro | [EasyRoads3D v3 pro](https://assetstore.unity.com/packages/tools/terrain/easyroads3d-pro-v3-469) |Create unique road networks directly in Unity with both built-in customizable dynamic crossing prefabs and custom crossing prefabs based on your own imported models | paid | ![note:](https://img.shields.io/badge/note-Essential-red.svg) |
 | Conifers [BOTD] | [Conifers](https://assetstore.unity.com/packages/3d/vegetation/trees/conifers-botd-142076) | his package contains 4 conifers derived from Unity's Book of the Dead Demo – reworked, optimized and imported using the Custom Tree Importer to make them compatible with the "legacy" rendering pipeline. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
-
-
-### ** 
-> these assets are part of the city now but they will be replaced with the assets created at our team during the course of next year and will be deleted from our repository then
+| Standard Assets | [Standard Assets](https://assetstore.unity.com/packages/essentials/asset-packs/standard-assets-for-unity-2017-3-32351) | This collection of assets, scripts, and example scenes can be used to kickstart your Unity learning or be used as the basis for your own projects. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Grass Flowers Pack Free | [Grass Flowers Pack Free](https://assetstore.unity.com/packages/2d/textures-materials/grass-flowers-pack-free-138810) | This pack contains 12 grass and flower textures(Resolution 1024x1024,Alpha Channel). | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Rocky Hills Environment - light pack | [Rocky Hills Environment - light pack](https://assetstore.unity.com/packages/3d/environments/landscapes/rocky-hills-environment-light-pack-89939) | High quality, low poly model pack, good for any kind of platform, mobile friendly and very aesthetic for higher quality game development. Includes models from a early project. Each model from the Legacy project comes with 2 Lod levels.| free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Terrain Tools Sample Asset Pack | [Terrain Tools Sample Asset Pack](https://assetstore.unity.com/packages/2d/textures-materials/terrain-tools-sample-asset-pack-145808) | The Terrain Tools Sample Asset Pack contains a collection of Assets to jump-start development for users interested in utilizing Unity’s growing Terrain system. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Farm Machinery | [Farm Machinery](https://assetstore.unity.com/packages/3d/vehicles/land/farm-machinery-low-poly-tractor-and-planter-94533) | This is a low poly style model pack of a farm tractor and a planter. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Wooden Box | [Wooden Box](https://assetstore.unity.com/packages/3d/props/wooden-box-670) | This package contains a wooden box in four states: One intact and three destroyed versions. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Industrial Set - Scaffolding | [Industrial Set - Scaffolding](https://sketchfab.com/3d-models/industrial-set-scaffolding-04239b73e22b4546ad2bd7cb5d47166a) | game ready scaffold set, no LODs, PBR Textures. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Wood panels | [Wood panels](https://sketchfab.com/3d-models/wood-panels-7b2a9828a34f48bf80f8c5cf8e7dae80) | 3 wood panels Assets for Cities: Skylines. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Starbucks Coffee | [Starbucks Coffee](https://sketchfab.com/3d-models/starbucks-coffee-a2081e0943c74ec49920c3180e20f349) | Starbucks Coffee Asset for Cities: Skylines. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Boulangerie de l’Opéra | [Boulangerie de l’Opéra](https://sketchfab.com/3d-models/boulangerie-de-lopera-55c29afb945147699633d1b78c18ffec) | A typical french bakery
+Asset for Cities: Skylines. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Starbucks Coffee | [Starbucks Coffee](https://sketchfab.com/3d-models/starbucks-coffee-a2081e0943c74ec49920c3180e20f349) | Starbucks Coffee Asset for Cities: Skylines. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+### *
+> This asset is removed for LoopAR public repository but still accessable through LoopAR private repository. 
 
 ### + 
-> this asset is deprecated, we have deleted its functionality since it was not visible in VR and replaced it with normal audio output from Taxi driver. This asset will be removed from our repository on our next commit.
-
+> Essential to work on both VR and non VR version of the project
 ## Avatars and animations:
 Avaratars and animations in westdrive is created by us using Adobe Mixamo and Fuse cc. At the momenet westdrive is using avatars of our own creation using mentioned tools but due to 
 their complex mesh anatomy we are replacing them with simpler low poly avatars created by us in blender soon. 
