@@ -59,7 +59,6 @@ public class MainMenu : MonoBehaviour
 
         float buttonWidth = 200f;
         float buttonHeight = 30f;
-        float heightDifference = 40f;
         
         int labelFontSize = 33;
 
@@ -76,8 +75,8 @@ public class MainMenu : MonoBehaviour
         GUI.color = Color.white;
         GUI.skin.label.fontSize = labelFontSize;
         GUI.skin.label.fontStyle = FontStyle.Bold;
-
-        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Welcome to Westdrive LoopAR");
+        
+        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Menu   Westdrive LoopAR");
         
         if (vRScene)
         {

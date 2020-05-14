@@ -164,7 +164,7 @@ public class ExperimentManager : MonoBehaviour
         
         if (!vRScene)
         {
-            firstPersonCamera.enabled = false;
+            // firstPersonCamera.enabled = false;
             _scene = Scene.MainMenu;
         }
         else
