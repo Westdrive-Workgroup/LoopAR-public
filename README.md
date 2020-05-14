@@ -127,6 +127,7 @@ in the following secion all used assets with their links in the unity asset sote
 | Asset Name | Link on Asset Store | Description | Paid / Free | Essentail / Optional |
 | ------ | ------ | ------ | ------ | ------ |
 | + SteamVR | [SteamVR Plugin](https://assetstore.unity.com/packages/tools/integration/steamvr-plugin-32647) | main api to use HTV Vive/ Vive Pro HMDs in Unity3d | free | ![note:](https://img.shields.io/badge/note-Essential-yellow.svg) |
+| * SS07 | [Unlock super sport car #07 ](https://assetstore.unity.com/packages/3d/vehicles/land/unlock-super-sports-car-07-109989) | one of the car assets used in the project | paid | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
 | * EasyRoads3D v3 pro | [EasyRoads3D v3 pro](https://assetstore.unity.com/packages/tools/terrain/easyroads3d-pro-v3-469) |Create unique road networks directly in Unity with both built-in customizable dynamic crossing prefabs and custom crossing prefabs based on your own imported models | paid | ![note:](https://img.shields.io/badge/note-Essential-red.svg) |
 | Conifers [BOTD] | [Conifers](https://assetstore.unity.com/packages/3d/vegetation/trees/conifers-botd-142076) | his package contains 4 conifers derived from Unity's Book of the Dead Demo – reworked, optimized and imported using the Custom Tree Importer to make them compatible with the "legacy" rendering pipeline. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
 | Standard Assets | [Standard Assets](https://assetstore.unity.com/packages/essentials/asset-packs/standard-assets-for-unity-2017-3-32351) | This collection of assets, scripts, and example scenes can be used to kickstart your Unity learning or be used as the basis for your own projects. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
@@ -138,11 +139,28 @@ in the following secion all used assets with their links in the unity asset sote
 | Industrial Set - Scaffolding | [Industrial Set - Scaffolding](https://sketchfab.com/3d-models/industrial-set-scaffolding-04239b73e22b4546ad2bd7cb5d47166a) | game ready scaffold set, no LODs, PBR Textures. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
 | Wood panels | [Wood panels](https://sketchfab.com/3d-models/wood-panels-7b2a9828a34f48bf80f8c5cf8e7dae80) | 3 wood panels Assets for Cities: Skylines. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
 | Starbucks Coffee | [Starbucks Coffee](https://sketchfab.com/3d-models/starbucks-coffee-a2081e0943c74ec49920c3180e20f349) | Starbucks Coffee Asset for Cities: Skylines. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
-| Boulangerie de l’Opéra | [Boulangerie de l’Opéra](https://sketchfab.com/3d-models/boulangerie-de-lopera-55c29afb945147699633d1b78c18ffec) | A typical french bakery
-Asset for Cities: Skylines. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
-| Starbucks Coffee | [Starbucks Coffee](https://sketchfab.com/3d-models/starbucks-coffee-a2081e0943c74ec49920c3180e20f349) | Starbucks Coffee Asset for Cities: Skylines. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Boulangerie de l’Opéra | [Boulangerie de l’Opéra](https://sketchfab.com/3d-models/boulangerie-de-lopera-55c29afb945147699633d1b78c18ffec) | A typical french bakery Asset for Cities: Skylines. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Pile of Planks | [Pile of Planks ](https://sketchfab.com/3d-models/pile-of-planks-freegameready-025e9f1cb3bd4256ba7570aa991be29b) | Just an optimised low poly pile of planks with PBR textures.  | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Pile of Planks | [Pile of Planks ](https://sketchfab.com/3d-models/pile-of-planks-freegameready-025e9f1cb3bd4256ba7570aa991be29b) | Just an optimised low poly pile of planks with PBR textures.  | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Picnic Tables | [Picnic Tables ](https://sketchfab.com/3d-models/picnic-tables-c962b28e2612421b9392d3ee403b9309) | Set of worn down Picnic tables. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| France - Cities: Skyline models | [France - Cities: Skyline models](https://sketchfab.com/Lost_Gecko/collections/france-cities-skylines-models) | French custom assets Lost Gecko created for the city-builder video game Cities: Skylines. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Hyundai Excavator | [Hyundai Excavator](https://sketchfab.com/3d-models/hyundai-excavator-a805e66f565a412682ac8ce45ab9ac3e) | An Excavator. Pictures taken with D5300 + 10mm Sigma + Parrot Anafi. Added LODs | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| a pile of clay | [a pile of clay](https://sketchfab.com/3d-models/a-pile-of-clay-c356e6679e8242659adee7f6c6304c37) | A good reference or gameobject to a computer game. Photogrammetry from 99 photos. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| a pile of sand | [a pile of sand](https://sketchfab.com/3d-models/a-pile-of-sand-107f6a1f6aa74449bcd32ef136311d86) | A good reference or gameobject to a computer game. Photogrammetry from 107 photos. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Microsoft Lumia 950 | [Microsoft Lumia 950 ](https://sketchfab.com/3d-models/microsoft-lumia-950-cdab940b566b42ada956bda77aa4948a) | Simple low poly model of the Microsoft Lumia 950, Windows 10 flagship. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Windmill | [Windmill](https://www.turbosquid.com/3d-models/free-windmill-video-games-3d-model/464415) | A low-poly Windmill. Textures are hand painted and the model is fully UV textured. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Observatory | [Observatory](https://www.turbosquid.com/FullPreview/Index.cfm/ID/437366) | An astronomical Observatory. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
+| Animated Stag Deer 3D Model | [Animated Stag Deer 3D Model](http://www.cadnav.com/3d-models/model-40791.html) | Highly detailed and rigged 3d model of a stag, with walk and attack animations. | free | ![note:](https://img.shields.io/badge/note-Essential-yellow.svg)|
+| HUD warning sign | [HUD warning sign](http://pngimg.com/download/87933) | Simple red triangle. | free | ![note:](https://img.shields.io/badge/note-Essential-yellow.svg)|
+| ** HUD sound Event | [HUD sound Event](https://www.youtube.com/watch?v=dV8S_2lwDkQ&list=PLx638JkBb2l-GbhsZpHNI-6NhXLjArMby&index=33) | Warning Sound. | free | ![note:](https://img.shields.io/badge/note-Essential-yellow.svg)|
+| ** HUD sound EventEnd | [HUD sound EventEnd ](https://www.soundjay.com/button/sounds/beep-09.mp3) | Normal beep. | free | ![note:](https://img.shields.io/badge/note-Essential-yellow.svg)|
 ### *
+
 > This asset is removed for LoopAR public repository but still accessable through LoopAR private repository. 
+
+### **
+
+> These sounds has been used for testing the functionalities and will change in the next update. 
 
 ### + 
 > Essential to work on both VR and non VR version of the project
@@ -164,7 +182,7 @@ Our acknowledgement goes to creator of all free and paid assets mentioned above,
 *  Farbod Nosrat Nezami - technical supervisor of the project
 *  Maximilian Alexander Wächter - Behavioral supervisor of the project
 *  Prof. Dr. Peter König - main supervisor of the project
-*  prof. Dr. Gordon Pipa - second supervisor of the project
+*  Prof. Dr. Gordon Pipa - second supervisor of the project
 *  Stahlwerk Stiftung Georgsmarienhütte, University of Osnabrück and Deutsche Forschungsgemeinschaft for their financial support
 > All members of the team work equaly on background research and refinment of the study
 ### current term of use
@@ -180,14 +198,6 @@ your organization from the unity asset store. Developing team of Westdrive does 
 
 > currently there are no assignment
 
-## License
+## Licence
 All Documentation content that resides under the doc/ directory of this repository is licensed under Creative Commons: [![License: CC BY-NC-SA 4.0](https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-
-
-# Westdrive-LoopAR
-### List of assets
-| Asset Name | Link on Asset Store | Description | Paid / Free | Essentail / Optional |
-| ------ | ------ | ------ | ------ | ------ |
-| SteamVR | [SteamVR Plugin](https://assetstore.unity.com/packages/tools/integration/steamvr-plugin-32647) | main api to use HTV Vive/ Vive Pro HMDs in Unity3d | free | ![note:](https://img.shields.io/badge/note-Essential-yellow.svg) |
-| **SS07 | [Unlock super sport car #07 ](https://assetstore.unity.com/packages/3d/vehicles/land/unlock-super-sports-car-07-109989) | one of the car assets used in the project | paid | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
