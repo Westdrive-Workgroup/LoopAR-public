@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
+using Boo.Lang;
 using RoboRyanTron.Unite2017.Events;
 using RoboRyanTron.Unite2017.Variables;
 using UnityEngine;
@@ -23,7 +23,7 @@ public class TestEventManager : MonoBehaviour
     [Tooltip("The objects that should be deactivated at the start of the scene.")]
     [SerializeField] private GameObject[] eventObjects;
 
-    [SerializeField] private List<GameObject> parentEventObjectsToMark;
+    [SerializeField] private System.Collections.Generic.List<GameObject> eventObjectsToMark;
     
     [SerializeField] private bool resetValue;
 
@@ -34,7 +34,7 @@ public class TestEventManager : MonoBehaviour
 
     [SerializeField] private GameObject _participantCar;
     [SerializeField] private WindscreenHUD windscreenHUD;
-    [SerializeField] private HUDLite hudLite;
+    [SerializeField] private HudLite_TestDrive hudLite;
     private ManualController manualController;
 
     private bool sceneStart;
@@ -52,6 +52,10 @@ public class TestEventManager : MonoBehaviour
             trialsDone.SetValue(0);
         }
         
+        manualController.enabled = false;
+        hudLite.gameObject.SetActive(false);
+        windscreenHUD.gameObject.SetActive(false);
+        
         startTrigger.SetActive(false);
         sceneStart = true;
         
@@ -59,10 +63,6 @@ public class TestEventManager : MonoBehaviour
         {
             deactivateObjects.SetActive(false);
         }
-
-        manualController.enabled = false;
-        hudLite.gameObject.SetActive(false);
-        windscreenHUD.gameObject.SetActive(false);
     }
 
     public void StartTestDrive()
@@ -72,18 +72,18 @@ public class TestEventManager : MonoBehaviour
         StartCoroutine(PassControl());
     }
 
-    public void StartTrigger(Collider other)
+    public void StartTrigger()
     {
-        //if (other.GetComponent<CarController>())
-        //{
-            //_participantCar = other.gameObject;
-       //     StartCoroutine(PassControl());
-        //}
+        windscreenHUD.gameObject.SetActive(true);
+        hudLite.gameObject.SetActive(true);
     }
     
     public void EndTrigger(Collider other)
     {
         //FinishEvent();
+        windscreenHUD.gameObject.SetActive(true);
+        hudLite.gameObject.SetActive(true);
+
         Debug.Log("The End is nigh!");
         ResetCar(_participantCar);
         _participantCar.gameObject.GetComponent<ControlSwitch>().SwitchControl(true);
@@ -130,6 +130,8 @@ public class TestEventManager : MonoBehaviour
         {
             activateObjects.SetActive(true);
         }
+        windscreenHUD.gameObject.SetActive(true);
+        hudLite.gameObject.SetActive(true);
 
         //_participantCar.GetComponent<ControlSwitch>().SwitchControl(false);
     }
@@ -167,7 +169,10 @@ public class TestEventManager : MonoBehaviour
 
     public void ActivateHUD()
     {
-        hudLite.gameObject.SetActive(true);
-        hudLite.ActivateHUD(parentEventObjectsToMark);
+       //windscreenHUD.gameObject.SetActive(true);
+       windscreenHUD.DriverAlert();
+       //hudLite.gameObject.SetActive(true);
+       hudLite.DriverAlert();
+       hudLite.ActivateHUD(eventObjectsToMark);
     }
 }

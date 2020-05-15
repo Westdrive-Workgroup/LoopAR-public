@@ -18,22 +18,24 @@ public class EndTrigger : MonoBehaviour
           //Debug.Log("After waiting...");
           //other.gameObject.GetComponent<ManualController>().enabled = true;
           //GetComponent<BoxCollider>().enabled = false;
-          StartCoroutine(Triggered(other));
+          //StartCoroutine(Triggered(other));
+          Triggered(other);
 
         }
     }
 
-    IEnumerator Triggered(Collider other)
+    private void Triggered(Collider other)
     {
-        other.gameObject.GetComponent<ManualController>().enabled = false; 
+        //other.gameObject.GetComponent<ManualController>().enabled = false; 
         testEventManager.EndTrigger(other); 
         Debug.Log("Before waiting...");
-        yield return new WaitForSeconds(secondsTillManualControl);
+        //yield return new WaitForSeconds(secondsTillManualControl);
         Debug.Log("After waiting...");
-        
-        // If you remove this following line, it works
-        testEventManager.ActivateHUD();
-        other.gameObject.GetComponent<ManualController>().enabled = true;
         GetComponent<BoxCollider>().enabled = false;
+        //other.gameObject.GetComponent<ManualController>().enabled = true;
+        testEventManager.ActivateHUD();
+        GetComponent<BoxCollider>().enabled = false;
+        Debug.Log("Does he make it here?");
+        
     }
 }
