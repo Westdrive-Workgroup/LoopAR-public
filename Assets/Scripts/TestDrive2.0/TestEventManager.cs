@@ -161,7 +161,9 @@ public class TestEventManager : MonoBehaviour
     {
         if (objectToReset.GetComponent<CarController>())
         {
-            objectToReset.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+            objectToReset.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            objectToReset.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+
             objectToReset.transform.SetPositionAndRotation(respawnPoint.gameObject.transform.position, respawnPoint.gameObject.transform.rotation);
             Debug.Log("ResetCar!");
         }
