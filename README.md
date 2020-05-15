@@ -126,7 +126,9 @@ in the following secion all used assets with their links in the unity asset sote
 ### List of assets
 | Asset Name | Link on Asset Store | Description | Paid / Free | Essentail / Optional |
 | ------ | ------ | ------ | ------ | ------ |
-| + SteamVR | [SteamVR Plugin](https://assetstore.unity.com/packages/tools/integration/steamvr-plugin-32647) | main api to use HTV Vive/ Vive Pro HMDs in Unity3d | free | ![note:](https://img.shields.io/badge/note-Essential-yellow.svg) |
+| + SteamVR 1.1.2.0| [SteamVR Plugin](https://assetstore.unity.com/packages/tools/integration/steamvr-plugin-32647) | main api to use HTV Vive/ Vive Pro HMDs in Unity3D | free | ![note:](https://img.shields.io/badge/note-Essential-yellow.svg) |
+| + TobiiXR 1.8.0| [TobiiXR SDK](https://developer.tobii.com/tobii-xr-unity-sdk-1-8-0-download-page/) | Main api to use HTV Vive Pro Eye eye tacker in Unity3D | free | ![note:](https://img.shields.io/badge/note-Essential-yellow.svg) |
+| + SRanipal| [SRanipal SDK](https://developer.tobii.com/tobii-xr-unity-sdk-1-8-0-download-page/) | Main SDK for HTC vive pro eye in conjunction to TobiiXR in order to use eyetracking in UnityED| free | ![note:](https://img.shields.io/badge/note-Essential-yellow.svg) |
 | * SS07 | [Unlock super sport car #07 ](https://assetstore.unity.com/packages/3d/vehicles/land/unlock-super-sports-car-07-109989) | one of the car assets used in the project | paid | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
 | * EasyRoads3D v3 pro | [EasyRoads3D v3 pro](https://assetstore.unity.com/packages/tools/terrain/easyroads3d-pro-v3-469) |Create unique road networks directly in Unity with both built-in customizable dynamic crossing prefabs and custom crossing prefabs based on your own imported models | paid | ![note:](https://img.shields.io/badge/note-Essential-red.svg) |
 | Conifers [BOTD] | [Conifers](https://assetstore.unity.com/packages/3d/vegetation/trees/conifers-botd-142076) | his package contains 4 conifers derived from Unity's Book of the Dead Demo – reworked, optimized and imported using the Custom Tree Importer to make them compatible with the "legacy" rendering pipeline. | free | ![note:](https://img.shields.io/badge/note-Optional-green.svg)|
@@ -163,7 +165,10 @@ in the following secion all used assets with their links in the unity asset sote
 > These sounds has been used for testing the functionalities and will change in the next update. 
 
 ### + 
-> Essential to work on both VR and non VR version of the project
+> Essential to work on both VR and non VR version of the project, please note that you can only download the latest version from the given links, however versions relavant to the project LoopAR are included in the repository
+
+### Honorary Mentions
+> We want to mention Penny de byl for her outstanding videos in Udemy which helped us alot in simulating physical cars in Unity3d
 ## Avatars and animations:
 Avaratars and animations in westdrive is created by us using Adobe Mixamo and Fuse cc. At the momenet westdrive is using avatars of our own creation using mentioned tools but due to 
 their complex mesh anatomy we are replacing them with simpler low poly avatars created by us in blender soon. 
@@ -196,7 +201,7 @@ your organization from the unity asset store. Developing team of Westdrive does 
 
 #### announcement:
 
-> currently there are no assignment
+> Currently Testdrive scene is not included in the build however it exist fully in the repo, we are posishing, and testing it in the following days and as soon as it passes the main quality checks we will include them in the build versions
 
 ## License
 All Documentation content that resides under the doc/ directory of this repository is licensed under Creative Commons: [![License: CC BY-NC-SA 4.0](https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
