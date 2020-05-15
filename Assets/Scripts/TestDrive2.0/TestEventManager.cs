@@ -74,8 +74,7 @@ public class TestEventManager : MonoBehaviour
 
     public void StartTrigger()
     {
-        windscreenHUD.gameObject.SetActive(true);
-        hudLite.gameObject.SetActive(true);
+        
     }
     
     public void EndTrigger(Collider other)
