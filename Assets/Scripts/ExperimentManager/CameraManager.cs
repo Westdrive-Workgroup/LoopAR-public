@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [DisallowMultipleComponent]
+
 public class CameraManager : MonoBehaviour
 {
     private void Awake()
