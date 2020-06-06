@@ -16,7 +16,7 @@ public class CriticalEventController: MonoBehaviour
     [Tooltip("The gameObject which is the parent of the event object")]
     [SerializeField] private GameObject eventObjectParent;
     [SerializeField] private List<GameObject> eventObjects;
-    [Tooltip("Should the event subject be active or not when experiment begins")] 
+    [Tooltip("Should the event objects be active or not when experiment begins")] 
     [SerializeField] private GameObject respawnPoint;
 
     [Space] [Header("Event Setting")]
