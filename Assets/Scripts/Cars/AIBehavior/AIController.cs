@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using PathCreation;
+using PathCreationEditor;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -26,11 +28,12 @@ public class AIController : MonoBehaviour
     
     
     [Space] [Header("Path Settings")] 
-    [SerializeField] private BezierSplines path;
-    [Range(0f,0.1f)] [SerializeField] private float precision = 0.01f;
+    [SerializeField] private PathCreator path;
+    [Range(0,10)] [SerializeField] private int precision = 1;
     [Range(0.5f,20f)] [SerializeField] private float trackerSensitivity = 10f;
-    [Range(0f,1f)] [SerializeField] private float progressPercentage;
+    [SerializeField] private int progressPercentage;
     [SerializeField] private bool reverse;
+    private int _pathLength;
     
     private Vector3 _localTarget;
     private Vector3 _nearestPoint = Vector3.zero;
@@ -65,13 +68,14 @@ public class AIController : MonoBehaviour
         }
         
         SetLocalTarget();
+        _pathLength = path.path.NumPoints;
     }
 
     public void SetLocalTarget()
     {
         _nearestPoint = GetClosestPoint(path);
         SetProgressPercentage(path);
-        _localTarget = path.GetPoint(progressPercentage);
+        _localTarget = path.path.GetPoint(progressPercentage);
     }
 
     private void Update()
@@ -91,7 +95,7 @@ public class AIController : MonoBehaviour
         }
         
         
-        Vector3 localTargetTransform =  transform.InverseTransformPoint(path.GetPoint(progressPercentage));
+        Vector3 localTargetTransform =  transform.InverseTransformPoint(path.path.GetPoint(progressPercentage));
         _targetAngle = (localTargetTransform.x / localTargetTransform.magnitude);
         
 
@@ -127,28 +131,28 @@ public class AIController : MonoBehaviour
 
     private void ReversePathFollowing()
     {
-        if (progressPercentage < 0f)
+        if (progressPercentage < 0)
         {
-            progressPercentage = 1f;
+            progressPercentage = _pathLength;
         }
         else
         {
             progressPercentage -= precision;
         }
-        _localTarget = path.GetPoint(progressPercentage);
+        _localTarget = path.path.GetPoint(progressPercentage);
     }
 
     private void NormalPathFollowing()
     {
-        if (progressPercentage >= 1f)
+        if (progressPercentage >= _pathLength)
         {
-            progressPercentage = 0f;
+            progressPercentage = 0;
         }
         else
         {
             progressPercentage += precision;
         }
-        _localTarget = path.GetPoint(progressPercentage);
+        _localTarget = path.path.GetPoint(progressPercentage);
     }
 
     public void SetManualOverride(bool manualState)
@@ -160,11 +164,11 @@ public class AIController : MonoBehaviour
         _aimedSpeed = newSpeed;
     }
     
-    private Vector3 GetClosestPoint(BezierSplines path)
+    private Vector3 GetClosestPoint(PathCreator path)
     {
-        for (float i = 0f; i < 1f; i += precision)
+        for (int i = 0; i < _pathLength; i += precision)
         {
-            Vector3 point = path.GetPoint(i);
+            Vector3 point = path.path.GetPoint(i);
            
             if (Vector3.Distance(this.transform.position, point) <
                 Vector3.Distance(this.transform.position, _nearestPoint))
@@ -175,11 +179,11 @@ public class AIController : MonoBehaviour
         return _nearestPoint;
     }
     
-    private float SetProgressPercentage(BezierSplines path)
+    private int SetProgressPercentage(PathCreator path)
     {
-        for (float i = 0f; i < 1f; i += precision)
+        for (int i = 0; i < _pathLength; i += precision)
         {
-            Vector3 point = path.GetPoint(i);
+            Vector3 point = path.path.GetPoint(i);
             
             if (point == _nearestPoint)
             {
@@ -189,11 +193,11 @@ public class AIController : MonoBehaviour
 
         if (reverse)
         {
-            progressPercentage -= progressPercentage * 0.02f;
+            progressPercentage -= (int)(progressPercentage * 0.02f);
         }
         else
         {
-            progressPercentage += progressPercentage * 0.02f;
+            progressPercentage += (int)(progressPercentage * 0.02f);
         }
         
         return progressPercentage;
