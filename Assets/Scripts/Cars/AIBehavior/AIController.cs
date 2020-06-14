@@ -31,7 +31,7 @@ public class AIController : MonoBehaviour
     [SerializeField] private PathCreator path;
     [Range(0,10)] [SerializeField] private int precision = 1;
     [Range(0.5f,20f)] [SerializeField] private float trackerSensitivity = 10f;
-    [SerializeField] private int progressPercentage;
+    private int _progressPercentage;
     [SerializeField] private bool reverse;
     private int _pathLength;
     
@@ -75,7 +75,7 @@ public class AIController : MonoBehaviour
     {
         _nearestPoint = GetClosestPoint(path);
         SetProgressPercentage(path);
-        _localTarget = path.path.GetPoint(progressPercentage);
+        _localTarget = path.path.GetPoint(_progressPercentage);
     }
 
     private void Update()
@@ -95,7 +95,7 @@ public class AIController : MonoBehaviour
         }
         
         
-        Vector3 localTargetTransform =  transform.InverseTransformPoint(path.path.GetPoint(progressPercentage));
+        Vector3 localTargetTransform =  transform.InverseTransformPoint(path.path.GetPoint(_progressPercentage));
         _targetAngle = (localTargetTransform.x / localTargetTransform.magnitude);
         
 
@@ -131,28 +131,28 @@ public class AIController : MonoBehaviour
 
     private void ReversePathFollowing()
     {
-        if (progressPercentage < 0)
+        if (_progressPercentage < 0)
         {
-            progressPercentage = _pathLength;
+            _progressPercentage = _pathLength;
         }
         else
         {
-            progressPercentage -= precision;
+            _progressPercentage -= precision;
         }
-        _localTarget = path.path.GetPoint(progressPercentage);
+        _localTarget = path.path.GetPoint(_progressPercentage);
     }
 
     private void NormalPathFollowing()
     {
-        if (progressPercentage >= _pathLength)
+        if (_progressPercentage >= _pathLength)
         {
-            progressPercentage = 0;
+            _progressPercentage = 0;
         }
         else
         {
-            progressPercentage += precision;
+            _progressPercentage += precision;
         }
-        _localTarget = path.path.GetPoint(progressPercentage);
+        _localTarget = path.path.GetPoint(_progressPercentage);
     }
 
     public void SetManualOverride(bool manualState)
@@ -187,20 +187,20 @@ public class AIController : MonoBehaviour
             
             if (point == _nearestPoint)
             {
-                progressPercentage = i;
+                _progressPercentage = i;
             }
         }
 
         if (reverse)
         {
-            progressPercentage -= (int)(progressPercentage * 0.02f);
+            _progressPercentage -= (int)(_progressPercentage * 0.02f);
         }
         else
         {
-            progressPercentage += (int)(progressPercentage * 0.02f);
+            _progressPercentage += (int)(_progressPercentage * 0.02f);
         }
         
-        return progressPercentage;
+        return _progressPercentage;
     }
 
     public bool GetIsReversed()
