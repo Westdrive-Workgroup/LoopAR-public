@@ -260,12 +260,17 @@ namespace PathCreation {
                     }
                     t %= 1;
                     break;
-                case EndOfPathInstruction.Reverse:
+                /*case EndOfPathInstruction.Reverse:
                     t = Mathf.PingPong (t, 1);
-                    break;
+                    break;*/    // modified by Loop_AR
                 case EndOfPathInstruction.Stop:
                     t = Mathf.Clamp01 (t);
                     break;
+                
+                // todo delegate event for destroy
+                /*case EndOfPathInstruction.Destroy:
+                    
+                    break;*/    // modified by Loop_AR
             }
 
             int prevIndex = 0;

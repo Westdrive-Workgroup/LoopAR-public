@@ -8,7 +8,7 @@ namespace PathCreation.Examples
     {
         public PathCreator pathCreator;
         public EndOfPathInstruction endOfPathInstruction;
-        public float speed = 5;
+        public float speed = 3f;    // modified by Loop_AR
         float distanceTravelled;
 
         void Start() {
@@ -16,6 +16,7 @@ namespace PathCreation.Examples
             {
                 // Subscribed to the pathUpdated event so that we're notified if the path changes during the game
                 pathCreator.pathUpdated += OnPathChanged;
+                distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);    // modified by Loop_AR
             }
         }
 
