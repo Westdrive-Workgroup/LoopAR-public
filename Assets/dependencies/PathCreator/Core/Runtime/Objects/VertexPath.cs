@@ -15,7 +15,8 @@ namespace PathCreation {
     public class VertexPath {
         #region Fields
 
-        public event System.Action endOfPathDestroy;
+        public event System.Action EndOfPathActionStop;    // modified by Loop_AR
+        public event System.Action EndOfPathActionDestroy;    // modified by Loop_AR
         
         public readonly PathSpace space;
         public readonly bool isClosedLoop;
@@ -267,14 +268,16 @@ namespace PathCreation {
                     break;*/    // modified by Loop_AR
                 case EndOfPathInstruction.Stop:
                     t = Mathf.Clamp01 (t);
+                    if (t >= 0.999f) // todo if ((1-t) <= Mathf.Epsilon) test it
+                    {
+                        EndOfPathActionStop?.Invoke();        // modified by Loop_AR
+                    }
                     break;
-                
-                // todo delegate event for destroy
                 case EndOfPathInstruction.Destroy:
                     t = Mathf.Clamp01 (t);
                     if (t >= 0.999f)
                     {
-                        endOfPathDestroy();
+                        EndOfPathActionDestroy?.Invoke();
                     }
                     break;    // modified by Loop_AR
             }
