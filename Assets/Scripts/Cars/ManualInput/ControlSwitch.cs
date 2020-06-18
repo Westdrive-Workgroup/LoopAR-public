@@ -23,7 +23,7 @@ public class ControlSwitch : MonoBehaviour
 
     private void SetManualDrivingState(bool state)
     {
-        _aiController.manualOverride = state;
+        _aiController.SetManualOverride(state);
         _manualControl.SetManualDriving(state);
     }
 
