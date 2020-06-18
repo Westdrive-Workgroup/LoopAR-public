@@ -17,6 +17,8 @@ namespace PathCreation.Examples
                 // Subscribed to the pathUpdated event so that we're notified if the path changes during the game
                 pathCreator.pathUpdated += OnPathChanged;
                 distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);    // modified by Loop_AR
+
+                pathCreator.path.endOfPathDestroy += DestroyEndOfPath;
             }
         }
 
@@ -34,6 +36,11 @@ namespace PathCreation.Examples
         // is as close as possible to its position on the old path
         void OnPathChanged() {
             distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
+        }
+
+        void DestroyEndOfPath()
+        {
+            Destroy(this.gameObject);
         }
     }
 }
