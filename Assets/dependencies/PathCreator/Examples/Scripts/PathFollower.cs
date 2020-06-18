@@ -9,16 +9,16 @@ namespace PathCreation.Examples
         public PathCreator pathCreator;
         public EndOfPathInstruction endOfPathInstruction;
         public float speed = 3f;    // modified by Loop_AR
-        float distanceTravelled;
+        private float _distanceTravelled;
 
         void Start() {
             if (pathCreator != null)
             {
                 // Subscribed to the pathUpdated event so that we're notified if the path changes during the game
                 pathCreator.pathUpdated += OnPathChanged;
-                distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);    // modified by Loop_AR
+                _distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);    // modified by Loop_AR
 
-                pathCreator.path.endOfPathDestroy += DestroyEndOfPath;
+                pathCreator.path.EndOfPathActionDestroy += DestroyAtEndOfPath;
             }
         }
 
@@ -26,19 +26,19 @@ namespace PathCreation.Examples
         {
             if (pathCreator != null)
             {
-                distanceTravelled += speed * Time.deltaTime;
-                transform.position = pathCreator.path.GetPointAtDistance(distanceTravelled, endOfPathInstruction);
-                transform.rotation = pathCreator.path.GetRotationAtDistance(distanceTravelled, endOfPathInstruction);
+                _distanceTravelled += speed * Time.deltaTime;
+                transform.position = pathCreator.path.GetPointAtDistance(_distanceTravelled, endOfPathInstruction);
+                transform.rotation = pathCreator.path.GetRotationAtDistance(_distanceTravelled, endOfPathInstruction);
             }
         }
 
         // If the path changes during the game, update the distance travelled so that the follower's position on the new path
         // is as close as possible to its position on the old path
-        void OnPathChanged() {
-            distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
+        private void OnPathChanged() {
+            _distanceTravelled = pathCreator.path.GetClosestDistanceAlongPath(transform.position);
         }
 
-        void DestroyEndOfPath()
+        private void DestroyAtEndOfPath()
         {
             Destroy(this.gameObject);
         }
