@@ -15,6 +15,8 @@ namespace PathCreation {
     public class VertexPath {
         #region Fields
 
+        public event System.Action endOfPathDestroy;
+        
         public readonly PathSpace space;
         public readonly bool isClosedLoop;
         public readonly Vector3[] localPoints;
@@ -268,9 +270,13 @@ namespace PathCreation {
                     break;
                 
                 // todo delegate event for destroy
-                /*case EndOfPathInstruction.Destroy:
-                    
-                    break;*/    // modified by Loop_AR
+                case EndOfPathInstruction.Destroy:
+                    t = Mathf.Clamp01 (t);
+                    if (t >= 0.999f)
+                    {
+                        endOfPathDestroy();
+                    }
+                    break;    // modified by Loop_AR
             }
 
             int prevIndex = 0;

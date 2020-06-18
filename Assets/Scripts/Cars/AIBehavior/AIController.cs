@@ -71,12 +71,7 @@ public class AIController : MonoBehaviour
         _pathLength = path.path.NumPoints;
     }
 
-    public void SetLocalTarget()
-    {
-        _nearestPoint = GetClosestPoint(path);
-        SetProgressPercentage(path);
-        _localTarget = path.path.GetPoint(_progressPercentage);
-    }
+    
 
     private void Update()
     {
@@ -155,14 +150,7 @@ public class AIController : MonoBehaviour
         _localTarget = path.path.GetPoint(_progressPercentage);
     }
 
-    public void SetManualOverride(bool manualState)
-    {
-         manualOverride = manualState;
-    }
-    public void SetAimedSpeed(float newSpeed)
-    {
-        _aimedSpeed = newSpeed;
-    }
+    
     
     private Vector3 GetClosestPoint(PathCreator path)
     {
@@ -203,8 +191,28 @@ public class AIController : MonoBehaviour
         return _progressPercentage;
     }
 
+    
+    #region Public methods and accessors
+    public void SetLocalTarget()
+    {
+        _nearestPoint = GetClosestPoint(path);
+        SetProgressPercentage(path);
+        _localTarget = path.path.GetPoint(_progressPercentage);
+    }
+    
+    public void SetManualOverride(bool manualState)
+    {
+        manualOverride = manualState;
+    }
+    
+    public void SetAimedSpeed(float newSpeed)
+    {
+        _aimedSpeed = newSpeed;
+    }
+    
     public bool GetIsReversed()
     {
         return reverse;
     }
+    #endregion
 }
