@@ -9,39 +9,40 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class AIController : MonoBehaviour
 {
+    private CarController _carController;
+    
+    // Gizmos
     [Space] [Header("Debug")] public bool showLocalTargetGizmos = false;
     [Range(0f,100f)]
     [SerializeField] private float localTargetVisualizerRadius  = 5f;
-    [SerializeField] private Color localTargetColor = Color.red;
+    [SerializeField] private Color localTargetColor = Color.magenta;
     
-    private CarController _carController;
-    [SerializeField] private float steeringSensitivity = 0.01f;
-    
-    [SerializeField] private float accelerationCareFactor = 0.75f; //AIs in Racing games might constant push the gas pedal, I dont think that this is correct in ordinary traffic 
-
-    [SerializeField] private float brakeFactor = 1f; //Strong Brakes requires potentially a less aggressive braking behavior of the AI.
+    // Target
     private Vector3 _target;
     private Vector3 _nextTarget;
-    private Rigidbody _carRigidBody;
     private float _targetAngle;
     private float _aimedSpeed;
-    
-    
-    [Space] [Header("Path Settings")] 
-    [SerializeField] private PathCreator path;
-    [Range(0,10)] [SerializeField] private int precision = 1;
-    [Range(0.5f,20f)] [SerializeField] private float trackerSensitivity = 10f;
-    private int _progressPercentage;
-    [SerializeField] private bool reverse;
-    private int _pathLength;
-    
     private Vector3 _localTarget;
     private Vector3 _nearestPoint = Vector3.zero;
+    
+    // Path
+    [Space] [Header("Path Settings")] 
+    [SerializeField] private PathCreator path;
+    [SerializeField] private EndOfPathInstruction endOfPathInstruction;    // todo implement
+    [Range(0,1f)] [SerializeField] private float precision = 0.01f;
+    [Range(0.5f,20f)] [SerializeField] private float trackerSensitivity = 10f;
+    private float _progressPercentage;
 
-    [Space] [Header("Car Mode")] 
-    public bool manualOverride;
+    // Driving behavior
+    [Space][Header("Driving behavior")]
+    [SerializeField] private bool driveInReverse;
+    // [SerializeField] private float steeringSensitivity = 0.01f;    // todo use this
+    [SerializeField] private float accelerationCareFactor = 0.75f; //AIs in Racing games might constant push the gas pedal, I dont think that this is correct in ordinary traffic 
+    [SerializeField] private float brakeFactor = 1f; //Strong Brakes requires potentially a less aggressive braking behavior of the AI.
+    private bool _manualOverride;
     
     
+    #region Private methods
     private void OnDrawGizmosSelected()
     {
         if (showLocalTargetGizmos)
@@ -53,33 +54,37 @@ public class AIController : MonoBehaviour
 
     private void Start()
     {
-        _carRigidBody = this.gameObject.GetComponent<Rigidbody>();
         _carController = this.GetComponent<CarController>();
-        
         _targetAngle = 0;
 
         if (this.gameObject.GetComponent<ControlSwitch>() != null)
         {
-            manualOverride = this.gameObject.GetComponent<ControlSwitch>().GetManualDrivingState();
+            _manualOverride = this.gameObject.GetComponent<ControlSwitch>().GetManualDrivingState();
         }
         else
         {
-            manualOverride = false;
+            _manualOverride = false;
         }
         
         SetLocalTarget();
-        _pathLength = path.path.NumPoints;
+
+        if (endOfPathInstruction == EndOfPathInstruction.Stop)
+        {
+            path.path.EndOfPathActionStop += StopAtEndOfPath;
+        }
+        else if (endOfPathInstruction == EndOfPathInstruction.Destroy)
+        {
+            path.path.EndOfPathActionDestroy += DestroyAtEndOfPath;
+        }
     }
-
     
-
     private void Update()
     {
         _aimedSpeed = this.gameObject.GetComponent<AimedSpeed>().GetAimedSpeed();
 
         if (Vector3.Distance(transform.position, _localTarget) < trackerSensitivity)
         {
-            if (reverse)
+            if (driveInReverse)
             {
                 ReversePathFollowing();
             }
@@ -90,7 +95,7 @@ public class AIController : MonoBehaviour
         }
         
         
-        Vector3 localTargetTransform =  transform.InverseTransformPoint(path.path.GetPoint(_progressPercentage));
+        Vector3 localTargetTransform =  transform.InverseTransformPoint(path.path.GetPointAtTime(_progressPercentage, endOfPathInstruction));
         _targetAngle = (localTargetTransform.x / localTargetTransform.magnitude);
         
 
@@ -110,7 +115,7 @@ public class AIController : MonoBehaviour
             accel = Mathf.Lerp(0, 1 * accelerationCareFactor, 1 - cornerFactor);
         }
 
-        if (!manualOverride)
+        if (!_manualOverride)
         {
             if (_carController.GetCurrentSpeed() >= _aimedSpeed)
             {
@@ -124,85 +129,39 @@ public class AIController : MonoBehaviour
         }
     }
 
-    private void ReversePathFollowing()
-    {
-        if (_progressPercentage < 0)
-        {
-            _progressPercentage = _pathLength;
-        }
-        else
-        {
-            _progressPercentage -= precision;
-        }
-        _localTarget = path.path.GetPoint(_progressPercentage);
-    }
-
     private void NormalPathFollowing()
     {
-        if (_progressPercentage >= _pathLength)
-        {
-            _progressPercentage = 0;
-        }
-        else
-        {
-            _progressPercentage += precision;
-        }
-        _localTarget = path.path.GetPoint(_progressPercentage);
+        _localTarget = path.path.GetPointAtTime(_progressPercentage += precision, endOfPathInstruction);
     }
-
     
-    
-    private Vector3 GetClosestPoint(PathCreator path)
+    private void ReversePathFollowing()
     {
-        for (int i = 0; i < _pathLength; i += precision)
-        {
-            Vector3 point = path.path.GetPoint(i);
-           
-            if (Vector3.Distance(this.transform.position, point) <
-                Vector3.Distance(this.transform.position, _nearestPoint))
-            {
-                _nearestPoint = point;
-            }
-        }
-        return _nearestPoint;
+        _localTarget = path.path.GetPointAtTime(_progressPercentage -= precision, endOfPathInstruction);
     }
-    
-    private int SetProgressPercentage(PathCreator path)
+
+    private void StopAtEndOfPath()
     {
-        for (int i = 0; i < _pathLength; i += precision)
-        {
-            Vector3 point = path.path.GetPoint(i);
-            
-            if (point == _nearestPoint)
-            {
-                _progressPercentage = i;
-            }
-        }
-
-        if (reverse)
-        {
-            _progressPercentage -= (int)(_progressPercentage * 0.02f);
-        }
-        else
-        {
-            _progressPercentage += (int)(_progressPercentage * 0.02f);
-        }
-        
-        return _progressPercentage;
+        // todo implement
+    }
+    
+    private void DestroyAtEndOfPath()
+    {
+        Destroy(this.transform.parent.gameObject);
     }
 
+    #endregion
     
-    #region Public methods and accessors
+    #region Public methods
     public void SetLocalTarget()
     {
-        _nearestPoint = GetClosestPoint(path);
-        SetProgressPercentage(path);
-        _localTarget = path.path.GetPoint(_progressPercentage);
+        _nearestPoint = path.path.GetClosestPointOnPath(transform.position);
+        _progressPercentage = path.path.GetClosestTimeOnPath(_nearestPoint);
+        _localTarget = path.path.GetPointAtTime(_progressPercentage, endOfPathInstruction);
     }
     
     public void SetManualOverride(bool manualState)
     {
-        manualOverride = manualState;
+        _manualOverride = manualState;
     }
     
     public void SetAimedSpeed(float newSpeed)
@@ -212,7 +171,7 @@ public class AIController : MonoBehaviour
     
     public bool GetIsReversed()
     {
-        return reverse;
+        return driveInReverse;
     }
     #endregion
 }
