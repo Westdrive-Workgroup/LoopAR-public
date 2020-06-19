@@ -30,8 +30,8 @@ public class ManualController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float brakeInput = Input.GetAxis("Jump");
-        float accelerationInput = Input.GetAxis("Vertical");    // W or Arrow up acceleration forward or backwards.
+        float brakeInput = Input.GetAxis("Fire2");
+        float accelerationInput = Input.GetAxis("XOne_Trigger");    // W or Arrow up acceleration forward or backwards.
         float steeringInput = Input.GetAxis("Horizontal");    //A or D steering
 
         NotifyInputObservers?.Invoke(steeringInput, accelerationInput, brakeInput);
