@@ -188,7 +188,7 @@ public class ExperimentManager : MonoBehaviour
         PersistentTrafficEventManager.Instance.FinalizeEvent();
         participantsCar.transform.parent.gameObject.SetActive(false);
         participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
-        participantsCar.GetComponent<AIController>().SetLocalTarget();
+        participantsCar.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
         StartCoroutine(RespawnParticipant(respawnDelay));
     }
     

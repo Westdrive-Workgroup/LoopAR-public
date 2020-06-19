@@ -13,7 +13,7 @@ public class AIController : MonoBehaviour
     
     // Gizmos
     [Space] [Header("Debug")] public bool showLocalTargetGizmos = false;
-    [Range(0f,100f)]
+    [Range(0f,20f)]
     [SerializeField] private float localTargetVisualizerRadius  = 5f;
     [SerializeField] private Color localTargetColor = Color.magenta;
     
@@ -22,23 +22,26 @@ public class AIController : MonoBehaviour
     private Vector3 _nextTarget;
     private float _targetAngle;
     private float _aimedSpeed;
-    private Vector3 _localTarget;
     private Vector3 _nearestPoint = Vector3.zero;
+    private Vector3 _localTarget;
+    private Vector3 _curveDetector; // todo check 
     
     // Path
     [Space] [Header("Path Settings")] 
     [SerializeField] private PathCreator path;
     [SerializeField] private EndOfPathInstruction endOfPathInstruction;    // todo implement
-    [Range(0,1f)] [SerializeField] private float precision = 0.01f;
-    [Range(0.5f,20f)] [SerializeField] private float trackerSensitivity = 10f;
+    [Range(0,0.5f)][SerializeField] private float curveDetectorStepAhead = 0.005f; // todo check 
+    [Range(0,0.1f)] [SerializeField] private float precision = 0.001f;
+    [Range(0.5f,20f)] [SerializeField] private float trackerSensitivity = 5f;
     private float _progressPercentage;
+    private int _nearestNormalIndex;
 
     // Driving behavior
     [Space][Header("Driving behavior")]
     [SerializeField] private bool driveInReverse;
     // [SerializeField] private float steeringSensitivity = 0.01f;    // todo use this
-    [SerializeField] private float accelerationCareFactor = 0.75f; //AIs in Racing games might constant push the gas pedal, I dont think that this is correct in ordinary traffic 
-    [SerializeField] private float brakeFactor = 1f; //Strong Brakes requires potentially a less aggressive braking behavior of the AI.
+    /*[SerializeField] */private float accelerationCareFactor = 0.75f; //AIs in Racing games might constant push the gas pedal, I dont think that this is correct in ordinary traffic 
+    /*[SerializeField] */private float brakeFactor = 1f; //Strong Brakes requires potentially a less aggressive braking behavior of the AI.
     private bool _manualOverride;
     
     
@@ -49,6 +52,7 @@ public class AIController : MonoBehaviour
         {
             Gizmos.color = localTargetColor;
             Gizmos.DrawWireSphere(_localTarget,localTargetVisualizerRadius);
+            Gizmos.DrawSphere(_curveDetector, 1);
         }
     }
 
@@ -66,7 +70,7 @@ public class AIController : MonoBehaviour
             _manualOverride = false;
         }
         
-        SetLocalTarget();
+        SetLocalTargetAndCurveDetection();
 
         if (endOfPathInstruction == EndOfPathInstruction.Stop)
         {
@@ -112,14 +116,14 @@ public class AIController : MonoBehaviour
         float accel = 1f;
         if (corner > 20 && speedFactor > 1f)
         {
-            accel = Mathf.Lerp(0, 1 * accelerationCareFactor, 1 - cornerFactor);
+            accel = Mathf.Lerp(0, 0 * accelerationCareFactor, 1 - cornerFactor);
         }
 
         if (!_manualOverride)
         {
             if (_carController.GetCurrentSpeed() >= _aimedSpeed)
             {
-                brake += 50f;
+                brake += 1f;
                 _carController.MoveVehicle(accel, brake, _targetAngle);
             }
             else
@@ -127,16 +131,27 @@ public class AIController : MonoBehaviour
                 _carController.MoveVehicle(accel, brake, _targetAngle);
             }
         }
+        
+        // Curve detection
+        Vector3 targetDir = _curveDetector - transform.position;
+        float angle = Vector3.Angle(targetDir, transform.forward);
+        if (angle > 20f)
+        {
+            // todo implement the actual behavior at curves
+            this.gameObject.GetComponent<AimedSpeed>().SetAimedSpeed(20f/3.6f);
+        }
     }
 
     private void NormalPathFollowing()
     {
         _localTarget = path.path.GetPointAtTime(_progressPercentage += precision, endOfPathInstruction);
+        _curveDetector = path.path.GetPointAtTime(_progressPercentage + curveDetectorStepAhead, endOfPathInstruction);
     }
     
     private void ReversePathFollowing()
     {
         _localTarget = path.path.GetPointAtTime(_progressPercentage -= precision, endOfPathInstruction);
+        _curveDetector = path.path.GetPointAtTime(_progressPercentage - curveDetectorStepAhead, endOfPathInstruction);
     }
 
     private void StopAtEndOfPath()
@@ -152,11 +167,12 @@ public class AIController : MonoBehaviour
     #endregion
     
     #region Public methods
-    public void SetLocalTarget()
+    public void SetLocalTargetAndCurveDetection()
     {
         _nearestPoint = path.path.GetClosestPointOnPath(transform.position);
         _progressPercentage = path.path.GetClosestTimeOnPath(_nearestPoint);
         _localTarget = path.path.GetPointAtTime(_progressPercentage, endOfPathInstruction);
+        _curveDetector = _localTarget + new Vector3(0,0,curveDetectorStepAhead);
     }
     
     public void SetManualOverride(bool manualState)

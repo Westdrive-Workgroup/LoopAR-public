@@ -13,7 +13,7 @@ public class StartTrigger : MonoBehaviour
             yield return new WaitForSeconds(2);
             other.gameObject.GetComponent<ManualController>().enabled = true;
             other.gameObject.GetComponent<AimedSpeed>().SetRuleSpeed(aimedSpeed);
-            other.gameObject.GetComponent<AIController>().SetLocalTarget();
+            other.gameObject.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
             other.gameObject.GetComponent<ControlSwitch>().SwitchControl(false);
             GetComponent<BoxCollider>().enabled = false;
         }
