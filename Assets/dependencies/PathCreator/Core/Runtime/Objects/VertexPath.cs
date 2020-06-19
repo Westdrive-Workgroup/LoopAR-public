@@ -268,14 +268,14 @@ namespace PathCreation {
                     break;*/    // modified by Loop_AR
                 case EndOfPathInstruction.Stop:
                     t = Mathf.Clamp01 (t);
-                    if (t >= 0.999f) // todo if ((1-t) <= Mathf.Epsilon) test it
+                    if ((1-t) <= Mathf.Epsilon)
                     {
-                        EndOfPathActionStop?.Invoke();        // modified by Loop_AR
+                        EndOfPathActionStop?.Invoke();    // modified by Loop_AR
                     }
                     break;
                 case EndOfPathInstruction.Destroy:
                     t = Mathf.Clamp01 (t);
-                    if (t >= 0.999f)
+                    if ((1-t) <= Mathf.Epsilon)
                     {
                         EndOfPathActionDestroy?.Invoke();
                     }
