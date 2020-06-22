@@ -5,8 +5,9 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class TrafficEventTrigger : MonoBehaviour
 {
-    [Space][Header("Start Event Delay")]
-    [Tooltip("0 to 15 seconds")] [Range(0,15)] [SerializeField] private float delay = 2.5f;
+    /*[Space][Header("Start Event Delay")]
+    [Tooltip("0 to 15 seconds")] [Range(0,15)] [SerializeField] */
+    private float _startEventDelay = 0;
 
     [Space][Header("Event state")]
     [SerializeField] private bool activateEvent;
@@ -25,11 +26,15 @@ public class TrafficEventTrigger : MonoBehaviour
         
         
         if (other.gameObject == _targetVehicle)
-        { 
+        {
+            if (activateEvent)
+            {
+                _startEventDelay = _eventController.GetEventStartDelay();
+            }
             _targetVehicle.gameObject.GetComponentInChildren<HUDLite>().DriverAlert();
             _targetVehicle.gameObject.GetComponentInChildren<WindscreenHUD>().DriverAlert();
-            Debug.Log("Informed HUD " + Time.time);
-            StartCoroutine(StartDelayedEvent(delay));
+            // Debug.Log("Informed HUD " + Time.time);
+            StartCoroutine(StartDelayedEvent(_startEventDelay));
         }
     }
 
@@ -37,7 +42,7 @@ public class TrafficEventTrigger : MonoBehaviour
     {
         yield return new WaitForSeconds(delaySeconds);
         _eventController.Triggered(activateEvent);
-        Debug.Log("Event started " + Time.time);
+        // Debug.Log("Event started " + Time.time);
     }
 
     public void TargetVehicle(GameObject vehicle)
