@@ -9,9 +9,8 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public static MainMenu Instance { get; private set; }
-
-    [Space] [Header("Scene Type")]
-    [SerializeField] private bool vRScene;
+    
+    private bool _vRScene;
     private enum Section
     {
         MainMenu,
@@ -45,6 +44,7 @@ public class MainMenu : MonoBehaviour
     {
         _section = Section.MainMenu;
         _calibrationManager = CalibrationManager.Instance;
+        _vRScene = _calibrationManager.GetVRActivationState();
     }
 
     public void OnGUI()
@@ -79,7 +79,7 @@ public class MainMenu : MonoBehaviour
         
         GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Menu   Westdrive LoopAR");
         
-        if (vRScene)
+        if (_vRScene)
         {
             // Reset Button
             GUI.backgroundColor = Color.yellow;
