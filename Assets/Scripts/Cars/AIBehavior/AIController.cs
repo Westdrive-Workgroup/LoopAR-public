@@ -30,7 +30,8 @@ public class AIController : MonoBehaviour
     [Space] [Header("Path Settings")] 
     [SerializeField] private PathCreator path;
     [SerializeField] private EndOfPathInstruction endOfPathInstruction;    // todo implement
-    [Range(0,0.5f)][SerializeField] private float curveDetectorStepAhead = 0.005f; // todo check 
+    [Range(0,0.5f)][SerializeField] private float curveDetectorStepAhead = 0.005f;
+    [Tooltip("Distance of follower to the target on the path.")]
     [Range(0,0.1f)] [SerializeField] private float precision = 0.001f;
     [Range(0.5f,20f)] [SerializeField] private float trackerSensitivity = 5f;
     private float _progressPercentage;

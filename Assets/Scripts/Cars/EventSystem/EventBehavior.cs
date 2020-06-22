@@ -21,7 +21,7 @@ public class EventBehavior : MonoBehaviour
     public void ReestablishNormalBehavior()
     {
         GetComponent<AimedSpeed>().DeActivateEventSpeed();
-        Debug.Log("normal behavior scrits");
+        // Debug.Log("normal behavior scrits");
     }
     
     

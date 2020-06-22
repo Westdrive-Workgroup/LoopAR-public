@@ -69,7 +69,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
     {
         foreach (var eventListener in _eventBehaviorListeners)
         {
-            Debug.Log("setting back to normal");
+            // Debug.Log("setting back to normal");
             eventListener.ReestablishNormalBehavior();
         }
         

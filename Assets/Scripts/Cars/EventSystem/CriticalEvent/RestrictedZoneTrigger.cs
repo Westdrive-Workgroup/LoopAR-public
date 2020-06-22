@@ -24,7 +24,7 @@ public class RestrictedZoneTrigger : MonoBehaviour
         if (other.GetComponent<ManualController>() != null)
         {
             ExperimentManager.Instance.ParticipantFailed();
-            Debug.Log("<color=orange>"+ this.gameObject + " You have dieded "+ "</color>");
+            // Debug.Log("<color=orange>"+ this.gameObject + " You have dieded "+ "</color>");
         }
     }
 
