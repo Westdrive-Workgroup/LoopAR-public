@@ -20,12 +20,11 @@ public class CriticalEventController: MonoBehaviour
     [SerializeField] private GameObject respawnPoint;
 
     [Space] [Header("Event Setting")]
-    [Tooltip("End the event automatically after given (0 - 15) seconds in case the participant stays idle.")] 
-    [Range(0,20)] [SerializeField] private float eventIdleDuration;
+    [Tooltip("Time the car needs from informing the driver to giving them the control. (0 - 15 seconds)")]
+    [Range(0,15)] [SerializeField] private float startEventDelay = 2.5f;
+    [Tooltip("End the event automatically after given (0 - 120) seconds in case the participant stays idle.")] 
+    [Range(0,120)] [SerializeField] private float eventIdleDuration = 10f;
     [SerializeField] private bool eventObjectActive;
-    
-    // todo
-    // [Tooltip("0 to 15 seconds")] [Range(0,15)] [SerializeField] private float delay;
     
     
     private RestrictedZoneTrigger[] _restrictedZoneTriggers;
@@ -33,7 +32,8 @@ public class CriticalEventController: MonoBehaviour
     private bool _activatedEvent;
     private MeshRenderer[] _meshRenderers;
     
-    void Start()
+    #region Private methods
+    private void Start()
     {
         if (PersistentTrafficEventManager.Instance != null)
         {
@@ -54,33 +54,15 @@ public class CriticalEventController: MonoBehaviour
        TurnOffMeshRenderers(consistentEventObjects);
     }
     
-
-    public void Triggered(bool state)
-    {
-        _activatedEvent = state;
-        
-        // PersistentTrafficEventManager.Instance.HandleEvent();
-        if (_activatedEvent)
-        {
-            ActivateTheEvent();
-        }
-        else
-        {
-            DeactivateTheEvent();
-        }
-        
-        StartCoroutine(EndIdleEvent(eventIdleDuration));
-    }
-
     private IEnumerator EndIdleEvent(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         _activatedEvent = ExperimentManager.Instance.GetEventActivationState();
-        Debug.Log("<color=red>event is active: </color>" + _activatedEvent);
+        // Debug.Log("<color=red>event is active: </color>" + _activatedEvent);
         if (_activatedEvent)
             ExperimentManager.Instance.ParticipantFailed();
     }
-
+    
     private void ActivateTheEvent()
     {
         ActivateRestrictedZones();
@@ -114,6 +96,33 @@ public class CriticalEventController: MonoBehaviour
         }
     }
     
+    private void EventObjectsActivationSwitch(GameObject parent)
+    {
+        if (eventObjectActive)
+            parent.SetActive(true);
+        else
+            parent.SetActive(false);
+    }
+    
+    #endregion
+
+    #region Public methods
+    public void Triggered(bool state)
+    {
+        _activatedEvent = state;
+        
+        // PersistentTrafficEventManager.Instance.HandleEvent();
+        if (_activatedEvent)
+        {
+            ActivateTheEvent();
+        }
+        else
+        {
+            DeactivateTheEvent();
+        }
+        
+        StartCoroutine(EndIdleEvent(eventIdleDuration));
+    }
     
     public void TurnOffMeshRenderers(GameObject trigger)
     {
@@ -124,24 +133,17 @@ public class CriticalEventController: MonoBehaviour
             meshRenderer.enabled = false;
         }
     }
-
-    private void EventObjectsActivationSwitch(GameObject parent)
-    {
-        if (eventObjectActive)
-            parent.SetActive(true);
-        else
-            parent.SetActive(false);
-    }
-
+    
     public void SetEventActivationState(bool state)
     {
         _activatedEvent = state;
     }
-
-    //todo
-    /*public float GetEventStartDelay()
+    
+    public float GetEventStartDelay()
     {
-        return delay;
-    }*/
+        return startEventDelay;
+    }
+    
+    #endregion
 }
 
