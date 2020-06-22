@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using Valve.VR;
+using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 public class ExperimentManager : MonoBehaviour
@@ -174,7 +175,8 @@ public class ExperimentManager : MonoBehaviour
         
         
         participantsCar.transform.parent.gameObject.SetActive(false);
-        SceneLoader.Instance.AsyncLoad(0);
+        SceneManager.LoadSceneAsync("MainMenu");
+        // SceneLoader.Instance.AsyncLoad(0);
     }
 
     
@@ -270,7 +272,8 @@ public class ExperimentManager : MonoBehaviour
             
             if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "End"))
             {
-                SceneLoader.Instance.AsyncLoad(4);
+                // SceneLoader.Instance.AsyncLoad(4);
+                SceneManager.LoadSceneAsync("MVPTestScene");
                 _scene = Scene.MainMenu;
             }
 
@@ -278,7 +281,7 @@ public class ExperimentManager : MonoBehaviour
             {
                 GUI.backgroundColor = Color.magenta;
 
-                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Respawn Manualy"))
+                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Respawn Manually"))
                 {
                     ParticipantFailed();
                 }

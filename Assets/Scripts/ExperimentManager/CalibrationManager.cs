@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Security;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 public class CalibrationManager : MonoBehaviour
@@ -63,46 +64,54 @@ public class CalibrationManager : MonoBehaviour
     
     public void EyeValidation()
     {
-        SceneLoader.Instance.AsyncLoad(1);
+        SceneManager.LoadSceneAsync("EyetrackingValidation");
+        // SceneLoader.Instance.AsyncLoad(1);
     }
 
     public void EyeValidationSuccessful()
     {
         _eyeTrackerValidationSuccessful = true;
-        SceneLoader.Instance.AsyncLoad(0);
+        SceneManager.LoadSceneAsync("MainMenu");
+        // SceneLoader.Instance.AsyncLoad(0);
     }
 
     public void SeatCalibration()
     {
-        SceneLoader.Instance.AsyncLoad(2);
+        SceneManager.LoadSceneAsync("SeatCalibrationScene");
+        // SceneLoader.Instance.AsyncLoad(2);
     }
 
     public void SeatCalibrationSuccessful()
     {
         _seatCalibrationSuccessful = true;
-        SceneLoader.Instance.AsyncLoad(0);
+        SceneManager.LoadSceneAsync("MainMenu");
+        // SceneLoader.Instance.AsyncLoad(0);
     }
 
     public void StartTestDrive()
     {
-        SceneLoader.Instance.AsyncLoad(3);
+        SceneManager.LoadSceneAsync("TestDrive2.0");
+        // SceneLoader.Instance.AsyncLoad(3);
     }
     
     public void TestDriveSuccessful()
     {
         _testDriveSuccessful = true;
-        SceneLoader.Instance.AsyncLoad(0);
+        SceneManager.LoadSceneAsync("MainMenu");
+        // SceneLoader.Instance.AsyncLoad(0);
     }
 
     public void TestDriveFailed()
     {
         // todo save the failed data onto the calibration data
-        SceneLoader.Instance.AsyncLoad(0);
+        SceneManager.LoadSceneAsync("MainMenu");
+        // SceneLoader.Instance.AsyncLoad(0);
     }
 
     public void AbortExperiment()
     {
-        SceneLoader.Instance.AsyncLoad(0);
+        // SceneLoader.Instance.AsyncLoad(0);
+        SceneManager.LoadSceneAsync("MainMenu");
         MainMenu.Instance.ReStartMainMenu();
     }
 

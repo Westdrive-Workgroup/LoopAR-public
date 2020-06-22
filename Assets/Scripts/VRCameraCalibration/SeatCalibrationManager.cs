@@ -138,10 +138,7 @@ public class SeatCalibrationManager : MonoBehaviour
 
     private void ApplyCalibration()
     {
-        SceneLoader.Instance.AsyncLoad(2);
+        // SceneLoader.Instance.AsyncLoad(2);
+        SceneManager.LoadSceneAsync("SeatCalibrationScene");
     }
-    
-    
-    
-    
 }

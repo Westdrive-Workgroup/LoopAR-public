@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 public class MainMenu : MonoBehaviour
@@ -133,7 +134,8 @@ public class MainMenu : MonoBehaviour
                 {
                     _section = Section.MainExperiment; 
                     // TODO check with calibration manager if it is allowed to go to the experiment (not mvp)
-                    SceneLoader.Instance.AsyncLoad(4);
+                    SceneManager.LoadSceneAsync("MVPTestScene");
+                    // SceneLoader.Instance.AsyncLoad(4);
                 }
             }
         }
@@ -144,8 +146,9 @@ public class MainMenu : MonoBehaviour
             
             if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
             {
-                _section = Section.MainExperiment;    
-                SceneLoader.Instance.AsyncLoad(4);
+                _section = Section.MainExperiment;
+                SceneManager.LoadSceneAsync("MVPTestScene");
+                // SceneLoader.Instance.AsyncLoad(4);
             }
         }
     }
