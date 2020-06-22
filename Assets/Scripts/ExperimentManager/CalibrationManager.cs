@@ -25,7 +25,7 @@ public class CalibrationManager : MonoBehaviour
     private Vector3 _eyeValidationError;
     private Vector3 _seatCalibrationOffset;
     
-    public bool VR_activated;
+    [SerializeField] private bool vRActivated;
     
     private void Awake()
     {
@@ -196,6 +196,11 @@ public class CalibrationManager : MonoBehaviour
     public void DeleteCalibrationData()
     {
         DeleteCalibrationFile(calibrationFilePath);
+    }
+
+    public bool GetVRActivationState()
+    {
+        return vRActivated;
     }
     
     private void DeleteCalibrationFile(string dataPath)

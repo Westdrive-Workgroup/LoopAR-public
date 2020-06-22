@@ -9,9 +9,8 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public static MainMenu Instance { get; private set; }
-
-    [Space] [Header("Scene Type")]
-    [SerializeField] private bool vRScene;
+    
+    private bool _vRScene;
     private enum Section
     {
         MainMenu,
@@ -24,9 +23,7 @@ public class MainMenu : MonoBehaviour
     }
 
     private Section _section;
-
-    private CalibrationManager _calibrationManager;
-
+    
     private void Awake()
     {
         if (Instance == null)
@@ -44,7 +41,7 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         _section = Section.MainMenu;
-        _calibrationManager = CalibrationManager.Instance;
+        _vRScene = CalibrationManager.Instance.GetVRActivationState();
     }
 
     public void OnGUI()
@@ -79,7 +76,7 @@ public class MainMenu : MonoBehaviour
         
         GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Menu   Westdrive LoopAR");
         
-        if (vRScene)
+        if (_vRScene)
         {
             // Reset Button
             GUI.backgroundColor = Color.yellow;
@@ -95,7 +92,7 @@ public class MainMenu : MonoBehaviour
             GUI.backgroundColor = Color.cyan;
             GUI.color = Color.white;
             
-            if (!_calibrationManager.GetParticipantUUIDState())
+            if (!CalibrationManager.Instance.GetParticipantUUIDState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Generate Participant ID"))
                 {
@@ -103,7 +100,7 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.GenerateID();
                 }
             }
-            else if (_calibrationManager.GetParticipantUUIDState() && !_calibrationManager.GetEyeTrackerCalibrationState())
+            else if (CalibrationManager.Instance.GetParticipantUUIDState() && !CalibrationManager.Instance.GetEyeTrackerCalibrationState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Calibration"))
                 {
@@ -111,7 +108,7 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.EyeCalibration();
                 }
             }
-            else if (_calibrationManager.GetEyeTrackerCalibrationState() && !_calibrationManager.GetEyeTrackerValidationState())
+            else if (CalibrationManager.Instance.GetEyeTrackerCalibrationState() && !CalibrationManager.Instance.GetEyeTrackerValidationState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Validation"))
                 {
@@ -119,7 +116,7 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.EyeValidation();
                 }
             }
-            else if (_calibrationManager.GetEyeTrackerValidationState() && !_calibrationManager.GetSeatCalibrationState())
+            else if (CalibrationManager.Instance.GetEyeTrackerValidationState() && !CalibrationManager.Instance.GetSeatCalibrationState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight),
                     "Seat Calibration"))
@@ -128,7 +125,7 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.SeatCalibration();
                 }
             }
-            else if (_calibrationManager.GetSeatCalibrationState())
+            else if (CalibrationManager.Instance.GetSeatCalibrationState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
                 {

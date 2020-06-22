@@ -11,16 +11,16 @@ public class ExperimentManager : MonoBehaviour
 {
     public static ExperimentManager Instance { get; private set; }
     
+    private bool vRScene;
+    
     [Space] [Header("Necessary Elements")]
     [SerializeField] private GameObject participantsCar;
-    [SerializeField] private Camera firstPersonCamera;
     [Tooltip("0 to 10 seconds")] [Range(0, 10)] [SerializeField] private float respawnDelay;
     
-    [Space] [Header("VR setup")]
-    [SerializeField] private bool vRScene;
+    [Space] [Header("Cameras and accessories")]
     [SerializeField] private VRCam vRCamera;
-
-    [Space] [Header("Temporarily-Debug")]
+    [SerializeField] private Camera firstPersonCamera;
+    /*[Space] [Header("Temporarily-Debug")]*/
     [SerializeField] private GameObject blackScreen;
     
     private enum Scene
@@ -66,7 +66,7 @@ public class ExperimentManager : MonoBehaviour
 
     void Start()
     {
-        vRScene = CalibrationManager.Instance.GetVRModeState();
+        vRScene = CalibrationManager.Instance.GetVRActivationState();
         
         if (_activationTriggers.Count == 0)
         {
