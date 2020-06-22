@@ -209,7 +209,7 @@ public class ExperimentManager : MonoBehaviour
     {
         
         _activatedEvent = activationState;
-        Debug.Log("event activation state: " + _activatedEvent) ;
+        // Debug.Log("event activation state: " + _activatedEvent) ;
     }
 
     public bool GetEventActivationState()
