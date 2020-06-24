@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
-    public InputSystem inputSystem;
+    public ScriptableObject inputSystem;
     // Start is called before the first frame update
     void Start()
     {
