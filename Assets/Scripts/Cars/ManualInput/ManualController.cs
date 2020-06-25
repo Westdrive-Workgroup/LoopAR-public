@@ -3,14 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[DisallowMultipleComponent,Serializable]
+[Serializable]
 public class ManualController : MonoBehaviour
 {
+    [SerializeField] private int _inputControlIndex;
+
+    public int InputControlIndex
+    {
+        get { return _inputControlIndex;}
+        set { _inputControlIndex = value; }
+    }
     private CarController _carController;
     private bool _manualDriving = false;
     private bool toggleReverse;
     
-    public int _inputControlIndex;
+   
+    private int _RealInputController;
     public delegate void OnReceivedInput(float steeringInput, float accelerationInput, float brakeInput);
     public event OnReceivedInput NotifyInputObservers;
 
@@ -32,33 +40,24 @@ public class ManualController : MonoBehaviour
             _manualDriving = true;
         }
 
-        Debug.Log("der wert war am start bei : " + _inputControlIndex);
+        Debug.Log("the control index was at start : " + _inputControlIndex);
+        _RealInputController = _inputControlIndex;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        switch (_inputControlIndex)
-        {
-            case 0:
+
                 accelerationInput = Input.GetAxis("Vertical");    // W or Arrow up, 
                 steeringInput= Input.GetAxis("Horizontal");         //A or D steering or Arrow Keys left right
                 brakeInput = Input.GetAxis("Jump");
-                Debug.Log(_inputControlIndex + "Update");
-                return;
-            case 1:
                 accelerationInput = Input.GetAxis("XOne_Trigger Right");    // W or Arrow up acceleration forward or backwards.
                 steeringInput= Input.GetAxis("Horizontal");
                 brakeInput = Input.GetAxis("XOne_Trigger Left");
                 reverse = Input.GetAxis("Fire3");
-                Debug.Log(_inputControlIndex + "Update");
-                break;
-        }
 
-
-
-        if (reverse > 0f)
+                
+                if (reverse > 0f)
         {
             toggleReverse =! toggleReverse;
         }
