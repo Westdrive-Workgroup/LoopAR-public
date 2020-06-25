@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class ManualController : MonoBehaviour
 {
-    public int InputControlIndex;
+    [HideInInspector] public int InputControlIndex;
     
     private CarController _carController;
     private bool _manualDriving = false;

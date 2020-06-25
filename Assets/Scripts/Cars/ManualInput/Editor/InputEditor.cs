@@ -37,7 +37,7 @@ public class InputEditor : Editor
         }
         else
         {
-            
+            _choiceIndex = InputProp.intValue;
         }
 
 
