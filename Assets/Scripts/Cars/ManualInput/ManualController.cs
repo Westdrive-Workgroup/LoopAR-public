@@ -6,13 +6,8 @@ using UnityEngine;
 [Serializable]
 public class ManualController : MonoBehaviour
 {
-    [SerializeField] private int _inputControlIndex;
-
-    public int InputControlIndex
-    {
-        get { return _inputControlIndex;}
-        set { _inputControlIndex = value; }
-    }
+    public int InputControlIndex;
+    
     private CarController _carController;
     private bool _manualDriving = false;
     private bool toggleReverse;
@@ -40,21 +35,27 @@ public class ManualController : MonoBehaviour
             _manualDriving = true;
         }
 
-        Debug.Log("the control index was at start : " + _inputControlIndex);
-        _RealInputController = _inputControlIndex;
+        Debug.Log("the control index was at start : " + InputControlIndex);
     }
 
     // Update is called once per frame
     void Update()
     {
-
-                accelerationInput = Input.GetAxis("Vertical");    // W or Arrow up, 
-                steeringInput= Input.GetAxis("Horizontal");         //A or D steering or Arrow Keys left right
-                brakeInput = Input.GetAxis("Jump");
-                accelerationInput = Input.GetAxis("XOne_Trigger Right");    // W or Arrow up acceleration forward or backwards.
-                steeringInput= Input.GetAxis("Horizontal");
-                brakeInput = Input.GetAxis("XOne_Trigger Left");
-                reverse = Input.GetAxis("Fire3");
+        switch(InputControlIndex)
+        {
+            case 0:
+                    accelerationInput = Input.GetAxis("Vertical");    // W or Arrow up, 
+                    steeringInput= Input.GetAxis("Horizontal");  
+                    brakeInput = Input.GetAxis("Jump");
+                    break;
+            case 1:
+                    accelerationInput = Input.GetAxis("XOne_Trigger Right"); 
+                    steeringInput= Input.GetAxis("Horizontal");
+                    brakeInput = Input.GetAxis("XOne_Trigger Left");
+                    reverse = Input.GetAxis("Fire3");
+                    break;
+        }
+        
 
                 
                 if (reverse > 0f)
@@ -79,8 +80,8 @@ public class ManualController : MonoBehaviour
         _manualDriving = state;
     }
 
-    public void SetInputSource(int InputIndex)
-    {
-        _inputControlIndex = InputIndex;
-    }
+    // public void SetInputSource(int InputIndex)
+    // {
+    //     _inputControlIndex = InputIndex;
+    // }
 }
