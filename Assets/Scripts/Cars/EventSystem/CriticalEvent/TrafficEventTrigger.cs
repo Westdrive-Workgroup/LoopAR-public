@@ -31,8 +31,7 @@ public class TrafficEventTrigger : MonoBehaviour
             {
                 _startEventDelay = _eventController.GetEventStartDelay();
             }
-            _targetVehicle.gameObject.GetComponentInChildren<HUDLite>().DriverAlert();
-            _targetVehicle.gameObject.GetComponentInChildren<WindscreenHUD>().DriverAlert();
+            _targetVehicle.gameObject.GetComponentInChildren<HUD_Advance>().DriverAlert();
             // Debug.Log("Informed HUD " + Time.time);
             StartCoroutine(StartDelayedEvent(_startEventDelay));
         }

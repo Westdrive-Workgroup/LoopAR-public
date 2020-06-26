@@ -60,8 +60,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
         _eventObjects = eventObjects;
         
         _participantsControlSwitch.SwitchControl(true);
-        _participantsControlSwitch.GetComponentInChildren<WindscreenHUD>().DriverAlert();
-        _participantsControlSwitch.GetComponentInChildren<HUDLite>().ActivateHUD(_eventObjects);
+        _participantsControlSwitch.GetComponentInChildren<HUD_Advance>().ActivateHUD(_eventObjects);
         ExperimentManager.Instance.SetEventActivationState(true);
     }
 
@@ -74,8 +73,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
         }
         
         _participantsControlSwitch.SwitchControl(false);
-        _participantsControlSwitch.GetComponentInChildren<HUDLite>().DeactivateHUD();
-        _participantsControlSwitch.GetComponentInChildren<WindscreenHUD>().DeactivateHUD();
+        _participantsControlSwitch.GetComponentInChildren<HUD_Advance>().DeactivateHUD();
         ExperimentManager.Instance.SetEventActivationState(false);
     }
 
