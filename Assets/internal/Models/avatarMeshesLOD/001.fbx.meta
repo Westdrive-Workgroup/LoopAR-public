@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 2473b030c68375d4ea220896dc60092f
 ModelImporter:
-  serializedVersion: 25
+  serializedVersion: 19300
   internalIDToNameTable:
   - first:
       1: 100000
@@ -989,7 +989,7 @@ ModelImporter:
       name: Topmat
     second: {fileID: 2100000, guid: f98a21e14e7f79743a3e7c424c92d7e3, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -1000,7 +1000,13 @@ ModelImporter:
     optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
-    rigImportWarnings: 
+    rigImportWarnings: "Avatar Rig Configuration mis-match. Bone length in configuration
+      does not match position in animation file:\n\t'mixamorig:LeftUpLeg' : position
+      error = 6.745601 mm\n\t'mixamorig:LeftLeg' : position error = 65.186752 mm\n\t'mixamorig:LeftFoot'
+      : position error = 1.349173 mm\n\t'mixamorig:LeftToeBase' : position error
+      = 6.396444 mm\n\t'mixamorig:RightUpLeg' : position error = 6.765341 mm\n\t'mixamorig:RightLeg'
+      : position error = 65.178604 mm\n\t'mixamorig:RightFoot' : position error =
+      1.195736 mm\n\t'mixamorig:RightToeBase' : position error = 6.492803 mm\n"
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -1055,6 +1061,7 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -1085,7 +1092,6 @@ ModelImporter:
     normalSmoothingSource: 0
   referencedClips: []
   importAnimation: 0
-  copyAvatar: 0
   humanDescription:
     serializedVersion: 3
     human:
@@ -2089,8 +2095,10 @@ ModelImporter:
     hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
