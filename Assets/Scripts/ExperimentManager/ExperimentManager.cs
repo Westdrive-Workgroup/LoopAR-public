@@ -197,7 +197,8 @@ public class ExperimentManager : MonoBehaviour
     IEnumerator RespawnParticipant(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        participantsCar.transform.parent.gameObject.SetActive(true);
+        participantsCar.transform.parent.gameObject.SetActive(true);        
+        participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD();
         blackScreen.SetActive(false);
     }
 

@@ -1251,7 +1251,6 @@ GameObject:
   - component: {fileID: 1336392394205007333}
   - component: {fileID: 3831860332528253441}
   - component: {fileID: 5479652813971077503}
-  - component: {fileID: 5004826712253536238}
   - component: {fileID: 5365283440903498758}
   - component: {fileID: 7926605325181523802}
   m_Layer: 0
@@ -1342,21 +1341,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5004826712253536238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6468250073173770758}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24d5abfb15678a841a9e98a7a4bcd9a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightSymbol: {fileID: 0}
-  EventAnzeigen: {fileID: 5707196062567895160}
-  NonEventAnzeigen: {fileID: 3503696940259599149}
 --- !u!114 &5365283440903498758
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1366,18 +1350,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6468250073173770758}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1a3908b4c40aa64895faefef100e916, type: 3}
+  m_Script: {fileID: 11500000, guid: 318e7233b8f72c74a883f009b495bd2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 7926605325181523802}
   WarningTriangle: {fileID: 1843834454960816990}
   WarningText: {fileID: 3907569647775561031}
-  WarningVerbalSound: {fileID: 8300000, guid: 3bf413af5dd990544aed0c20e07dc3d7, type: 3}
-  WarningSound: {fileID: 8300000, guid: d8404ddbf37b06145a76174d41f59e00, type: 3}
+  WarningVerbalSound: {fileID: 8300000, guid: 917a139036dae924fbc565d4a200457a, type: 3}
+  WarningSound: {fileID: 8300000, guid: c35581d28dc499e4cb9b11ac9d1a7720, type: 3}
   YouDriving: {fileID: 5530680678394398441}
   YouDrivingText: {fileID: 6506400157428931132}
-  highlightSymbol: {fileID: 1129814321788449467, guid: 8388aa2c35765324c9e56255b809997a,
-    type: 3}
   Speed: {fileID: 1236921551563698518}
   MaxSpeed: {fileID: 5505836762386695335}
   Date: {fileID: 4692262430511450130}
@@ -1388,19 +1370,21 @@ MonoBehaviour:
   AIDrivingText: {fileID: 5738255573952551039}
   TorBackSign: {fileID: 8174445706249222770}
   TorBackText: {fileID: 8039506098319674296}
-  TorBackSound: {fileID: 8300000, guid: b554a51699a1d064dbc7b949aeb7cf2a, type: 3}
+  TorBackSound: {fileID: 8300000, guid: faadac9d58c327e45969862a835fba27, type: 3}
   _aimedSpeed: {fileID: 0}
   _carController: {fileID: 0}
   IsEvent: 0
   TimeShow: 0
   SpeedShow: 0
   SpeedLimitShow: 0
+  ShowRealTime: 0
+  ShowFakeTime: 
   TimeTillWarningSign: 0
-  BlinkingFrequence: 0
-  BlinkingForTime: 0
+  BlinkingFrequence: 3
+  BlinkingForTime: 2
   BlinkingText: 0
   BlinkingTriangle: 0
-  TimeTillWarningVoice: 0
+  TimeTillWarningVoice: 0.7
   TimeTillWarningSound: 0
   WarningSignDuration: 2
   _eventObjectsToMark: []
@@ -1408,8 +1392,8 @@ MonoBehaviour:
   speedLimit: 0
   nextUpdate: 1
   speed: 0
-  TorBackBlinkingFrequency: 0
-  TorBackBlinkingLength: 0
+  TorBackBlinkingFrequency: 3
+  TorBackBlinkingLength: 2
   TorBackDuration: 2
   TorBackBlinkingText: 0
   TorBackBlinkingImage: 0
