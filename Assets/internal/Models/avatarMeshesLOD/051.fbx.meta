@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 8ba2de0c59675354d880a8133500d515
 ModelImporter:
-  serializedVersion: 25
+  serializedVersion: 19300
   internalIDToNameTable:
   - first:
       74: -4791504522942941401
@@ -43,7 +43,7 @@ ModelImporter:
       name: Topmat
     second: {fileID: 2100000, guid: 60b97c53342b0414ea9da3fbb24db10d, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -98,7 +98,7 @@ ModelImporter:
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages:
     - 0.25
@@ -109,6 +109,7 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
@@ -139,7 +140,6 @@ ModelImporter:
     normalSmoothingSource: 0
   referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
     serializedVersion: 3
     human:
@@ -1157,8 +1157,10 @@ ModelImporter:
     hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
+  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
