@@ -3,16 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[DisallowMultipleComponent]
+[Serializable]
 public class ManualController : MonoBehaviour
 {
+    [HideInInspector] public int InputControlIndex;
+    
     private CarController _carController;
     private bool _manualDriving = false;
-
+    private bool toggleReverse;
+    
+   
+    private int _RealInputController;
     public delegate void OnReceivedInput(float steeringInput, float accelerationInput, float brakeInput);
     public event OnReceivedInput NotifyInputObservers;
 
-
+    private float accelerationInput;
+    private float brakeInput;
+    private float steeringInput;
+    private float reverse; //I know a bool would be better, but input systems are strange
+    
     private void Start()
     {
         _carController = GetComponent<CarController>();
@@ -25,15 +34,39 @@ public class ManualController : MonoBehaviour
         {
             _manualDriving = true;
         }
+
+        Debug.Log("the control index was at start : " + InputControlIndex);
     }
 
     // Update is called once per frame
     void Update()
     {
-        float brakeInput = Input.GetAxis("Jump");
-        float accelerationInput = Input.GetAxis("Vertical");    // W or Arrow up acceleration forward or backwards.
-        float steeringInput = Input.GetAxis("Horizontal");    //A or D steering
+        switch(InputControlIndex)
+        {
+            case 0:
+                    accelerationInput = Input.GetAxis("Vertical");    // W or Arrow up, 
+                    steeringInput= Input.GetAxis("Horizontal");  
+                    brakeInput = Input.GetAxis("Jump");
+                    break;
+            case 1:
+                    accelerationInput = Input.GetAxis("XOne_Trigger Right"); 
+                    steeringInput= Input.GetAxis("Horizontal");
+                    brakeInput = Input.GetAxis("XOne_Trigger Left");
+                    reverse = Input.GetAxis("Fire3");
+                    break;
+        }
+        
 
+                
+                if (reverse > 0f)
+        {
+            toggleReverse =! toggleReverse;
+        }
+
+        if (toggleReverse)
+        {
+            accelerationInput = -accelerationInput;
+        }
         NotifyInputObservers?.Invoke(steeringInput, accelerationInput, brakeInput);
         
         if (_manualDriving)
@@ -46,4 +79,9 @@ public class ManualController : MonoBehaviour
     {
         _manualDriving = state;
     }
+
+    // public void SetInputSource(int InputIndex)
+    // {
+    //     _inputControlIndex = InputIndex;
+    // }
 }
