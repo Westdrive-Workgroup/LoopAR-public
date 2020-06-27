@@ -69,4 +69,9 @@ public class AimedSpeed : MonoBehaviour
     {
         _ruleSpeed = speed;
     }
+
+    public float GetRuleSpeed()
+    {
+        return _ruleSpeed;
+    }
 }
