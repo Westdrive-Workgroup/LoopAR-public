@@ -28,6 +28,7 @@ public class ActivationTrigger : MonoBehaviour
     {
         _activationHandler = targetGroup.GetComponent<ActivationHandler>();
         ExperimentManager.Instance.RegisterToExperimentManager(this);
+        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
     }
 
     public void DeactivateTheGameObjects()
