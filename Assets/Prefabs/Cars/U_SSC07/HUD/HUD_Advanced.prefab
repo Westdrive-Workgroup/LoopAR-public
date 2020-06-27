@@ -337,7 +337,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7226706672977568699}
   m_Layer: 0
-  m_Name: NonEventAnzeigen
+  m_Name: NonEventDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -456,7 +456,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6013442912711678774}
   m_Layer: 0
-  m_Name: HandVomLenkerPassiv
+  m_Name: AIDrive
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -758,7 +758,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7603177185357803337}
   m_Layer: 0
-  m_Name: HandAnsRadKlein
+  m_Name: YouDriving
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -933,7 +933,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2908873315195157440}
   m_Layer: 0
-  m_Name: EventAnzeigen
+  m_Name: EventDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1064,7 +1064,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6795443248355087209}
   m_Layer: 0
-  m_Name: HandVomLenkerAktiv
+  m_Name: TORBackDisplay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1350,13 +1350,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6468250073173770758}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 318e7233b8f72c74a883f009b495bd2c, type: 3}
+  m_Script: {fileID: 11500000, guid: b1a3908b4c40aa64895faefef100e916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 7926605325181523802}
   WarningTriangle: {fileID: 1843834454960816990}
   WarningText: {fileID: 3907569647775561031}
-  WarningVerbalSound: {fileID: 8300000, guid: 917a139036dae924fbc565d4a200457a, type: 3}
+  WarningVerbalSound: {fileID: 8300000, guid: 3bf413af5dd990544aed0c20e07dc3d7, type: 3}
   WarningSound: {fileID: 8300000, guid: c35581d28dc499e4cb9b11ac9d1a7720, type: 3}
   YouDriving: {fileID: 5530680678394398441}
   YouDrivingText: {fileID: 6506400157428931132}
@@ -1370,7 +1370,7 @@ MonoBehaviour:
   AIDrivingText: {fileID: 5738255573952551039}
   TorBackSign: {fileID: 8174445706249222770}
   TorBackText: {fileID: 8039506098319674296}
-  TorBackSound: {fileID: 8300000, guid: faadac9d58c327e45969862a835fba27, type: 3}
+  TorBackSound: {fileID: 8300000, guid: b554a51699a1d064dbc7b949aeb7cf2a, type: 3}
   _aimedSpeed: {fileID: 0}
   _carController: {fileID: 0}
   IsEvent: 0

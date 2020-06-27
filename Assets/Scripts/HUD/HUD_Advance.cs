@@ -18,7 +18,7 @@ public class HUD_Advance : MonoBehaviour
     public AudioClip WarningVerbalSound, WarningSound;
     public RawImage YouDriving;
     public Text YouDrivingText;
-    
+
 
     [Header("No Event")]
     public Text Speed;
@@ -37,8 +37,8 @@ public class HUD_Advance : MonoBehaviour
     public AimedSpeed _aimedSpeed;
     public CarController _carController;
 
-    [Space]  
-    
+    [Space]
+
     [SerializeField]
     [Header("Event")]
     [Header("Experiment")]
@@ -124,6 +124,9 @@ public class HUD_Advance : MonoBehaviour
     {
         IsEvent = false;
         _eventObjectsToMark.Clear();
+        foreach (GameObject objet in _highlightedObjects)
+        {Destroy(objet.GetComponent<Outline>());
+        }
         _highlightedObjects.Clear();
         if (!ManualDriving)
         {
