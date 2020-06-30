@@ -73,7 +73,7 @@ WheelCollider:
     m_ExtremumValue: 20000
     m_AsymptoteSlip: 6000
     m_AsymptoteValue: 18000
-    m_Stiffness: 1
+    m_Stiffness: 1.2
   m_Enabled: 1
 --- !u!1 &1691974053490656703
 GameObject:
@@ -212,7 +212,7 @@ WheelCollider:
     m_ExtremumValue: 20000
     m_AsymptoteSlip: 6000
     m_AsymptoteValue: 18000
-    m_Stiffness: 1
+    m_Stiffness: 1.2
   m_Enabled: 1
 --- !u!1 &3813001722212235104
 GameObject:
@@ -3031,11 +3031,11 @@ MonoBehaviour:
   rearWheels:
   - {fileID: 834573058085020179}
   - {fileID: 1222176836664006663}
-  torque: 1000
+  torque: 1500
   maxSteerAngle: 30
-  maxBrakeTorque: 500
+  maxBrakeTorque: 1000
   allWheelDrive: 1
-  rearBreakOnly: 1
+  rearBreakOnly: 0
   maximumSpeedInKmH: 120
   seatPosition: {fileID: 2439379052718017199}
   centerOfMassOffset: {x: 0, y: -0.5, z: 0}
@@ -4808,7 +4808,7 @@ WheelCollider:
     m_ExtremumValue: 20000
     m_AsymptoteSlip: 6000
     m_AsymptoteValue: 18000
-    m_Stiffness: 1
+    m_Stiffness: 1.2
   m_Enabled: 1
 --- !u!1 &7743694600601021548
 GameObject:
@@ -4883,5 +4883,5 @@ WheelCollider:
     m_ExtremumValue: 20000
     m_AsymptoteSlip: 6000
     m_AsymptoteValue: 18000
-    m_Stiffness: 1
+    m_Stiffness: 1.2
   m_Enabled: 1
