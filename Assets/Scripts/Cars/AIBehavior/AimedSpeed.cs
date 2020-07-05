@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -11,6 +12,11 @@ public class AimedSpeed : MonoBehaviour
     
     private bool _overWrittenAimedSpeed;
     private bool _eventSpeedActivated;
+    private bool _coroutineIsRunning;
+
+    private float _counter = 0;
+    
+    // private float _ats;
     
     // Start is called before the first frame update
     void Start()
@@ -42,6 +48,7 @@ public class AimedSpeed : MonoBehaviour
         }
         
         _overWrittenAimedSpeed = false;
+        // _ats = GetAimedSpeed() * 3.6f;
     }
 
     public void SetAimedSpeed(float speed)
@@ -73,5 +80,39 @@ public class AimedSpeed : MonoBehaviour
     public float GetRuleSpeed()
     {
         return _ruleSpeed;
+    }
+    
+    public void InitiateCurvePhase(float speed)
+    {
+        // Debug.Log("speed: " + speed + " Aimed speed: " + GetAimedSpeed()*3.6f);
+        
+        if (_coroutineIsRunning)
+        {
+            StopCoroutine(CurveSpeedTimer(speed));
+        }
+        
+        _counter = 0;
+        StartCoroutine(CurveSpeedTimer(speed));
+        // Debug.Log("CO started!");
+    }
+
+    IEnumerator CurveSpeedTimer(float speed)
+    {
+        while (_counter < 2)
+        {
+            _coroutineIsRunning = true;
+            
+            // Debug.Log("speed 2: " + speed + " Aimed speed: " + GetAimedSpeed()*3.6f);
+            
+            SetAimedSpeed(speed/3.6f);
+            
+            // Debug.Log(_aimedSpeed*3.6f);
+            
+            _counter += 1;
+            yield return new WaitForSeconds(1);
+        }
+        
+        // Debug.Log("here!");
+        _coroutineIsRunning = false;
     }
 }

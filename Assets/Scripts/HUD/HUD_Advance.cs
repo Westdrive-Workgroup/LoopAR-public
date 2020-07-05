@@ -386,8 +386,8 @@ public class HUD_Advance : MonoBehaviour
         {
             speed = Mathf.Round(_carController.GetCurrentSpeedInKmH());
             Speed.text = speed + "";
-            //speedLimit = Mathf.RoundToInt(_aimedSpeed.GetAimedSpeed());
-            speedLimit = Mathf.RoundToInt(_aimedSpeed.GetAimedSpeed() * 3.6f);
+            //speedLimit = Mathf.RoundToInt(_aimedSpeed.GetRuleSpeed());
+            speedLimit = Mathf.RoundToInt(_aimedSpeed.GetRuleSpeed());
             float quotientSpeed = speed / speedLimit;
             SpeedGauge.fillAmount = 0.75f * (Mathf.Round(quotientSpeed * 36) / 36);
 
