@@ -79,7 +79,7 @@ public class AimedSpeed : MonoBehaviour
 
     public float GetRuleSpeed()
     {
-        return _ruleSpeed;
+        return _ruleSpeed * 3.6f;
     }
     
     public void InitiateCurvePhase(float speed)
