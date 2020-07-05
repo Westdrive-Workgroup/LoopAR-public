@@ -25,6 +25,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedAdjustmentFactor: 0.9
+--- !u!114 &6294554373076073565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1494499118648707459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6701f00c93bf3ec42825653d6a51d02d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8315703916019666229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37,18 +49,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcc04e0846b6aa048a0033a984228370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showLocalTargerGizmos: 0
-  localTargetVisualizerRadius: 1
-  localTargetColor: {r: 1, g: 0, b: 0, a: 1}
-  steeringSensitivity: 0.01
-  accelerationCareFactor: 0.75
-  brakeFactor: 1
+  showLocalTargetGizmos: 0
+  localTargetColor: {r: 1, g: 0, b: 1, a: 1}
   path: {fileID: 0}
-  precision: 0.01
+  endOfPathInstruction: 0
+  curveDetectorStepAhead: 0.005
+  precision: 0.001
   trackerSensitivity: 5
-  progressPercentage: 0
-  manualOverride: 0
---- !u!114 &6294554373076073565
+  driveInReverse: 0
+--- !u!114 &6135591146355363901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -57,7 +66,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1494499118648707459}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6701f00c93bf3ec42825653d6a51d02d, type: 3}
+  m_Script: {fileID: 11500000, guid: bacaa13c442ef0545960e8b5c327e581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &2328471024033593093
