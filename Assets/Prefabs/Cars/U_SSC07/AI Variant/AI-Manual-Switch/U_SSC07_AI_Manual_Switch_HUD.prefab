@@ -12,6 +12,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: HUD_Advanced
       objectReference: {fileID: 0}
+    - target: {fileID: 5365283440903498758, guid: 01000000000000002061daed00000000,
+        type: 3}
+      propertyPath: _aimedSpeed
+      value: 
+      objectReference: {fileID: 6336436917537616370}
+    - target: {fileID: 5365283440903498758, guid: 01000000000000002061daed00000000,
+        type: 3}
+      propertyPath: _carController
+      value: 
+      objectReference: {fileID: 1499928519561039326}
     - target: {fileID: 5603038270172221026, guid: 01000000000000002061daed00000000,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -159,3 +169,27 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1235078942965044694}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1499928519561039326 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 428740041793525768, guid: ebbad4260e08e664da739133865001c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1235078942965044694}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c503f53e3026ac45bc0de1d603791c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6336436917537616370 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5101569080821752868, guid: ebbad4260e08e664da739133865001c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1235078942965044694}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca50af3cb2b60604f8b5410ad2d11984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
