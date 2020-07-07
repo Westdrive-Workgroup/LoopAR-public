@@ -11,10 +11,13 @@ public class AIController : MonoBehaviour
 {
     private CarController _carController;
     
+    // curve
+    private float _angle;
+    
     // Gizmos
     [Space] [Header("Debug")] public bool showLocalTargetGizmos = false;
     [Range(0f,20f)]
-    [SerializeField] private float localTargetVisualizerRadius  = 5f;
+    private float localTargetVisualizerRadius  = 5f;
     [SerializeField] private Color localTargetColor = Color.magenta;
     
     // Target
@@ -44,8 +47,7 @@ public class AIController : MonoBehaviour
     /*[SerializeField] */private float accelerationCareFactor = 0.75f; //AIs in Racing games might constant push the gas pedal, I dont think that this is correct in ordinary traffic 
     /*[SerializeField] */private float brakeFactor = 1f; //Strong Brakes requires potentially a less aggressive braking behavior of the AI.
     private bool _manualOverride;
-    
-    
+
     #region Private methods
     private void OnDrawGizmosSelected()
     {
@@ -81,6 +83,8 @@ public class AIController : MonoBehaviour
         {
             path.path.EndOfPathActionDestroy += DestroyAtEndOfPath;
         }
+
+        localTargetVisualizerRadius = trackerSensitivity;
     }
     
     private void Update()
@@ -117,7 +121,7 @@ public class AIController : MonoBehaviour
         float accel = 1f;
         if (corner > 20 && speedFactor > 1f)
         {
-            accel = Mathf.Lerp(0, 0 * accelerationCareFactor, 1 - cornerFactor);
+            accel = Mathf.Lerp(0, accelerationCareFactor, 1 - cornerFactor);
         }
 
         if (!_manualOverride)
@@ -135,12 +139,11 @@ public class AIController : MonoBehaviour
         
         // Curve detection
         Vector3 targetDir = _curveDetector - transform.position;
-        float angle = Vector3.Angle(targetDir, transform.forward);
-        if (angle > 20f)
-        {
-            // todo implement the actual behavior at curves
-            this.gameObject.GetComponent<AimedSpeed>().SetAimedSpeed(20f/3.6f);
-        }
+        _angle = Vector3.Angle(targetDir, transform.forward);
+        
+        this.gameObject.GetComponent<CurveDrivingBehaviour>().AdjustSpeedAtCurve(_angle);
+        
+        localTargetVisualizerRadius = trackerSensitivity;
     }
 
     private void NormalPathFollowing()
@@ -190,5 +193,11 @@ public class AIController : MonoBehaviour
     {
         return driveInReverse;
     }
+    
+    public Vector3 GetLocalTarget()
+    {
+        return _localTarget;
+    }
+    
     #endregion
 }
