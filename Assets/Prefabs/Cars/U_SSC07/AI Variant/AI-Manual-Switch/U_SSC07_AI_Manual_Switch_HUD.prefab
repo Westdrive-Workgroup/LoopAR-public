@@ -90,6 +90,30 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1235078942965044694}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1499928519561039326 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 428740041793525768, guid: ebbad4260e08e664da739133865001c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1235078942965044694}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c503f53e3026ac45bc0de1d603791c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6336436917537616370 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5101569080821752868, guid: ebbad4260e08e664da739133865001c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1235078942965044694}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca50af3cb2b60604f8b5410ad2d11984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2174362703316241258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -97,6 +121,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6230864581874079915}
     m_Modifications:
+    - target: {fileID: 27164779073289680, guid: bdb6f6090da7ece4ea0d153b2e028d3c,
+        type: 3}
+      propertyPath: _aimedSpeed
+      value: 
+      objectReference: {fileID: 6336436917537616370}
+    - target: {fileID: 27164779073289680, guid: bdb6f6090da7ece4ea0d153b2e028d3c,
+        type: 3}
+      propertyPath: _carController
+      value: 
+      objectReference: {fileID: 1499928519561039326}
     - target: {fileID: 564128057813557172, guid: bdb6f6090da7ece4ea0d153b2e028d3c,
         type: 3}
       propertyPath: m_LocalPosition.x
