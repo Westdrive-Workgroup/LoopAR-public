@@ -22,6 +22,8 @@ public class CriticalEventController: MonoBehaviour
     [Space] [Header("Event Setting")]
     [Tooltip("Time the car needs from informing the driver to giving them the control. (0 - 15 seconds)")]
     [Range(0,15)] [SerializeField] private float startEventDelay = 2.5f;
+    [Tooltip("Time the car needs from informing the driver to taking back the control. (0 - 10 seconds)")]
+    [Range(0,10)] [SerializeField] private float endEventDelay = 1f;
     [Tooltip("End the event automatically after given (0 - 120) seconds in case the participant stays idle.")] 
     [Range(0,120)] [SerializeField] private float eventIdleDuration = 10f;
     [SerializeField] private bool eventObjectActive;
@@ -142,6 +144,11 @@ public class CriticalEventController: MonoBehaviour
     public float GetEventStartDelay()
     {
         return startEventDelay;
+    }
+    
+    public float GetEventEndDelay()
+    {
+        return endEventDelay;
     }
     
     #endregion
