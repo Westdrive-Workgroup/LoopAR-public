@@ -68,12 +68,10 @@ public class PersistentTrafficEventManager : MonoBehaviour
     {
         foreach (var eventListener in _eventBehaviorListeners)
         {
-            // Debug.Log("setting back to normal");
             eventListener.ReestablishNormalBehavior();
         }
         
         _participantsControlSwitch.SwitchControl(false);
-        _participantsControlSwitch.GetComponentInChildren<HUD_Advance>().DeactivateHUD();
         ExperimentManager.Instance.SetEventActivationState(false);
     }
 
