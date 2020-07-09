@@ -42,6 +42,7 @@ public class CriticalEventController: MonoBehaviour
             _targetedCar = PersistentTrafficEventManager.Instance.GetParticipantsCar();
         }
 
+        // todo do a cleanup here
         startTrigger.TargetVehicle(_targetedCar);
         endTrigger.TargetVehicle(_targetedCar);
         
@@ -65,16 +66,28 @@ public class CriticalEventController: MonoBehaviour
             ExperimentManager.Instance.ParticipantFailed();
     }
     
-    private void ActivateTheEvent()
+    private IEnumerator ActivateTheEvent()
     {
+        Debug.Log("<color=blue>Starting the event process is initiated!</color>");
+        float t1 = Time.time;
+        _targetedCar.gameObject.GetComponentInChildren<HUD_Advance>().DriverAlert();
+        yield return new WaitForSeconds(startEventDelay);
+        float t2 = Time.time;
+        Debug.Log("<color=blue>Giving the control to the driver after </color>" + (t2-t1) + "<color=blue> seconds</color>");
         ActivateRestrictedZones();
         eventObjectParent.SetActive(true);
         PersistentTrafficEventManager.Instance.InitiateEvent(eventObjects);
         ExperimentManager.Instance.SetRespawnPositionAndRotation(respawnPoint.transform.position, respawnPoint.transform.rotation);
     }
     
-    private void DeactivateTheEvent()
+    private IEnumerator DeactivateTheEvent()
     {
+        Debug.Log("<color=red>Deactivating the event is initiated!</color>");
+        float t1 = Time.time;
+        PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DeactivateHUD();
+        yield return new WaitForSeconds(endEventDelay);
+        float t2 = Time.time;
+        Debug.Log("<color=red>Tacking back the control from the driver after </color>" + (t2-t1) + "<color=red> seconds</color>");
         DeactivateRestrictedZones();
         PersistentTrafficEventManager.Instance.FinalizeEvent();
         if (!eventObjectActive)
@@ -113,14 +126,13 @@ public class CriticalEventController: MonoBehaviour
     {
         _activatedEvent = state;
         
-        // PersistentTrafficEventManager.Instance.HandleEvent();
         if (_activatedEvent)
         {
-            ActivateTheEvent();
+            StartCoroutine(ActivateTheEvent());
         }
         else
         {
-            DeactivateTheEvent();
+            StartCoroutine(DeactivateTheEvent());
         }
         
         StartCoroutine(EndIdleEvent(eventIdleDuration));
@@ -140,17 +152,7 @@ public class CriticalEventController: MonoBehaviour
     {
         _activatedEvent = state;
     }
-    
-    public float GetEventStartDelay()
-    {
-        return startEventDelay;
-    }
-    
-    public float GetEventEndDelay()
-    {
-        return endEventDelay;
-    }
-    
+
     #endregion
 }
 
