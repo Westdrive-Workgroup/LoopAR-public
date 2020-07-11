@@ -8,17 +8,18 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     [SerializeField] private GameObject camera;
-    
-    
-    private void Awake()
-    {
-        throw new NotImplementedException();
-    }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (CalibrationManager.Instance.GetVRActivationState())
+        {
+            camera.GetComponent<ChaseCam>().enabled = false;
+        }
+        else
+        {
+            camera.GetComponent<VRCam>().enabled = false;
+        }
     }
 
     // Update is called once per frame
@@ -26,4 +27,6 @@ public class CameraManager : MonoBehaviour
     {
         
     }
+    // todo choose a camera
+    // todo fade functions
 }

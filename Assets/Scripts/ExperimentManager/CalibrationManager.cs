@@ -12,7 +12,7 @@ public class CalibrationManager : MonoBehaviour
     public static CalibrationManager Instance { get; private set; }
     private int _state;
 
-    private String calibrationFilePath;
+    private String _calibrationFilePath;
 
     private bool _uUIDGenerated;
     private bool _eyeTrackerCalibrationSuccessful;
@@ -30,11 +30,11 @@ public class CalibrationManager : MonoBehaviour
     private void Awake()
     {
         
-        calibrationFilePath = GetPathForSaveFile("CalibrationData");
+        _calibrationFilePath = GetPathForSaveFile("CalibrationData");
 
-        if (File.Exists(calibrationFilePath))
+        if (File.Exists(_calibrationFilePath))
         {
-            _calibrationData = LoadCalibrationFile(calibrationFilePath);
+            _calibrationData = LoadCalibrationFile(_calibrationFilePath);
         }
         else
         {
@@ -94,18 +94,20 @@ public class CalibrationManager : MonoBehaviour
         // SceneLoader.Instance.AsyncLoad(3);
     }
     
-    public void TestDriveSuccessful()
+    public void TestDriveSuccessState(bool state, int trials)
     {
-        _testDriveSuccessful = true;
-        SceneManager.LoadSceneAsync("MainMenu");
-        // SceneLoader.Instance.AsyncLoad(0);
+        _testDriveSuccessful = state;
+        // todo serialize the info
     }
 
-    public void TestDriveFailed()
+    /*public void TestDriveFailed()
     {
         // todo save the failed data onto the calibration data
+    }*/
+
+    public void TestDriveEnded()
+    {
         SceneManager.LoadSceneAsync("MainMenu");
-        // SceneLoader.Instance.AsyncLoad(0);
     }
 
     public void AbortExperiment()
@@ -158,10 +160,10 @@ public class CalibrationManager : MonoBehaviour
         return _calibrationData.EyeValidationError;
     }
 
-    public bool GetVRModeState()
+    /*public bool GetVRModeState()
     {
         return _calibrationData.VRmode;
-    }
+    }*/
     private void StoreParticipantUuid(string iD)
     {
         _calibrationData.ParticipantUuid = iD;
@@ -195,7 +197,7 @@ public class CalibrationManager : MonoBehaviour
     
     public void DeleteCalibrationData()
     {
-        DeleteCalibrationFile(calibrationFilePath);
+        DeleteCalibrationFile(_calibrationFilePath);
     }
 
     public bool GetVRActivationState()
@@ -219,7 +221,7 @@ public class CalibrationManager : MonoBehaviour
     private void SaveCalibrationFile(CalibrationData calibrationData)
     {
         string jsonString = JsonUtility.ToJson(calibrationData);
-        File.WriteAllText(calibrationFilePath, jsonString);
+        File.WriteAllText(_calibrationFilePath, jsonString);
     }
     
     private string GetPathForSaveFile(string saveFileName)
