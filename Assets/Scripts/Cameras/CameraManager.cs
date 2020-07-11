@@ -7,26 +7,38 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-    [SerializeField] private GameObject camera;
+    [SerializeField] private Camera camera;
+    [SerializeField] private GameObject blackScreen;
 
+    private VRCam _vRCamera;
+    
     // Start is called before the first frame update
     void Start()
     {
         if (CalibrationManager.Instance.GetVRActivationState())
         {
-            camera.GetComponent<ChaseCam>().enabled = false;
+            this.gameObject.GetComponent<ChaseCam>().enabled = false;
+            _vRCamera = this.gameObject.GetComponent<VRCam>();
+            VRModeFunctionality();
         }
         else
         {
-            camera.GetComponent<VRCam>().enabled = false;
+            this.gameObject.GetComponent<VRCam>().enabled = false;
+            NonVRModeFunctionality();
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         
     }
+
+    private void VRModeFunctionality()
+    {
+        // _vRCamera.SetPosition(firstPersonCamera.transform.position);
+    }
+
+    private void NonVRModeFunctionality()
+    {
+        blackScreen.SetActive(true);
+    }
+    
     // todo choose a camera
     // todo fade functions
 }
