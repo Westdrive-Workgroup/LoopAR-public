@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3511108016897844648}
   - component: {fileID: 3511108016897844662}
+  - component: {fileID: 3872250087173689560}
   - component: {fileID: 3511108016897844663}
   - component: {fileID: 3639377100328095456}
   m_Layer: 0
@@ -131,6 +132,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3872250087173689560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3511108016897844660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b85bb0ab817a9146a221c954db5795e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 3511108017593222712}
+  blackScreen: {fileID: 7316240832901199183}
 --- !u!114 &3511108016897844663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,8 +159,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   seatPosition: {fileID: 0}
-  SeatActivated: 0
-  _calibrationOffset: {fileID: 5956370727506629608}
+  seatActivated: 0
+  calibrationOffset: {fileID: 0}
   _camera: {fileID: 3511108017593222663}
 --- !u!114 &3639377100328095456
 MonoBehaviour:
@@ -172,6 +187,7 @@ GameObject:
   - component: {fileID: 3511108017593222662}
   - component: {fileID: 3511108017593222712}
   - component: {fileID: 3511108017593222713}
+  - component: {fileID: 7466212690056217223}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -244,6 +260,18 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3511108017593222663}
   m_Enabled: 1
+--- !u!114 &7466212690056217223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3511108017593222663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ad1e469d4e3e04489f9a36419f1a4f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5956370727506629608
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,6 +372,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32dcdcc19b04ccc48a4d70291131cb7e, type: 3}
+--- !u!1 &7316240832901199183 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 856858694382445339, guid: 32dcdcc19b04ccc48a4d70291131cb7e,
+    type: 3}
+  m_PrefabInstance: {fileID: 7956926193257043540}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7316240832901199182 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 856858694382445338, guid: 32dcdcc19b04ccc48a4d70291131cb7e,
