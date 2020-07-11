@@ -11,7 +11,7 @@ using EditorGUI = UnityEditor.Experimental.Networking.PlayerConnection.EditorGUI
 public class InputEditor : Editor
 {
    
-    private string[] _inputChoices = new[] {"Keyboard Input", "Xbox Controller Input"};
+    private string[] _inputChoices = new[] {"Keyboard Input", "Xbox Controller Input", "SteeringWheel Input"};
     private int _choiceIndex;
     private SerializedProperty InputProp;
  
