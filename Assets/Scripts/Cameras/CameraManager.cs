@@ -7,6 +7,9 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
+    [SerializeField] private GameObject camera;
+    
+    
     private void Awake()
     {
         throw new NotImplementedException();
