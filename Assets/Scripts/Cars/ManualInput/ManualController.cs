@@ -55,7 +55,7 @@ public class ManualController : MonoBehaviour
                     reverse = Input.GetAxis("Fire3");
                     break;
             case 2: 
-                    steeringInput=  Mathf.Clamp(Input.GetAxis("Horizontal")*1.3f,-1f,1f);
+                    steeringInput=  Mathf.Clamp(Input.GetAxis("Horizontal (Steering)")*1f,-1f,1f);
                     accelerationInput = Mathf.Clamp01(Input.GetAxis("Pedal0"));
                     brakeInput = Mathf.Clamp01(Input.GetAxis("Pedal1"));
                     break;
