@@ -131,8 +131,8 @@ public class CarController : MonoBehaviour
         return _rigidbody;
     }
 
-    public Vector3 GetSeatPosition()
+    public GameObject GetSeatPosition()
     {
-        return seatPosition.transform.position;
+        return seatPosition;
     }
 }
