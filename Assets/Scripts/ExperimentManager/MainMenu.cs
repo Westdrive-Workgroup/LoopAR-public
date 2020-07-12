@@ -77,7 +77,7 @@ public class MainMenu : MonoBehaviour
         GUI.skin.label.fontSize = labelFontSize;
         GUI.skin.label.fontStyle = FontStyle.Bold;
         
-        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Menu   Westdrive LoopAR");
+        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Menu            Westdrive LoopAR");
         
         
         // Choose mode
@@ -89,12 +89,14 @@ public class MainMenu : MonoBehaviour
             if (GUI.Button(new Rect(xForButtons*9, yForButtons*4, buttonWidth, buttonHeight), "VR Mode"))
             {
                 CalibrationManager.Instance.StoreVRState(true);
+                CalibrationManager.Instance.SetCameraMode(true);
                 _section = Section.MainMenu;
             }
         
             if (GUI.Button(new Rect(xForButtons*5, yForButtons*4, buttonWidth, buttonHeight), "Non-VR Mode"))
             {
                 CalibrationManager.Instance.StoreVRState(false);
+                CalibrationManager.Instance.SetCameraMode(false);
                 _section = Section.MainMenu;
             }
         }
@@ -107,7 +109,7 @@ public class MainMenu : MonoBehaviour
         
             if (GUI.Button(new Rect(xForButtons*5, yForButtons, buttonWidth, buttonHeight), "Reset"))
             {
-                _section = Section.ChoosingState;
+                _section = Section.MainMenu;
             }
         }
 

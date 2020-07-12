@@ -103,6 +103,7 @@ public class ExperimentManager : MonoBehaviour
         _scene = Scene.MainMenu;
         CameraManager.Instance.FadeOut();
         CameraManager.Instance.SetObjectToFollow(participantsCar);
+        CameraManager.Instance.SetSeatPosition(participantsCar.GetComponent<CarController>().GetSeatPosition());
         participantsCar.transform.parent.gameObject.SetActive(false);
 
         /*// todo remove

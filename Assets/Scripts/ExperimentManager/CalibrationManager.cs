@@ -52,7 +52,18 @@ public class CalibrationManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
+    public void SetCameraMode(bool vrModeState)
+    {
+        if (vrModeState)
+        {
+            CameraManager.Instance.VRModeCamera();
+        }
+        else
+        {
+            CameraManager.Instance.NonVRModeCamera();
+        }
+    }
     public void EyeCalibration()
     {
         EyetrackingManager.Instance.StartCalibration();
@@ -179,7 +190,7 @@ public class CalibrationManager : MonoBehaviour
     public void StoreSeatCalibrationData(Vector3 seatOffset)
     {
         _calibrationData.SeatCalibrationOffset = seatOffset;
-        StoreVRState(true);
+        // StoreVRState(true);
         SaveCalibrationData();
     }
     
@@ -190,9 +201,9 @@ public class CalibrationManager : MonoBehaviour
         SaveCalibrationData();
     }
 
-    public void StoreVRState(bool VRmode)
+    public void StoreVRState(bool vRMode)
     {
-        _calibrationData.VRmode=VRmode;
+        _calibrationData.VRmode = vRMode;
         _wasMainMenuLoaded = true;
         SaveCalibrationData();
     }
