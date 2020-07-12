@@ -6,20 +6,23 @@ using UnityEngine.PlayerLoop;
 
 public class ChaseCam : MonoBehaviour
 {
-    public GameObject objectToFollow;
+    private GameObject _objectToFollow;
     [Range(0f, 10f)] public float damping;
-    
+
     private void LateUpdate()
     {
-        if (objectToFollow == null)
+        if (CameraManager.Instance.GetObjectToFollow() == null)
         {
-            Debug.LogWarning("Object to follow not found!");
+            Debug.Log("<color=red>Error: </color>Object to follow not found!");
             return;
         }
+
+        _objectToFollow = CameraManager.Instance.GetObjectToFollow();
+
+        // todo remove
+        this.transform.position = _objectToFollow.GetComponent<CarController>().GetSeatPosition().transform.position;
         
-        this.transform.position = objectToFollow.transform.position;
-        
-        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, objectToFollow.transform.rotation,
+        this.transform.rotation = Quaternion.Lerp(this.transform.rotation, _objectToFollow.transform.rotation,
             Time.deltaTime * damping);
     }
 }

@@ -2,47 +2,54 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class VRCam : MonoBehaviour
 {
-    public GameObject seatPosition;
     public bool seatActivated;
+    private GameObject _seatPosition;
     
     private Vector3 _formerPosition;
 
-    [SerializeField] private GameObject calibrationOffset;
-    [SerializeField] private GameObject _camera;
-    
+    // private GameObject _calibrationOffset;
+    // [SerializeField] private GameObject _camera;
+
+
+    private void Awake()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
     private void Start()
     {
-        if (CalibrationManager.Instance != null)
-        {
-            calibrationOffset.transform.localPosition = CalibrationManager.Instance.GetSeatCalibrationOffset();
-        }
-        else
-        {
-            calibrationOffset.transform.localPosition = Vector3.zero;
-            Debug.LogWarning("no Calibration Manager found, please at to the scene");
-        }
         
+
+        // seatPosition = CameraManager.Instance.GetObjectToFollow().GetComponent<CarController>().GetSeatPosition();
         _formerPosition = new Vector3();
+    }
+    
+    private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        _seatPosition = CameraManager.Instance.GetSeatPosition();
     }
 
     private void LateUpdate()
     {
         if (seatActivated)
         {
-            transform.SetPositionAndRotation(seatPosition.transform.position,seatPosition.transform.rotation);
+            _seatPosition = CameraManager.Instance.GetSeatPosition();
+            /*if (seatPosition == null)
+            {
+                Debug.Log("<color=red>Error: </color>Seat position is not assigned!");
+                return;
+            }*/
+            
+            transform.SetPositionAndRotation(_seatPosition.transform.position,_seatPosition.transform.rotation);
         }
     }
 
 
-    public void SetPosition(Vector3 position)
-    {
-        transform.position = position;
-        _formerPosition = position;
-        seatActivated = false;
-    }
+    
 
     public void Seat()
     {
@@ -54,19 +61,31 @@ public class VRCam : MonoBehaviour
         transform.position = _formerPosition;
     }
 
-    public GameObject GetCamera()
+    /*public GameObject GetCamera()
     {
         return _camera;
+    }*/
+
+    /*public GameObject GetCameraOffset()
+    {
+        return _calibrationOffset;
+    }*/
+    
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position;
+        _formerPosition = position;
+        seatActivated = false;
     }
 
-    public GameObject GetCameraOffset()
+    /*public void SetSeatPosition(GameObject seat)
     {
-        return calibrationOffset;
-    }
+        seatPosition = seat;
+    }*/
     
-    public void SetOffset(Vector3 localOffset)
+    /*public void SetOffset(Vector3 localOffset)
     {
-        calibrationOffset.transform.localPosition = localOffset;
-    }
+        _calibrationOffset.transform.localPosition = localOffset;
+    }*/
 
 }
