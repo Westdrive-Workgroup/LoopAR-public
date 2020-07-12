@@ -27,9 +27,8 @@ public class SeatCalibrationManager : MonoBehaviour
     {
         distanceVector = new Vector3();
         vRCam = CameraManager.Instance.GetVRCamera();
-        vrCameraObject = CameraManager.Instance.gameObject;
+        vrCameraObject = CameraManager.Instance.GetMainCamera().gameObject;
         cameraOffsetObject = CameraManager.Instance.GetCalibrationOffset();
-        
         
         if (vRCam == null)
         {
@@ -142,6 +141,8 @@ public class SeatCalibrationManager : MonoBehaviour
 
     private void CalibrateAndStore()
     {
+       Debug.Log(cameraOffsetObject.transform.position);
+       Debug.Log(vrCameraObject.transform.position);
        
         distanceVector.x = cameraOffsetObject.transform.position.x - vrCameraObject.transform.position.x;
         distanceVector.y = cameraOffsetObject.transform.position.y - vrCameraObject.transform.position.y;
@@ -152,6 +153,7 @@ public class SeatCalibrationManager : MonoBehaviour
         //distanceVector.z = vrCameraObject.transform.position.z - SeatPosition.transform.position.z;
         
         CalibrationManager.Instance.StoreSeatCalibrationData(distanceVector);
+        Debug.Log(distanceVector);
     }
 
     private void ApplyCalibration()

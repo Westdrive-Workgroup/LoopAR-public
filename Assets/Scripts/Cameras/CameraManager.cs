@@ -6,9 +6,10 @@ using Valve.VR;
 using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
-
 public class CameraManager : MonoBehaviour
 {
+    #region Fields
+
     public static CameraManager Instance { get; private set; }
     
     [SerializeField] private Camera mainCamera;
@@ -19,8 +20,10 @@ public class CameraManager : MonoBehaviour
     private GameObject _seatPosition;
     private VRCam _vRCamera;
     private bool _vRState;
-    
-    #region Private Methods
+
+    #endregion
+
+    #region PrivateMethods
 
     private void Awake()
     {
@@ -34,60 +37,60 @@ public class CameraManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
-        // SceneManager.sceneLoaded += OnSceneLoaded;
     }
     
-    private void Start()
+    /*private void Start()
     {
-        
-        
         if (CalibrationManager.Instance.GetVRActivationState())
         {
             this.gameObject.GetComponent<ChaseCam>().enabled = false;
             _vRCamera = this.gameObject.GetComponent<VRCam>();
+            mainCamera.GetComponent<Camera>().stereoTargetEye = StereoTargetEyeMask.Both;
             VRModeCamera();
         }
         else
         {
             this.gameObject.GetComponent<VRCam>().enabled = false;
+            mainCamera.GetComponent<Camera>().stereoTargetEye = StereoTargetEyeMask.None;
             NonVRModeCamera();
         }
 
         _vRState = CalibrationManager.Instance.GetVRActivationState();
-    }
-    
-    /*private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (_seatPosition != null)
-        {
-            _vRCamera.SetSeatPosition(_seatPosition);
-        }
     }*/
 
-    private void VRModeCamera()
+    public void VRModeCamera()
     {
+        this.gameObject.GetComponent<ChaseCam>().enabled = false;
+        _vRCamera = this.gameObject.GetComponent<VRCam>();
+        mainCamera.GetComponent<Camera>().stereoTargetEye = StereoTargetEyeMask.Both;
+        
         FadeIn();
-        // _vRCamera.SetOffset(CalibrationManager.Instance.GetSeatCalibrationOffset());
         
         if (CalibrationManager.Instance != null)
         {
-            calibrationOffset.transform.localPosition = CalibrationManager.Instance.GetSeatCalibrationOffset();
+            SetOffset(CalibrationManager.Instance.GetSeatCalibrationOffset());
         }
         else
         {
-            calibrationOffset.transform.localPosition = Vector3.zero;
+            // calibrationOffset.transform.localPosition = Vector3.zero;
+            SetOffset(Vector3.zero);
             Debug.Log("<color=red>Error: </color>No Calibration Manager found, please add to the scene.");
         }
         
         if (objectToFollow != null)
         {
-            _vRCamera.SetPosition(GetSeatPositionVector3());
+            this.gameObject.transform.position = GetSeatPositionVector3();
+            _vRCamera.SetPosition(GetSeatPositionVector3()); ///////?????
         }
+        
+        _vRState = CalibrationManager.Instance.GetVRActivationState();
     }
 
-    private void NonVRModeCamera()
+    public void NonVRModeCamera()
     {
+        this.gameObject.GetComponent<VRCam>().enabled = false;
+        mainCamera.GetComponent<Camera>().stereoTargetEye = StereoTargetEyeMask.None;
+        
         blackScreen.SetActive(true);
         if (objectToFollow != null)
         {
@@ -95,11 +98,13 @@ public class CameraManager : MonoBehaviour
             SetOffset(Vector3.zero);
             this.transform.position = GetSeatPositionVector3();
         }
+        
+        _vRState = CalibrationManager.Instance.GetVRActivationState();
     }
 
     #endregion
 
-    #region Public Methods
+    #region PublicMethods
 
     public void FadeOut()
     {

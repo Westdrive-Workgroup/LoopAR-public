@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class VRCam : MonoBehaviour
 {
-    public bool seatActivated;
+    private bool _seatActivated;
     private GameObject _seatPosition;
     
     private Vector3 _formerPosition;
@@ -22,20 +22,21 @@ public class VRCam : MonoBehaviour
 
     private void Start()
     {
-        
-
         // seatPosition = CameraManager.Instance.GetObjectToFollow().GetComponent<CarController>().GetSeatPosition();
         _formerPosition = new Vector3();
     }
     
-    private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        _seatPosition = CameraManager.Instance.GetSeatPosition();
+        if (CameraManager.Instance.GetSeatPosition() != null)
+        {
+            _seatPosition = CameraManager.Instance.GetSeatPosition();
+        }
     }
 
     private void LateUpdate()
     {
-        if (seatActivated)
+        if (_seatActivated)
         {
             _seatPosition = CameraManager.Instance.GetSeatPosition();
             /*if (seatPosition == null)
@@ -47,18 +48,23 @@ public class VRCam : MonoBehaviour
             transform.SetPositionAndRotation(_seatPosition.transform.position,_seatPosition.transform.rotation);
         }
     }
-
-
     
 
     public void Seat()
     {
-        seatActivated = true;
+        _seatActivated = true;
     }
 
     public void UnSeat()
     {
         transform.position = _formerPosition;
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        transform.position = position;
+        _formerPosition = position;
+        _seatActivated = false;
     }
 
     /*public GameObject GetCamera()
@@ -70,13 +76,6 @@ public class VRCam : MonoBehaviour
     {
         return _calibrationOffset;
     }*/
-    
-    public void SetPosition(Vector3 position)
-    {
-        transform.position = position;
-        _formerPosition = position;
-        seatActivated = false;
-    }
 
     /*public void SetSeatPosition(GameObject seat)
     {
