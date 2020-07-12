@@ -144,8 +144,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b85bb0ab817a9146a221c954db5795e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 3511108017593222712}
+  mainCamera: {fileID: 3511108017593222712}
   blackScreen: {fileID: 7316240832901199183}
+  calibrationOffset: {fileID: 5956370727506629608}
+  objectToFollow: {fileID: 0}
 --- !u!114 &3511108016897844663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,10 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7bdabc8095e8a545859d06fb5e7a79e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seatPosition: {fileID: 0}
   seatActivated: 0
-  calibrationOffset: {fileID: 0}
-  _camera: {fileID: 3511108017593222663}
 --- !u!114 &3639377100328095456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -174,7 +173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a564e028ea31684c88af29b4d5f476f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToFollow: {fileID: 0}
   damping: 5.5
 --- !u!1 &3511108017593222663
 GameObject:
