@@ -8,10 +8,10 @@ public class AxisStabilizer : MonoBehaviour
    public float antiRoll = 5000f;
    
    private CarController _carController;
-   [SerializeField]private WheelCollider frontLeft;
-   [SerializeField]private WheelCollider frontRight;
-   [SerializeField]private WheelCollider backLeft;
-   [SerializeField]private WheelCollider backRight;
+   private WheelCollider frontLeft;
+   private WheelCollider frontRight;
+   private WheelCollider backLeft;
+   private WheelCollider backRight;
    private WheelCollider[] frontAxis;
    private WheelCollider[] backAxis;
    private Rigidbody rb;
@@ -21,6 +21,14 @@ public class AxisStabilizer : MonoBehaviour
       rb = this.gameObject.GetComponent<Rigidbody>();
    }
 
+   public void  AssignWheels(WheelCollider FrontLeft, WheelCollider FrontRight, WheelCollider BackLeft, WheelCollider BackRight)
+   {
+      frontLeft = FrontLeft;
+      frontRight = FrontRight;
+      backLeft = BackLeft;
+      backRight= BackRight;
+   }
+    
 
    private void GroundWheels(WheelCollider left, WheelCollider right)
    {

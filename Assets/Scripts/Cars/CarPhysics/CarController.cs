@@ -19,12 +19,14 @@ public class CarController : MonoBehaviour
     
     private float _maximumSpeed;//meter per seconds
     private float _currentSpeed;
-
+    [SerializeField] private bool _engineOn = true;
     [SerializeField] private Vector3 centerOfMassOffset = new Vector3(0, -0.5f, 0);
 
     private void Awake()
     {
         _maximumSpeed = maximumSpeedInKmH / 3.6f;
+        if(GetComponent<AxisStabilizer>()!=null)
+            GetComponent<AxisStabilizer>().AssignWheels(frontWheels[0],frontWheels[1],rearWheels[0],rearWheels[1]);
     }
 
     // Start is called before the first frame update
@@ -43,6 +45,8 @@ public class CarController : MonoBehaviour
 
     public void MoveVehicle(float accelerationInput, float brakeInput, float steeringInput)
     {
+        if (!_engineOn) return;
+        
         foreach (var wheel in frontWheels)
         {
             TransferInputToWheels(wheel, accelerationInput,brakeInput, steeringInput);
@@ -52,6 +56,7 @@ public class CarController : MonoBehaviour
         {
             TransferInputToWheels(wheel, accelerationInput, brakeInput);
         }
+
 
         //Debug.Log(_rigidbody.velocity.magnitude);
     }
@@ -126,6 +131,21 @@ public class CarController : MonoBehaviour
         return _maximumSpeed;
     }
 
+    public void TurnOnEngine()
+    {
+        _engineOn = true;
+    }
+
+    public void TurnOffEngine()
+    {
+        _engineOn = false;
+    }
+
+    public void SetEngineState(bool state)
+    {
+        _engineOn = state;
+    }
+    
     public Rigidbody GetRigidbody()
     {
         return _rigidbody;
