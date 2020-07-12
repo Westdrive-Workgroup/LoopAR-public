@@ -10,9 +10,9 @@ public class MainMenu : MonoBehaviour
 {
     public static MainMenu Instance { get; private set; }
     
-    private bool _vRScene;
     private enum Section
     {
+        ChoosingState,
         MainMenu,
         IDGeneration,
         EyeCalibration,
@@ -35,14 +35,17 @@ public class MainMenu : MonoBehaviour
             Destroy(gameObject);
         }
         
-        _section = Section.MainMenu;
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void Start()
+    private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        _section = Section.MainMenu;
-        _vRScene = CalibrationManager.Instance.GetVRActivationState();
+        if (CalibrationManager.Instance.GetWasMainMenuLoaded())
+        {
+            _section = Section.MainMenu;
+        }
     }
+    
 
     public void OnGUI()
     {
@@ -76,7 +79,27 @@ public class MainMenu : MonoBehaviour
         
         GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Menu   Westdrive LoopAR");
         
-        if (_vRScene)
+        
+        // Choose mode
+        GUI.backgroundColor = Color.magenta;
+        GUI.color = Color.white;
+
+        if (_section == Section.ChoosingState)
+        {
+            if (GUI.Button(new Rect(xForButtons*9, yForButtons*4, buttonWidth, buttonHeight), "VR Mode"))
+            {
+                CalibrationManager.Instance.StoreVRState(true);
+                _section = Section.MainMenu;
+            }
+        
+            if (GUI.Button(new Rect(xForButtons*5, yForButtons*4, buttonWidth, buttonHeight), "Non-VR Mode"))
+            {
+                CalibrationManager.Instance.StoreVRState(false);
+                _section = Section.MainMenu;
+            }
+        }
+
+        if (_section != Section.ChoosingState)
         {
             // Reset Button
             GUI.backgroundColor = Color.yellow;
@@ -84,10 +107,13 @@ public class MainMenu : MonoBehaviour
         
             if (GUI.Button(new Rect(xForButtons*5, yForButtons, buttonWidth, buttonHeight), "Reset"))
             {
-                _section = Section.MainMenu;
+                _section = Section.ChoosingState;
             }
-            
-            
+        }
+
+
+        if (CalibrationManager.Instance.GetVRActivationState() && CalibrationManager.Instance.GetWasMainMenuLoaded())
+        {
             // Buttons
             GUI.backgroundColor = Color.cyan;
             GUI.color = Color.white;
@@ -100,7 +126,7 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.GenerateID();
                 }
             }
-            else if (CalibrationManager.Instance.GetParticipantUUIDState() && !CalibrationManager.Instance.GetEyeTrackerCalibrationState())
+            /*else if (CalibrationManager.Instance.GetParticipantUUIDState() && !CalibrationManager.Instance.GetEyeTrackerCalibrationState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Calibration"))
                 {
@@ -115,8 +141,9 @@ public class MainMenu : MonoBehaviour
                     _section = Section.EyeValidation;
                     CalibrationManager.Instance.EyeValidation();
                 }
-            }
-            else if (CalibrationManager.Instance.GetEyeTrackerValidationState() && !CalibrationManager.Instance.GetSeatCalibrationState())
+            }*/
+            else if (/*CalibrationManager.Instance.GetEyeTrackerValidationState()*/ CalibrationManager.Instance.GetParticipantUUIDState() 
+                                                                                    && !CalibrationManager.Instance.GetSeatCalibrationState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight),
                     "Seat Calibration"))
@@ -131,12 +158,12 @@ public class MainMenu : MonoBehaviour
                 {
                     _section = Section.MainExperiment; 
                     // TODO check with calibration manager if it is allowed to go to the experiment (not mvp)
-                    SceneManager.LoadSceneAsync("MVPTestScene");
+                    SceneManager.LoadSceneAsync("safe-mountainroad01");
                     // SceneLoader.Instance.AsyncLoad(4);
                 }
             }
         }
-        else
+        else if (!CalibrationManager.Instance.GetVRActivationState() && CalibrationManager.Instance.GetWasMainMenuLoaded())
         {
             GUI.backgroundColor = Color.cyan;
             GUI.color = Color.white;
@@ -144,7 +171,7 @@ public class MainMenu : MonoBehaviour
             if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Main Experiment"))
             {
                 _section = Section.MainExperiment;
-                SceneManager.LoadSceneAsync("MVPTestScene");
+                SceneManager.LoadSceneAsync("safe-mountainroad01");
                 // SceneLoader.Instance.AsyncLoad(4);
             }
         }
