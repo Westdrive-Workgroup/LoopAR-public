@@ -14,6 +14,7 @@ public class CalibrationManager : MonoBehaviour
 
     private String _calibrationFilePath;
 
+    private bool _wasMainMenuLoaded;
     private bool _uUIDGenerated;
     private bool _eyeTrackerCalibrationSuccessful;
     private bool _eyeTrackerValidationSuccessful;
@@ -25,11 +26,10 @@ public class CalibrationManager : MonoBehaviour
     private Vector3 _eyeValidationError;
     private Vector3 _seatCalibrationOffset;
     
-    [SerializeField] private bool vRActivated;
+    // [SerializeField] private bool vRActivated;
     
     private void Awake()
     {
-        
         _calibrationFilePath = GetPathForSaveFile("CalibrationData");
 
         if (File.Exists(_calibrationFilePath))
@@ -40,11 +40,12 @@ public class CalibrationManager : MonoBehaviour
         {
             _calibrationData = new CalibrationData();
         }
+        
         //singleton pattern a la Unity
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);         //the Eyetracking Manager should be persitent by changing the scenes maybe change it on the the fly
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -117,6 +118,11 @@ public class CalibrationManager : MonoBehaviour
         MainMenu.Instance.ReStartMainMenu();
     }
 
+    public bool GetWasMainMenuLoaded()
+    {
+        return _wasMainMenuLoaded;
+    }
+
     public void GenerateID()
     { 
         string newParticipantId = System.Guid.NewGuid().ToString();
@@ -160,10 +166,11 @@ public class CalibrationManager : MonoBehaviour
         return _calibrationData.EyeValidationError;
     }
 
-    /*public bool GetVRModeState()
+    private bool GetVRModeState()
     {
         return _calibrationData.VRmode;
-    }*/
+    }
+    
     private void StoreParticipantUuid(string iD)
     {
         _calibrationData.ParticipantUuid = iD;
@@ -186,6 +193,7 @@ public class CalibrationManager : MonoBehaviour
     public void StoreVRState(bool VRmode)
     {
         _calibrationData.VRmode=VRmode;
+        _wasMainMenuLoaded = true;
         SaveCalibrationData();
     }
 
@@ -202,7 +210,7 @@ public class CalibrationManager : MonoBehaviour
 
     public bool GetVRActivationState()
     {
-        return vRActivated;
+        return GetVRModeState();
     }
     
     private void DeleteCalibrationFile(string dataPath)
