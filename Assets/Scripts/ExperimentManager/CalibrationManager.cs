@@ -9,11 +9,10 @@ using UnityEngine.SceneManagement;
 [DisallowMultipleComponent]
 public class CalibrationManager : MonoBehaviour
 {
+    #region Fields
+
     public static CalibrationManager Instance { get; private set; }
-    private int _state;
-
-    private String _calibrationFilePath;
-
+    
     private bool _wasMainMenuLoaded;
     private bool _uUIDGenerated;
     private bool _eyeTrackerCalibrationSuccessful;
@@ -21,13 +20,13 @@ public class CalibrationManager : MonoBehaviour
     private bool _seatCalibrationSuccessful;
     private bool _testDriveSuccessful;
     
-    
     private CalibrationData _calibrationData;
-    private Vector3 _eyeValidationError;
-    private Vector3 _seatCalibrationOffset;
-    
-    // [SerializeField] private bool vRActivated;
-    
+    private String _calibrationFilePath;
+
+    #endregion
+
+    #region PrivateMethods
+
     private void Awake()
     {
         _calibrationFilePath = GetPathForSaveFile("CalibrationData");
@@ -52,18 +51,64 @@ public class CalibrationManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    public void SetCameraMode(bool vrModeState)
+    
+    private void StoreParticipantUuid(string iD)
     {
-        if (vrModeState)
+        _calibrationData.ParticipantUuid = iD;
+        SaveCalibrationData();
+    }
+    
+    private void DeleteCalibrationFile(string dataPath)
+    {
+        if(!File.Exists(dataPath))
         {
-            CameraManager.Instance.VRModeCamera();
+            Debug.Log("file not found, can not be deleted");
         }
         else
         {
-            CameraManager.Instance.NonVRModeCamera();
+            File.Delete(dataPath);
         }
     }
+
+    private void SaveCalibrationFile(CalibrationData calibrationData)
+    {
+        string jsonString = JsonUtility.ToJson(calibrationData);
+        File.WriteAllText(_calibrationFilePath, jsonString);
+    }
+    
+    private string GetPathForSaveFile(string saveFileName)
+    {
+        return Path.Combine(Application.persistentDataPath, saveFileName + ".txt");
+    }
+    
+    private CalibrationData LoadCalibrationFile(string dataPath)
+    {
+        string jsonString;
+        if(!File.Exists(dataPath))
+        {
+            Debug.Log("File not found!");
+            return null;
+        }
+        else
+        {
+            Debug.Log("Found Calibration Data, loading...");
+            jsonString = File.ReadAllText(dataPath);
+            //Debug.Log(jsonString);
+            return JsonUtility.FromJson<CalibrationData>(jsonString);
+        }
+    }
+
+    #endregion
+
+    #region PublicMethods
+
+    public void GenerateID()
+    { 
+        string newParticipantId = System.Guid.NewGuid().ToString();
+        StoreParticipantUuid(newParticipantId);
+        _uUIDGenerated = true;
+    }
+    
     public void EyeCalibration()
     {
         EyetrackingManager.Instance.StartCalibration();
@@ -77,33 +122,28 @@ public class CalibrationManager : MonoBehaviour
     public void EyeValidation()
     {
         SceneManager.LoadSceneAsync("EyetrackingValidation");
-        // SceneLoader.Instance.AsyncLoad(1);
     }
 
     public void EyeValidationSuccessful()
     {
         _eyeTrackerValidationSuccessful = true;
         SceneManager.LoadSceneAsync("MainMenu");
-        // SceneLoader.Instance.AsyncLoad(0);
     }
 
     public void SeatCalibration()
     {
         SceneManager.LoadSceneAsync("SeatCalibrationScene");
-        // SceneLoader.Instance.AsyncLoad(2);
     }
 
     public void SeatCalibrationSuccessful()
     {
         _seatCalibrationSuccessful = true;
         SceneManager.LoadSceneAsync("MainMenu");
-        // SceneLoader.Instance.AsyncLoad(0);
     }
 
     public void StartTestDrive()
     {
         SceneManager.LoadSceneAsync("TestDrive2.0");
-        // SceneLoader.Instance.AsyncLoad(3);
     }
     
     public void TestDriveSuccessState(bool state, int trials)
@@ -121,79 +161,20 @@ public class CalibrationManager : MonoBehaviour
     {
         SceneManager.LoadSceneAsync("MainMenu");
     }
-
+    
     public void AbortExperiment()
     {
         // SceneLoader.Instance.AsyncLoad(0);
         SceneManager.LoadSceneAsync("MainMenu");
         MainMenu.Instance.ReStartMainMenu();
     }
-
-    public bool GetWasMainMenuLoaded()
-    {
-        return _wasMainMenuLoaded;
-    }
-
-    public void GenerateID()
-    { 
-        string newParticipantId = System.Guid.NewGuid().ToString();
-        StoreParticipantUuid(newParticipantId);
-        _uUIDGenerated = true;
-    }
-
-    public bool GetParticipantUUIDState()
-    {
-        return _uUIDGenerated;
-    }
     
-    
-    public bool GetEyeTrackerCalibrationState()
-    {
-        return _eyeTrackerCalibrationSuccessful;
-    }
-
-    public bool GetEyeTrackerValidationState()
-    {
-        return _eyeTrackerValidationSuccessful;
-    }
-
-    public bool GetSeatCalibrationState()
-    {
-        return _seatCalibrationSuccessful;
-    }
-
-    public bool GetTestDriveState()
-    {
-        return _testDriveSuccessful;
-    }
-
-    public Vector3 GetSeatCalibrationOffset()
-    {
-        return _calibrationData.SeatCalibrationOffset;
-    }
-
-    public Vector3 GetValidationError()
-    {
-        return _calibrationData.EyeValidationError;
-    }
-
-    private bool GetVRModeState()
-    {
-        return _calibrationData.VRmode;
-    }
-    
-    private void StoreParticipantUuid(string iD)
-    {
-        _calibrationData.ParticipantUuid = iD;
-        SaveCalibrationData();
-    }
     public void StoreSeatCalibrationData(Vector3 seatOffset)
     {
         _calibrationData.SeatCalibrationOffset = seatOffset;
         // StoreVRState(true);
         SaveCalibrationData();
     }
-    
     
     public void StoreValidationErrorData(Vector3 validationError)
     {
@@ -208,7 +189,6 @@ public class CalibrationManager : MonoBehaviour
         SaveCalibrationData();
     }
 
-
     public void SaveCalibrationData()
     {
         SaveCalibrationFile(_calibrationData);
@@ -218,51 +198,78 @@ public class CalibrationManager : MonoBehaviour
     {
         DeleteCalibrationFile(_calibrationFilePath);
     }
+    
+        #region Setters
 
-    public bool GetVRActivationState()
-    {
-        return GetVRModeState();
-    }
-    
-    private void DeleteCalibrationFile(string dataPath)
-    {
-        if(!File.Exists(dataPath))
+        public void SetCameraMode(bool vrModeState)
         {
-            Debug.Log("file not found, can not be deleted");
-        }
-        else
-        {
-            File.Delete(dataPath);
-        }
-    }
-    
-    
-    private void SaveCalibrationFile(CalibrationData calibrationData)
-    {
-        string jsonString = JsonUtility.ToJson(calibrationData);
-        File.WriteAllText(_calibrationFilePath, jsonString);
-    }
-    
-    private string GetPathForSaveFile(string saveFileName)
-    {
-        return Path.Combine(Application.persistentDataPath, saveFileName + ".txt");
-    }
-    
-    private CalibrationData LoadCalibrationFile(string dataPath)
-    {
-        string jsonString;
-        if(!File.Exists(dataPath))
-        {
-            Debug.Log("file not found");
-            return null;
+            if (vrModeState)
+            {
+                CameraManager.Instance.VRModeCamera();
+            }
+            else
+            {
+                CameraManager.Instance.NonVRModeCamera();
+            }
         }
         
-        else
+        
+
+        #endregion
+    
+        #region Getters
+    
+        public bool GetWasMainMenuLoaded()
         {
-            Debug.Log("found Calibration Data, loading...");
-            jsonString = File.ReadAllText(dataPath);
-            //Debug.Log(jsonString);
-            return JsonUtility.FromJson<CalibrationData>(jsonString);
+            return _wasMainMenuLoaded;
         }
-    }
+
+        public bool GetParticipantUUIDState()
+        {
+            return _uUIDGenerated;
+        }
+
+        public bool GetEyeTrackerCalibrationState()
+        {
+            return _eyeTrackerCalibrationSuccessful;
+        }
+
+        public bool GetEyeTrackerValidationState()
+        {
+            return _eyeTrackerValidationSuccessful;
+        }
+
+        public bool GetSeatCalibrationState()
+        {
+            return _seatCalibrationSuccessful;
+        }
+
+        public bool GetTestDriveState()
+        {
+            return _testDriveSuccessful;
+        }
+
+        public Vector3 GetSeatCalibrationOffset()
+        {
+            return _calibrationData.SeatCalibrationOffset;
+        }
+
+        public Vector3 GetValidationError()
+        {
+            return _calibrationData.EyeValidationError;
+        }
+
+        private bool GetVRModeState()
+        {
+            return _calibrationData.VRmode;
+        }
+        
+        public bool GetVRActivationState()
+        {
+            return GetVRModeState();
+        }
+    
+        #endregion
+
+    #endregion
 }
