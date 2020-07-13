@@ -15,10 +15,10 @@ public class CameraCalibration : MonoBehaviour
     private void Start()
     {
         calibrationOffset.transform.localPosition = CalibrationManager.Instance.GetSeatCalibrationOffset();
-        _camera = GetComponent<VRCam>().GetCamera();
-        
+        _camera = CameraManager.Instance.GetMainCamera().gameObject;
+
         //_camera.transform.SetParent(calibrationOffset.transform);
-        
+
     }
 
     // Update is called once per frame

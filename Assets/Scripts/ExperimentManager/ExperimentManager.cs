@@ -5,24 +5,19 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using Valve.VR;
 using UnityEngine.SceneManagement;
+using UnityStandardAssets.Utility;
 
 [DisallowMultipleComponent]
 public class ExperimentManager : MonoBehaviour
 {
+    #region Fields
+
     public static ExperimentManager Instance { get; private set; }
-    
-    private bool vRScene;
-    
+
     [Space] [Header("Necessary Elements")]
     [SerializeField] private GameObject participantsCar;
     [Tooltip("0 to 10 seconds")] [Range(0, 10)] [SerializeField] private float respawnDelay;
-    
-    [Space] [Header("Cameras and accessories")]
-    [SerializeField] private VRCam vRCamera;
-    [SerializeField] private Camera firstPersonCamera;
-    /*[Space] [Header("Temporarily-Debug")]*/
-    [SerializeField] private GameObject blackScreen;
-    
+
     private enum Scene
     {
         MainMenu,
@@ -38,8 +33,9 @@ public class ExperimentManager : MonoBehaviour
     private Scene _scene;
     private bool _activatedEvent;
 
-    
+    #endregion
 
+    #region Private Methods
     
     private void Awake()
     {
@@ -62,12 +58,9 @@ public class ExperimentManager : MonoBehaviour
             _savingManager.SetParticipantCar(participantsCar);    
         }
     }
-
-
-    void Start()
+    
+    private void Start()
     {
-        vRScene = CalibrationManager.Instance.GetVRActivationState();
-        
         if (_activationTriggers.Count == 0)
         {
             Debug.Log("<color=red>Error: </color>Please ensure that ActivationTrigger is being executed before ExperimentManager if there are triggers present in the scene.");
@@ -80,35 +73,34 @@ public class ExperimentManager : MonoBehaviour
         
         if (CalibrationManager.Instance == null)
         {
-            Debug.Log("<color=red>Please start from MainMenu! </color>");
+            Debug.Log("<color=red>Error: </color>CalibrationManager should be present in the scene.");
+        }
+        
+        if (SavingManager.Instance == null)
+        {
+            Debug.Log("<color=red>Error: </color>SavingManager should be present in the scene.");
+        }
+        
+        if (CameraManager.Instance == null)
+        {
+            Debug.Log("<color=red>Error: </color>CameraManager should be present in the scene.");
         }
         
         InformTriggers();
         RunMainMenu();
     }
     
-
     // main menu
     private void RunMainMenu()
     { 
         _scene = Scene.MainMenu;
-        
-        if (vRScene)
-        {
-            vRCamera.SetPosition(firstPersonCamera.transform.position);
-        }
-        else
-        {
-            firstPersonCamera.enabled = true;
-            blackScreen.SetActive(true);
-            vRCamera.gameObject.SetActive(false);
-        }
-        
+        CameraManager.Instance.FadeOut();
+        CameraManager.Instance.SetObjectToFollow(participantsCar);
+        CameraManager.Instance.SetSeatPosition(participantsCar.GetComponent<CarController>().GetSeatPosition());
         participantsCar.transform.parent.gameObject.SetActive(false);
     }
-
     
-    // inform all triggers to disable their gameobjects at the beginning of the experiment
+    // inform all triggers to disable their game objects at the beginning of the experiment
     private void InformTriggers()
     {
         foreach (var trigger in _activationTriggers)
@@ -116,39 +108,60 @@ public class ExperimentManager : MonoBehaviour
             trigger.DeactivateTheGameObjects();
         }
     }
-
-
-    // Reception desk for ActivationTriggers to register themselves
-    public void RegisterToExperimentManager(ActivationTrigger listener)
-    {
-        _activationTriggers.Add(listener);
-    }
-
-
+    
     // starting the experiment
     private void StartExperiment()
     {
+        Debug.Log("start exp");
         _scene = Scene.Experiment;
-        
-        if (!vRScene)
+
+
+        /*// todo remove
+        /*if (!_vRScene)
         {
-            firstPersonCamera.enabled = true;
-            blackScreen.SetActive(false);
+            //
+            /*firstPersonCamera.enabled = true;
+            blackScreen.SetActive(false);#2#
         }
         else
         {
-            Debug.Log("vr ");
-            vRCamera.Seat();
-        }
+            //
+            // vRCamera.Seat();
+        }#1#*/
         
-        if (SavingManager.Instance != null)
-        {
-            SavingManager.Instance.StartRecordingData();
-        }
-        
+        SavingManager.Instance.StartRecordingData();
+
+        CameraManager.Instance.FadeIn();
+        Debug.Log("Here too");
+
         participantsCar.transform.parent.gameObject.SetActive(true);
     }
+    
+    private IEnumerator RespawnParticipant(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        participantsCar.transform.parent.gameObject.SetActive(true);        
+        participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD();
+        
+        CameraManager.Instance.FadeIn();
+    }
+    
+    #endregion
 
+    #region Public Methods
+
+    public void ParticipantFailed()
+    {
+        _activatedEvent = false;
+
+        CameraManager.Instance.FadeOut();
+        
+        PersistentTrafficEventManager.Instance.FinalizeEvent();
+        participantsCar.transform.parent.gameObject.SetActive(false);
+        participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
+        participantsCar.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
+        StartCoroutine(RespawnParticipant(respawnDelay));
+    }
     
     // ending the experiment
     public void EndTheExperiment()
@@ -160,67 +173,58 @@ public class ExperimentManager : MonoBehaviour
             SavingManager.Instance.StopRecordingData();
             SavingManager.Instance.SaveData();
         }
-        
-        blackScreen.SetActive(true);
-        
-        if (!vRScene)
-        {
-            // firstPersonCamera.enabled = false;
-            _scene = Scene.MainMenu;
-        }
-        else
-        {
-            vRCamera.UnSeat();
-        }
-        
-        
+
+        CameraManager.Instance.FadeOut();
+        _scene = Scene.MainMenu;
+
         participantsCar.transform.parent.gameObject.SetActive(false);
         SceneManager.LoadSceneAsync("MainMenu");
-        // SceneLoader.Instance.AsyncLoad(0);
-    }
-
-    
-    public void ParticipantFailed()
-    {
-        _activatedEvent = false;
-        
-        // todo fade to black in VR
-        
-        blackScreen.SetActive(true);
-        PersistentTrafficEventManager.Instance.FinalizeEvent();
-        participantsCar.transform.parent.gameObject.SetActive(false);
-        participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
-        participantsCar.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
-        StartCoroutine(RespawnParticipant(respawnDelay));
     }
     
-    IEnumerator RespawnParticipant(float seconds)
+    // Reception desk for ActivationTriggers to register themselves
+    public void RegisterToExperimentManager(ActivationTrigger listener)
     {
-        yield return new WaitForSeconds(seconds);
-        participantsCar.transform.parent.gameObject.SetActive(true);        
-        participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD();
-        blackScreen.SetActive(false);
+        _activationTriggers.Add(listener);
     }
+    
+        #region Setters
 
-    public void SetRespawnPositionAndRotation(Vector3 position, Quaternion rotation)
-    {
-        _respawnPosition = position;
-        _respawnRotation = rotation;
-    }
+        public void SetRespawnPositionAndRotation(Vector3 position, Quaternion rotation)
+        {
+            _respawnPosition = position;
+            _respawnRotation = rotation;
+        }
 
-    public void SetEventActivationState(bool activationState)
-    {
-        
-        _activatedEvent = activationState;
-        // Debug.Log("event activation state: " + _activatedEvent) ;
-    }
+        public void SetEventActivationState(bool activationState)
+        {
+            _activatedEvent = activationState;
+        }
 
-    public bool GetEventActivationState()
-    {
-        return _activatedEvent;
-    }
+        #endregion
 
-    // user interface
+        #region Getters
+
+        public bool GetEventActivationState()
+        {
+            return _activatedEvent;
+        }
+
+        public GameObject GetSeatPosition()
+        {
+            return participantsCar.GetComponent<CarController>().GetSeatPosition();
+        }
+
+        public GameObject GetParticipantsCar()
+        {
+            return participantsCar;
+        } 
+
+        #endregion
+
+    #endregion
+    
+    #region GUI
+
     public void OnGUI()
     {
         float height = Screen.height;
@@ -274,7 +278,7 @@ public class ExperimentManager : MonoBehaviour
             if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "End"))
             {
                 // SceneLoader.Instance.AsyncLoad(4);
-                SceneManager.LoadSceneAsync("MVPTestScene");
+                SceneManager.LoadSceneAsync("safe-mountainroad01");
                 _scene = Scene.MainMenu;
             }
 
@@ -289,4 +293,6 @@ public class ExperimentManager : MonoBehaviour
             }
         }
     }
+
+    #endregion
 }

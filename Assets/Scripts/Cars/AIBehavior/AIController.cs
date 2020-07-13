@@ -199,5 +199,10 @@ public class AIController : MonoBehaviour
         return _localTarget;
     }
     
+    public void SetNewPath(PathCreator newPath)
+    {
+        path = newPath;
+    }
+    
     #endregion
 }
