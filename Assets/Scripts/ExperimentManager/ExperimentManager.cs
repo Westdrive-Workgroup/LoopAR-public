@@ -118,25 +118,9 @@ public class ExperimentManager : MonoBehaviour
         Debug.Log("start exp");
         _scene = Scene.Experiment;
 
-
-        /*// todo remove
-        /*if (!_vRScene)
-        {
-            //
-            /*firstPersonCamera.enabled = true;
-            blackScreen.SetActive(false);#2#
-        }
-        else
-        {
-            //
-            // vRCamera.Seat();
-        }#1#*/
-        
         SavingManager.Instance.StartRecordingData();
 
         CameraManager.Instance.FadeIn();
-        Debug.Log("Here too");
-
         participantsCar.transform.parent.gameObject.SetActive(true);
     }
     

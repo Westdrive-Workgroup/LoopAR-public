@@ -5,14 +5,24 @@ using UnityEngine;
 
 public class CurveDrivingBehaviour : MonoBehaviour
 {
+    #region Fields
+
     private CarController _carController;
     private AimedSpeed _aimedSpeed;
+
+    #endregion
+
+    #region PrivateMethods
 
     private void Start()
     {
         _carController = this.gameObject.GetComponent<CarController>();
         _aimedSpeed = this.gameObject.GetComponent<AimedSpeed>();
     }
+
+    #endregion
+
+    #region PublicMethods
 
     public void AdjustSpeedAtCurve(float angle)
     {
@@ -45,4 +55,6 @@ public class CurveDrivingBehaviour : MonoBehaviour
             }
         }
     }
+
+    #endregion
 }

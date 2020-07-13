@@ -5,6 +5,8 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class CriticalEventController: MonoBehaviour
 {
+    #region Fields
+
     [Space]
     [Header("Consistent Event Objects")]
     [SerializeField] private TrafficEventTrigger startTrigger;
@@ -33,6 +35,8 @@ public class CriticalEventController: MonoBehaviour
     private GameObject _targetedCar;
     private bool _activatedEvent;
     private MeshRenderer[] _meshRenderers;
+
+    #endregion
     
     #region Private methods
     private void Start()
