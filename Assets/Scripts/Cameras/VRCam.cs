@@ -6,14 +6,15 @@ using UnityEngine.SceneManagement;
 
 public class VRCam : MonoBehaviour
 {
+    #region Fields
+
     private bool _seatActivated;
     private GameObject _seatPosition;
-    
     private Vector3 _formerPosition;
 
-    // private GameObject _calibrationOffset;
-    // [SerializeField] private GameObject _camera;
-
+    #endregion
+    
+    #region PrivateMethods
 
     private void Awake()
     {
@@ -38,17 +39,28 @@ public class VRCam : MonoBehaviour
     {
         if (_seatActivated)
         {
-            _seatPosition = CameraManager.Instance.GetSeatPosition();
-            /*if (seatPosition == null)
+            try
             {
-                Debug.Log("<color=red>Error: </color>Seat position is not assigned!");
-                return;
-            }*/
+                _seatPosition = CameraManager.Instance.GetSeatPosition();
+                /*if (seatPosition == null)
+                {
+                    Debug.Log("<color=red>Error: </color>Seat position is not assigned!");
+                    return;
+                }*/
             
-            transform.SetPositionAndRotation(_seatPosition.transform.position,_seatPosition.transform.rotation);
+                transform.SetPositionAndRotation(_seatPosition.transform.position,_seatPosition.transform.rotation);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("<color=red>Error: </color>" + e);
+                throw;
+            }
         }
     }
-    
+
+    #endregion
+
+    #region PublicMethods
 
     public void Seat()
     {
@@ -67,24 +79,5 @@ public class VRCam : MonoBehaviour
         _seatActivated = false;
     }
 
-    /*public GameObject GetCamera()
-    {
-        return _camera;
-    }*/
-
-    /*public GameObject GetCameraOffset()
-    {
-        return _calibrationOffset;
-    }*/
-
-    /*public void SetSeatPosition(GameObject seat)
-    {
-        seatPosition = seat;
-    }*/
-    
-    /*public void SetOffset(Vector3 localOffset)
-    {
-        _calibrationOffset.transform.localPosition = localOffset;
-    }*/
-
+    #endregion
 }

@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 [DisallowMultipleComponent]
 public class MainMenu : MonoBehaviour
 {
+    #region Fields
+
     public static MainMenu Instance { get; private set; }
     
     private enum Section
@@ -23,7 +25,11 @@ public class MainMenu : MonoBehaviour
     }
 
     private Section _section;
-    
+
+    #endregion
+
+    #region PrivateMethods
+
     private void Awake()
     {
         if (Instance == null)
@@ -45,14 +51,24 @@ public class MainMenu : MonoBehaviour
             _section = Section.MainMenu;
         }
     }
-    
+
+    #endregion
+
+    #region PublicMethods
+
     public void ReStartMainMenu()
     {
         _section = Section.MainMenu;
     }
-    
+
+    #endregion
+
+    #region GUI
+
     public void OnGUI()
     {
+        #region LocalVariables
+
         float height = Screen.height;
         float width = Screen.width;
         
@@ -67,6 +83,8 @@ public class MainMenu : MonoBehaviour
         
         int labelFontSize = 33;
 
+        #endregion
+        
         // Quit
         GUI.backgroundColor = Color.red;
         GUI.color = Color.white;
@@ -76,7 +94,7 @@ public class MainMenu : MonoBehaviour
             Application.Quit();
         }
         
-        // Lable
+        // Label
         GUI.color = Color.white;
         GUI.skin.label.fontSize = labelFontSize;
         GUI.skin.label.fontStyle = FontStyle.Bold;
@@ -180,4 +198,6 @@ public class MainMenu : MonoBehaviour
             }
         }
     }
+
+    #endregion
 }
