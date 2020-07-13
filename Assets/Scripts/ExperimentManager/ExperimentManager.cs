@@ -32,6 +32,7 @@ public class ExperimentManager : MonoBehaviour
     private Quaternion _respawnRotation;
     private Scene _scene;
     private bool _activatedEvent;
+    private bool _vRScene;
 
     #endregion
 
@@ -61,6 +62,8 @@ public class ExperimentManager : MonoBehaviour
     
     private void Start()
     {
+        _vRScene = CalibrationManager.Instance.GetVRActivationState();
+        
         if (_activationTriggers.Count == 0)
         {
             Debug.Log("<color=red>Error: </color>Please ensure that ActivationTrigger is being executed before ExperimentManager if there are triggers present in the scene.");
