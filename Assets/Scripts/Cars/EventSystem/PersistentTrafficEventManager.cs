@@ -3,26 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// name is at the moment a bit miss leading. It is a overall manager class, which is aware of all events in that scene, the Participant and the AI Cars.
+/// It is an overall manager class, which is aware of all events in that scene, the Participant and the AI Cars.
 /// It is aware of starting events and ending events globally.
-/// It is intended to handle the reaction of AI cars in case of events of AI cars to avoid them of interfering into the event
+/// It is intended to handle the behavior of the AI cars in case of events so that they don't interfere with the event
 /// </summary>
 
 [DisallowMultipleComponent]
 public class PersistentTrafficEventManager : MonoBehaviour
 {
+    #region Fields
+
     public static PersistentTrafficEventManager Instance { get; private set; }
     
     [SerializeField] private GameObject participantsCar; //needs a functionality to find the participants Car
     [SerializeField] private float eventSpeed = 5f;
-    
-    
+
     private List<EventBehavior> _eventBehaviorListeners;
     private ControlSwitch _participantsControlSwitch;
     private List<GameObject> _eventObjects;
     private GameObject _eventObject;
 
-    
+    #endregion
+
+    #region PrivateMethods
+
     private void Awake()
     {
         _eventBehaviorListeners = new List<EventBehavior>();
@@ -44,12 +48,15 @@ public class PersistentTrafficEventManager : MonoBehaviour
         _participantsControlSwitch = participantsCar.GetComponent<ControlSwitch>();
     }
 
+    #endregion
+    
+    #region PublicMethods
+
     public void RegisterTrafficListeners(EventBehavior listener)
     {
         _eventBehaviorListeners.Add(listener);
     }
-
-
+    
     public void InitiateEvent(List<GameObject> eventObjects)
     {
         foreach (var eventListener in _eventBehaviorListeners)
@@ -63,7 +70,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
         _participantsControlSwitch.GetComponentInChildren<HUD_Advance>().ActivateHUD(_eventObjects);
         ExperimentManager.Instance.SetEventActivationState(true);
     }
-
+    
     public void FinalizeEvent()
     {
         foreach (var eventListener in _eventBehaviorListeners)
@@ -75,23 +82,33 @@ public class PersistentTrafficEventManager : MonoBehaviour
         ExperimentManager.Instance.SetEventActivationState(false);
     }
 
-    public GameObject GetParticipantsCar()
-    {
-        return participantsCar;
-    }
+        #region Setters
 
-    public float GetEventSpeed()
-    {
-        return eventSpeed;
-    }
-
-    public void SetEventObject(List<GameObject> objects)
-    {
-        _eventObjects = objects;
-    }
+        public void SetEventObject(List<GameObject> objects)
+        {
+            _eventObjects = objects;
+        }
     
-    public void SetEventObject(GameObject objects)
-    {
-        _eventObject = objects;
-    }
+        public void SetEventObject(GameObject objects)
+        {
+            _eventObject = objects;
+        }
+
+        #endregion
+        
+        #region Getters
+
+        public GameObject GetParticipantsCar()
+        {
+            return participantsCar;
+        }
+
+        public float GetEventSpeed()
+        {
+            return eventSpeed;
+        }
+
+        #endregion
+
+    #endregion
 }

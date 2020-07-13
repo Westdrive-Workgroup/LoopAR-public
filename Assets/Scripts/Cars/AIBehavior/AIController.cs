@@ -9,6 +9,8 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class AIController : MonoBehaviour
 {
+    #region Fields
+
     private CarController _carController;
     
     // curve
@@ -17,7 +19,7 @@ public class AIController : MonoBehaviour
     // Gizmos
     [Space] [Header("Debug")] public bool showLocalTargetGizmos = false;
     [Range(0f,20f)]
-    private float localTargetVisualizerRadius  = 5f;
+    private float _localTargetVisualizerRadius  = 5f;
     [SerializeField] private Color localTargetColor = Color.magenta;
     
     // Target
@@ -48,13 +50,15 @@ public class AIController : MonoBehaviour
     /*[SerializeField] */private float brakeFactor = 1f; //Strong Brakes requires potentially a less aggressive braking behavior of the AI.
     private bool _manualOverride;
 
+    #endregion
+
     #region Private methods
     private void OnDrawGizmosSelected()
     {
         if (showLocalTargetGizmos)
         {
             Gizmos.color = localTargetColor;
-            Gizmos.DrawWireSphere(_localTarget,localTargetVisualizerRadius);
+            Gizmos.DrawWireSphere(_localTarget,_localTargetVisualizerRadius);
             Gizmos.DrawSphere(_curveDetector, 1);
         }
     }
@@ -84,7 +88,7 @@ public class AIController : MonoBehaviour
             path.path.EndOfPathActionDestroy += DestroyAtEndOfPath;
         }
 
-        localTargetVisualizerRadius = trackerSensitivity;
+        _localTargetVisualizerRadius = trackerSensitivity;
     }
     
     private void Update()
@@ -143,7 +147,7 @@ public class AIController : MonoBehaviour
         
         this.gameObject.GetComponent<CurveDrivingBehaviour>().AdjustSpeedAtCurve(_angle);
         
-        localTargetVisualizerRadius = trackerSensitivity;
+        _localTargetVisualizerRadius = trackerSensitivity;
     }
 
     private void NormalPathFollowing()
