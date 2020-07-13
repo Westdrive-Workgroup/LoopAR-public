@@ -19,7 +19,6 @@ public class CameraManager : MonoBehaviour
     
     private GameObject _seatPosition;
     private VRCam _vRCamera;
-    private bool _vRState;
 
     #endregion
 
@@ -43,14 +42,10 @@ public class CameraManager : MonoBehaviour
     {
         if (CalibrationManager.Instance.GetVRActivationState())
         {
-            Debug.Log("test1");
-            _vRState = true;
             VRModeCamera();
         }
         else
         {
-            Debug.Log("test2");
-            _vRState = false;
             NonVRModeCamera();
         }
     }
@@ -102,7 +97,7 @@ public class CameraManager : MonoBehaviour
     
     public void FadeOut()
     {
-        if (_vRState)
+        if (CalibrationManager.Instance.GetVRActivationState())
         {
             //set start color
             SteamVR_Fade.Start(Color.clear, 0f);
@@ -117,7 +112,7 @@ public class CameraManager : MonoBehaviour
 
     public void FadeIn()
     {
-        if (_vRState)
+        if (CalibrationManager.Instance.GetVRActivationState())
         {
             //set start color
             SteamVR_Fade.Start(Color.black, 0f);

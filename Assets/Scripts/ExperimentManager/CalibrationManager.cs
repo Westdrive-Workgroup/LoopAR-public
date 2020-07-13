@@ -212,8 +212,6 @@ public class CalibrationManager : MonoBehaviour
                 CameraManager.Instance.NonVRModeCamera();
             }
         }
-        
-        
 
         #endregion
     
