@@ -46,7 +46,11 @@ public class MainMenu : MonoBehaviour
         }
     }
     
-
+    public void ReStartMainMenu()
+    {
+        _section = Section.MainMenu;
+    }
+    
     public void OnGUI()
     {
         float height = Screen.height;
@@ -77,7 +81,7 @@ public class MainMenu : MonoBehaviour
         GUI.skin.label.fontSize = labelFontSize;
         GUI.skin.label.fontStyle = FontStyle.Bold;
         
-        GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Menu            Westdrive LoopAR");
+        GUI.Label(new Rect(xForLable, yForLable, 1000, 100),  "Main Menu                    Westdrive LoopAR");
         
         
         // Choose mode
@@ -161,7 +165,6 @@ public class MainMenu : MonoBehaviour
                     _section = Section.MainExperiment; 
                     // TODO check with calibration manager if it is allowed to go to the experiment (not mvp)
                     SceneManager.LoadSceneAsync("safe-mountainroad01");
-                    // SceneLoader.Instance.AsyncLoad(4);
                 }
             }
         }
@@ -174,13 +177,7 @@ public class MainMenu : MonoBehaviour
             {
                 _section = Section.MainExperiment;
                 SceneManager.LoadSceneAsync("safe-mountainroad01");
-                // SceneLoader.Instance.AsyncLoad(4);
             }
         }
-    }
-
-    public void ReStartMainMenu()
-    {
-        _section = Section.MainMenu;
     }
 }

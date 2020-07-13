@@ -101,6 +101,7 @@ public class ExperimentManager : MonoBehaviour
     private void RunMainMenu()
     { 
         _scene = Scene.MainMenu;
+        // CalibrationManager.Instance.SetCameraMode(_vRScene); // todo
         CameraManager.Instance.FadeOut();
         CameraManager.Instance.SetObjectToFollow(participantsCar);
         CameraManager.Instance.SetSeatPosition(participantsCar.GetComponent<CarController>().GetSeatPosition());
