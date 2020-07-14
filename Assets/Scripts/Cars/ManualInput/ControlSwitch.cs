@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,10 +13,16 @@ public class ControlSwitch : MonoBehaviour
     [SerializeField] private bool manualDriving;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         _aiController = GetComponent<AIController>();
         _manualControl = GetComponent<ManualController>();
+    }
+
+    void Start()
+    {
+        //_aiController = GetComponent<AIController>();
+        //_manualControl = GetComponent<ManualController>();
 
         _aiController.SetManualOverride(manualDriving);
     }
