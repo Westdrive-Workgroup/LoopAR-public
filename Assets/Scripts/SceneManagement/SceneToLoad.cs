@@ -29,7 +29,7 @@ public class SceneToLoad : MonoBehaviour
             other.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
             other.GetComponent<CarController>().TurnOffEngine();
             other.GetComponent<AIController>().enabled = false;
-            SceneManager.LoadSceneAsync("Animation");
+            SceneManager.LoadSceneAsync("SceneLoader");
             StartCoroutine(LoadScenesAsync(GetTargetScene()));
         }
     }
@@ -55,7 +55,7 @@ public class SceneToLoad : MonoBehaviour
     {
         Debug.Log(sceneName);
         yield return new WaitForSeconds(5);
-        Debug.Log("Loadsing...");
+        Debug.Log("Loading...");
         SceneManager.LoadSceneAsync(sceneName);
     }
 }
