@@ -2903,6 +2903,7 @@ GameObject:
   - component: {fileID: 8525087239083567585}
   - component: {fileID: 4148598372853257531}
   - component: {fileID: 8167478022407491301}
+  - component: {fileID: 1142100831274500166}
   m_Layer: 0
   m_Name: CarBody
   m_TagString: Untagged
@@ -3066,6 +3067,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df05d0c46700f3146939a56df9bb3479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1142100831274500166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3813954087204896390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d1e95c5ca72dc84293c5eb34b257518, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  insideWindows: {fileID: 7084907921748779574}
+  material: {fileID: 8822112119101970154}
 --- !u!1 &3813963792494648790
 GameObject:
   m_ObjectHideFlags: 0
@@ -4970,6 +4985,18 @@ PrefabInstance:
 --- !u!4 &6055652577175474213 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 0ba5b044532e1d5409635c1e5ed9e700,
+    type: 3}
+  m_PrefabInstance: {fileID: 1257431329430092607}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8822112119101970154 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -1504981713932161579, guid: 0ba5b044532e1d5409635c1e5ed9e700,
+    type: 3}
+  m_PrefabInstance: {fileID: 1257431329430092607}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7084907921748779574 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 0ba5b044532e1d5409635c1e5ed9e700,
     type: 3}
   m_PrefabInstance: {fileID: 1257431329430092607}
   m_PrefabAsset: {fileID: 0}
