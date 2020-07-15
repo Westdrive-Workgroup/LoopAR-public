@@ -265,7 +265,7 @@ public class ExperimentManager : MonoBehaviour
             if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "End"))
             {
                 // SceneLoader.Instance.AsyncLoad(4);
-                SceneManager.LoadSceneAsync("safe-mountainroad01");
+                SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
                 _scene = Scene.MainMenu;
             }
 
