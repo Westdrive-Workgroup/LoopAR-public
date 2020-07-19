@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class SceneLoadingHandler : MonoBehaviour
 {
     public static SceneLoadingHandler Instance { get; private set; }
+
+    private GameObject _participantsCar;
     
     private void Awake()
     {
@@ -22,20 +24,44 @@ public class SceneLoadingHandler : MonoBehaviour
         }
     }
     
-    public void SceneChange(string targetScene, Collider participantsCar)
+    public void SceneChange(string targetScene, Collider car)
     {
-        participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
-        participantsCar.GetComponent<CarController>().TurnOffEngine();
-        participantsCar.GetComponent<AIController>().enabled = false;
+        // _participantsCar = car.gameObject;
+        car.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
+        // car.GetComponent<CarController>().TurnOffEngine();
+        car.GetComponent<Rigidbody>().useGravity = false;
+        car.GetComponent<AIController>().enabled = false;
         SceneManager.LoadSceneAsync("SceneLoader");
-        StartCoroutine(LoadScenesAsync(targetScene));
+        StartCoroutine(LoadScenesAsync(targetScene, car));
     }
 
-    IEnumerator LoadScenesAsync(string targetScene)
+    IEnumerator LoadScenesAsync(string targetScene, Collider car)
     {
         Debug.Log(targetScene);
         yield return new WaitForSeconds(2);
         Debug.Log("Loading...");
-        SceneManager.LoadSceneAsync(targetScene);
+        
+        AsyncOperation operation = SceneManager.LoadSceneAsync(targetScene);
+
+        while (!operation.isDone)
+        {
+            float progress = Mathf.Clamp01(operation.progress / .9f);
+            Debug.Log(operation.progress);
+
+            yield return null;
+        }
+        
+        car.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(0);
+        car.GetComponent<AIController>().enabled = true;
+
+
+        // SetUpsInNewScene();
+    }
+
+    private void SetUpsInNewScene()
+    {
+        _participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(0);
+        _participantsCar.GetComponent<CarController>().TurnOnEngine();
+        _participantsCar.GetComponent<AIController>().enabled = true;
     }
 }

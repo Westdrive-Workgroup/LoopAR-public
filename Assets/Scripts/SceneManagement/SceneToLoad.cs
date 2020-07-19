@@ -15,7 +15,9 @@ public class SceneToLoad : MonoBehaviour
     }
 
     private GameObject _currentTarget;
+    
     public Scenes sceneToLoad = Scenes.Westbrueck;
+    [HideInInspector] public int sceneValue = 0;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -32,15 +34,15 @@ public class SceneToLoad : MonoBehaviour
 
     private String GetTargetScene()
     {
-        switch (sceneToLoad)
+        switch ((int) sceneToLoad)
         {
-            case Scenes.Westbrueck:
+            case 0:
                 return "Westbrueck";
-            case Scenes.Countryroad:
+            case 1:
                 return "countryroad01";
-            case Scenes.Autobahn:
+            case 2:
                 return "Autobahn";
-            case Scenes.MainMenu:
+            case 3:
                 return "MainMenu";
         }
 
