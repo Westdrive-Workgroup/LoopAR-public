@@ -26,11 +26,7 @@ public class SceneToLoad : MonoBehaviour
 
         if (other.GetComponent<ManualController>() != null)
         {
-            other.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
-            other.GetComponent<CarController>().TurnOffEngine();
-            other.GetComponent<AIController>().enabled = false;
-            SceneManager.LoadSceneAsync("SceneLoader");
-            StartCoroutine(LoadScenesAsync(GetTargetScene()));
+            SceneLoadingHandler.Instance.SceneChange(GetTargetScene(), other);
         }
     }
 
@@ -49,13 +45,5 @@ public class SceneToLoad : MonoBehaviour
         }
 
         return null;
-    }
-    
-    IEnumerator LoadScenesAsync(string sceneName)
-    {
-        Debug.Log(sceneName);
-        yield return new WaitForSeconds(5);
-        Debug.Log("Loading...");
-        SceneManager.LoadSceneAsync(sceneName);
     }
 }
