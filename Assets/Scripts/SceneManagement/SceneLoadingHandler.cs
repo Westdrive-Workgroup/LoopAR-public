@@ -26,7 +26,6 @@ public class SceneLoadingHandler : MonoBehaviour
     
     public void SceneChange(string targetScene, Collider car)
     {
-        // _participantsCar = car.gameObject;
         car.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
         // car.GetComponent<CarController>().TurnOffEngine();
         car.GetComponent<Rigidbody>().useGravity = false;
@@ -51,17 +50,13 @@ public class SceneLoadingHandler : MonoBehaviour
             yield return null;
         }
         
-        car.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(0);
-        car.GetComponent<AIController>().enabled = true;
-
-
-        // SetUpsInNewScene();
+        SetUpsInNewScene(car);
     }
 
-    private void SetUpsInNewScene()
+    private void SetUpsInNewScene(Collider car)
     {
-        _participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(0);
-        _participantsCar.GetComponent<CarController>().TurnOnEngine();
-        _participantsCar.GetComponent<AIController>().enabled = true;
+        car.GetComponent<Rigidbody>().useGravity = true;
+        car.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(0);
+        car.GetComponent<AIController>().enabled = true;
     }
 }
