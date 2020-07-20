@@ -126,11 +126,14 @@ public class ExperimentManager : MonoBehaviour
     
     private IEnumerator RespawnParticipant(float seconds)
     {
+        participantsCar.GetComponent<Rigidbody>().isKinematic = false;
+        participantsCar.GetComponent<Rigidbody>().useGravity = true;
+        participantsCar.GetComponent<Rigidbody>().velocity = Vector3.zero;
         yield return new WaitForSeconds(seconds);
-        participantsCar.transform.parent.gameObject.SetActive(true);        
         participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD();
         
-        CameraManager.Instance.FadeIn();
+        CameraManager.Instance.AlphaFadeIn();
+        participantsCar.GetComponent<CarController>().TurnOnEngine();
     }
     
     #endregion
@@ -141,11 +144,12 @@ public class ExperimentManager : MonoBehaviour
     {
         _activatedEvent = false;
 
-        CameraManager.Instance.FadeOut();
-        
+        CameraManager.Instance.AlphaFadeOut();
         PersistentTrafficEventManager.Instance.FinalizeEvent();
-        participantsCar.transform.parent.gameObject.SetActive(false);
+        participantsCar.GetComponent<CarController>().TurnOffEngine();
+        participantsCar.GetComponent<Rigidbody>().isKinematic = true;
         participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
+        participantsCar.GetComponent<Rigidbody>().velocity = Vector3.zero;
         participantsCar.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
         StartCoroutine(RespawnParticipant(respawnDelay));
     }
