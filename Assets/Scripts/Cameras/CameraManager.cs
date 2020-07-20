@@ -49,6 +49,8 @@ public class CameraManager : MonoBehaviour
             NonVRModeCamera();
         }
     }
+    
+    
 
     #endregion
 
@@ -60,8 +62,8 @@ public class CameraManager : MonoBehaviour
         this.gameObject.GetComponent<ChaseCam>().enabled = false;
         _vRCamera = this.gameObject.GetComponent<VRCam>();
         mainCamera.GetComponent<Camera>().stereoTargetEye = StereoTargetEyeMask.Both;
-        
-        FadeIn();
+
+        FadeOut();
         
         if (CalibrationManager.Instance != null)
         {
@@ -123,6 +125,42 @@ public class CameraManager : MonoBehaviour
         {
             blackScreen.SetActive(false);
         }
+    }
+    
+    public void AlphaFadeIn()
+    {
+        /*// Alpha start value.
+        float alpha = 1.0f;
+ 
+        // Loop until aplha is below zero (completely invisalbe)
+        while (alpha > 0.0f)
+        {
+            // Reduce alpha by fadeSpeed amount.
+            alpha -= fadeSpeed * Time.deltaTime;
+            Debug.Log("Fade in! alpha: " + alpha);
+            
+            objectToFollow.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(alpha);
+        }*/
+        
+        objectToFollow.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(0);
+    }
+    
+    public void AlphaFadeOut()
+    {
+        /*// Alpha start value.
+        float alpha = 0.0f;
+ 
+        // Loop until aplha is below zero (completely invisalbe)
+        while (alpha < 1.0f)
+        {
+            // Reduce alpha by fadeSpeed amount.
+            alpha += fadeSpeed * Time.deltaTime;
+            Debug.Log("Fade out! alpha: " + alpha);
+            
+            objectToFollow.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(alpha);
+        }*/
+        
+        objectToFollow.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
     }
 
         #region Setters
