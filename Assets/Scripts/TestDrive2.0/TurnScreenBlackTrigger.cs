@@ -6,20 +6,10 @@ using UnityEngine;
 
 public class TurnScreenBlackTrigger : MonoBehaviour
 {
-    
-    [SerializeField] private Canvas canvas;
-    private CanvasGroup _canvasGroup;
-
     [SerializeField] private float timeToWait;
     
     [SerializeField] private FloatVariable maxTrials;
     [SerializeField] private FloatVariable trialsDone;
-
-
-    private void Awake()
-    {
-        //_canvasGroup = canvas.GetComponent<CanvasGroup>();
-    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -34,9 +24,14 @@ public class TurnScreenBlackTrigger : MonoBehaviour
         if (trialsDone.Value <= maxTrials.Value)
         {
             CameraManager.Instance.FadeOut();
-            //_canvasGroup.alpha = 1;
             yield return new WaitForSecondsRealtime(timeToWait);
-            //_canvasGroup.alpha = 0;
+            CameraManager.Instance.FadeIn();
+        }
+
+        else
+        {
+            CameraManager.Instance.FadeOut();
+            yield return new WaitForSecondsRealtime(1);
             CameraManager.Instance.FadeIn();
         }
     }

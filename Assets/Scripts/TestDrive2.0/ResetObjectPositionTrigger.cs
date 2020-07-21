@@ -28,16 +28,6 @@ public class ResetObjectPositionTrigger : MonoBehaviour
         _resetPosition = respawnPointObstacleHit.transform;
     }
 
-    private void ResetCar(GameObject objectToReset)
-    {
-        objectToReset.transform.SetPositionAndRotation(_resetPosition.position, _resetPosition.rotation);
-
-        objectToReset.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        objectToReset.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-
-        objectToReset.transform.SetPositionAndRotation(_resetPosition.position, _resetPosition.rotation);
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.GetComponent<CarController>())
@@ -52,9 +42,22 @@ public class ResetObjectPositionTrigger : MonoBehaviour
             StartCoroutine(TakeAwayControl(other));
         }
     }
+    
+    private void ResetCar(GameObject objectToReset)
+    {
+        objectToReset.transform.SetPositionAndRotation(_resetPosition.position, _resetPosition.rotation);
+
+        objectToReset.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        objectToReset.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+
+        objectToReset.transform.SetPositionAndRotation(_resetPosition.position, _resetPosition.rotation);
+    }
 
     private IEnumerator TakeAwayControl(Collider other)
     {
+        
+        yield return new WaitForEndOfFrame();
+        
         if (trialsDone.Value <= maxTrials.Value)
         {
             other.gameObject.SetActive(false);
