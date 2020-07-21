@@ -72,12 +72,12 @@ public class CriticalEventController: MonoBehaviour
     
     private IEnumerator ActivateTheEvent()
     {
-        Debug.Log("<color=blue>Starting the event process is initiated!</color>");
+        // Debug.Log("<color=blue>Starting the event process is initiated!</color>");
         float t1 = Time.time;
         _targetedCar.gameObject.GetComponentInChildren<HUD_Advance>().DriverAlert();
         yield return new WaitForSeconds(startEventDelay);
         float t2 = Time.time;
-        Debug.Log("<color=blue>Giving the control to the driver after </color>" + (t2-t1) + "<color=blue> seconds</color>");
+        // Debug.Log("<color=blue>Giving the control to the driver after </color>" + (t2-t1) + "<color=blue> seconds</color>");
         ActivateRestrictedZones();
         eventObjectParent.SetActive(true);
         PersistentTrafficEventManager.Instance.InitiateEvent(eventObjects);
@@ -86,12 +86,12 @@ public class CriticalEventController: MonoBehaviour
     
     private IEnumerator DeactivateTheEvent()
     {
-        Debug.Log("<color=red>Deactivating the event is initiated!</color>");
+        // Debug.Log("<color=red>Deactivating the event is initiated!</color>");
         float t1 = Time.time;
         PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DeactivateHUD();
         yield return new WaitForSeconds(endEventDelay);
         float t2 = Time.time;
-        Debug.Log("<color=red>Tacking back the control from the driver after </color>" + (t2-t1) + "<color=red> seconds</color>");
+        // Debug.Log("<color=red>Tacking back the control from the driver after </color>" + (t2-t1) + "<color=red> seconds</color>");
         DeactivateRestrictedZones();
         PersistentTrafficEventManager.Instance.FinalizeEvent();
         if (!eventObjectActive)
