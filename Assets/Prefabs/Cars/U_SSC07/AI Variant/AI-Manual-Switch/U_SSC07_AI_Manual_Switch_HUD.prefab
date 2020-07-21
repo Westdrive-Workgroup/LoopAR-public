@@ -7,6 +7,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2861473005738222028, guid: ebbad4260e08e664da739133865001c7,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 4.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2861473005738222028, guid: ebbad4260e08e664da739133865001c7,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2861473005738222028, guid: ebbad4260e08e664da739133865001c7,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2861473005738222028, guid: ebbad4260e08e664da739133865001c7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3229213561359126703, guid: ebbad4260e08e664da739133865001c7,
         type: 3}
       propertyPath: isParticipantsCar
@@ -87,11 +107,12 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8963728693937041839, guid: ebbad4260e08e664da739133865001c7,
+    - target: {fileID: 6552447421629750266, guid: ebbad4260e08e664da739133865001c7,
         type: 3}
-      propertyPath: insideWindows
+      propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 57779954884838921}
+      objectReference: {fileID: -1319278099071596514, guid: c62d99b419248cf44a80f6b14279cb2f,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbad4260e08e664da739133865001c7, type: 3}
 --- !u!4 &6230864581874079915 stripped
@@ -207,5 +228,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HUD_Advanced
       objectReference: {fileID: 0}
+    - target: {fileID: 7748416296554539800, guid: 025df11c42a2ad94b8ab52b56a1a48fd,
+        type: 3}
+      propertyPath: _carController
+      value: 
+      objectReference: {fileID: 1499928519561039326}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 025df11c42a2ad94b8ab52b56a1a48fd, type: 3}
