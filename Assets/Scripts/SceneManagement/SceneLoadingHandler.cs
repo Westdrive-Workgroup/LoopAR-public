@@ -31,6 +31,7 @@ public class SceneLoadingHandler : MonoBehaviour
         car.GetComponent<Rigidbody>().useGravity = false;
         car.GetComponent<AIController>().enabled = false;
         SceneManager.LoadSceneAsync("SceneLoader");
+        ExperimentManager.Instance.SetInitialSpawnPositionAndRotation(Vector3.zero, Quaternion.identity);
         StartCoroutine(LoadScenesAsync(targetScene, car));
     }
 
