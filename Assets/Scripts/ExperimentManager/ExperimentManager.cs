@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using PathCreation;
 using UnityEngine;
 using Valve.VR;
 using UnityEngine.SceneManagement;
@@ -177,40 +178,50 @@ public class ExperimentManager : MonoBehaviour
     {
         _activationTriggers.Add(listener);
     }
+
+    #endregion
     
-        #region Setters
+    #region Setters
 
-        public void SetRespawnPositionAndRotation(Vector3 position, Quaternion rotation)
-        {
-            _respawnPosition = position;
-            _respawnRotation = rotation;
-        }
+    public void SetRespawnPositionAndRotation(Vector3 position, Quaternion rotation)
+    {
+        _respawnPosition = position;
+        _respawnRotation = rotation;
+    }
+    
+    public void SetInitialSpawnPositionAndRotation(Vector3 position, Quaternion rotation)
+    {
+        participantsCar.transform.SetPositionAndRotation(position, rotation);
+    }
 
-        public void SetEventActivationState(bool activationState)
-        {
-            _activatedEvent = activationState;
-        }
+    public void SetCarPath(PathCreator newPath)
+    {
+        participantsCar.GetComponent<AIController>().SetNewPath(newPath);
+    }
 
-        #endregion
+    public void SetEventActivationState(bool activationState)
+    {
+        _activatedEvent = activationState;
+    }
 
-        #region Getters
+    #endregion
 
-        public bool GetEventActivationState()
-        {
-            return _activatedEvent;
-        }
+    #region Getters
 
-        public GameObject GetSeatPosition()
-        {
-            return participantsCar.GetComponent<CarController>().GetSeatPosition();
-        }
+    public bool GetEventActivationState()
+    {
+        return _activatedEvent;
+    }
 
-        public GameObject GetParticipantsCar()
-        {
-            return participantsCar;
-        } 
+    public GameObject GetSeatPosition()
+    {
+        return participantsCar.GetComponent<CarController>().GetSeatPosition();
+    }
 
-        #endregion
+    public GameObject GetParticipantsCar()
+    {
+        return participantsCar;
+    } 
 
     #endregion
     
