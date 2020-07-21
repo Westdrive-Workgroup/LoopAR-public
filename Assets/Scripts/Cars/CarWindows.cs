@@ -5,8 +5,6 @@ using UnityEngine;
 public class CarWindows : MonoBehaviour
 {
     public GameObject insideWindows;
-    // public Shader material;
-
     public float GetInsideWindowsAlphaChannel()
     {
         return insideWindows.GetComponent<Material>().color.a;
