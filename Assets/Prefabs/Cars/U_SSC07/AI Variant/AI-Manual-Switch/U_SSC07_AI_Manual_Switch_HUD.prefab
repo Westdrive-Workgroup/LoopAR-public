@@ -72,6 +72,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4506215098652402713, guid: ebbad4260e08e664da739133865001c7,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 4922103806014006297, guid: ebbad4260e08e664da739133865001c7,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -82,6 +87,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8963728693937041839, guid: ebbad4260e08e664da739133865001c7,
+        type: 3}
+      propertyPath: insideWindows
+      value: 
+      objectReference: {fileID: 57779954884838921}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbad4260e08e664da739133865001c7, type: 3}
 --- !u!4 &6230864581874079915 stripped
@@ -114,6 +124,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca50af3cb2b60604f8b5410ad2d11984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &57779954884838921 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1292154110894904287, guid: ebbad4260e08e664da739133865001c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1235078942965044694}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8486140335917498417
 PrefabInstance:
   m_ObjectHideFlags: 0
