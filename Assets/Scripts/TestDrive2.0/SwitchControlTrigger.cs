@@ -23,10 +23,11 @@ public class SwitchControlTrigger : MonoBehaviour
 
     private void GiveAIControl(Collider other)
     {
-        other.gameObject.GetComponent<AIController>().SetNewPath(newPath);
-        other.gameObject.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
         other.gameObject.GetComponent<AimedSpeed>().SetRuleSpeed(newSpeed/3.6f);
         other.gameObject.GetComponent<ControlSwitch>().SwitchControl(false);
+
+        other.gameObject.GetComponent<AIController>().SetNewPath(newPath);
+        other.gameObject.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
         GetComponent<BoxCollider>().enabled = false;
     }
 }

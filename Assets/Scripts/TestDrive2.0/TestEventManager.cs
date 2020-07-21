@@ -17,23 +17,24 @@ public class TestEventManager : MonoBehaviour
     private System.Collections.Generic.List<GameObject> eventObjects;
     [SerializeField] private GameObject eventObjectsParent;
 
+    [Tooltip("The objects that should be marked during the event.")]
     private System.Collections.Generic.List<GameObject> eventObjectsToMark;
     [SerializeField] private GameObject eventObjectsToMarkParent;
     
     [SerializeField] private GameObject startTrigger;
+    [SerializeField] private GameObject trialEndTrigger;
 
+
+    [Tooltip("The variables to count the trials and whether the value should be reset.")]
     [SerializeField] private bool resetValue;
     [SerializeField] private FloatVariable trialsDone;
     [SerializeField] private FloatVariable maxTrials;
-
     
-
+    [Tooltip("All needed components of the participants car.")]
     [SerializeField] private GameObject _participantCar;
     [SerializeField] private HUD_Advance advanced_HUD;
-
-    [SerializeField] private WindscreenHUD windscreenHUD;
-    [SerializeField] private HudLite_TestDrive hudLite;
-    private ManualController manualController;
+    
+    //private ManualController manualController;
     
     [SerializeField] private float timeBeforeObjectsGetMarked;
     [SerializeField] private float delayTillHudActivates;
@@ -45,7 +46,7 @@ public class TestEventManager : MonoBehaviour
     private void Awake()
     {
         advanced_HUD = advanced_HUD.GetComponent<HUD_Advance>();
-        manualController = _participantCar.GetComponent<ManualController>();
+        //manualController = _participantCar.GetComponent<ManualController>();
         eventObjects = new System.Collections.Generic.List<GameObject>();
         eventObjectsToMark = new System.Collections.Generic.List<GameObject>();
     }
@@ -54,14 +55,14 @@ public class TestEventManager : MonoBehaviour
     {
         if (resetValue)
         {
-            trialsDone.SetValue(0);
+            trialsDone.SetValue(1);
         }
         
-        manualController.enabled = false;
-        hudLite.gameObject.SetActive(false);
-        windscreenHUD.gameObject.SetActive(false);
-        
+        //manualController.enabled = false;
+
         startTrigger.SetActive(false);
+        trialEndTrigger.SetActive(false);
+
         sceneStart = true;
 
         if (eventObjectsParent != null)
@@ -86,7 +87,7 @@ public class TestEventManager : MonoBehaviour
     {
         CameraManager.Instance.FadeIn();
         advanced_HUD.ManualDrive();
-        manualController.enabled = true;
+        //manualController.enabled = true;
         startTrigger.SetActive(true);
         StartCoroutine(PassControl());
     }
@@ -110,6 +111,8 @@ public class TestEventManager : MonoBehaviour
             CalibrationManager.Instance.TestDriveSuccessState(true, (int)trialsDone.Value);
 
         }
+        
+        CalibrationManager.Instance.TestDriveEnded();
     }
     
     IEnumerator PassControl()
@@ -150,8 +153,6 @@ public class TestEventManager : MonoBehaviour
         
         //yield return new WaitForSecondsRealtime(delay);
         advanced_HUD.AIDrive();
-        //windscreenHUD.gameObject.SetActive(true);
-        //hudLite.gameObject.SetActive(true);
     }
     
     public IEnumerator DeactivateEvent(float delay)
@@ -161,6 +162,8 @@ public class TestEventManager : MonoBehaviour
         {
             activateObjects.SetActive(false);
         }
+        
+        trialEndTrigger.SetActive(true);
     }
 
     private void ResetCar(GameObject objectToReset)
@@ -177,18 +180,12 @@ public class TestEventManager : MonoBehaviour
     {
         advanced_HUD.ManualDrive();
         advanced_HUD.DriverAlert();
-       //windscreenHUD.DriverAlert();
-       //hudLite.DriverAlert();
-       yield return new WaitForSecondsRealtime(timeBeforeObjectsGetMarked);
+        yield return new WaitForSecondsRealtime(timeBeforeObjectsGetMarked);
        advanced_HUD.ActivateHUD(eventObjectsToMark);
-       //hudLite.ActivateHUD(eventObjectsToMark);
     }
 
     public void DeactivateHUD()
     {
-        advanced_HUD.AIDrive();
-        advanced_HUD.DeactivateHUD();
-        //windscreenHUD.DeactivateHUD();
-        //hudLite.DeactivateHUD();
+        advanced_HUD.DeactivateHUD(false);
     }
 }
