@@ -189,9 +189,14 @@ public class ExperimentManager : MonoBehaviour
         _respawnRotation = rotation;
     }
     
-    public void SetInitialSpawnPositionAndRotation(Vector3 position, Quaternion rotation)
+    public void SetInitialTransform(Vector3 position, Quaternion rotation)
     {
         participantsCar.transform.SetPositionAndRotation(position, rotation);
+    }
+    
+    public void SetInitialTransform(Vector3 position)
+    {
+        participantsCar.transform.SetPositionAndRotation(position, participantsCar.transform.rotation);
     }
 
     public void SetCarPath(PathCreator newPath)
