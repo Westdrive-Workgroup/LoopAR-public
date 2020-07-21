@@ -16,7 +16,7 @@ public class AutobahnManager : MonoBehaviour
     
     private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        ExperimentManager.Instance.SetInitialSpawnPositionAndRotation(initialSpawnPoint.transform.position, initialSpawnPoint.transform.rotation);
+        ExperimentManager.Instance.SetInitialTransform(initialSpawnPoint.transform.position, initialSpawnPoint.transform.rotation);
         ExperimentManager.Instance.SetCarPath(mainCarPath);
     }
 }
