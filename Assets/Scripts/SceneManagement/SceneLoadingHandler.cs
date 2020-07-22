@@ -22,17 +22,48 @@ public class SceneLoadingHandler : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        AssignParticipantsCar();
+        CameraManager.Instance.SetObjectToFollow(_participantsCar);
     }
     
     public void SceneChange(string targetScene, Collider car)
     {
         car.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
         // car.GetComponent<CarController>().TurnOffEngine();
-        car.GetComponent<Rigidbody>().useGravity = false;
-        car.GetComponent<AIController>().enabled = false;
+        // car.GetComponent<Rigidbody>().useGravity = false;
+        // car.GetComponent<AIController>().enabled = false;
         SceneManager.LoadSceneAsync("SceneLoader");
-        ExperimentManager.Instance.SetInitialTransform(Vector3.zero);
+        // ExperimentManager.Instance.SetInitialTransform(Vector3.zero);
         StartCoroutine(LoadScenesAsync(targetScene, car));
+    }
+    
+    private void AssignParticipantsCar()
+    {
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "SceneLoader":
+                _participantsCar = SceneLoadingSceneManager.Instance.GetParticipantsCar();
+                break;
+            case "safe-mountainroad01":
+                _participantsCar = MountainRoadManager.Instance.GetParticipantsCar();
+                break;
+            case "Westbrueck":
+                _participantsCar = WestbrueckManager.Instance.GetParticipantsCar();
+                break;
+            case "countryroad01":
+                _participantsCar = CountryRoadManager.Instance.GetParticipantsCar();
+                break;
+            case "Autobahn":
+                _participantsCar = AutobahnManager.Instance.GetParticipantsCar();
+                break;
+        }
+        _participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
     }
 
     IEnumerator LoadScenesAsync(string targetScene, Collider car)
@@ -51,13 +82,13 @@ public class SceneLoadingHandler : MonoBehaviour
             yield return null;
         }
         
-        SetUpsInNewScene(car);
+        // SetUpsInNewScene();
     }
 
-    private void SetUpsInNewScene(Collider car)
+    private void SetUpsInNewScene()
     {
-        car.GetComponent<Rigidbody>().useGravity = true;
-        car.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(0);
-        car.GetComponent<AIController>().enabled = true;
+        // _participantsCar.GetComponent<Rigidbody>().useGravity = true;
+        // _participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(0);
+        // _participantsCar.GetComponent<AIController>().enabled = true;
     }
 }
