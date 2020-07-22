@@ -56,12 +56,12 @@ public class ApplicationManager : MonoBehaviour
         {
             case "MainMenu":
             case "EyetrackingValidation":
-                TurnOffSpecificExperimentComponents(false);
+                TurnOffSpecificExperimentComponents(/*false*/);
                 break;
             case "SceneLoader":
             case "SeatCalibrationScene":
             case "TestDrive2.0":
-                TurnOffSpecificExperimentComponents(true);
+                TurnOffSpecificExperimentComponents(/*true*/);
                 break;
             case "safe-mountainroad01":
             case "Westbrueck":
@@ -72,16 +72,16 @@ public class ApplicationManager : MonoBehaviour
         }
     }
 
-    private void TurnOffSpecificExperimentComponents(bool carState)
+    private void TurnOffSpecificExperimentComponents(/*bool carState*/)
     {
         if (_componentsOff) return;
         
         foreach (var item in _children)
         {
-            if (item.GetComponent<ParticipantsCar>())
+            /*if (item.GetComponent<ParticipantsCar>())
             {
                 item.gameObject.SetActive(carState);
-            }
+            }*/
                 
             item.gameObject.SetActive(false);
         }
