@@ -16,7 +16,7 @@ public class ExperimentManager : MonoBehaviour
     public static ExperimentManager Instance { get; private set; }
 
     [Space] [Header("Necessary Elements")]
-    [SerializeField] private GameObject participantsCar;
+    private GameObject _participantsCar;
     [Tooltip("0 to 10 seconds")] [Range(0, 10)] [SerializeField] private float respawnDelay;
 
     private enum Scene
@@ -57,10 +57,20 @@ public class ExperimentManager : MonoBehaviour
         if (SavingManager.Instance != null)
         {
             _savingManager = SavingManager.Instance;
-            _savingManager.SetParticipantCar(participantsCar);    
+            _savingManager.SetParticipantCar(_participantsCar);    
         }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
-    
+
+    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
+    {
+        AssignParticipantsCar();
+        // CameraManager.Instance.AlphaFadeOut();
+        RunMainMenu();
+    }
+
+
     private void Start()
     {
         _vRScene = CalibrationManager.Instance.GetVRActivationState();
@@ -91,18 +101,20 @@ public class ExperimentManager : MonoBehaviour
         }
         
         InformTriggers();
+        AssignParticipantsCar();
         RunMainMenu();
     }
-    
+
     // main menu
     private void RunMainMenu()
     { 
         _scene = Scene.MainMenu;
-        CameraManager.Instance.FadeOut();
-        CameraManager.Instance.SetObjectToFollow(participantsCar);
-        CameraManager.Instance.SetSeatPosition(participantsCar.GetComponent<CarController>().GetSeatPosition());
+        // CameraManager.Instance.FadeOut();
+        CameraManager.Instance.SetObjectToFollow(_participantsCar);
+        CameraManager.Instance.SetSeatPosition(_participantsCar.GetComponent<CarController>().GetSeatPosition());
         // participantsCar.transform.parent.gameObject.SetActive(false);
-        participantsCar.GetComponent<CarController>().TurnOffEngine();
+        _participantsCar.GetComponent<CarController>().TurnOffEngine();
+        StartExperiment();
     }
     
     // inform all triggers to disable their game objects at the beginning of the experiment
@@ -117,25 +129,49 @@ public class ExperimentManager : MonoBehaviour
     // starting the experiment
     private void StartExperiment()
     {
-        Debug.Log("start exp");
         _scene = Scene.Experiment;
 
         SavingManager.Instance.StartRecordingData();
 
         CameraManager.Instance.FadeIn();
+        CameraManager.Instance.AlphaFadeIn();
         // participantsCar.transform.parent.gameObject.SetActive(true);
-        participantsCar.GetComponent<CarController>().TurnOnEngine();
+        _participantsCar.GetComponent<CarController>().TurnOnEngine();
     }
     
     private IEnumerator ReSpawnParticipant(float seconds)
     {
-        participantsCar.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        participantsCar.GetComponent<Rigidbody>().isKinematic = true;
+        _participantsCar.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _participantsCar.GetComponent<Rigidbody>().isKinematic = true;
         yield return new WaitForSeconds(seconds);
-        participantsCar.GetComponent<Rigidbody>().isKinematic = false;
-        participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD();
+        _participantsCar.GetComponent<Rigidbody>().isKinematic = false;
+        _participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD();
         CameraManager.Instance.AlphaFadeIn();
-        participantsCar.GetComponent<CarController>().TurnOnEngine();
+        _participantsCar.GetComponent<CarController>().TurnOnEngine();
+    }
+    
+    private void AssignParticipantsCar()
+    {
+        switch (SceneManager.GetActiveScene().name)
+        {
+            case "SceneLoader":
+                _participantsCar = SceneLoadingSceneManager.Instance.GetParticipantsCar();
+                break;
+            case "safe-mountainroad01":
+                _participantsCar = MountainRoadManager.Instance.GetParticipantsCar();
+                break;
+            case "Westbrueck":
+                _participantsCar = WestbrueckManager.Instance.GetParticipantsCar();
+                break;
+            case "countryroad01":
+                _participantsCar = CountryRoadManager.Instance.GetParticipantsCar();
+                break;
+            case "Autobahn":
+                _participantsCar = AutobahnManager.Instance.GetParticipantsCar();
+                break;
+        }
+        
+        PersistentTrafficEventManager.Instance.SetParticipantsCar(_participantsCar);
     }
     
     #endregion
@@ -148,13 +184,13 @@ public class ExperimentManager : MonoBehaviour
 
         CameraManager.Instance.AlphaFadeOut();
         PersistentTrafficEventManager.Instance.FinalizeEvent();
-        participantsCar.GetComponent<CarController>().TurnOffEngine();
-        participantsCar.GetComponent<Rigidbody>().isKinematic = true;
-        participantsCar.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
+        _participantsCar.GetComponent<CarController>().TurnOffEngine();
+        _participantsCar.GetComponent<Rigidbody>().isKinematic = true;
+        _participantsCar.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        _participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
         CameraManager.Instance.ReSpawnBehavior();
-        participantsCar.GetComponent<Rigidbody>().isKinematic = false;
-        participantsCar.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
+        _participantsCar.GetComponent<Rigidbody>().isKinematic = false;
+        _participantsCar.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
         StartCoroutine(ReSpawnParticipant(respawnDelay));
     }
     
@@ -172,7 +208,7 @@ public class ExperimentManager : MonoBehaviour
         CameraManager.Instance.FadeOut();
         _scene = Scene.MainMenu;
 
-        participantsCar.transform.parent.gameObject.SetActive(false);
+        _participantsCar.transform.parent.gameObject.SetActive(false);
         SceneManager.LoadSceneAsync("MainMenu");
     }
     
@@ -194,17 +230,17 @@ public class ExperimentManager : MonoBehaviour
     
     public void SetInitialTransform(Vector3 position, Quaternion rotation)
     {
-        participantsCar.transform.SetPositionAndRotation(position, rotation);
+        _participantsCar.transform.SetPositionAndRotation(position, rotation);
     }
     
     public void SetInitialTransform(Vector3 position)
     {
-        participantsCar.transform.SetPositionAndRotation(position, participantsCar.transform.rotation);
+        _participantsCar.transform.SetPositionAndRotation(position, _participantsCar.transform.rotation);
     }
 
     public void SetCarPath(PathCreator newPath)
     {
-        participantsCar.GetComponent<AIController>().SetNewPath(newPath);
+        _participantsCar.GetComponent<AIController>().SetNewPath(newPath);
     }
 
     public void SetEventActivationState(bool activationState)
@@ -214,7 +250,7 @@ public class ExperimentManager : MonoBehaviour
     
     public void SetParticipantsCar(GameObject car)
     {
-        participantsCar = car;
+        _participantsCar = car;
     }
 
     #endregion
@@ -228,13 +264,13 @@ public class ExperimentManager : MonoBehaviour
 
     public GameObject GetSeatPosition()
     {
-        return participantsCar.GetComponent<CarController>().GetSeatPosition();
+        return _participantsCar.GetComponent<CarController>().GetSeatPosition();
     }
 
     public GameObject GetParticipantsCar()
     {
-        return participantsCar;
-    } 
+        return _participantsCar;
+    }
 
     #endregion
     
@@ -267,7 +303,7 @@ public class ExperimentManager : MonoBehaviour
         GUI.backgroundColor = Color.cyan;
         GUI.color = Color.white;
         
-        if (_scene == Scene.MainMenu)
+        /*if (_scene == Scene.MainMenu)
         {
             GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Experiment");
 
@@ -284,8 +320,8 @@ public class ExperimentManager : MonoBehaviour
             {
                 CalibrationManager.Instance.AbortExperiment();
             }
-        } 
-        else if (_scene == Scene.Experiment)
+        } */
+        /*else*/ if (_scene == Scene.Experiment)
         {
             GUI.backgroundColor = Color.red;
             GUI.color = Color.white;
