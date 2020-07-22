@@ -1,13 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PathCreation;
 using UnityEngine.SceneManagement;
 
 public class MountainRoadManager : MonoBehaviour
 {
-    [SerializeField] private GameObject initialSpawnPoint;
-    [SerializeField] private PathCreator mainCarPath;
+    [SerializeField] private GameObject participantsCar;
 
     private void Awake()
     {
@@ -16,7 +14,6 @@ public class MountainRoadManager : MonoBehaviour
     
     private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        ExperimentManager.Instance.SetInitialTransform(initialSpawnPoint.transform.position, initialSpawnPoint.transform.rotation);
-        ExperimentManager.Instance.SetCarPath(mainCarPath);
+        ExperimentManager.Instance.SetParticipantsCar(participantsCar);
     }
 }
