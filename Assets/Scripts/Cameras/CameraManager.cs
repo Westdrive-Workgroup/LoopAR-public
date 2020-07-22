@@ -180,6 +180,18 @@ public class CameraManager : MonoBehaviour
             calibrationOffset.transform.localPosition = localOffset;
         }
 
+        public void ReSpawnBehavior()
+        {
+            if (CalibrationManager.Instance.GetVRActivationState())
+            {
+                // todo
+            }
+            else
+            {
+                this.gameObject.GetComponent<ChaseCam>().ForceChaseCamRotation();
+            }
+        }
+
         #endregion
     
 
