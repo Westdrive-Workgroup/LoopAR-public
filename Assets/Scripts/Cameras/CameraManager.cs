@@ -15,7 +15,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     [SerializeField] private GameObject blackScreen;
     [SerializeField] private GameObject calibrationOffset;
-    [SerializeField] private GameObject objectToFollow;
+    private GameObject _objectToFollow;
     
     private GameObject _seatPosition;
     private VRCam _vRCamera;
@@ -36,8 +36,14 @@ public class CameraManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
     
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // ReSpawnBehavior();
+    }
+
     private void Start()
     {
         if (CalibrationManager.Instance.GetVRActivationState())
@@ -49,8 +55,6 @@ public class CameraManager : MonoBehaviour
             NonVRModeCamera();
         }
     }
-    
-    
 
     #endregion
 
@@ -63,7 +67,7 @@ public class CameraManager : MonoBehaviour
         _vRCamera = this.gameObject.GetComponent<VRCam>();
         mainCamera.GetComponent<Camera>().stereoTargetEye = StereoTargetEyeMask.Both;
 
-        FadeOut();
+        // FadeOut();
         
         if (CalibrationManager.Instance != null)
         {
@@ -75,7 +79,7 @@ public class CameraManager : MonoBehaviour
             Debug.Log("<color=red>Error: </color>No Calibration Manager found, please add to the scene.");
         }
         
-        if (objectToFollow != null)
+        if (_objectToFollow != null)
         {
             this.gameObject.transform.position = GetSeatPositionVector3();
             _vRCamera.SetPosition(GetSeatPositionVector3()); ///////????? todo
@@ -89,8 +93,8 @@ public class CameraManager : MonoBehaviour
         mainCamera.GetComponent<Camera>().stereoTargetEye = StereoTargetEyeMask.None;
         mainCamera.GetComponent<Camera>().fieldOfView = 60f;
         
-        blackScreen.SetActive(true);
-        if (objectToFollow != null)
+        // blackScreen.SetActive(true);
+        if (_objectToFollow != null)
         {
             SetOffset(Vector3.zero);
             this.transform.position = GetSeatPositionVector3();
@@ -129,45 +133,19 @@ public class CameraManager : MonoBehaviour
     
     public void AlphaFadeIn()
     {
-        /*// Alpha start value.
-        float alpha = 1.0f;
- 
-        // Loop until aplha is below zero (completely invisalbe)
-        while (alpha > 0.0f)
-        {
-            // Reduce alpha by fadeSpeed amount.
-            alpha -= fadeSpeed * Time.deltaTime;
-            Debug.Log("Fade in! alpha: " + alpha);
-            
-            objectToFollow.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(alpha);
-        }*/
-        
-        objectToFollow.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(0);
+        _objectToFollow.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(0);
     }
     
     public void AlphaFadeOut()
     {
-        /*// Alpha start value.
-        float alpha = 0.0f;
- 
-        // Loop until aplha is below zero (completely invisalbe)
-        while (alpha < 1.0f)
-        {
-            // Reduce alpha by fadeSpeed amount.
-            alpha += fadeSpeed * Time.deltaTime;
-            Debug.Log("Fade out! alpha: " + alpha);
-            
-            objectToFollow.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(alpha);
-        }*/
-        
-        objectToFollow.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
+        _objectToFollow.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
     }
 
         #region Setters
 
         public void SetObjectToFollow(GameObject theObject)
         {
-            objectToFollow = theObject;
+            _objectToFollow = theObject;
         }
 
         public void SetSeatPosition(GameObject seat)
@@ -199,12 +177,12 @@ public class CameraManager : MonoBehaviour
         
         private Vector3 GetSeatPositionVector3()
         {
-            return objectToFollow.GetComponent<CarController>().GetSeatPosition().transform.position;
+            return _objectToFollow.GetComponent<CarController>().GetSeatPosition().transform.position;
         }
 
         public GameObject GetObjectToFollow()
         {
-            return objectToFollow;
+            return _objectToFollow;
         }
 
         public VRCam GetVRCamera()
