@@ -176,15 +176,15 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.SeatCalibration();
                 }
             } 
-            else if (CalibrationManager.Instance.GetSeatCalibrationState() && !CalibrationManager.Instance.GetTestDriveState())
+            /*else if (CalibrationManager.Instance.GetSeatCalibrationState() && !CalibrationManager.Instance.GetTestDriveState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Training Block"))
                 {
                     _section = Section.TrainingBlock; 
                     SceneManager.LoadSceneAsync("TestDrive2.0");
                 }
-            }
-            else if (CalibrationManager.Instance.GetTestDriveState())
+            }*/
+            else if (CalibrationManager.Instance.GetSeatCalibrationState() /*CalibrationManager.Instance.GetTestDriveState()*/)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start Experiment"))
                 {
@@ -199,7 +199,13 @@ public class MainMenu : MonoBehaviour
             GUI.backgroundColor = Color.cyan;
             GUI.color = Color.white;
             
-            if (!CalibrationManager.Instance.GetTestDriveState())
+            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start Experiment"))
+            {
+                _section = Section.MainExperiment;
+                SceneManager.LoadSceneAsync("safe-mountainroad01");
+            }
+            
+            /*if (!CalibrationManager.Instance.GetTestDriveState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Training Block"))
                 {
@@ -214,7 +220,7 @@ public class MainMenu : MonoBehaviour
                     _section = Section.MainExperiment;
                     SceneManager.LoadSceneAsync("safe-mountainroad01");
                 }
-            }
+            }*/
         }
     }
 
