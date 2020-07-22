@@ -211,6 +211,11 @@ public class ExperimentManager : MonoBehaviour
     {
         _activatedEvent = activationState;
     }
+    
+    public void SetParticipantsCar(GameObject car)
+    {
+        participantsCar = car;
+    }
 
     #endregion
 
