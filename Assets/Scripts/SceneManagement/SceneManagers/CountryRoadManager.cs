@@ -5,15 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class CountryRoadManager : MonoBehaviour
 {
+    public static CountryRoadManager Instance { get; private set; }
+
     [SerializeField] private GameObject participantsCar;
 
     private void Awake()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
-    
-    private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
+
+    public GameObject GetParticipantsCar()
     {
-        ExperimentManager.Instance.SetParticipantsCar(participantsCar);
+        return participantsCar;
     }
 }
