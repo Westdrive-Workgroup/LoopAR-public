@@ -101,7 +101,8 @@ public class ExperimentManager : MonoBehaviour
         CameraManager.Instance.FadeOut();
         CameraManager.Instance.SetObjectToFollow(participantsCar);
         CameraManager.Instance.SetSeatPosition(participantsCar.GetComponent<CarController>().GetSeatPosition());
-        participantsCar.transform.parent.gameObject.SetActive(false);
+        // participantsCar.transform.parent.gameObject.SetActive(false);
+        participantsCar.GetComponent<CarController>().TurnOffEngine();
     }
     
     // inform all triggers to disable their game objects at the beginning of the experiment
@@ -122,17 +123,17 @@ public class ExperimentManager : MonoBehaviour
         SavingManager.Instance.StartRecordingData();
 
         CameraManager.Instance.FadeIn();
-        participantsCar.transform.parent.gameObject.SetActive(true);
+        // participantsCar.transform.parent.gameObject.SetActive(true);
+        participantsCar.GetComponent<CarController>().TurnOnEngine();
     }
     
-    private IEnumerator RespawnParticipant(float seconds)
+    private IEnumerator ReSpawnParticipant(float seconds)
     {
-        participantsCar.GetComponent<Rigidbody>().isKinematic = false;
-        participantsCar.GetComponent<Rigidbody>().useGravity = true;
         participantsCar.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        participantsCar.GetComponent<Rigidbody>().isKinematic = true;
         yield return new WaitForSeconds(seconds);
+        participantsCar.GetComponent<Rigidbody>().isKinematic = false;
         participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD();
-        
         CameraManager.Instance.AlphaFadeIn();
         participantsCar.GetComponent<CarController>().TurnOnEngine();
     }
@@ -151,8 +152,10 @@ public class ExperimentManager : MonoBehaviour
         participantsCar.GetComponent<Rigidbody>().isKinematic = true;
         participantsCar.GetComponent<Rigidbody>().velocity = Vector3.zero;
         participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
+        CameraManager.Instance.ReSpawnBehavior();
+        participantsCar.GetComponent<Rigidbody>().isKinematic = false;
         participantsCar.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
-        StartCoroutine(RespawnParticipant(respawnDelay));
+        StartCoroutine(ReSpawnParticipant(respawnDelay));
     }
     
     // ending the experiment
