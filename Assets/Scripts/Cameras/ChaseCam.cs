@@ -25,4 +25,9 @@ public class ChaseCam : MonoBehaviour
         this.transform.rotation = Quaternion.Lerp(this.transform.rotation, _objectToFollow.transform.rotation,
             Time.deltaTime * damping);
     }
+
+    public void ForceChaseCamRotation()
+    {
+        this.transform.rotation = _objectToFollow.transform.rotation;
+    }
 }
