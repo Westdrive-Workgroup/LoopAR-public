@@ -10,6 +10,10 @@ public class SceneLoadingHandler : MonoBehaviour
 
     private GameObject _participantsCar;
     
+    public delegate void OnInitiateLoadingScene();
+    public event OnInitiateLoadingScene NotifySceneLoadingStartObservers;
+
+    
     private void Awake()
     {
         //singleton pattern a la Unity
@@ -29,19 +33,75 @@ public class SceneLoadingHandler : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         AssignParticipantsCar();
-        CameraManager.Instance.SetObjectToFollow(_participantsCar);
+
+        if (_participantsCar !=null)
+        {
+            if (SceneManager.GetActiveScene().name != "SceneLoader")
+                _participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(0);
+            else
+                _participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
+        }
     }
     
     public void SceneChange(string targetScene, Collider car)
     {
         car.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
-        // car.GetComponent<CarController>().TurnOffEngine();
-        // car.GetComponent<Rigidbody>().useGravity = false;
-        // car.GetComponent<AIController>().enabled = false;
-        SceneManager.LoadSceneAsync("SceneLoader");
-        // ExperimentManager.Instance.SetInitialTransform(Vector3.zero);
-        StartCoroutine(LoadScenesAsync(targetScene, car));
+        CameraManager.Instance.FadeOut();
+        StartCoroutine(LoadSceneLoaderScenesAsync(targetScene));
     }
+    public void SceneChange(string targetScene)
+    {
+        CameraManager.Instance.FadeOut();
+        StartCoroutine(LoadScenesAsync(targetScene));
+    }
+    
+    IEnumerator LoadSceneLoaderScenesAsync(string targetScene)
+    {
+        Debug.Log("SceneLoader");
+        // CameraManager.Instance.FadeIn();
+        yield return new WaitForSeconds(1);
+        Debug.Log("Loading...");
+        
+        AsyncOperation operation = SceneManager.LoadSceneAsync("SceneLoader");
+
+        // NotifySceneLoadingStartObservers?.Invoke();
+        // CameraManager.Instance.OnSceneLoadingInitiated();
+        while (!operation.isDone)
+        {
+            float progress = Mathf.Clamp01(operation.progress / .9f);
+            Debug.Log(operation.progress);
+
+            yield return null;
+        }
+
+        CameraManager.Instance.OnSceneLoaded();
+        StartCoroutine(LoadScenesAsync(targetScene));
+    }
+    
+    IEnumerator LoadScenesAsync(string targetScene)
+    {
+        Debug.Log(targetScene);
+        yield return new WaitForSeconds(2);
+        Debug.Log("Loading...");
+        
+        AsyncOperation operation = SceneManager.LoadSceneAsync(targetScene);
+
+        while (!operation.isDone)
+        {
+            float progress = Mathf.Clamp01(operation.progress / .9f);
+            Debug.Log(operation.progress);
+
+            if (progress >= .9f)
+            {
+                CameraManager.Instance.FadeOut();
+            }
+            
+            yield return null;
+        }
+        
+        CameraManager.Instance.OnSceneLoaded();
+    }
+    
     
     private void AssignParticipantsCar()
     {
@@ -49,6 +109,9 @@ public class SceneLoadingHandler : MonoBehaviour
         {
             case "SceneLoader":
                 _participantsCar = SceneLoadingSceneManager.Instance.GetParticipantsCar();
+                break;
+            case "SeatCalibrationScene":
+                _participantsCar = SeatCalibrationManager.Instance.GetParticipantsCar();
                 break;
             case "safe-mountainroad01":
                 _participantsCar = MountainRoadManager.Instance.GetParticipantsCar();
@@ -63,32 +126,13 @@ public class SceneLoadingHandler : MonoBehaviour
                 _participantsCar = AutobahnManager.Instance.GetParticipantsCar();
                 break;
         }
-        _participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
     }
 
-    IEnumerator LoadScenesAsync(string targetScene, Collider car)
+    public GameObject GetParticipantsCar()
     {
-        Debug.Log(targetScene);
-        yield return new WaitForSeconds(2);
-        Debug.Log("Loading...");
-        
-        AsyncOperation operation = SceneManager.LoadSceneAsync(targetScene);
-
-        while (!operation.isDone)
-        {
-            float progress = Mathf.Clamp01(operation.progress / .9f);
-            Debug.Log(operation.progress);
-
-            yield return null;
-        }
-        
-        // SetUpsInNewScene();
-    }
-
-    private void SetUpsInNewScene()
-    {
-        // _participantsCar.GetComponent<Rigidbody>().useGravity = true;
-        // _participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(0);
-        // _participantsCar.GetComponent<AIController>().enabled = true;
+        AssignParticipantsCar();
+        return _participantsCar;
     }
 }
+
+
