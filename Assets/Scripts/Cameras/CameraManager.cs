@@ -19,6 +19,7 @@ public class CameraManager : MonoBehaviour
     
     private GameObject _seatPosition;
     private VRCam _vRCamera;
+    private SceneLoadingHandler _sceneLoadingHandler;
 
     #endregion
 
@@ -26,6 +27,8 @@ public class CameraManager : MonoBehaviour
 
     private void Awake()
     {
+        _sceneLoadingHandler = SceneLoadingHandler.Instance;
+        
         //singleton pattern a la Unity
         if (Instance == null)
         {
@@ -36,31 +39,43 @@ public class CameraManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        // SceneManager.sceneLoaded += OnSceneLoaded;
+        // _sceneLoadingHandler.OnInitiateLoadingScene += OnSceneLoadingInitiated;
     }
     
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    public void OnSceneLoaded(/*Scene scene, LoadSceneMode mode*/)
     {
-        // ReSpawnBehavior();
+        _objectToFollow = SceneLoadingHandler.Instance.GetParticipantsCar();
+        if (_objectToFollow != null)
+        {
+            SetSeatPosition(_objectToFollow);
+        }
+        StartCoroutine(FadeIntoTheScene());
     }
 
     private void Start()
     {
         if (CalibrationManager.Instance.GetVRActivationState())
         {
-            VRModeCamera();
+            VRModeCameraSetUp();
         }
         else
         {
-            NonVRModeCamera();
+            NonVRModeCameraSetUp();
         }
+    }
+
+    IEnumerator FadeIntoTheScene()
+    {
+        yield return new WaitForSeconds(1);
+        FadeIn();
     }
 
     #endregion
 
     #region PublicMethods
 
-    public void VRModeCamera()
+    public void VRModeCameraSetUp()
     {
         this.gameObject.GetComponent<VRCam>().enabled = true;
         this.gameObject.GetComponent<ChaseCam>().enabled = false;
@@ -86,7 +101,7 @@ public class CameraManager : MonoBehaviour
         }
     }
 
-    public void NonVRModeCamera()
+    public void NonVRModeCameraSetUp()
     {
         this.gameObject.GetComponent<ChaseCam>().enabled = true;
         this.gameObject.GetComponent<VRCam>().enabled = false;
@@ -141,72 +156,72 @@ public class CameraManager : MonoBehaviour
         _objectToFollow.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
     }
 
-        #region Setters
+    #region Setters
 
-        public void SetObjectToFollow(GameObject theObject)
-        {
-            _objectToFollow = theObject;
-        }
+    public void SetObjectToFollow(GameObject theObject)
+    {
+        _objectToFollow = theObject;
+    }
 
-        public void SetSeatPosition(GameObject seat)
-        {
-            _seatPosition = seat;
-        }
+    public void SetSeatPosition(GameObject seat)
+    {
+        _seatPosition = seat;
+    }
         
-        public void SetOffset(Vector3 localOffset)
-        {
-            calibrationOffset.transform.localPosition = localOffset;
-        }
+    public void SetOffset(Vector3 localOffset)
+    {
+        calibrationOffset.transform.localPosition = localOffset;
+    }
 
-        public void ReSpawnBehavior()
+    public void RespawnBehavior()
+    {
+        if (CalibrationManager.Instance.GetVRActivationState())
         {
-            if (CalibrationManager.Instance.GetVRActivationState())
-            {
-                // todo
-            }
-            else
-            {
-                this.gameObject.GetComponent<ChaseCam>().ForceChaseCamRotation();
-            }
+            // todo
         }
+        else
+        {
+            this.gameObject.GetComponent<ChaseCam>().ForceChaseCamRotation();
+        }
+    }
 
-        #endregion
+    #endregion
     
 
-        #region Getters
+    #region Getters
         
-        private Vector3 GetSeatPositionVector3()
-        {
-            return _objectToFollow.GetComponent<CarController>().GetSeatPosition().transform.position;
-        }
+    private Vector3 GetSeatPositionVector3()
+    {
+        return _objectToFollow.GetComponent<CarController>().GetSeatPosition().transform.position;
+    }
 
-        public GameObject GetObjectToFollow()
-        {
-            return _objectToFollow;
-        }
+    public GameObject GetObjectToFollow()
+    {
+        return _objectToFollow;
+    }
 
-        public VRCam GetVRCamera()
-        {
-            return _vRCamera;
-        }
+    public VRCam GetVRCamera()
+    {
+        return _vRCamera;
+    }
 
-        public GameObject GetSeatPosition()
-        {
-            return _seatPosition;
-        }
+    public GameObject GetSeatPosition()
+    {
+        return _seatPosition;
+    }
         
 
-        public GameObject GetCalibrationOffset()
-        {
-            return calibrationOffset;
-        }
+    public GameObject GetCalibrationOffset()
+    {
+        return calibrationOffset;
+    }
 
-        public Camera GetMainCamera()
-        {
-            return mainCamera;
-        }
+    public Camera GetMainCamera()
+    {
+        return mainCamera;
+    }
 
-        #endregion
+    #endregion
     
     
     #endregion
