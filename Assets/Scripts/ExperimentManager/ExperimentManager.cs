@@ -17,7 +17,8 @@ public class ExperimentManager : MonoBehaviour
 
     [Space] [Header("Necessary Elements")]
     private GameObject _participantsCar;
-    [Tooltip("0 to 10 seconds")] [Range(0, 10)] [SerializeField] private float respawnDelay;
+    [Tooltip("0 to 10 seconds")] [Range(0, 10)] [SerializeField] private float startExperimentDelay = 3f;
+    [Tooltip("0 to 10 seconds")] [Range(0, 10)] [SerializeField] private float respawnDelay = 5f;
 
     private enum Scene
     {
@@ -65,9 +66,11 @@ public class ExperimentManager : MonoBehaviour
 
     private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
     {
-        AssignParticipantsCar();
-        // CameraManager.Instance.AlphaFadeOut();
-        RunMainMenu();
+        if (SceneManager.GetActiveScene().name != "MainMenu")
+        {
+            AssignParticipantsCar();
+            RunMainMenu();
+        }
     }
 
 
@@ -102,19 +105,16 @@ public class ExperimentManager : MonoBehaviour
         
         InformTriggers();
         AssignParticipantsCar();
-        RunMainMenu();
+        StartCoroutine(RunMainMenu());
     }
 
     // main menu
-    private void RunMainMenu()
+    private IEnumerator RunMainMenu()
     { 
         _scene = Scene.MainMenu;
-        // CameraManager.Instance.FadeOut();
-        CameraManager.Instance.SetObjectToFollow(_participantsCar);
-        CameraManager.Instance.SetSeatPosition(_participantsCar.GetComponent<CarController>().GetSeatPosition());
-        // participantsCar.transform.parent.gameObject.SetActive(false);
         _participantsCar.GetComponent<CarController>().TurnOffEngine();
-        StartExperiment();
+        yield return new WaitForSeconds(2);
+        StartCoroutine(StartExperiment());
     }
     
     // inform all triggers to disable their game objects at the beginning of the experiment
@@ -127,15 +127,12 @@ public class ExperimentManager : MonoBehaviour
     }
     
     // starting the experiment
-    private void StartExperiment()
+    private IEnumerator StartExperiment()
     {
         _scene = Scene.Experiment;
 
         SavingManager.Instance.StartRecordingData();
-
-        CameraManager.Instance.FadeIn();
-        CameraManager.Instance.AlphaFadeIn();
-        // participantsCar.transform.parent.gameObject.SetActive(true);
+        yield return new WaitForSeconds(startExperimentDelay);
         _participantsCar.GetComponent<CarController>().TurnOnEngine();
     }
     
@@ -188,7 +185,7 @@ public class ExperimentManager : MonoBehaviour
         _participantsCar.GetComponent<Rigidbody>().isKinematic = true;
         _participantsCar.GetComponent<Rigidbody>().velocity = Vector3.zero;
         _participantsCar.transform.SetPositionAndRotation(_respawnPosition, _respawnRotation);
-        CameraManager.Instance.ReSpawnBehavior();
+        CameraManager.Instance.RespawnBehavior();
         _participantsCar.GetComponent<Rigidbody>().isKinematic = false;
         _participantsCar.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
         StartCoroutine(ReSpawnParticipant(respawnDelay));

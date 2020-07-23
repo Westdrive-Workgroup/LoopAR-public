@@ -190,7 +190,8 @@ public class MainMenu : MonoBehaviour
                 {
                     _section = Section.MainExperiment; 
                     // TODO check with calibration manager if it is allowed to go to the experiment (not mvp)
-                    SceneManager.LoadSceneAsync("safe-mountainroad01");
+                    // SceneManager.LoadSceneAsync("safe-mountainroad01");
+                    SceneLoadingHandler.Instance.SceneChange("safe-mountainroad01");
                 }
             }
         }
@@ -202,7 +203,8 @@ public class MainMenu : MonoBehaviour
             if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start Experiment"))
             {
                 _section = Section.MainExperiment;
-                SceneManager.LoadSceneAsync("safe-mountainroad01");
+                SceneLoadingHandler.Instance.SceneChange("safe-mountainroad01");
+                // SceneManager.LoadSceneAsync("safe-mountainroad01");
             }
             
             /*if (!CalibrationManager.Instance.GetTestDriveState())
