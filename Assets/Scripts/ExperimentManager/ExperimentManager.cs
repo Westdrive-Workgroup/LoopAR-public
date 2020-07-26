@@ -160,7 +160,7 @@ public class ExperimentManager : MonoBehaviour
             case "Westbrueck":
                 _participantsCar = WestbrueckManager.Instance.GetParticipantsCar();
                 break;
-            case "countryroad01":
+            case "CountryRoad":
                 _participantsCar = CountryRoadManager.Instance.GetParticipantsCar();
                 break;
             case "Autobahn":
