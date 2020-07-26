@@ -113,7 +113,7 @@ public class SceneLoadingHandler : MonoBehaviour
             case "SeatCalibrationScene":
                 _participantsCar = SeatCalibrationManager.Instance.GetParticipantsCar();
                 break;
-            case "safe-mountainroad01":
+            case "MountainRoad":
                 _participantsCar = MountainRoadManager.Instance.GetParticipantsCar();
                 break;
             case "Westbrueck":
