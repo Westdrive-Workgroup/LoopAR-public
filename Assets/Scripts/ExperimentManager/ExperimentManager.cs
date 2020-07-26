@@ -320,14 +320,14 @@ public class ExperimentManager : MonoBehaviour
         } */
         /*else*/ if (_scene == Scene.Experiment)
         {
-            GUI.backgroundColor = Color.red;
+            // GUI.backgroundColor = Color.red;
             GUI.color = Color.white;
             
-            if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "End"))
+            /*if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "End"))
             {
                 SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
                 _scene = Scene.MainMenu;
-            }
+            }*/
 
             if (_activatedEvent)
             {
