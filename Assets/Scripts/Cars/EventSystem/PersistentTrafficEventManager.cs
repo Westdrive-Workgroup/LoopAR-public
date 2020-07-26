@@ -57,7 +57,10 @@ public class PersistentTrafficEventManager : MonoBehaviour
     {
         foreach (var eventListener in _eventBehaviorListeners)
         {
-            eventListener.AvoidInterference(10f);
+            if (eventListener != null)
+            {
+                eventListener.AvoidInterference(10f);
+            }
         }
 
         _eventObjects = eventObjects;
@@ -71,7 +74,10 @@ public class PersistentTrafficEventManager : MonoBehaviour
     {
         foreach (var eventListener in _eventBehaviorListeners)
         {
-            eventListener.ReestablishNormalBehavior();
+            if (eventListener != null)
+            {
+                eventListener.ReestablishNormalBehavior();
+            }
         }
         
         _participantsCar.GetComponent<ControlSwitch>().SwitchControl(false);

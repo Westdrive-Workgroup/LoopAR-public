@@ -50,11 +50,14 @@ public class CameraManager : MonoBehaviour
         {
             SetSeatPosition(_objectToFollow);
         }
+        
         StartCoroutine(FadeIntoTheScene());
     }
 
     private void Start()
     {
+        _objectToFollow = SceneLoadingHandler.Instance.GetParticipantsCar();
+        
         if (CalibrationManager.Instance.GetVRActivationState())
         {
             VRModeCameraSetUp();
@@ -63,6 +66,8 @@ public class CameraManager : MonoBehaviour
         {
             NonVRModeCameraSetUp();
         }
+        
+        StartCoroutine(FadeIntoTheScene());
     }
 
     IEnumerator FadeIntoTheScene()
