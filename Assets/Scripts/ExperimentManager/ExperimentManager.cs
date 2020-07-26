@@ -154,7 +154,7 @@ public class ExperimentManager : MonoBehaviour
             case "SceneLoader":
                 _participantsCar = SceneLoadingSceneManager.Instance.GetParticipantsCar();
                 break;
-            case "safe-mountainroad01":
+            case "MountainRoad":
                 _participantsCar = MountainRoadManager.Instance.GetParticipantsCar();
                 break;
             case "Westbrueck":
