@@ -62,7 +62,7 @@ public class CalibrationManager : MonoBehaviour
     {
         if(!File.Exists(dataPath))
         {
-            Debug.Log("file not found, can not be deleted");
+            Debug.Log("File not found, can not be deleted!");
         }
         else
         {
@@ -132,7 +132,8 @@ public class CalibrationManager : MonoBehaviour
 
     public void SeatCalibration()
     {
-        SceneManager.LoadSceneAsync("SeatCalibrationScene");
+        SceneLoadingHandler.Instance.SceneChange("SeatCalibrationScene");
+        // SceneManager.LoadSceneAsync("SeatCalibrationScene");
     }
 
     public void SeatCalibrationSuccessful()
@@ -143,6 +144,7 @@ public class CalibrationManager : MonoBehaviour
 
     public void StartTestDrive()
     {
+        SceneLoadingHandler.Instance.SceneChange("TestDrive2.0");
         SceneManager.LoadSceneAsync("TestDrive2.0");
     }
     
@@ -164,7 +166,6 @@ public class CalibrationManager : MonoBehaviour
     
     public void AbortExperiment()
     {
-        // SceneLoader.Instance.AsyncLoad(0);
         SceneManager.LoadSceneAsync("MainMenu");
         MainMenu.Instance.ReStartMainMenu();
     }
@@ -198,76 +199,76 @@ public class CalibrationManager : MonoBehaviour
     {
         DeleteCalibrationFile(_calibrationFilePath);
     }
+
+    #endregion
     
-        #region Setters
+    #region Setters
 
-        public void SetCameraMode(bool vrModeState)
+    public void SetCameraMode(bool vrModeState)
+    {
+        if (vrModeState)
         {
-            if (vrModeState)
-            {
-                CameraManager.Instance.VRModeCamera();
-            }
-            else
-            {
-                CameraManager.Instance.NonVRModeCamera();
-            }
+            CameraManager.Instance.VRModeCameraSetUp();
         }
+        else
+        {
+            CameraManager.Instance.NonVRModeCameraSetUp();
+        }
+    }
 
-        #endregion
+    #endregion
     
-        #region Getters
+    #region Getters
     
-        public bool GetWasMainMenuLoaded()
-        {
-            return _wasMainMenuLoaded;
-        }
+    public bool GetWasMainMenuLoaded()
+    {
+        return _wasMainMenuLoaded;
+    }
 
-        public bool GetParticipantUUIDState()
-        {
-            return _uUIDGenerated;
-        }
+    public bool GetParticipantUUIDState()
+    {
+        return _uUIDGenerated;
+    }
 
-        public bool GetEyeTrackerCalibrationState()
-        {
-            return _eyeTrackerCalibrationSuccessful;
-        }
+    public bool GetEyeTrackerCalibrationState()
+    {
+        return _eyeTrackerCalibrationSuccessful;
+    }
 
-        public bool GetEyeTrackerValidationState()
-        {
-            return _eyeTrackerValidationSuccessful;
-        }
+    public bool GetEyeTrackerValidationState()
+    {
+        return _eyeTrackerValidationSuccessful;
+    }
 
-        public bool GetSeatCalibrationState()
-        {
-            return _seatCalibrationSuccessful;
-        }
+    public bool GetSeatCalibrationState()
+    {
+        return _seatCalibrationSuccessful;
+    }
 
-        public bool GetTestDriveState()
-        {
-            return _testDriveSuccessful;
-        }
+    public bool GetTestDriveState()
+    {
+        return _testDriveSuccessful;
+    }
 
-        public Vector3 GetSeatCalibrationOffset()
-        {
-            return _calibrationData.SeatCalibrationOffset;
-        }
+    public Vector3 GetSeatCalibrationOffset()
+    {
+        return _calibrationData.SeatCalibrationOffset;
+    }
 
-        public Vector3 GetValidationError()
-        {
-            return _calibrationData.EyeValidationError;
-        }
+    public Vector3 GetValidationError()
+    {
+        return _calibrationData.EyeValidationError;
+    }
 
-        private bool GetVRModeState()
-        {
-            return _calibrationData.VRmode;
-        }
+    private bool GetVRModeState()
+    {
+        return _calibrationData.VRmode;
+    }
         
-        public bool GetVRActivationState()
-        {
-            return GetVRModeState();
-        }
+    public bool GetVRActivationState()
+    {
+        return GetVRModeState();
+    }
     
-        #endregion
-
     #endregion
 }

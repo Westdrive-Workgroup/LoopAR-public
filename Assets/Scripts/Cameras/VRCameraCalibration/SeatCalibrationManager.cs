@@ -6,29 +6,42 @@ using UnityEngine.SceneManagement;
 [DisallowMultipleComponent]
 public class SeatCalibrationManager : MonoBehaviour
 {
+    public static SeatCalibrationManager Instance { get; private set; }
+    
     private bool _successful;
 
-    private Vector3 distanceVector;
-    private GameObject vrCameraObject;
-    private GameObject cameraOffsetObject;
+    private Vector3 _distanceVector;
+    private GameObject _vrCameraObject;
+    private GameObject _cameraOffsetObject;
     
-    [SerializeField]private VRCam vRCam;
-    [SerializeField]private GameObject car;
-    [SerializeField]private GameObject seatPosition;
+    [SerializeField] private VRCam vRCam;
+    [SerializeField] private GameObject car;
+    [SerializeField] private GameObject seatPosition;
     
     
     
     private void Awake()
     {
+        //singleton pattern a la Unity
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
     
     void Start()
     {
-        distanceVector = new Vector3();
+        _distanceVector = new Vector3();
         vRCam = CameraManager.Instance.GetVRCamera();
-        vrCameraObject = CameraManager.Instance.GetMainCamera().gameObject;
-        cameraOffsetObject = CameraManager.Instance.GetCalibrationOffset();
+        _vrCameraObject = CameraManager.Instance.GetMainCamera().gameObject;
+        _cameraOffsetObject = CameraManager.Instance.GetCalibrationOffset();
         
         if (vRCam == null)
         {
@@ -39,8 +52,8 @@ public class SeatCalibrationManager : MonoBehaviour
     private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         vRCam = CameraManager.Instance.GetVRCamera();
-        CameraManager.Instance.SetObjectToFollow(car);
-        CameraManager.Instance.SetSeatPosition(seatPosition);
+        // CameraManager.Instance.SetObjectToFollow(car);
+        // CameraManager.Instance.SetSeatPosition(seatPosition);
     }
 
     #region GUI
@@ -141,19 +154,19 @@ public class SeatCalibrationManager : MonoBehaviour
 
     private void CalibrateAndStore()
     {
-       Debug.Log(cameraOffsetObject.transform.position);
-       Debug.Log(vrCameraObject.transform.position);
+       Debug.Log(_cameraOffsetObject.transform.position);
+       Debug.Log(_vrCameraObject.transform.position);
        
-        distanceVector.x = cameraOffsetObject.transform.position.x - vrCameraObject.transform.position.x;
-        distanceVector.y = cameraOffsetObject.transform.position.y - vrCameraObject.transform.position.y;
-        distanceVector.z = cameraOffsetObject.transform.position.z - vrCameraObject.transform.position.z;
+        _distanceVector.x = _cameraOffsetObject.transform.position.x - _vrCameraObject.transform.position.x;
+        _distanceVector.y = _cameraOffsetObject.transform.position.y - _vrCameraObject.transform.position.y;
+        _distanceVector.z = _cameraOffsetObject.transform.position.z - _vrCameraObject.transform.position.z;
         
         //distanceVector.x = vrCameraObject.transform.position.x - SeatPosition.transform.position.x;
         //distanceVector.y = vrCameraObject.transform.position.y - SeatPosition.transform.position.y;
         //distanceVector.z = vrCameraObject.transform.position.z - SeatPosition.transform.position.z;
         
-        CalibrationManager.Instance.StoreSeatCalibrationData(distanceVector);
-        Debug.Log(distanceVector);
+        CalibrationManager.Instance.StoreSeatCalibrationData(_distanceVector);
+        Debug.Log(_distanceVector);
     }
 
     private void ApplyCalibration()
@@ -161,5 +174,10 @@ public class SeatCalibrationManager : MonoBehaviour
         // SceneLoader.Instance.AsyncLoad(2);
         Debug.Log("loading the scene again");
         SceneManager.LoadSceneAsync("SeatCalibrationScene");
+    }
+
+    public GameObject GetParticipantsCar()
+    {
+        return car;
     }
 }
