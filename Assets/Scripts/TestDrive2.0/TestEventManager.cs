@@ -188,4 +188,9 @@ public class TestEventManager : MonoBehaviour
     {
         advanced_HUD.DeactivateHUD(false);
     }
+
+    public GameObject GetParticipantCar()
+    {
+        return _participantCar;
+    }
 }
