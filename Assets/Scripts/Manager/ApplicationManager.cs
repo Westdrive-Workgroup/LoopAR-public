@@ -63,9 +63,9 @@ public class ApplicationManager : MonoBehaviour
             case "TestDrive2.0":
                 TurnOffSpecificExperimentComponents(/*true*/);
                 break;
-            case "safe-mountainroad01":
+            case "MountainRoad":
             case "Westbrueck":
-            case "countryroad01":
+            case "CountryRoad":
             case "Autobahn":
                 TurnOnAllComponents();
                 break;
