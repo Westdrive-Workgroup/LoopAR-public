@@ -183,7 +183,7 @@ MonoBehaviour:
   SpeedGauge: {fileID: 6332384763747978249}
   RPMGauge: {fileID: 6801131812260771358}
   _carController: {fileID: 1499928519561039326}
-  DynamicCarSound: {fileID: 2180644081502333737}
+  DynamicCarSound: {fileID: 95818265621902183}
 --- !u!1 &4484922789126371171
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,6 +415,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -1319278099071596514, guid: c62d99b419248cf44a80f6b14279cb2f,
         type: 3}
+    - target: {fileID: 8963728693937041839, guid: ebbad4260e08e664da739133865001c7,
+        type: 3}
+      propertyPath: insideWindows
+      value: 
+      objectReference: {fileID: 1017179004227958679}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebbad4260e08e664da739133865001c7, type: 3}
 --- !u!1 &6229045286058875577 stripped
@@ -480,6 +485,12 @@ RectTransform:
 --- !u!224 &6154282356863627087 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4921175396616010393, guid: ebbad4260e08e664da739133865001c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1235078942965044694}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1017179004227958679 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2251341502070465089, guid: ebbad4260e08e664da739133865001c7,
     type: 3}
   m_PrefabInstance: {fileID: 1235078942965044694}
   m_PrefabAsset: {fileID: 0}
@@ -565,11 +576,16 @@ PrefabInstance:
       propertyPath: _carController
       value: 
       objectReference: {fileID: 1499928519561039326}
+    - target: {fileID: 8399417371711320918, guid: 025df11c42a2ad94b8ab52b56a1a48fd,
+        type: 3}
+      propertyPath: _carController
+      value: 
+      objectReference: {fileID: 1499928519561039326}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 025df11c42a2ad94b8ab52b56a1a48fd, type: 3}
---- !u!114 &2180644081502333737 stripped
+--- !u!114 &95818265621902183 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7748416296554539800, guid: 025df11c42a2ad94b8ab52b56a1a48fd,
+  m_CorrespondingSourceObject: {fileID: 8399417371711320918, guid: 025df11c42a2ad94b8ab52b56a1a48fd,
     type: 3}
   m_PrefabInstance: {fileID: 8486140335917498417}
   m_PrefabAsset: {fileID: 0}
