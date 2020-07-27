@@ -6,7 +6,7 @@ public class DynamicCarSound : MonoBehaviour
 {
     private AudioSource Speaker;
     public CarController _carController;
-    public float SoundSpeed;
+    private float SoundSpeed;
     //private float Newspeed;
     private float _currentSpeedinKmH;
     private int Gear;
@@ -81,7 +81,6 @@ public class DynamicCarSound : MonoBehaviour
             {
                 Gear--;
             }
-
         }
         else if (_currentSpeedinKmH > 15f && _currentSpeedinKmH < 40f)
         {
