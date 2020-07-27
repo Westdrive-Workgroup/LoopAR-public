@@ -69,7 +69,7 @@ public class ExperimentManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name != "MainMenu")
         {
             AssignParticipantsCar();
-            RunMainMenu();
+            StartCoroutine(RunMainMenu());
         }
     }
 
