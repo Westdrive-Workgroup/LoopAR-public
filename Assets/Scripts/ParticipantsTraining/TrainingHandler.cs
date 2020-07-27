@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TrainingHandler : MonoBehaviour
 {
     public static TrainingHandler Instance { get; private set; }
-    
+
     public TestEventManager testEventManager;
     private enum State
     {
@@ -41,7 +42,6 @@ public class TrainingHandler : MonoBehaviour
 
         float buttonWidth = 200f;
         float buttonHeight = 30f;
-        float heightDifference = 40f;
         
         int labelFontSize = 33;
 
@@ -62,7 +62,6 @@ public class TrainingHandler : MonoBehaviour
             if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start"))
             {
                 _state = State.Training;
-                // todo implement the action
                 testEventManager.StartTestDrive();
             }
             
@@ -82,7 +81,7 @@ public class TrainingHandler : MonoBehaviour
             
             if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "End"))
             {
-                SceneLoader.Instance.AsyncLoad(3);
+                SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
                 _state = State.TrainingMenu;
             }
         }
