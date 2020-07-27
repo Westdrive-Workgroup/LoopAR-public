@@ -29,9 +29,9 @@ public class InteriorControlElementScript : MonoBehaviour
         SpeedMeter.text = speed + "";
         speedLimit = Mathf.RoundToInt(_aimedSpeed.GetRuleSpeed());
         float quotientSpeed = speed / speedLimit;
-        SpeedGauge.fillAmount = 0.6f * (Mathf.Round(quotientSpeed * 36) / 36);
+        SpeedGauge.fillAmount = 0.5f * (Mathf.Round(quotientSpeed * 36) / 36);
         RPM = DynamicCarSound.RotationPerMoment(speed);
-        RPMGauge.fillAmount = 0.6f *Mathf.Round(RPM * 10)/300;
+        RPMGauge.fillAmount = 0.5f *Mathf.Round(RPM * 10)/300;
         RPMMeter.text = RPM*100 + "";
 
     }
