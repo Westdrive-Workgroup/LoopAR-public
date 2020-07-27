@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class TrainingHandler : MonoBehaviour
 {
-
-    [SerializeField] private TestEventManager testEventManager;
+    public static TrainingHandler Instance { get; private set; }
+    
+    public TestEventManager testEventManager;
     private enum State
     {
         TrainingMenu,
@@ -17,6 +18,14 @@ public class TrainingHandler : MonoBehaviour
     private void Start()
     {
         _state = State.TrainingMenu;
+    }
+    
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
 
     public void OnGUI()
