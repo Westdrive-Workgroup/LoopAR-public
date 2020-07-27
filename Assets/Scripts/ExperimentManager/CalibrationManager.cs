@@ -133,7 +133,6 @@ public class CalibrationManager : MonoBehaviour
     public void SeatCalibration()
     {
         SceneLoadingHandler.Instance.SceneChange("SeatCalibrationScene");
-        // SceneManager.LoadSceneAsync("SeatCalibrationScene");
     }
 
     public void SeatCalibrationSuccessful()
@@ -144,8 +143,8 @@ public class CalibrationManager : MonoBehaviour
 
     public void StartTestDrive()
     {
-        SceneLoadingHandler.Instance.SceneChange("TestDrive2.0");
-        SceneManager.LoadSceneAsync("TestDrive2.0");
+        // SceneLoadingHandler.Instance.SceneChange("TestDrive2.0");
+        SceneLoadingHandler.Instance.SceneChange("MountainRoad");
     }
     
     public void TestDriveSuccessState(bool state, int trials)
@@ -153,11 +152,6 @@ public class CalibrationManager : MonoBehaviour
         _testDriveSuccessful = state;
         // todo serialize the info
     }
-
-    /*public void TestDriveFailed()
-    {
-        // todo save the failed data onto the calibration data
-    }*/
 
     public void TestDriveEnded()
     {
