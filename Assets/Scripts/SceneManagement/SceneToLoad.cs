@@ -11,7 +11,8 @@ public class SceneToLoad : MonoBehaviour
         Westbrueck,
         Countryroad,
         Autobahn,
-        MainMenu
+        MainMenu,
+        MountainRoad
     }
 
     private GameObject _currentTarget;
@@ -44,6 +45,8 @@ public class SceneToLoad : MonoBehaviour
                 return "Autobahn";
             case 3:
                 return "MainMenu";
+            case 4:
+                return "MountainRoad";
         }
 
         return null;
