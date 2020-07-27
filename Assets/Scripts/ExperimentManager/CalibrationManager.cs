@@ -143,8 +143,7 @@ public class CalibrationManager : MonoBehaviour
 
     public void StartTestDrive()
     {
-        // SceneLoadingHandler.Instance.SceneChange("TestDrive2.0");
-        SceneLoadingHandler.Instance.SceneChange("MountainRoad");
+        SceneLoadingHandler.Instance.SceneChange("TestDrive2.0");
     }
     
     public void TestDriveSuccessState(bool state, int trials)
@@ -155,7 +154,8 @@ public class CalibrationManager : MonoBehaviour
 
     public void TestDriveEnded()
     {
-        SceneManager.LoadSceneAsync("MainMenu");
+        // SceneManager.LoadSceneAsync("MainMenu");
+        SceneLoadingHandler.Instance.SceneChange("MountainRoad");
     }
     
     public void AbortExperiment()
