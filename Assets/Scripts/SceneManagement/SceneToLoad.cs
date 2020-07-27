@@ -40,7 +40,7 @@ public class SceneToLoad : MonoBehaviour
             case 0:
                 return "Westbrueck";
             case 1:
-                return "countryroad01";
+                return "CountryRoad";
             case 2:
                 return "Autobahn";
             case 3:
