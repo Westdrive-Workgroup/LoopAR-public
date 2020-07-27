@@ -73,23 +73,76 @@ public class DynamicCarSound : MonoBehaviour
     {
         if (_currentSpeedinKmH < 15f)
         {
-            Gear = 1;
+            if (Gear < 1 || Gear == 2)
+            {
+                Gear = 1;
+            }
+            else
+            {
+                Gear--;
+            }
+
         }
         else if (_currentSpeedinKmH > 15f && _currentSpeedinKmH < 40f)
         {
-            Gear = 2;
+            if (Gear == 1)
+            {
+                Gear = 2;
+            }
+            else if (Gear < 1)
+            {
+                Gear++;
+            }
+            else if (Gear > 2)
+            {
+                Gear--;
+            }
+
         }
         else if (_currentSpeedinKmH > 40f && _currentSpeedinKmH < 60f)
         {
-            Gear = 3;
+            if (Gear == 2)
+            {
+                Gear = 3;
+            }
+            else if (Gear < 2)
+            {
+                Gear++;
+            }
+            else if (Gear > 3)
+            {
+                Gear--;
+            }
         }
         else if (_currentSpeedinKmH > 60f && _currentSpeedinKmH < 80f)
         {
-            Gear = 4;
+            if (Gear == 3)
+            {
+                Gear = 4;
+            }
+            else if (Gear < 3)
+            {
+                Gear++;
+            }
+            else if (Gear > 4)
+            {
+                Gear--;
+            }
         }
         else if (_currentSpeedinKmH < 115f)
         {
-            Gear = 5;
+            if (Gear == 4)
+            {
+                Gear = 5;
+            }
+            else if (Gear < 4)
+            {
+                Gear++;
+            }
+            else if (Gear > 5)
+            {
+                Gear--;
+            }
         }
         else if (_currentSpeedinKmH > 150f)
         {
