@@ -143,7 +143,7 @@ public class CalibrationManager : MonoBehaviour
 
     public void StartTestDrive()
     {
-        SceneLoadingHandler.Instance.SceneChange("TestDrive2.0");
+        SceneLoadingHandler.Instance.SceneChange("TrainingScene");
     }
     
     public void TestDriveSuccessState(bool state, int trials)
