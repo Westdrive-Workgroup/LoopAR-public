@@ -152,7 +152,7 @@ public class TestEventManager : MonoBehaviour
         }
         
         //yield return new WaitForSecondsRealtime(delay);
-        advanced_HUD.AIDrive();
+        advanced_HUD.AIDrive(true);
     }
     
     public IEnumerator DeactivateEvent(float delay)
