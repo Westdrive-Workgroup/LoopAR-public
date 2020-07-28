@@ -70,6 +70,7 @@ public class HUD_Advance : MonoBehaviour
     private bool EventDriving;
     private float BlinkFreq;
     private float BlinkLength;
+    private bool playTOR = false;
 
     // Start is called before the first frame update
     void Start()
@@ -83,7 +84,7 @@ public class HUD_Advance : MonoBehaviour
         {
             if (!ManualDriving)
             {
-                AIDrive();
+                AIDrive(false);
             }
             else
             {
@@ -120,12 +121,13 @@ public class HUD_Advance : MonoBehaviour
             _highlightedObjects.Add(eventObject);
         }
     }
-    public void DeactivateHUD(bool playTOR = true)
+    public void DeactivateHUD(bool playTOR)
     {
         IsEvent = false;
         _eventObjectsToMark.Clear();
         foreach (GameObject objet in _highlightedObjects)
-        {Destroy(objet.GetComponent<Outline>());
+        {
+            Destroy(objet.GetComponent<Outline>());
         }
         _highlightedObjects.Clear();
         if (!ManualDriving)
@@ -148,7 +150,7 @@ public class HUD_Advance : MonoBehaviour
         }
 
     }
-    public void AIDrive(bool playTOR = true)
+    public void AIDrive(bool playTOR)
     {
         AIDrivingBool = true;
         ManualDriving = false;
@@ -165,23 +167,21 @@ public class HUD_Advance : MonoBehaviour
         {
             Debug.Log(playTOR + " Is it played?");
             StartCoroutine(SoundManagerTOR());
-        }
-        
-        StartCoroutine(ShowAfterSeconds());
-
-        if (TorBackBlinkingImage || TorBackBlinkingText)
-        {
-            if (nextUpdate > 10)
+            if (TorBackBlinkingImage || TorBackBlinkingText)
             {
-                BlinkFreq = TorBackBlinkingFrequency;
-                BlinkLength = TorBackBlinkingLength;
-                StartCoroutine(Blink(BlinkFreq, BlinkLength));
+                if (nextUpdate > 10)
+                {
+                    BlinkFreq = TorBackBlinkingFrequency;
+                    BlinkLength = TorBackBlinkingLength;
+                    StartCoroutine(Blink(BlinkFreq, BlinkLength));
+                }
+            }
+            else
+            {
+                StartCoroutine(ShowForSeconds(TorBackDuration));
             }
         }
-        else
-        {
-            StartCoroutine(ShowForSeconds(TorBackDuration));
-        }
+        StartCoroutine(ShowAfterSeconds());
 
         Date.enabled = true;
         Speed.enabled = true;

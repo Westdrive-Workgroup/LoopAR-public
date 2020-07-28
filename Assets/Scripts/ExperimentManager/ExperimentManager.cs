@@ -142,7 +142,7 @@ public class ExperimentManager : MonoBehaviour
         _participantsCar.GetComponent<Rigidbody>().isKinematic = true;
         yield return new WaitForSeconds(seconds);
         _participantsCar.GetComponent<Rigidbody>().isKinematic = false;
-        _participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD();
+        _participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD(false);
         CameraManager.Instance.AlphaFadeIn();
         _participantsCar.GetComponent<CarController>().TurnOnEngine();
     }
