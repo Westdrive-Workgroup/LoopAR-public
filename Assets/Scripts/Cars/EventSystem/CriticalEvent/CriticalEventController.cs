@@ -46,14 +46,13 @@ public class CriticalEventController: MonoBehaviour
             _targetedCar = PersistentTrafficEventManager.Instance.GetParticipantsCar();
         }
 
-        // todo do a cleanup here
         startTrigger.TargetVehicle(_targetedCar);
         endTrigger.TargetVehicle(_targetedCar);
         
         startTrigger.SetController(this);
         endTrigger.SetController(this);
         
-        _restrictedZoneTriggers = GetComponentsInChildren<RestrictedZoneTrigger>();
+        _restrictedZoneTriggers = consistentEventObjects.GetComponentsInChildren<RestrictedZoneTrigger>();
 
        DeactivateRestrictedZones();
        EventObjectsActivationSwitch(eventObjectParent);
