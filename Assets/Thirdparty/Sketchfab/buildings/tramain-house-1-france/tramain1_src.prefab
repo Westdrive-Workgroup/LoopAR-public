@@ -9,6 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3199434433921706426}
+  - component: {fileID: 4918863918817786816}
+  - component: {fileID: 4316992159174635137}
+  - component: {fileID: 3291872523206954005}
   m_Layer: 0
   m_Name: tramain1_src
   m_TagString: Untagged
@@ -31,6 +34,45 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &4918863918817786816
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890937290614152105}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 12.477982, y: 8.31538, z: 7.48913}
+  m_Center: {x: -1.9933014, y: 4.0803547, z: 2.0014334}
+--- !u!65 &4316992159174635137
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890937290614152105}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.2944698, y: 5.2820063, z: 5.8372993}
+  m_Center: {x: 5.682765, y: 2.566626, z: 1.5617676}
+--- !u!65 &3291872523206954005
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890937290614152105}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.8937836, y: 3.2236528, z: 4.8564014}
+  m_Center: {x: 4.9818954, y: 1.5472274, z: -4.1556005}
 --- !u!1001 &839282777791171402
 PrefabInstance:
   m_ObjectHideFlags: 0
