@@ -26,13 +26,8 @@ public class SeatCalibrationManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
-        
+
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
     

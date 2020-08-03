@@ -50,6 +50,14 @@ public class ApplicationManager : MonoBehaviour
         SetComponents();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Application.Quit();
+        }
+    }
+
     private void SetComponents()
     {
         switch (_sceneName)
