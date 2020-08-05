@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using PathCreation;
-using PathCreationEditor;
+// using PathCreationEditor;
 using UnityEngine;
 
 [DisallowMultipleComponent]
