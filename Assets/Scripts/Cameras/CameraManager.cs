@@ -43,15 +43,18 @@ public class CameraManager : MonoBehaviour
         // _sceneLoadingHandler.OnInitiateLoadingScene += OnSceneLoadingInitiated;
     }
     
-    public void OnSceneLoaded(/*Scene scene, LoadSceneMode mode*/)
+    public void OnSceneLoaded(/*Scene scene, LoadSceneMode mode*/ bool autoFadeIn)
     {
         _objectToFollow = SceneLoadingHandler.Instance.GetParticipantsCar();
         if (_objectToFollow != null)
         {
             SetSeatPosition(_objectToFollow);
         }
-        
-        StartCoroutine(FadeIntoTheScene());
+
+        if (autoFadeIn)
+        {
+            StartCoroutine(FadeIntoTheScene());
+        }
     }
 
     private void Start()

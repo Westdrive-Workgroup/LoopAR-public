@@ -61,15 +61,16 @@ public class ExperimentManager : MonoBehaviour
             _savingManager.SetParticipantCar(_participantsCar);    
         }
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        // SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode)
+    public void OnSceneLoaded(/*UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode*/)
     {
         if (SceneManager.GetActiveScene().name != "MainMenu")
         {
             AssignParticipantsCar();
-            StartCoroutine(RunMainMenu());
+            RunMainMenu();
+            // StartCoroutine(RunMainMenu());
         }
     }
 
@@ -102,19 +103,34 @@ public class ExperimentManager : MonoBehaviour
         {
             Debug.Log("<color=red>Error: </color>CameraManager should be present in the scene.");
         }
-        
-        InformTriggers();
-        AssignParticipantsCar();
-        StartCoroutine(RunMainMenu());
+
+        try
+        {
+            InformTriggers();
+            AssignParticipantsCar();
+            // StartCoroutine(RunMainMenu());
+            RunMainMenu();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("Error: " + e);
+            throw;
+        }
     }
 
     // main menu
-    private IEnumerator RunMainMenu()
+    /*private IEnumerator RunMainMenu()
     { 
         _scene = Scene.MainMenu;
         _participantsCar.GetComponent<CarController>().TurnOffEngine();
         yield return new WaitForSeconds(2);
         StartCoroutine(StartExperiment());
+    }*/
+
+    private void RunMainMenu()
+    {
+        _scene = Scene.MainMenu;
+        _participantsCar.GetComponent<CarController>().TurnOffEngine();
     }
     
     // inform all triggers to disable their game objects at the beginning of the experiment
@@ -300,13 +316,13 @@ public class ExperimentManager : MonoBehaviour
         GUI.backgroundColor = Color.cyan;
         GUI.color = Color.white;
         
-        /*if (_scene == Scene.MainMenu)
+        if (_scene == Scene.MainMenu)
         {
             GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Experiment");
 
             if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start"))
             {
-                StartExperiment();
+                StartCoroutine(StartExperiment());
             }
             
             // Reset Button
@@ -317,8 +333,8 @@ public class ExperimentManager : MonoBehaviour
             {
                 CalibrationManager.Instance.AbortExperiment();
             }
-        } */
-        /*else*/ if (_scene == Scene.Experiment)
+        } 
+        else if (_scene == Scene.Experiment)
         {
             // GUI.backgroundColor = Color.red;
             GUI.color = Color.white;
