@@ -35,6 +35,8 @@ public class ExperimentManager : MonoBehaviour
     private Scene _scene;
     private bool _activatedEvent;
     private bool _vRScene;
+    private bool _isStartPressed;
+    
 
     #endregion
 
@@ -145,9 +147,13 @@ public class ExperimentManager : MonoBehaviour
     // starting the experiment
     private IEnumerator StartExperiment()
     {
+        _isStartPressed = true;
+        while (SceneLoadingHandler.Instance.GetAdditiveLoadingState()) yield return null;
+        
         _scene = Scene.Experiment;
 
         SavingManager.Instance.StartRecordingData();
+        CameraManager.Instance.FadeIn();
         yield return new WaitForSeconds(startExperimentDelay);
         _participantsCar.GetComponent<CarController>().TurnOnEngine();
     }
@@ -298,7 +304,7 @@ public class ExperimentManager : MonoBehaviour
         float yForButtons = height / 7f;
         
         float xForLable = (width / 12f);
-        float yForLable = height/1.35f;
+        float yForLable = height / 1.35f;
 
         float buttonWidth = 200f;
         float buttonHeight = 30f;
@@ -318,11 +324,19 @@ public class ExperimentManager : MonoBehaviour
         
         if (_scene == Scene.MainMenu)
         {
-            GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Experiment");
-
-            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start"))
+            if (!_isStartPressed)
             {
-                StartCoroutine(StartExperiment());
+                GUI.Label(new Rect(xForLable, yForLable, 500, 100),  "Main Experiment");
+
+                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start"))
+                {
+                    StartCoroutine(StartExperiment());
+                }
+            }
+
+            if (_isStartPressed)
+            {
+                GUI.Label(new Rect(width / 4f, height / 2f, 500, 100),  "Main Experiment is Loading...");
             }
             
             // Reset Button
