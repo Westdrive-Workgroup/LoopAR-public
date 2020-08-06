@@ -18,7 +18,6 @@ public class SceneToLoad : MonoBehaviour
     private GameObject _currentTarget;
     
     public Scenes sceneToLoad = Scenes.Westbrueck;
-    [HideInInspector] public int sceneValue = 0;
     
     private void OnTriggerEnter(Collider other)
     {
