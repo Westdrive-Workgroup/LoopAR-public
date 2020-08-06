@@ -29,7 +29,7 @@ public class SceneToLoad : MonoBehaviour
 
         if (other.GetComponent<ManualController>() != null)
         {
-            SceneLoadingHandler.Instance.SceneChange(GetTargetScene(), other);
+            // SceneLoadingHandler.Instance.LoadExperimentScenes(GetTargetScene(), other);
         }
     }
 
