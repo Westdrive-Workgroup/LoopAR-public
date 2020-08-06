@@ -8,7 +8,10 @@ public class CountryRoadManager : MonoBehaviour
     public static CountryRoadManager Instance { get; private set; }
 
     [SerializeField] private GameObject participantsCar;
-
+    [SerializeField] private GameObject terrain;
+    [SerializeField] private GameObject roadNetwork;
+    [SerializeField] private GameObject remainingAssets;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -19,6 +22,21 @@ public class CountryRoadManager : MonoBehaviour
 
     public GameObject GetParticipantsCar()
     {
-        return participantsCar;
+        return participantsCar != null ? participantsCar : null;
+    }
+    
+    public GameObject GetTerrain()
+    {
+        return terrain;
+    }
+    
+    public GameObject GetRoadNetwork()
+    {
+        return roadNetwork;
+    }
+    
+    public GameObject GetRemainingAssets()
+    {
+        return remainingAssets;
     }
 }
