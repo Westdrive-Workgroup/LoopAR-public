@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3023340390281538533}
   - component: {fileID: 2415774962244156705}
+  - component: {fileID: 2256426657965458315}
   m_Layer: 0
   m_Name: houseTest01
   m_TagString: Untagged
@@ -24,15 +25,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2282843192556820982}
-  m_LocalRotation: {x: 0, y: -0.96469545, z: 0, w: 0.263368}
-  m_LocalPosition: {x: 543.26, y: 0.016926363, z: 642.87}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1957749872740499549}
   - {fileID: 6087945783326942317}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -149.46, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!205 &2415774962244156705
 LODGroup:
   m_ObjectHideFlags: 0
@@ -56,6 +57,20 @@ LODGroup:
     renderers:
     - renderer: {fileID: 6337355278482856671}
   m_Enabled: 1
+--- !u!64 &2256426657965458315
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2282843192556820982}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6149545935433159482, guid: 1fbe702901ab91146a1f690795dca617, type: 3}
 --- !u!1 &3904749693112462480
 GameObject:
   m_ObjectHideFlags: 0
