@@ -7,9 +7,15 @@ using UnityEngine.SceneManagement;
 public class MountainRoadManager : MonoBehaviour
 {
     public static MountainRoadManager Instance { get; private set; }
-
+    
+    [Space] [Header("Car and Path options")]
     [SerializeField] private GameObject participantsCar;
     [SerializeField] private PathCreator mainCarPath;
+    [SerializeField] private float curveDetectorStepAhead = 0.01f;
+    [SerializeField] private float precision = 0.005f;
+    [SerializeField] private float trackerSensitivity = 5f;
+    
+    [Space] [Header("General GameObjects")]
     [SerializeField] private GameObject terrain;
     [SerializeField] private GameObject roadNetwork;
     [SerializeField] private GameObject remainingAssets;
@@ -44,7 +50,7 @@ public class MountainRoadManager : MonoBehaviour
     IEnumerator ActivateEachGameObject(GameObject obj)
     {
         yield return null;
-        obj.SetActive(true);
+        obj.SetActive(_activateObjects);
     }
 
     public GameObject GetParticipantsCar()
@@ -57,18 +63,18 @@ public class MountainRoadManager : MonoBehaviour
         return mainCarPath;
     }
 
-    public GameObject GetTerrain()
+    public float GetCurveDetectorStepAhead()
     {
-        return terrain;
+        return curveDetectorStepAhead;
     }
     
-    public GameObject GetRoadNetwork()
+    public float GetPrecision()
     {
-        return roadNetwork;
+        return precision;
     }
     
-    public GameObject GetRemainingAssets()
+    public float GetTrackerSensitivity()
     {
-        return remainingAssets;
+        return trackerSensitivity;
     }
 }
