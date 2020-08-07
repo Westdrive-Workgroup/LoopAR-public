@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using PathCreation;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,6 +9,7 @@ public class MountainRoadManager : MonoBehaviour
     public static MountainRoadManager Instance { get; private set; }
 
     [SerializeField] private GameObject participantsCar;
+    [SerializeField] private PathCreator mainCarPath;
     [SerializeField] private GameObject terrain;
     [SerializeField] private GameObject roadNetwork;
     [SerializeField] private GameObject remainingAssets;
@@ -50,6 +52,11 @@ public class MountainRoadManager : MonoBehaviour
         return participantsCar != null ? participantsCar : null;
     }
     
+    public PathCreator GetCarPath()
+    {
+        return mainCarPath;
+    }
+
     public GameObject GetTerrain()
     {
         return terrain;
