@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class SceneAssetActivationTrigger : MonoBehaviour
 {
+    [SerializeField] private bool activateGameObjects;
     private GameObject _currentTarget;
     
     public enum Scenes
@@ -19,7 +20,7 @@ public class SceneAssetActivationTrigger : MonoBehaviour
     
     void Start()
     {
-        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        // this.gameObject.GetComponent<MeshRenderer>().enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,17 +35,15 @@ public class SceneAssetActivationTrigger : MonoBehaviour
             switch (sceneToActivate)
             {
                 case Scenes.Westbrueck:
-                    // todo
+                    WestbrueckManager.Instance.ActivateGameObjects(activateGameObjects);
                     break;
                 case Scenes.CountryRoad:
-                    // todo
+                    CountryRoadManager.Instance.ActivateGameObjects(activateGameObjects);
                     break;
                 case Scenes.Autobahn:
-                    // todo
+                    AutobahnManager.Instance.ActivateGameObjects(activateGameObjects);
                     break;
             }
         }
     }
-    
-    
 }
