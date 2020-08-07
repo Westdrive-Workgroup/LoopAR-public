@@ -38,14 +38,6 @@ public class MountainRoadManager : MonoBehaviour
         obj.SetActive(true);
     }
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-    }
-
     public GameObject GetParticipantsCar()
     {
         return participantsCar != null ? participantsCar : null;
