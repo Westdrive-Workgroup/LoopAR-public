@@ -105,7 +105,7 @@ public class ExperimentManager : MonoBehaviour
         {
             Debug.Log("<color=red>Error: </color>CameraManager should be present in the scene.");
         }
-
+        
         try
         {
             InformTriggers();

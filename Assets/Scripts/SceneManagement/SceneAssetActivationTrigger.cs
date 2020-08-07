@@ -31,7 +31,20 @@ public class SceneAssetActivationTrigger : MonoBehaviour
         
         if (other.GetComponent<ManualController>() != null)
         {
-            
+            switch (sceneToActivate)
+            {
+                case Scenes.Westbrueck:
+                    // todo
+                    break;
+                case Scenes.CountryRoad:
+                    // todo
+                    break;
+                case Scenes.Autobahn:
+                    // todo
+                    break;
+            }
         }
     }
+    
+    
 }
