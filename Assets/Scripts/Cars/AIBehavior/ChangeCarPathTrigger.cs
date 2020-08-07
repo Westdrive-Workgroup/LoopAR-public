@@ -32,13 +32,16 @@ public class ChangeCarPathTrigger : MonoBehaviour
             switch (sceneToActivate)
             {
                 case Scenes.Westbrueck:
-                    this.gameObject.GetComponent<ChangeCarPath>().SetParticipantsCarPath(WestbrueckManager.Instance.GetCarPath());
+                    other.gameObject.GetComponent<ChangeCarPath>().SetParticipantsCarPath(WestbrueckManager.Instance.GetCarPath(), 
+                        WestbrueckManager.Instance.GetCurveDetectorStepAhead(), WestbrueckManager.Instance.GetPrecision(), WestbrueckManager.Instance.GetTrackerSensitivity());
                     break;
                 case Scenes.CountryRoad:
-                    this.gameObject.GetComponent<ChangeCarPath>().SetParticipantsCarPath(CountryRoadManager.Instance.GetCarPath());
+                    other.gameObject.GetComponent<ChangeCarPath>().SetParticipantsCarPath(CountryRoadManager.Instance.GetCarPath(), 
+                        CountryRoadManager.Instance.GetCurveDetectorStepAhead(), CountryRoadManager.Instance.GetPrecision(), CountryRoadManager.Instance.GetTrackerSensitivity());
                     break;
                 case Scenes.Autobahn:
-                    this.gameObject.GetComponent<ChangeCarPath>().SetParticipantsCarPath(AutobahnManager.Instance.GetCarPath());
+                    other.gameObject.GetComponent<ChangeCarPath>().SetParticipantsCarPath(AutobahnManager.Instance.GetCarPath(), 
+                        AutobahnManager.Instance.GetCurveDetectorStepAhead(), AutobahnManager.Instance.GetPrecision(), AutobahnManager.Instance.GetTrackerSensitivity());
                     break;
             }
         }
