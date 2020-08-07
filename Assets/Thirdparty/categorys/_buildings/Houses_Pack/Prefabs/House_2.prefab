@@ -248,6 +248,7 @@ GameObject:
   - component: {fileID: 6458975859710759708}
   - component: {fileID: 6458975859703610620}
   - component: {fileID: 1998249792196241942}
+  - component: {fileID: 3321440551879054248}
   m_Layer: 0
   m_Name: House_2
   m_TagString: Untagged
@@ -263,7 +264,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6458975859710988092}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 251.4163, y: 1.377851e-15, z: -62.052895}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children:
   - {fileID: 7109581161637810812}
@@ -318,3 +319,16 @@ LODGroup:
     renderers:
     - renderer: {fileID: 2071657162923030852}
   m_Enabled: 1
+--- !u!65 &3321440551879054248
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6458975859710988092}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3028.216, y: 1732.0286, z: 2685.1113}
+  m_Center: {x: -11.9914055, y: 839.17944, z: -192.5932}
