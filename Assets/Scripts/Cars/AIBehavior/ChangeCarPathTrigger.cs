@@ -13,7 +13,7 @@ public class ChangeCarPathTrigger : MonoBehaviour
         Autobahn
     }
     
-    public Scenes sceneToActivate = Scenes.Westbrueck;
+    public Scenes sceneOfNewPath = Scenes.Westbrueck;
     
     void Start()
     {
@@ -29,7 +29,7 @@ public class ChangeCarPathTrigger : MonoBehaviour
         
         if (other.GetComponent<ManualController>() != null)
         {
-            switch (sceneToActivate)
+            switch (sceneOfNewPath)
             {
                 case Scenes.Westbrueck:
                     other.gameObject.GetComponent<ChangeCarPath>().SetParticipantsCarPath(WestbrueckManager.Instance.GetCarPath(), 
