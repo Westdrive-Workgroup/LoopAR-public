@@ -11,6 +11,7 @@ public class SceneAssetActivationTrigger : MonoBehaviour
     
     public enum Scenes
     {
+        MountainRoad,
         Westbrueck, 
         CountryRoad, 
         Autobahn
@@ -34,6 +35,9 @@ public class SceneAssetActivationTrigger : MonoBehaviour
         {
             switch (sceneToActivate)
             {
+                case Scenes.MountainRoad:
+                    MountainRoadManager.Instance.ActivateGameObjects(activateGameObjects);
+                    break;
                 case Scenes.Westbrueck:
                     WestbrueckManager.Instance.ActivateGameObjects(activateGameObjects);
                     break;
