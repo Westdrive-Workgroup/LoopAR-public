@@ -32,7 +32,7 @@ public class CriticalEventController: MonoBehaviour
     
     
     private RestrictedZoneTrigger[] _restrictedZoneTriggers;
-    private GameObject _targetedCar;
+    // private GameObject _targetedCar;
     private bool _activatedEvent;
     private MeshRenderer[] _meshRenderers;
 
@@ -41,13 +41,13 @@ public class CriticalEventController: MonoBehaviour
     #region Private methods
     private void Start()
     {
-        if (PersistentTrafficEventManager.Instance != null)
+        /*if (PersistentTrafficEventManager.Instance != null)
         {
             _targetedCar = PersistentTrafficEventManager.Instance.GetParticipantsCar();
-        }
+        }*/
 
-        startTrigger.TargetVehicle(_targetedCar);
-        endTrigger.TargetVehicle(_targetedCar);
+        /*startTrigger.TargetVehicle(PersistentTrafficEventManager.Instance.GetParticipantsCar());
+        endTrigger.TargetVehicle(PersistentTrafficEventManager.Instance.GetParticipantsCar());*/
         
         startTrigger.SetController(this);
         endTrigger.SetController(this);
@@ -73,7 +73,7 @@ public class CriticalEventController: MonoBehaviour
     {
         // Debug.Log("<color=blue>Starting the event process is initiated!</color>");
         float t1 = Time.time;
-        _targetedCar.gameObject.GetComponentInChildren<HUD_Advance>().DriverAlert();
+        PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DriverAlert();
         yield return new WaitForSeconds(startEventDelay);
         float t2 = Time.time;
         // Debug.Log("<color=blue>Giving the control to the driver after </color>" + (t2-t1) + "<color=blue> seconds</color>");
