@@ -13,6 +13,7 @@ public class MountainRoadManager : MonoBehaviour
     [SerializeField] private GameObject remainingAssets;
 
     private GameObject[] _sceneAssets;
+    private bool _activateObjects;
 
     private void Awake()
     {
@@ -24,15 +25,21 @@ public class MountainRoadManager : MonoBehaviour
         _sceneAssets = new[] {terrain, roadNetwork, remainingAssets};
     }
 
-    public IEnumerator ActivateAssets()
+    public void ActivateGameObjects(bool activationState)
+    {
+        _activateObjects = activationState;
+        StartCoroutine(ActivateAssets());
+    }
+    
+    IEnumerator ActivateAssets()
     {
         foreach (var asset in _sceneAssets)
         {
-            yield return ActivateGameObjects(asset);
+            yield return ActivateEachGameObject(asset);
         }    
     }
 
-    IEnumerator ActivateGameObjects(GameObject obj)
+    IEnumerator ActivateEachGameObject(GameObject obj)
     {
         yield return null;
         obj.SetActive(true);
