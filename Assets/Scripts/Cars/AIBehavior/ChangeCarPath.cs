@@ -7,8 +7,8 @@ public class ChangeCarPath : MonoBehaviour
 {
 
 
-    public void SetParticipantsCarPath(PathCreator newPath)
+    public void SetParticipantsCarPath(PathCreator newPath, float curveDetector, float precision, float trackerSensitivity)
     {
-        this.gameObject.GetComponent<AIController>().SetNewPath(newPath);
+        this.gameObject.GetComponent<AIController>().SetNewPath(newPath, curveDetector, precision, trackerSensitivity);
     }
 }

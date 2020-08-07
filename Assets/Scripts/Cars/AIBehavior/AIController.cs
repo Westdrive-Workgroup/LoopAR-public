@@ -49,6 +49,8 @@ public class AIController : MonoBehaviour
     /*[SerializeField] */private float accelerationCareFactor = 0.75f; //AIs in Racing games might constant push the gas pedal, I dont think that this is correct in ordinary traffic 
     /*[SerializeField] */private float brakeFactor = 1f; //Strong Brakes requires potentially a less aggressive braking behavior of the AI.
     private bool _manualOverride;
+    
+    
 
     #endregion
 
@@ -206,6 +208,7 @@ public class AIController : MonoBehaviour
     public void SetNewPath(PathCreator newPath)
     {
         path = newPath;
+        SetLocalTargetAndCurveDetection();
     }
     
     public void SetNewPath(PathCreator newPath, float newCurveDetectorStepAhead, float newPrecision, float newTrackerSensitivity)
@@ -214,8 +217,10 @@ public class AIController : MonoBehaviour
         curveDetectorStepAhead = newCurveDetectorStepAhead;
         precision = newPrecision;
         trackerSensitivity = newTrackerSensitivity;
+        SetLocalTargetAndCurveDetection();
     }
 
+    // in the events
     public void SetTrackerSensitivity(float newTrackerSensitivity)
     {
         // todo
