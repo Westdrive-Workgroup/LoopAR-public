@@ -1,9 +1,19 @@
 fileFormatVersion: 2
-guid: 237ab4b9cafb9ae4bb2addebfb96678f
+guid: d0c0fb6284fc27a4ca3412473b83797a
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Tunnel
+    second: {fileID: 2100000, guid: 91b00406bc4cf7647901fd116680f29d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: lampLight
+    second: {fileID: 2100000, guid: e5dc30851f4a85e42a0848f0f1672aae, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
@@ -31,12 +41,9 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 1
+    isReadable: 0
   meshes:
-    lODScreenPercentages:
-    - 0.25
-    - 0.125
-    - 0.01
+    lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
     addColliders: 0
