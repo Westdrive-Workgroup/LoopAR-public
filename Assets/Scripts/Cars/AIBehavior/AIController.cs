@@ -208,5 +208,18 @@ public class AIController : MonoBehaviour
         path = newPath;
     }
     
+    public void SetNewPath(PathCreator newPath, float newCurveDetectorStepAhead, float newPrecision, float newTrackerSensitivity)
+    {
+        path = newPath;
+        curveDetectorStepAhead = newCurveDetectorStepAhead;
+        precision = newPrecision;
+        trackerSensitivity = newTrackerSensitivity;
+    }
+
+    public void SetTrackerSensitivity(float newTrackerSensitivity)
+    {
+        // todo
+    }
+
     #endregion
 }
