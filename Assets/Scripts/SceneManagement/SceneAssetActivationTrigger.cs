@@ -21,7 +21,7 @@ public class SceneAssetActivationTrigger : MonoBehaviour
     
     void Start()
     {
-        // this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
