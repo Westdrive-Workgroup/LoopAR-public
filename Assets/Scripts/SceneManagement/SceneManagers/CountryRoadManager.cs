@@ -11,14 +11,16 @@ public class CountryRoadManager : MonoBehaviour
     [Space] [Header("Car and Path options")]
     [SerializeField] private GameObject participantsCar;
     [SerializeField] private PathCreator mainCarPath;
-    [SerializeField] private float curveDetectorStepAhead = 0.01f;
-    [SerializeField] private float precision = 0.005f;
-    [SerializeField] private float trackerSensitivity = 5f;
+    [SerializeField] private float curveDetectorStepAhead = 0.008f;
+    [SerializeField] private float precision = 0.004f;
+    [SerializeField] private float trackerSensitivity = 4f;
     
     [Space] [Header("General GameObjects")]
     [SerializeField] private GameObject terrain;
     [SerializeField] private GameObject roadNetwork;
-    [SerializeField] private GameObject remainingAssets;
+    [SerializeField] private GameObject assetCluster1;
+    [SerializeField] private GameObject assetCluster2;
+    [SerializeField] private GameObject assetCluster3;
 
     private GameObject[] _sceneAssets;
     private bool _activateObjects;
@@ -30,7 +32,7 @@ public class CountryRoadManager : MonoBehaviour
             Instance = this;
         }
 
-        _sceneAssets = new[] {terrain, roadNetwork, remainingAssets};
+        _sceneAssets = new[] {/*terrain, */roadNetwork, assetCluster1, assetCluster2, assetCluster3};
     }
 
     public void ActivateGameObjects(bool activationState)

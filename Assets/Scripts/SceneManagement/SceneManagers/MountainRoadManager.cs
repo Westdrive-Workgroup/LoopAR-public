@@ -18,7 +18,9 @@ public class MountainRoadManager : MonoBehaviour
     [Space] [Header("General GameObjects")]
     [SerializeField] private GameObject terrain;
     [SerializeField] private GameObject roadNetwork;
-    [SerializeField] private GameObject remainingAssets;
+    [SerializeField] private GameObject assetCluster1;
+    [SerializeField] private GameObject assetCluster2;
+    [SerializeField] private GameObject assetCluster3;
 
     private GameObject[] _sceneAssets;
     private bool _activateObjects;
@@ -30,7 +32,7 @@ public class MountainRoadManager : MonoBehaviour
             Instance = this;
         }
 
-        _sceneAssets = new[] {terrain, roadNetwork, remainingAssets};
+        _sceneAssets = new[] {/*terrain, */roadNetwork, assetCluster1, assetCluster2, assetCluster3};
     }
 
     public void ActivateGameObjects(bool activationState)
