@@ -10,7 +10,7 @@ public class TrafficEventTrigger : MonoBehaviour
     [SerializeField] private bool activateEvent;
     
     private CriticalEventController _eventController;
-    private GameObject _targetVehicle;
+    // private GameObject _targetVehicle;
     private GameObject _currentTarget;
 
     void OnTriggerEnter(Collider other)
@@ -19,18 +19,22 @@ public class TrafficEventTrigger : MonoBehaviour
             return;
 
         _currentTarget = other.gameObject;
-        
-        
-        if (other.gameObject == _targetVehicle)
+
+
+        if (other.GetComponent<ManualController>() != null)
         {
             _eventController.Triggered(activateEvent);
+
+            /*if (other.gameObject == _targetVehicle)
+            {
+            }*/
         }
     }
 
-    public void TargetVehicle(GameObject vehicle)
+    /*public void TargetVehicle(GameObject vehicle)
     {
         _targetVehicle = vehicle;
-    }
+    }*/
 
     public void SetController(CriticalEventController eventController)
     {

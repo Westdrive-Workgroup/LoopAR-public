@@ -8,17 +8,16 @@ public class SceneToLoad : MonoBehaviour
 {
     public enum Scenes
     {
+        MountainRoad,
         Westbrueck,
         Countryroad,
         Autobahn,
-        MainMenu,
-        MountainRoad
+        MainMenu
     }
 
     private GameObject _currentTarget;
     
     public Scenes sceneToLoad = Scenes.Westbrueck;
-    [HideInInspector] public int sceneValue = 0;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -29,26 +28,26 @@ public class SceneToLoad : MonoBehaviour
 
         if (other.GetComponent<ManualController>() != null)
         {
-            SceneLoadingHandler.Instance.SceneChange(GetTargetScene(), other);
+            // SceneLoadingHandler.Instance.LoadExperimentScenes(sceneToLoad.ToString(), other);
         }
     }
 
-    private String GetTargetScene()
+    /*private String GetTargetScene()
     {
-        switch ((int) sceneToLoad)
+        switch (sceneToLoad)
         {
-            case 0:
+            case Scenes.Westbrueck:
                 return "Westbrueck";
-            case 1:
+            case Scenes.Countryroad:
                 return "CountryRoad";
-            case 2:
+            case Scenes.Autobahn:
                 return "Autobahn";
-            case 3:
+            case Scenes.MainMenu:
                 return "MainMenu";
-            case 4:
+            case Scenes.MountainRoad:
                 return "MountainRoad";
         }
 
         return null;
-    }
+    }*/
 }

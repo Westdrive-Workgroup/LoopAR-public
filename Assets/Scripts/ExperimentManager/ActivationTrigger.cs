@@ -17,13 +17,11 @@ public class ActivationTrigger : MonoBehaviour
     [SerializeField] private GameObject targetGroup;
 
     [Space] [Header("Functionality of the trigger")] 
-    [SerializeField] private bool _activate;
+    [SerializeField] private bool activate;
 
     private ActivationHandler _activationHandler;
     private GameObject _currentTarget;
-
-    // Start is called before the first frame update
-   
+    
     void Start()
     {
         _activationHandler = targetGroup.GetComponent<ActivationHandler>();
@@ -45,7 +43,7 @@ public class ActivationTrigger : MonoBehaviour
         
         if (other.GetComponent<ManualController>() != null)
         {
-            if (_activate)
+            if (activate)
             {
                 _activationHandler.ChangeActivationState(true, targetGroup);
             }
@@ -53,6 +51,7 @@ public class ActivationTrigger : MonoBehaviour
             {
                 _activationHandler.ChangeActivationState(false, targetGroup);
             }
+            
             Debug.Log("<color=green>Went through</color>: " + this.gameObject.name);
         }
     }

@@ -184,15 +184,16 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.StartTestDrive();
                 }
             }
-            else if (CalibrationManager.Instance.GetTestDriveState())
+            /*else if (CalibrationManager.Instance.GetTestDriveState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start Experiment"))
                 {
                     _section = Section.MainExperiment; 
                     // TODO check with calibration manager if it is allowed to go to the experiment (not mvp)
-                    SceneLoadingHandler.Instance.SceneChange("MountainRoad");
+                    SceneLoadingHandler.Instance.LoadExperimentScenes();
+                    // SceneLoadingHandler.Instance.SceneChange("MountainRoad");
                 }
-            }
+            }*/
         }
         else if (!CalibrationManager.Instance.GetVRActivationState() && CalibrationManager.Instance.GetWasMainMenuLoaded())
         {
@@ -213,14 +214,15 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.StartTestDrive();
                 }
             }
-            else if (CalibrationManager.Instance.GetTestDriveState())
+            /*else if (CalibrationManager.Instance.GetTestDriveState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start Experiment"))
                 {
                     _section = Section.MainExperiment;
-                    SceneLoadingHandler.Instance.SceneChange("MountainRoad");
+                    SceneLoadingHandler.Instance.LoadExperimentScenes();
+                    // SceneLoadingHandler.Instance.SceneChange("MountainRoad");
                 }
-            }
+            }*/
         }
     }
 

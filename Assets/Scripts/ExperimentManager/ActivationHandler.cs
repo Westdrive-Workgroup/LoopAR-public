@@ -17,7 +17,7 @@ public class ActivationHandler : MonoBehaviour
         _isActive = false;
     }
     
-    // Changes the activation states of the cars 
+    // Changes the activation states of the objects 
     public void ChangeActivationState(GameObject targetGroup)
     {
         if (_isActive)
@@ -28,7 +28,7 @@ public class ActivationHandler : MonoBehaviour
         _isActive = !_isActive;
     }
     
-    // Manual override for all cars. Can be set to true or false
+    // Manual override for all objects. Can be set to true or false
     public void ChangeActivationState(bool state, GameObject targetGroup)
     {
         foreach (Transform child in targetGroup.transform)

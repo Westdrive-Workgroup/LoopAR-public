@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 
 public class SceneLoadingHandler : MonoBehaviour
@@ -9,14 +11,10 @@ public class SceneLoadingHandler : MonoBehaviour
     public static SceneLoadingHandler Instance { get; private set; }
 
     private GameObject _participantsCar;
-    
-    public delegate void OnInitiateLoadingScene();
-    public event OnInitiateLoadingScene NotifySceneLoadingStartObservers;
+    private bool _isLoadAdditiveModeRunning;
 
-    
     private void Awake()
     {
-        //singleton pattern a la Unity
         if (Instance == null)
         {
             Instance = this;
@@ -43,19 +41,26 @@ public class SceneLoadingHandler : MonoBehaviour
         }
     }
     
-    public void SceneChange(string targetScene, Collider car)
+    public void LoadExperimentScenes()
     {
-        car.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
+        AssignParticipantsCar();
+        
+        /*if (_participantsCar != null)
+            _participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
+        else
+            CameraManager.Instance.FadeOut();*/
+        
         CameraManager.Instance.FadeOut();
-        StartCoroutine(LoadSceneLoaderScenesAsync(targetScene));
+        StartCoroutine(LoadExperimentScenesAsyncAdditive());
     }
+    
     public void SceneChange(string targetScene)
     {
         CameraManager.Instance.FadeOut();
         StartCoroutine(LoadScenesAsync(targetScene));
     }
     
-    IEnumerator LoadSceneLoaderScenesAsync(string targetScene)
+    /*IEnumerator LoadSceneLoaderScenesAsync(string targetScene)
     {
         Debug.Log("SceneLoader");
         // CameraManager.Instance.FadeIn();
@@ -76,7 +81,7 @@ public class SceneLoadingHandler : MonoBehaviour
 
         CameraManager.Instance.OnSceneLoaded();
         StartCoroutine(LoadScenesAsync(targetScene));
-    }
+    }*/
     
     IEnumerator LoadScenesAsync(string targetScene)
     {
@@ -99,9 +104,52 @@ public class SceneLoadingHandler : MonoBehaviour
             yield return null;
         }
         
-        CameraManager.Instance.OnSceneLoaded();
+        AssignParticipantsCar();
+        CameraManager.Instance.OnSceneLoaded(true);
     }
     
+    public IEnumerator LoadExperimentScenesAsyncAdditive()
+    {
+        _isLoadAdditiveModeRunning = true;
+        Application.backgroundLoadingPriority = ThreadPriority.Low;
+        
+        // AsyncOperationHandle op1 = Addressables.LoadSceneAsync("MountainRoad");
+        AsyncOperation opMountainRoad = SceneManager.LoadSceneAsync("MountainRoad");
+
+        // opMountainRoad.allowSceneActivation = false;
+        
+        while (!opMountainRoad.isDone)
+        {
+            yield return null;
+        }
+        
+        // opMountainRoad.allowSceneActivation = true;
+
+        AsyncOperation op2 = SceneManager.LoadSceneAsync("Westbrueck", LoadSceneMode.Additive);
+
+        while (!op2.isDone)
+        {
+            yield return null;
+        }
+        
+        AsyncOperation op3 = SceneManager.LoadSceneAsync("CountryRoad", LoadSceneMode.Additive);
+        
+        while (!op3.isDone)
+        {
+            yield return null;
+        }
+        
+        AsyncOperation op4 = SceneManager.LoadSceneAsync("Autobahn", LoadSceneMode.Additive);
+        
+        while (!op4.isDone)
+        {
+            yield return null;
+        }
+
+        _participantsCar = MountainRoadManager.Instance.GetParticipantsCar();
+        _isLoadAdditiveModeRunning = false;
+        CameraManager.Instance.OnSceneLoaded(false);
+    }
     
     private void AssignParticipantsCar()
     {
@@ -135,6 +183,11 @@ public class SceneLoadingHandler : MonoBehaviour
     {
         AssignParticipantsCar();
         return _participantsCar;
+    }
+
+    public bool GetAdditiveLoadingState()
+    {
+        return _isLoadAdditiveModeRunning;
     }
 }
 
