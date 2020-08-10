@@ -23,7 +23,11 @@ public class VRCam : MonoBehaviour
 
     private void Start()
     {
-        // seatPosition = CameraManager.Instance.GetObjectToFollow().GetComponent<CarController>().GetSeatPosition();
+        if (CameraManager.Instance.GetSeatPosition() != null)
+        {
+            _seatPosition = CameraManager.Instance.GetSeatPosition();
+        }
+        
         _formerPosition = new Vector3();
     }
     
@@ -41,17 +45,16 @@ public class VRCam : MonoBehaviour
         {
             try
             {
+                Debug.Log("multi purpose camera pos " + this.transform.position);
+                
                 _seatPosition = CameraManager.Instance.GetSeatPosition();
-                /*if (seatPosition == null)
-                {
-                    Debug.Log("<color=red>Error: </color>Seat position is not assigned!");
-                    return;
-                }*/
-            
+                Debug.Log("seat pos " + _seatPosition.transform.position);
                 transform.SetPositionAndRotation(_seatPosition.transform.position,_seatPosition.transform.rotation);
+                Debug.Log("multi purpose camera pos after assignment " + this.transform.position);
             }
             catch (Exception e)
             {
+                Debug.Log("<color=red>Error: </color>Seat position is not assigned!");
                 Console.WriteLine("<color=red>Error: </color>" + e);
                 throw;
             }
@@ -77,6 +80,11 @@ public class VRCam : MonoBehaviour
         transform.position = position;
         _formerPosition = position;
         _seatActivated = false;
+    }
+
+    public void SetSeatPosition(GameObject seatPosition)
+    {
+        _seatPosition = seatPosition;
     }
 
     #endregion
