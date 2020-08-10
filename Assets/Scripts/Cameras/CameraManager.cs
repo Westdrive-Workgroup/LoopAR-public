@@ -46,9 +46,15 @@ public class CameraManager : MonoBehaviour
     public void OnSceneLoaded(/*Scene scene, LoadSceneMode mode*/ bool autoFadeIn)
     {
         _objectToFollow = SceneLoadingHandler.Instance.GetParticipantsCar();
+        
         if (_objectToFollow != null)
         {
             SetSeatPosition(_objectToFollow);
+            
+            if (CalibrationManager.Instance.GetVRActivationState())
+            {
+                _vRCamera.SetSeatPosition(_seatPosition);
+            }
         }
 
         if (autoFadeIn)
@@ -105,7 +111,7 @@ public class CameraManager : MonoBehaviour
         if (_objectToFollow != null)
         {
             this.gameObject.transform.position = GetSeatPositionVector3();
-            _vRCamera.SetPosition(GetSeatPositionVector3()); ///////????? todo
+            // _vRCamera.SetPosition(GetSeatPositionVector3()); ///////????? todo
         }
     }
 

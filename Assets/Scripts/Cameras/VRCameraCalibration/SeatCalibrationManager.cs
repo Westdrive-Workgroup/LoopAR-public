@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,6 +32,11 @@ public class SeatCalibrationManager : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
     
+    private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        vRCam = CameraManager.Instance.GetVRCamera();
+    }
+    
     void Start()
     {
         _distanceVector = new Vector3();
@@ -43,12 +49,45 @@ public class SeatCalibrationManager : MonoBehaviour
             Debug.LogError("Please add the VRCam Prefab in the Inspector");
         }
     }
-    
-    private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
+
+    private void Update()
     {
-        vRCam = CameraManager.Instance.GetVRCamera();
-        // CameraManager.Instance.SetObjectToFollow(car);
-        // CameraManager.Instance.SetSeatPosition(seatPosition);
+        float positionOffset = 0.1f;
+
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            positionOffset = 0.5f;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        {
+            _cameraOffsetObject.transform.Translate(-positionOffset, 0, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
+            _cameraOffsetObject.transform.Translate(positionOffset, 0, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        {
+            _cameraOffsetObject.transform.Translate(0, positionOffset, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        {
+            _cameraOffsetObject.transform.Translate(0, -positionOffset, 0);
+        }
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.KeypadPlus)  || Input.GetKeyDown(KeyCode.Plus))
+        {
+            _cameraOffsetObject.transform.Translate(0, 0, positionOffset);
+        }
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus))
+        {
+            _cameraOffsetObject.transform.Translate(0, 0, -positionOffset);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            ApplyCalibration();
+        }
     }
 
     #region GUI
@@ -103,13 +142,13 @@ public class SeatCalibrationManager : MonoBehaviour
             TestPositioning();
         }
         
-        if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight),
+        /*if (GUI.Button(new Rect(xForButtons, yForButtons + heightDifference, buttonWidth, buttonHeight),
             "Calibrate and Store"))
         {
             CalibrateAndStore();
-        }
+        }*/
         
-        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*2), buttonWidth, buttonHeight),
+        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference), buttonWidth, buttonHeight),
             "Apply Calibration"))
         {
             ApplyCalibration();
@@ -123,7 +162,6 @@ public class SeatCalibrationManager : MonoBehaviour
         }
         
         
-        // Reset Button
         GUI.backgroundColor = Color.red;
         GUI.color = Color.white;
         
@@ -144,31 +182,47 @@ public class SeatCalibrationManager : MonoBehaviour
 
     private void TestPositioning()
     {
-        vRCam.Seat();
+        _cameraOffsetObject.transform.position = Vector3.zero;
+        // car.transform.position = _cameraOffsetObject.transform.position;
+        // vRCam.Seat();
     }
 
     private void CalibrateAndStore()
     {
-       Debug.Log(_cameraOffsetObject.transform.position);
-       Debug.Log(_vrCameraObject.transform.position);
+       Debug.Log("offset " + _cameraOffsetObject.transform.position);
+       Debug.Log("vr cam " + _vrCameraObject.transform.position);
+       Debug.Log("seat position " + seatPosition.transform.position);
        
-        _distanceVector.x = _cameraOffsetObject.transform.position.x - _vrCameraObject.transform.position.x;
+        /*_distanceVector.x = _cameraOffsetObject.transform.position.x - _vrCameraObject.transform.position.x;
         _distanceVector.y = _cameraOffsetObject.transform.position.y - _vrCameraObject.transform.position.y;
-        _distanceVector.z = _cameraOffsetObject.transform.position.z - _vrCameraObject.transform.position.z;
+        _distanceVector.z = _cameraOffsetObject.transform.position.z - _vrCameraObject.transform.position.z;*/
         
-        //distanceVector.x = vrCameraObject.transform.position.x - SeatPosition.transform.position.x;
-        //distanceVector.y = vrCameraObject.transform.position.y - SeatPosition.transform.position.y;
-        //distanceVector.z = vrCameraObject.transform.position.z - SeatPosition.transform.position.z;
+        /*_distanceVector.x = _vrCameraObject.transform.position.x - seatPosition.transform.position.x;
+        _distanceVector.y = _vrCameraObject.transform.position.y - seatPosition.transform.position.y;
+        _distanceVector.z = _vrCameraObject.transform.position.z - seatPosition.transform.position.z;*/
+        
+        /*_distanceVector.x = _cameraOffsetObject.transform.position.x - seatPosition.transform.position.x;
+        _distanceVector.y = _cameraOffsetObject.transform.position.y - seatPosition.transform.position.y;
+        _distanceVector.z = _cameraOffsetObject.transform.position.z - seatPosition.transform.position.z;*/
+
+        // _distanceVector = Vector3.Distance(_cameraOffsetObject.transform.position, _vrCameraObject.transform.position);
+
+        _distanceVector = _cameraOffsetObject.transform.position - _vrCameraObject.transform.position;
         
         CalibrationManager.Instance.StoreSeatCalibrationData(_distanceVector);
-        Debug.Log(_distanceVector);
+        // CalibrationManager.Instance.GetSeatCalibrationOffset();
+
+        Debug.Log("distance " + _distanceVector);
     }
 
     private void ApplyCalibration()
     {
         // SceneLoader.Instance.AsyncLoad(2);
-        Debug.Log("loading the scene again");
-        SceneManager.LoadSceneAsync("SeatCalibrationScene");
+        // Debug.Log("loading the scene again");
+        // SceneManager.LoadSceneAsync("SeatCalibrationScene");
+        // _cameraOffsetObject.transform.localPosition = -CalibrationManager.Instance.GetSeatCalibrationOffset();
+        
+        CalibrationManager.Instance.StoreSeatCalibrationData(_cameraOffsetObject.transform.position);
     }
 
     public GameObject GetParticipantsCar()
