@@ -81,8 +81,8 @@ public class PersistentTrafficEventManager : MonoBehaviour
         }
         
         _participantsCar.GetComponent<ControlSwitch>().SwitchControl(false);
-        ExperimentManager.Instance.SetEventActivationState(false);
         _participantsCar.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
+        ExperimentManager.Instance.SetEventActivationState(false);
     }
 
         #region Setters

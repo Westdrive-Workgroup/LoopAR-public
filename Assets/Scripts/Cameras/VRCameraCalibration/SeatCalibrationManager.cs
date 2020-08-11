@@ -123,8 +123,9 @@ public class SeatCalibrationManager : MonoBehaviour
         
         if (GUI.Button(new Rect(xForButtons*9, yForButtons - heightDifference, buttonWidth, buttonHeight), "Reset"))
         {
-            // todo
             _successful = false;
+            DeleteSeatCalibration();
+            ApplyCalibration();
         }
         
                 
@@ -132,12 +133,7 @@ public class SeatCalibrationManager : MonoBehaviour
         GUI.backgroundColor = Color.cyan;
         GUI.color = Color.white;
 
-        if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Delete Calibration"))
-        {
-            DeleteSeatCalibration();
-        }
-        
-        if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Test Positioning"))
+        if (GUI.Button(new Rect(xForButtons, yForButtons - heightDifference, buttonWidth, buttonHeight), "Test Positioning"))
         {
             TestPositioning();
         }
@@ -148,7 +144,7 @@ public class SeatCalibrationManager : MonoBehaviour
             CalibrateAndStore();
         }*/
         
-        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference), buttonWidth, buttonHeight),
+        if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight),
             "Apply Calibration"))
         {
             ApplyCalibration();
@@ -156,7 +152,7 @@ public class SeatCalibrationManager : MonoBehaviour
         
         GUI.backgroundColor = Color.green;
             
-        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*3), buttonWidth, buttonHeight), "Confirm Calibration"))
+        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*2), buttonWidth, buttonHeight), "Confirm Calibration"))
         {
             CalibrationManager.Instance.SeatCalibrationSuccessful();
         }
@@ -164,6 +160,11 @@ public class SeatCalibrationManager : MonoBehaviour
         
         GUI.backgroundColor = Color.red;
         GUI.color = Color.white;
+        
+        if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference * 4), buttonWidth, buttonHeight), "Delete Calibration"))
+        {
+            DeleteSeatCalibration();
+        }
         
         if (GUI.Button(new Rect(xForButtons*9, yForLable, buttonWidth, buttonHeight), "Abort Experiment"))
         {
@@ -183,45 +184,24 @@ public class SeatCalibrationManager : MonoBehaviour
     private void TestPositioning()
     {
         _cameraOffsetObject.transform.position = Vector3.zero;
-        // car.transform.position = _cameraOffsetObject.transform.position;
-        // vRCam.Seat();
+        car.transform.position = _cameraOffsetObject.transform.position;
+        vRCam.Seat();
     }
 
     private void CalibrateAndStore()
     {
-       Debug.Log("offset " + _cameraOffsetObject.transform.position);
+       /*Debug.Log("offset " + _cameraOffsetObject.transform.position);
        Debug.Log("vr cam " + _vrCameraObject.transform.position);
-       Debug.Log("seat position " + seatPosition.transform.position);
-       
-        /*_distanceVector.x = _cameraOffsetObject.transform.position.x - _vrCameraObject.transform.position.x;
-        _distanceVector.y = _cameraOffsetObject.transform.position.y - _vrCameraObject.transform.position.y;
-        _distanceVector.z = _cameraOffsetObject.transform.position.z - _vrCameraObject.transform.position.z;*/
-        
-        /*_distanceVector.x = _vrCameraObject.transform.position.x - seatPosition.transform.position.x;
-        _distanceVector.y = _vrCameraObject.transform.position.y - seatPosition.transform.position.y;
-        _distanceVector.z = _vrCameraObject.transform.position.z - seatPosition.transform.position.z;*/
-        
-        /*_distanceVector.x = _cameraOffsetObject.transform.position.x - seatPosition.transform.position.x;
-        _distanceVector.y = _cameraOffsetObject.transform.position.y - seatPosition.transform.position.y;
-        _distanceVector.z = _cameraOffsetObject.transform.position.z - seatPosition.transform.position.z;*/
+       Debug.Log("seat position " + seatPosition.transform.position);*/
 
-        // _distanceVector = Vector3.Distance(_cameraOffsetObject.transform.position, _vrCameraObject.transform.position);
+       _distanceVector = _cameraOffsetObject.transform.position - _vrCameraObject.transform.position;
+       CalibrationManager.Instance.StoreSeatCalibrationData(_distanceVector);
 
-        _distanceVector = _cameraOffsetObject.transform.position - _vrCameraObject.transform.position;
-        
-        CalibrationManager.Instance.StoreSeatCalibrationData(_distanceVector);
-        // CalibrationManager.Instance.GetSeatCalibrationOffset();
-
-        Debug.Log("distance " + _distanceVector);
+        // Debug.Log("distance " + _distanceVector);
     }
 
     private void ApplyCalibration()
     {
-        // SceneLoader.Instance.AsyncLoad(2);
-        // Debug.Log("loading the scene again");
-        // SceneManager.LoadSceneAsync("SeatCalibrationScene");
-        // _cameraOffsetObject.transform.localPosition = -CalibrationManager.Instance.GetSeatCalibrationOffset();
-        
         CalibrationManager.Instance.StoreSeatCalibrationData(_cameraOffsetObject.transform.position);
     }
 
