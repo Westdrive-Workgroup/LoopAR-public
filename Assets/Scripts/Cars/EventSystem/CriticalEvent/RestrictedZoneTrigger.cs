@@ -8,31 +8,20 @@ using Matrix4x4 = System.Numerics.Matrix4x4;
 [DisallowMultipleComponent]
 public class RestrictedZoneTrigger : MonoBehaviour
 {
-    private Vector3 _colliderDimensions;
-
-    private Vector3 _colliderPosition;
+    private CriticalEventController _controller;    
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        _colliderDimensions = GetComponent<Collider>().bounds.size;
-    }
-    
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<ManualController>() != null)
         {
+            this.transform.parent.GetComponent<PlaceHolderCriticalEventController>().GetController().StopEndIdleEvent();
             ExperimentManager.Instance.ParticipantFailed();
             // Debug.Log("<color=orange>"+ this.gameObject + " You have dieded "+ "</color>");
         }
     }
 
-    public void OnDrawGizmos()
+    public void SetController(CriticalEventController controller)
     {
-        //Gizmos.color=Color.red;
-        //Gizmos.matrix= transform.localToWorldMatrix;
-        
-        //Gizmos.DrawWireCube(this.transform.position,_colliderDimensions);
+        _controller = controller;
     }
 }
