@@ -62,17 +62,14 @@ public class ExperimentManager : MonoBehaviour
             _savingManager = SavingManager.Instance;
             _savingManager.SetParticipantCar(_participantsCar);    
         }
-
-        // SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    public void OnSceneLoaded(/*UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode*/)
+    public void OnSceneLoaded()
     {
         if (SceneManager.GetActiveScene().name != "MainMenu")
         {
             AssignParticipantsCar();
             RunMainMenu();
-            // StartCoroutine(RunMainMenu());
         }
     }
 
@@ -110,7 +107,6 @@ public class ExperimentManager : MonoBehaviour
         {
             InformTriggers();
             AssignParticipantsCar();
-            // StartCoroutine(RunMainMenu());
             RunMainMenu();
         }
         catch (Exception e)
@@ -119,15 +115,6 @@ public class ExperimentManager : MonoBehaviour
             throw;
         }
     }
-
-    // main menu
-    /*private IEnumerator RunMainMenu()
-    { 
-        _scene = Scene.MainMenu;
-        _participantsCar.GetComponent<CarController>().TurnOffEngine();
-        yield return new WaitForSeconds(2);
-        StartCoroutine(StartExperiment());
-    }*/
 
     private void RunMainMenu()
     {
@@ -210,7 +197,6 @@ public class ExperimentManager : MonoBehaviour
         CameraManager.Instance.RespawnBehavior();
         _participantsCar.GetComponent<Rigidbody>().isKinematic = false;
         _participantsCar.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
-        _criticalEventController.StopEndIdleEvent();
         StartCoroutine(ReSpawnParticipant(respawnDelay));
     }
     
