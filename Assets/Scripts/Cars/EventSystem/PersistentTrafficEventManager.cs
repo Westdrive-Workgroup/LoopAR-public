@@ -67,6 +67,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
         
         _participantsCar.GetComponent<ControlSwitch>().SwitchControl(true);
         _participantsCar.GetComponent<ControlSwitch>().GetComponentInChildren<HUD_Advance>().ActivateHUD(_eventObjects);
+        _participantsCar.GetComponent<AIController>().SetTrackerSensitivity(15);
         ExperimentManager.Instance.SetEventActivationState(true);
     }
     
@@ -82,6 +83,7 @@ public class PersistentTrafficEventManager : MonoBehaviour
         
         _participantsCar.GetComponent<ControlSwitch>().SwitchControl(false);
         _participantsCar.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
+        _participantsCar.GetComponent<AIController>().ReSetTrackerSensitivity();
         ExperimentManager.Instance.SetEventActivationState(false);
     }
 
