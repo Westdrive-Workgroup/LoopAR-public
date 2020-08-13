@@ -210,6 +210,7 @@ public class ExperimentManager : MonoBehaviour
         CameraManager.Instance.RespawnBehavior();
         _participantsCar.GetComponent<Rigidbody>().isKinematic = false;
         _participantsCar.GetComponent<AIController>().SetLocalTargetAndCurveDetection();
+        _criticalEventController.StopEndIdleEvent();
         StartCoroutine(ReSpawnParticipant(respawnDelay));
     }
     
@@ -270,6 +271,11 @@ public class ExperimentManager : MonoBehaviour
     public void SetParticipantsCar(GameObject car)
     {
         _participantsCar = car;
+    }
+    
+    public void SetController(CriticalEventController criticalEventController)
+    {
+        _criticalEventController = criticalEventController;
     }
 
     #endregion
