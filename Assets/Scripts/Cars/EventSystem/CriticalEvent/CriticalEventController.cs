@@ -45,6 +45,7 @@ public class CriticalEventController : MonoBehaviour
 
 
     private RestrictedZoneTrigger[] _restrictedZoneTriggers;
+    private RestrictedZoneTrigger[] _restrictedZoneTriggersInEventObjects;
 
     // private GameObject _targetedCar;
     private bool _activatedEvent;
@@ -63,6 +64,7 @@ public class CriticalEventController : MonoBehaviour
         ExperimentManager.Instance.SetController(this);
 
         _restrictedZoneTriggers = consistentEventObjects.GetComponentsInChildren<RestrictedZoneTrigger>();
+        _restrictedZoneTriggersInEventObjects = eventObjectParent.GetComponentsInChildren<RestrictedZoneTrigger>();
 
         DeactivateRestrictedZones();
         EventObjectsActivationSwitch(eventObjectParent);
@@ -79,7 +81,7 @@ public class CriticalEventController : MonoBehaviour
             yield return new WaitForSeconds(1);
         
             seconds++;
-
+            
             if (seconds >= eventIdleDuration)
             {
                 _activatedEvent = ExperimentManager.Instance.GetEventActivationState();
@@ -99,11 +101,24 @@ public class CriticalEventController : MonoBehaviour
         // Debug.Log("<color=blue>Starting the event process is initiated!</color>");
         float t1 = Time.time;
         PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DriverAlert();
+        
+        eventObjectParent.SetActive(true);
+        
+        foreach (var trigger in _restrictedZoneTriggersInEventObjects)
+        {
+            trigger.SetController(this);
+        }
+        
         yield return new WaitForSeconds(startEventDelay);
         float t2 = Time.time;
         // Debug.Log("<color=blue>Giving the control to the driver after </color>" + (t2-t1) + "<color=blue> seconds</color>");
         ActivateRestrictedZones();
-        eventObjectParent.SetActive(true);
+        
+        foreach (var trigger in _restrictedZoneTriggers)
+        {
+            trigger.SetController(this);
+        }
+        
         PersistentTrafficEventManager.Instance.InitiateEvent(eventObjects);
         ExperimentManager.Instance.SetRespawnPositionAndRotation(respawnPoint.transform.position,
             respawnPoint.transform.rotation);

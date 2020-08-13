@@ -14,9 +14,8 @@ public class RestrictedZoneTrigger : MonoBehaviour
     {
         if (other.GetComponent<ManualController>() != null)
         {
-            this.transform.parent.GetComponent<PlaceHolderCriticalEventController>().GetController().StopEndIdleEvent();
+            _controller.StopEndIdleEvent();
             ExperimentManager.Instance.ParticipantFailed();
-            // Debug.Log("<color=orange>"+ this.gameObject + " You have dieded "+ "</color>");
         }
     }
 
