@@ -48,8 +48,9 @@ public class CriticalEventController : MonoBehaviour
 
     // private GameObject _targetedCar;
     private bool _activatedEvent;
-    private bool _isEndIdleEventRunning;
+    private bool _endIdleEventState;
     private MeshRenderer[] _meshRenderers;
+    
 
     #endregion
 
@@ -69,21 +70,32 @@ public class CriticalEventController : MonoBehaviour
         TurnOffMeshRenderers(consistentEventObjects);
     }
 
-    private IEnumerator EndIdleEvent(float seconds = 0)
+    private IEnumerator EndIdleEvent()
     {
-        _isEndIdleEventRunning = true;
-        yield return new WaitForSeconds(seconds);
-        _activatedEvent = ExperimentManager.Instance.GetEventActivationState();
-        // Debug.Log("<color=red>event is active: </color>" + _activatedEvent);
+        int seconds = 0;
+        
+        while (!_endIdleEventState)
+        {
+            yield return new WaitForSeconds(1);
+        
+            seconds++;
 
-        if (_activatedEvent)
-            ExperimentManager.Instance.ParticipantFailed();
+            if (seconds >= eventIdleDuration)
+            {
+                _activatedEvent = ExperimentManager.Instance.GetEventActivationState();
+                // Debug.Log("<color=red>event is active: </color>" + _activatedEvent);
 
-        _isEndIdleEventRunning = false;
+                if (_activatedEvent)
+                    ExperimentManager.Instance.ParticipantFailed();
+            
+                _endIdleEventState = true;
+            }
+        }
     }
 
     private IEnumerator ActivateTheEvent()
     {
+        _endIdleEventState = false;
         // Debug.Log("<color=blue>Starting the event process is initiated!</color>");
         float t1 = Time.time;
         PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DriverAlert();
@@ -95,15 +107,12 @@ public class CriticalEventController : MonoBehaviour
         PersistentTrafficEventManager.Instance.InitiateEvent(eventObjects);
         ExperimentManager.Instance.SetRespawnPositionAndRotation(respawnPoint.transform.position,
             respawnPoint.transform.rotation);
-        StartCoroutine(EndIdleEvent(eventIdleDuration));
+        StartCoroutine(EndIdleEvent());
     }
 
     private IEnumerator DeactivateTheEvent()
     {
-        if (_isEndIdleEventRunning)
-        {
-            StopCoroutine(EndIdleEvent());
-        }
+        StopEndIdleEvent();
 
         // Debug.Log("<color=red>Deactivating the event is initiated!</color>");
         float t1 = Time.time;
@@ -173,13 +182,10 @@ public class CriticalEventController : MonoBehaviour
 
     public void StopEndIdleEvent()
     {
-        if (_isEndIdleEventRunning)
-        {
-            StopCoroutine(EndIdleEvent());
-        }
+        _endIdleEventState = true;
     }
 
-public void SetEventActivationState(bool state)
+    public void SetEventActivationState(bool state)
     {
         _activatedEvent = state;
     }
