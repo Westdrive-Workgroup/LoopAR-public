@@ -17,7 +17,7 @@ namespace Tobii.XR
 
         public TobiiXR_EyeTrackingData EyeTrackingDataLocal { get { return _eyeTrackingDataLocal; } }
 
-        public bool Initialize(FieldOfUse fieldOfUse)
+        public bool Initialize()
         {
             _eyeTrackingDataLocal.GazeRay.Origin = Vector3.zero;
             _eyeTrackingDataLocal.GazeRay.Direction = Vector3.forward;

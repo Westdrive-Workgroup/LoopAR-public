@@ -57,6 +57,7 @@ namespace Tobii.XR.Examples
         {
             if(_rectTransform == null) _rectTransform = GetComponent<RectTransform>();
 			if(_graphic == null) _graphic = GetComponent<Graphic>();
+			_collider = GetComponent<BoxCollider>();
 			if(_collider == null) _collider = GenerateRectCollider();
         }
 

@@ -60,8 +60,6 @@ namespace Tobii.XR
 
         public EyeTrackingFilterBase EyeTrackingFilter;
 
-        public FieldOfUse FieldOfUse = FieldOfUse.NotSelected;
-
         [HideInInspector]
         public List<ProviderElement> StandaloneEyeTrackingProviders = new List<ProviderElement>
         {
@@ -91,7 +89,7 @@ namespace Tobii.XR
                 .Select(element => AssemblyUtils.EyetrackingProviderType(element.TypeName))
                 .Where(type => type != null)
                 .Select(GetProviderFrom)
-                .FirstOrDefault(provider => provider.Initialize(FieldOfUse));
+                .FirstOrDefault(provider => provider.Initialize());
 
             return providerResult;
         }

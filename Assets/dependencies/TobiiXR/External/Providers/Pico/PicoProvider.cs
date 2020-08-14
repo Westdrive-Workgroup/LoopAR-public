@@ -15,7 +15,7 @@ namespace Tobii.XR
 
         public Matrix4x4 LocalToWorldMatrix { get { return Pvr_UnitySDKManager.SDK.transform.localToWorldMatrix * Pvr_UnitySDKManager.SDK.HeadPose.Matrix; } }
 
-        public bool Initialize(FieldOfUse fieldOfUse)
+        public bool Initialize()
         {
             EyeTrackingDataLocal = new TobiiXR_EyeTrackingData();
             var result = Pvr_UnitySDKAPI.System.UPvr_setTrackingMode((int)Pvr_UnitySDKAPI.TrackingMode.PVR_TRACKING_MODE_POSITION | (int)Pvr_UnitySDKAPI.TrackingMode.PVR_TRACKING_MODE_EYE);
@@ -45,7 +45,7 @@ namespace Tobii.XR
         }
 #else
         public Matrix4x4 LocalToWorldMatrix { get { return Matrix4x4.identity; } }
-        public bool Initialize(FieldOfUse fieldOfUse) 
+        public bool Initialize() 
         {
             Debug.LogError(string.Format("Scripting define symbol \"{0}\" not set for {1}.", AssemblyUtils.GetProviderCompilerFlag(this), this.GetType().Name));
             return false; 

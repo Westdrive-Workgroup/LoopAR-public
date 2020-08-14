@@ -10,6 +10,22 @@ Quick Start:
 See sample scene Example_GettingStarted
 
 
+Changes for v1.8.2
+
+* Updated SDLA pdf documents
+
+* Removed field of use
+
+* Removed contact link in SDLA window
+
+* Added Data Transparency Unity Example
+
+* Fixed a bug where UI buttons try to start an animation coroutine even though the button has been disabled
+
+Changes for v1.8.1
+
+* Changed email address in SDLA window to a website url
+
 Changes for v1.8.0
 
 * Removed update of eye tracking and focus data in fixed update
