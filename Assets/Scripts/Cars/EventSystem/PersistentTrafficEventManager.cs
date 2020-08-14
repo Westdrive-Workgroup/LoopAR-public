@@ -66,7 +66,6 @@ public class PersistentTrafficEventManager : MonoBehaviour
         _eventObjects = eventObjects;
         
         _participantsCar.GetComponent<ControlSwitch>().SwitchControl(true);
-        _participantsCar.GetComponent<ControlSwitch>().GetComponentInChildren<HUD_Advance>().ActivateHUD(_eventObjects);
         _participantsCar.GetComponent<AIController>().SetTrackerSensitivity(15);
         ExperimentManager.Instance.SetEventActivationState(true);
     }

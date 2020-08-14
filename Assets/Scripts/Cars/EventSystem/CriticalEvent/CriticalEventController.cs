@@ -109,6 +109,9 @@ public class CriticalEventController : MonoBehaviour
             trigger.SetController(this);
         }
         
+        PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponent<ControlSwitch>().GetComponentInChildren<HUD_Advance>().ActivateHUD(eventObjects);
+
+        
         yield return new WaitForSeconds(startEventDelay);
         float t2 = Time.time;
         // Debug.Log("<color=blue>Giving the control to the driver after </color>" + (t2-t1) + "<color=blue> seconds</color>");
