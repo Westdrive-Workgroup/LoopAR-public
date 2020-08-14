@@ -16,7 +16,7 @@ namespace Tobii.XR.Internal
         private const string PicoProviderCompilerFlagString = "TOBIIXR_PICOPROVIDER";
         private static bool _scriptsReloaded;
 
-        private int _lineEndings = 23; // Arbitrary number, could be correct. Will count the lines in OnGUI, setting non-zero here to avoid rendering artifacts after compilation.
+        private int _lineEndings = 22; // Arbitrary number, could be correct. Will count the lines in OnGUI, setting non-zero here to avoid rendering artifacts after compilation.
         private List<TobiiXR_Settings.ProviderElement> _allStandaloneProviders;
         private List<TobiiXR_Settings.ProviderElement> _allAndroidProviders;
         private ReorderableList _standaloneProviderList;
@@ -110,7 +110,6 @@ namespace Tobii.XR.Internal
             }
             _lineEndings = 0;
 
-            var fieldOfUse = property.FindPropertyRelative("FieldOfUse");
             var layerMask = property.FindPropertyRelative("LayerMask");
             var howLongToKeepCandidatesInSeconds = property.FindPropertyRelative("HowLongToKeepCandidatesInSeconds");
             var eyeTrackingFilter = property.FindPropertyRelative("EyeTrackingFilter");
@@ -135,9 +134,6 @@ namespace Tobii.XR.Internal
             CarriageReturn(ref position, 2);
 
             EditorGUI.BeginDisabledGroup(Application.isPlaying);
-
-            EditorGUI.PropertyField(position, fieldOfUse, new GUIContent("Field Of Use", "Set if the application is used for interactive or analytical purposes."));
-            CarriageReturn(ref position);
 
             CarriageReturn(ref position);
             EditorGUI.LabelField(position, new GUIContent("G2OM Settings", "Gaze-2-object mapping is a machine learning algorithm determining what object the user is looking at."), EditorStyles.boldLabel);

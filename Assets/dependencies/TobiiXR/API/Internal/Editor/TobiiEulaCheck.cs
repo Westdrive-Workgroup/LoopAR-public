@@ -48,13 +48,14 @@ One limitation is that you may only use the Tobii XR SDK to develop applications
 using eye tracking for interactive experiences, unless you first obtain a special license.
 
 If you want to develop software which stores or transfers eye tracking data,
-such as for behaviour research, advertisement research, usability testing, etc
-please contact Tobii licensing at </color><color=#0080ff>sdklicensing@tobii.com</color>
+such as for behaviour research, advertisement research, usability testing, etc.
+please click the Read button below to get more information about our licenses.</color>
 
 <color=" + LicenseTextColor + @">By clicking the Accept button below, you are stating that you have read,
 and agree to be bound, by the Tobii XR Unity SDK License and Use Agreement.</color></size>";
             }
         }
+
         [InitializeOnLoadMethod]
         private static void TobiiEulaChecker()
         {
@@ -133,8 +134,8 @@ and agree to be bound, by the Tobii XR Unity SDK License and Use Agreement.</col
 #else
             _window.title = "Tobii XR Unity SDK License and Use Agreement";
 #endif
-            _window.minSize = new Vector2(600, 790);
-            _window.position = new Rect(100, 75, 600, 790);
+            _window.minSize = new Vector2(600, 770);
+            _window.position = new Rect(100, 75, 600, 770);
 #endif
 
             var sdkPath = Path.GetDirectoryName(PathHelper.FindPathToClass(typeof(TobiiXR)));
@@ -173,7 +174,7 @@ and agree to be bound, by the Tobii XR Unity SDK License and Use Agreement.</col
 
             EditorGUILayout.BeginVertical("Box");
             scroll = EditorGUILayout.BeginScrollView(scroll);
-            EditorGUILayout.SelectableLabel(LicenseText, style, GUILayout.Height(360));
+            EditorGUILayout.SelectableLabel(LicenseText, style, GUILayout.Height(340));
             EditorGUILayout.EndScrollView();
 
             EditorGUILayout.EndVertical();

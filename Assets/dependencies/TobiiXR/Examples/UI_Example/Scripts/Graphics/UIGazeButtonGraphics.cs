@@ -83,6 +83,8 @@ public class UIGazeButtonGraphics : MonoBehaviour
             StopCoroutine(_buttonAnimationCoroutine);
         }
 
+        if (!isActiveAndEnabled) return;
+        
         // Animate the button to the new state.
         _buttonAnimationCoroutine = StartCoroutine(AnimateButton(_buttonPressDuration, _buttonPressAnimationCurve, currentButtonState));
     }
@@ -98,6 +100,8 @@ public class UIGazeButtonGraphics : MonoBehaviour
         {
             StopCoroutine(_buttonAnimationCoroutine);
         }
+
+        if (!isActiveAndEnabled) return;
 
         // Animate the visual feedback in it's current button state.
         _buttonAnimationCoroutine = StartCoroutine(AnimateButton(_visualFeedbackDuration, _visualFeedbackAnimationCurve, currentButtonState));

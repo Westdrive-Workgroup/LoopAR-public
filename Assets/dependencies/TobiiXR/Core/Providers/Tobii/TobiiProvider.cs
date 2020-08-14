@@ -25,18 +25,18 @@ namespace Tobii.XR
             get { return _eyeTrackingDataLocal; }
         }
 
-        public bool Initialize(FieldOfUse fieldOfUse)
+        public bool Initialize()
         {
-            return Initialize(fieldOfUse, null);
+            return Initialize(null);
         }
 
-        public bool Initialize(FieldOfUse fieldOfUse, StreamEngineTracker streamEngineTracker)
+        public bool Initialize(StreamEngineTracker streamEngineTracker)
         {
             try
             {
                 if (streamEngineTracker == null)
                 {
-                    _streamEngineTracker = new StreamEngineTracker(fieldOfUse);
+                    _streamEngineTracker = new StreamEngineTracker();
                 }
                 else
                 {
