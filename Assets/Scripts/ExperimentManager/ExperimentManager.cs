@@ -189,6 +189,7 @@ public class ExperimentManager : MonoBehaviour
         _activatedEvent = false;
 
         CameraManager.Instance.AlphaFadeOut();
+        _participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD(true);
         PersistentTrafficEventManager.Instance.FinalizeEvent();
         _participantsCar.GetComponent<CarController>().TurnOffEngine();
         _participantsCar.GetComponent<Rigidbody>().isKinematic = true;
