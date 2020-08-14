@@ -62,17 +62,14 @@ public class ExperimentManager : MonoBehaviour
             _savingManager = SavingManager.Instance;
             _savingManager.SetParticipantCar(_participantsCar);    
         }
-
-        // SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    public void OnSceneLoaded(/*UnityEngine.SceneManagement.Scene scene, LoadSceneMode mode*/)
+    public void OnSceneLoaded()
     {
         if (SceneManager.GetActiveScene().name != "MainMenu")
         {
             AssignParticipantsCar();
             RunMainMenu();
-            // StartCoroutine(RunMainMenu());
         }
     }
 
@@ -110,7 +107,6 @@ public class ExperimentManager : MonoBehaviour
         {
             InformTriggers();
             AssignParticipantsCar();
-            // StartCoroutine(RunMainMenu());
             RunMainMenu();
         }
         catch (Exception e)
@@ -119,15 +115,6 @@ public class ExperimentManager : MonoBehaviour
             throw;
         }
     }
-
-    // main menu
-    /*private IEnumerator RunMainMenu()
-    { 
-        _scene = Scene.MainMenu;
-        _participantsCar.GetComponent<CarController>().TurnOffEngine();
-        yield return new WaitForSeconds(2);
-        StartCoroutine(StartExperiment());
-    }*/
 
     private void RunMainMenu()
     {
@@ -202,6 +189,7 @@ public class ExperimentManager : MonoBehaviour
         _activatedEvent = false;
 
         CameraManager.Instance.AlphaFadeOut();
+        _participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD(true);
         PersistentTrafficEventManager.Instance.FinalizeEvent();
         _participantsCar.GetComponent<CarController>().TurnOffEngine();
         _participantsCar.GetComponent<Rigidbody>().isKinematic = true;
@@ -270,6 +258,11 @@ public class ExperimentManager : MonoBehaviour
     public void SetParticipantsCar(GameObject car)
     {
         _participantsCar = car;
+    }
+    
+    public void SetController(CriticalEventController criticalEventController)
+    {
+        _criticalEventController = criticalEventController;
     }
 
     #endregion

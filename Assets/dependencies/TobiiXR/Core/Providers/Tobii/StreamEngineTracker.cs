@@ -40,7 +40,7 @@ namespace Tobii.XR
             }
         }
 
-        public StreamEngineTracker(FieldOfUse fieldOfUse, StreamEngineTracker_Description description = null, StreamEngineConnection connection = null)
+        public StreamEngineTracker(StreamEngineTracker_Description description = null, StreamEngineConnection connection = null)
         {
             if (description == null)
             {
@@ -56,7 +56,7 @@ namespace Tobii.XR
 
             _connection = connection;
 
-            if (TryConnectToTracker(fieldOfUse, _connection, _stopwatch, description) == false)
+            if (TryConnectToTracker(_connection, _stopwatch, description) == false)
             {
                 throw new Exception("Failed to connect to tracker");
             }
@@ -165,13 +165,13 @@ namespace Tobii.XR
             stopwatch.Start();
         }
 
-        private static bool TryConnectToTracker(FieldOfUse fieldOfUse, StreamEngineConnection connection, Stopwatch stopwatch, StreamEngineTracker_Description description)
+        private static bool TryConnectToTracker(StreamEngineConnection connection, Stopwatch stopwatch, StreamEngineTracker_Description description)
         {
             StartStopwatch(stopwatch);
 
             try
             {
-                if (connection.Open(fieldOfUse, description) == false)
+                if (connection.Open(description) == false)
                 {
                     return false;
                 }

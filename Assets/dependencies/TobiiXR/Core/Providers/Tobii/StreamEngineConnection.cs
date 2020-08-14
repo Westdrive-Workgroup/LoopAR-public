@@ -19,7 +19,7 @@ namespace Tobii.XR
 
         public StreamEngineContext Context { get; private set; }
 
-        public bool Open(FieldOfUse fieldOfUse, StreamEngineTracker_Description description)
+        public bool Open(StreamEngineTracker_Description description)
         {
             IntPtr apiContext;
             if (Context != null) throw new InvalidOperationException("There is already an instantiated connection");
@@ -35,8 +35,7 @@ namespace Tobii.XR
 
             IntPtr deviceContext;
             string hmdEyeTrackerUrl;
-            var interopFieldOfUse = fieldOfUse == FieldOfUse.Interactive ? Interop.tobii_field_of_use_t.TOBII_FIELD_OF_USE_INTERACTIVE : Interop.tobii_field_of_use_t.TOBII_FIELD_OF_USE_ANALYTICAL;
-            if (GetFirstSupportedTracker(_interop, apiContext, interopFieldOfUse, connectedDevices, description, out deviceContext, out hmdEyeTrackerUrl) == false)
+            if (GetFirstSupportedTracker(_interop, apiContext, connectedDevices, description, out deviceContext, out hmdEyeTrackerUrl) == false)
             {
                 DestroyApiContext(_interop, apiContext);
                 return false;
@@ -151,7 +150,7 @@ namespace Tobii.XR
             return false;
         }
 
-        private static bool GetFirstSupportedTracker(IStreamEngineInterop interop, IntPtr apiContext, Interop.tobii_field_of_use_t fieldOfUse, IList<string> connectedDevices, StreamEngineTracker_Description description, out IntPtr deviceContext, out string deviceUrl)
+        private static bool GetFirstSupportedTracker(IStreamEngineInterop interop, IntPtr apiContext, IList<string> connectedDevices, StreamEngineTracker_Description description, out IntPtr deviceContext, out string deviceUrl)
         {
             deviceContext = IntPtr.Zero;
             deviceUrl = "";
@@ -159,7 +158,7 @@ namespace Tobii.XR
             for (var i = 0; i < connectedDevices.Count; i++)
             {
                 var connectedDeviceUrl = connectedDevices[i];
-                if (CreateDeviceContext(interop, connectedDeviceUrl, fieldOfUse, apiContext, description.License, out deviceContext) == false) continue;
+                if (CreateDeviceContext(interop, connectedDeviceUrl, Interop.tobii_field_of_use_t.TOBII_FIELD_OF_USE_INTERACTIVE, apiContext, description.License, out deviceContext) == false) continue;
 
                 tobii_device_info_t info;
                 var result = interop.tobii_get_device_info(deviceContext, out info);

@@ -39,6 +39,7 @@ public class AIController : MonoBehaviour
     [Tooltip("Distance of follower to the target on the path.")]
     [Range(0,0.1f)] [SerializeField] private float precision = 0.001f;
     [Range(0.5f,20f)] [SerializeField] private float trackerSensitivity = 5f;
+    private float _defaultTrackerSensitivity;
     private float _progressPercentage;
     private int _nearestNormalIndex;
 
@@ -91,6 +92,7 @@ public class AIController : MonoBehaviour
         }
 
         _localTargetVisualizerRadius = trackerSensitivity;
+        _defaultTrackerSensitivity = trackerSensitivity;
     }
     
     private void Update()
@@ -220,10 +222,17 @@ public class AIController : MonoBehaviour
         SetLocalTargetAndCurveDetection();
     }
 
-    // in the events
-    public void SetTrackerSensitivity(float newTrackerSensitivity)
+    // during the events
+    public void SetTrackerSensitivity(float newTrackerSensitivity = 15)
     {
-        // todo
+        trackerSensitivity = newTrackerSensitivity;
+        _localTargetVisualizerRadius = trackerSensitivity;
+    }
+    
+    public void ReSetTrackerSensitivity()
+    {
+        trackerSensitivity = _defaultTrackerSensitivity;
+        _localTargetVisualizerRadius = trackerSensitivity;
     }
 
     #endregion

@@ -74,12 +74,6 @@ namespace Tobii.XR
                 settings = new TobiiXR_Settings();
             }
 
-            if (settings.FieldOfUse == FieldOfUse.NotSelected)
-            {
-                //For more info, see https://developer.tobii.com/vr/develop/unity/documentation/configure-tobii-xr/
-                Debug.LogError("Field of use has not been selected. Please specify intended field of use in TobiiXR_Settings");
-            }
-
             Internal.Provider = settings.EyeTrackingProvider;
 
             if (Internal.Provider == null)

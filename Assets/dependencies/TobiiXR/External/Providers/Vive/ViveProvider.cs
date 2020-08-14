@@ -27,7 +27,7 @@ public class HTCProvider : IEyeTrackingProvider
     private GameObject _htcGameObject;
     private HmdToWorldTransformer _hmdToWorldTransformer;
 
-    public bool Initialize(FieldOfUse fieldOfUse)
+    public bool Initialize()
     {
         if (!SRanipal_Eye_API.IsViveProEye()) return false;
 
@@ -111,7 +111,7 @@ public class HTCProvider : IEyeTrackingProvider
     }
 
 #else
-    public bool Initialize(FieldOfUse fieldOfUse) 
+    public bool Initialize() 
     {
         Debug.LogError(string.Format("Scripting define symbol \"{0}\" not set for {1}.", AssemblyUtils.GetProviderCompilerFlag(this), this.GetType().Name));
         return false;

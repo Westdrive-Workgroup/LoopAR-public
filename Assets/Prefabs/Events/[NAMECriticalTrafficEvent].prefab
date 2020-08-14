@@ -423,7 +423,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df6134c15b8e6c44bb9c69d1df132bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 0
   activateEvent: 0
 --- !u!1 &1057494153561588613
 GameObject:
@@ -1453,6 +1452,8 @@ MonoBehaviour:
   eventObjectParent: {fileID: 3042984729785728748}
   eventObjects: []
   respawnPoint: {fileID: 5600154130172851595}
+  startEventDelay: 2.5
+  endEventDelay: 1
   eventIdleDuration: 10
   eventObjectActive: 0
 --- !u!1 &8746599434453030948
@@ -1586,7 +1587,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df6134c15b8e6c44bb9c69d1df132bc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 2.5
   activateEvent: 1
 --- !u!1 &8746599434566060896
 GameObject:
