@@ -93,6 +93,7 @@ public class CameraManager : MonoBehaviour
     {
         this.gameObject.GetComponent<VRCam>().enabled = true;
         this.gameObject.GetComponent<ChaseCam>().enabled = false;
+        blackScreen.gameObject.SetActive(false);
         _vRCamera = this.gameObject.GetComponent<VRCam>();
         mainCamera.GetComponent<Camera>().stereoTargetEye = StereoTargetEyeMask.Both;
 
