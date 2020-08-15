@@ -150,7 +150,7 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.GenerateID();
                 }
             }
-            /*else if (CalibrationManager.Instance.GetParticipantUUIDState() && !CalibrationManager.Instance.GetEyeTrackerCalibrationState())
+            else if (CalibrationManager.Instance.GetParticipantUUIDState() && !CalibrationManager.Instance.GetEyeTrackerCalibrationState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Calibration"))
                 {
@@ -165,9 +165,8 @@ public class MainMenu : MonoBehaviour
                     _section = Section.EyeValidation;
                     CalibrationManager.Instance.EyeValidation();
                 }
-            }*/
-            else if (/*CalibrationManager.Instance.GetEyeTrackerValidationState()*/ CalibrationManager.Instance.GetParticipantUUIDState() 
-                                                                                    && !CalibrationManager.Instance.GetSeatCalibrationState())
+            }
+            else if (CalibrationManager.Instance.GetEyeTrackerValidationState() && !CalibrationManager.Instance.GetSeatCalibrationState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight),
                     "Seat Calibration"))
