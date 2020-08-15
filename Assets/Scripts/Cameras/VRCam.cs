@@ -45,12 +45,8 @@ public class VRCam : MonoBehaviour
         {
             try
             {
-                Debug.Log("multi purpose camera pos " + this.transform.position);
-                
                 _seatPosition = CameraManager.Instance.GetSeatPosition();
-                Debug.Log("seat pos " + _seatPosition.transform.position);
                 transform.SetPositionAndRotation(_seatPosition.transform.position,_seatPosition.transform.rotation);
-                Debug.Log("multi purpose camera pos after assignment " + this.transform.position);
             }
             catch (Exception e)
             {
