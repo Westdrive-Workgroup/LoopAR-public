@@ -33,10 +33,10 @@ public class VRCam : MonoBehaviour
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (CameraManager.Instance.GetSeatPosition() != null)
+        /*if (CameraManager.Instance.GetSeatPosition() != null)
         {
             _seatPosition = CameraManager.Instance.GetSeatPosition();
-        }
+        }*/
     }
 
     private void LateUpdate()
@@ -45,8 +45,8 @@ public class VRCam : MonoBehaviour
         {
             try
             {
-                _seatPosition = CameraManager.Instance.GetSeatPosition();
-                transform.SetPositionAndRotation(_seatPosition.transform.position,_seatPosition.transform.rotation);
+                // _seatPosition = CameraManager.Instance.GetSeatPosition();
+                transform.SetPositionAndRotation(_seatPosition.transform.position, _seatPosition.transform.rotation);
             }
             catch (Exception e)
             {

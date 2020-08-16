@@ -34,12 +34,14 @@ public class SeatCalibrationManager : MonoBehaviour
     
     private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // vRCam = CameraManager.Instance.gameObject.GetComponent<VRCam>();
         vRCam = CameraManager.Instance.GetVRCamera();
     }
     
     void Start()
     {
         _distanceVector = new Vector3();
+        // vRCam = CameraManager.Instance.gameObject.GetComponent<VRCam>();
         vRCam = CameraManager.Instance.GetVRCamera();
         _vrCameraObject = CameraManager.Instance.GetMainCamera().gameObject;
         _cameraOffsetObject = CameraManager.Instance.GetCalibrationOffset();
@@ -52,7 +54,7 @@ public class SeatCalibrationManager : MonoBehaviour
 
     private void Update()
     {
-        float positionOffset = 0.1f;
+        float positionOffset = 0.01f;
 
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
@@ -88,6 +90,11 @@ public class SeatCalibrationManager : MonoBehaviour
         {
             ApplyCalibration();
         }
+    }
+
+    public void SetVRCameraScript(VRCam vRCamera)
+    {
+        vRCam = vRCamera;
     }
 
     #region GUI
@@ -174,18 +181,18 @@ public class SeatCalibrationManager : MonoBehaviour
 
     #endregion
     
-    
+    private void TestPositioning()
+    {
+        // vRCam.gameObject.transform.position = seatPosition.transform.position;
+        // _cameraOffsetObject.transform.position = seatPosition.transform.position;
+        _cameraOffsetObject.transform.position = Vector3.zero;
+        car.transform.position = _cameraOffsetObject.transform.position;
+        vRCam.Seat();
+    }
     
     private void DeleteSeatCalibration()
     {
         CalibrationManager.Instance.StoreSeatCalibrationData(Vector3.zero);
-    }
-
-    private void TestPositioning()
-    {
-        _cameraOffsetObject.transform.position = Vector3.zero;
-        car.transform.position = _cameraOffsetObject.transform.position;
-        vRCam.Seat();
     }
 
     private void CalibrateAndStore()
@@ -195,18 +202,23 @@ public class SeatCalibrationManager : MonoBehaviour
        Debug.Log("seat position " + seatPosition.transform.position);*/
 
        _distanceVector = _cameraOffsetObject.transform.position - _vrCameraObject.transform.position;
-       CalibrationManager.Instance.StoreSeatCalibrationData(_distanceVector);
+       // CalibrationManager.Instance.StoreSeatCalibrationData(_distanceVector);
 
         // Debug.Log("distance " + _distanceVector);
     }
 
     private void ApplyCalibration()
     {
-        CalibrationManager.Instance.StoreSeatCalibrationData(_cameraOffsetObject.transform.position);
+        CalibrationManager.Instance.StoreSeatCalibrationData(_cameraOffsetObject.transform.localPosition);
     }
 
     public GameObject GetParticipantsCar()
     {
         return car;
+    }
+    
+    public GameObject GetSeatPosition()
+    {
+        return seatPosition != null ? seatPosition : null;
     }
 }
