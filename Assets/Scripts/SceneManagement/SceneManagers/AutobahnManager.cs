@@ -10,6 +10,7 @@ public class AutobahnManager : MonoBehaviour
     
     [Space] [Header("Car and Path options")]
     [SerializeField] private GameObject participantsCar;
+    [SerializeField] private GameObject seatPosition;
     [SerializeField] private PathCreator mainCarPath;
     [SerializeField] private float curveDetectorStepAhead = 0.01f;
     [SerializeField] private float precision = 0.005f;
@@ -58,6 +59,11 @@ public class AutobahnManager : MonoBehaviour
     public GameObject GetParticipantsCar()
     {
         return participantsCar != null ? participantsCar : null;
+    }
+
+    public GameObject GetSeatPosition()
+    {
+        return seatPosition != null ? seatPosition : null;
     }
 
     public PathCreator GetCarPath()

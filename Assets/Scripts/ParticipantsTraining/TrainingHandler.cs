@@ -9,6 +9,8 @@ public class TrainingHandler : MonoBehaviour
     public static TrainingHandler Instance { get; private set; }
 
     public TestEventManager testEventManager;
+
+    [SerializeField] private GameObject seatPosition;
     private enum State
     {
         TrainingMenu,
@@ -27,6 +29,11 @@ public class TrainingHandler : MonoBehaviour
         {
             Instance = this;
         }
+    }
+    
+    public GameObject GetSeatPosition()
+    {
+        return seatPosition;
     }
 
     public void OnGUI()

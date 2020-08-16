@@ -11,6 +11,7 @@ public class SceneLoadingHandler : MonoBehaviour
     public static SceneLoadingHandler Instance { get; private set; }
 
     private GameObject _participantsCar;
+    private GameObject _seatPosition;
     private bool _isLoadAdditiveModeRunning;
 
     private void Awake()
@@ -30,8 +31,14 @@ public class SceneLoadingHandler : MonoBehaviour
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        AssignParticipantsCar();
+        AssignParticipantsCarAndSeatPosition();
 
+        if (CameraManager.Instance != null)
+        {
+            CameraManager.Instance.SetObjectToFollow(_participantsCar);
+            CameraManager.Instance.SetSeatPosition(_seatPosition);
+        }
+        
         if (_participantsCar !=null)
         {
             if (SceneManager.GetActiveScene().name != "SceneLoader")
@@ -40,10 +47,21 @@ public class SceneLoadingHandler : MonoBehaviour
                 _participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
         }
     }
-    
+
+    private void Start()
+    {
+        AssignParticipantsCarAndSeatPosition();
+        
+        if (CameraManager.Instance != null)
+        {
+            CameraManager.Instance.SetObjectToFollow(_participantsCar);
+            CameraManager.Instance.SetSeatPosition(_seatPosition);
+        }
+    }
+
     public void LoadExperimentScenes()
     {
-        AssignParticipantsCar();
+        AssignParticipantsCarAndSeatPosition();
         
         /*if (_participantsCar != null)
             _participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
@@ -104,7 +122,7 @@ public class SceneLoadingHandler : MonoBehaviour
             yield return null;
         }
         
-        AssignParticipantsCar();
+        AssignParticipantsCarAndSeatPosition();
         CameraManager.Instance.OnSceneLoaded(true);
     }
     
@@ -147,11 +165,12 @@ public class SceneLoadingHandler : MonoBehaviour
         }
 
         _participantsCar = MountainRoadManager.Instance.GetParticipantsCar();
+        _seatPosition = MountainRoadManager.Instance.GetSeatPosition();
         _isLoadAdditiveModeRunning = false;
         CameraManager.Instance.OnSceneLoaded(false);
     }
     
-    private void AssignParticipantsCar()
+    private void AssignParticipantsCarAndSeatPosition()
     {
         switch (SceneManager.GetActiveScene().name)
         {
@@ -160,29 +179,41 @@ public class SceneLoadingHandler : MonoBehaviour
                 break;
             case "SeatCalibrationScene":
                 _participantsCar = SeatCalibrationManager.Instance.GetParticipantsCar();
+                _seatPosition = SeatCalibrationManager.Instance.GetSeatPosition();
                 break;
             case "TrainingScene":
                 _participantsCar = TrainingHandler.Instance.testEventManager.GetParticipantCar();
+                _seatPosition = TrainingHandler.Instance.GetSeatPosition();
                 break;
             case "MountainRoad":
                 _participantsCar = MountainRoadManager.Instance.GetParticipantsCar();
+                _seatPosition = MountainRoadManager.Instance.GetSeatPosition();
                 break;
             case "Westbrueck":
                 _participantsCar = WestbrueckManager.Instance.GetParticipantsCar();
+                _seatPosition = WestbrueckManager.Instance.GetSeatPosition();
                 break;
             case "CountryRoad":
                 _participantsCar = CountryRoadManager.Instance.GetParticipantsCar();
+                _seatPosition = CountryRoadManager.Instance.GetSeatPosition();
                 break;
             case "Autobahn":
                 _participantsCar = AutobahnManager.Instance.GetParticipantsCar();
+                _seatPosition = AutobahnManager.Instance.GetSeatPosition();
                 break;
         }
     }
 
     public GameObject GetParticipantsCar()
     {
-        AssignParticipantsCar();
+        AssignParticipantsCarAndSeatPosition();
         return _participantsCar;
+    }
+    
+    public GameObject GetSeatPosition()
+    {
+        AssignParticipantsCarAndSeatPosition();
+        return _seatPosition;
     }
 
     public bool GetAdditiveLoadingState()
