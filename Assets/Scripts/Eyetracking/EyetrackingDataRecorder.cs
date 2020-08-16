@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Tobii.XR;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,10 +27,14 @@ public class EyetrackingDataRecorder : MonoBehaviour
         _sampleRate = _eyetrackingManager.GetSampleRate();
         _hmdTransform = _eyetrackingManager.GetHmdTransform();
     }
-    // Update is called once per frame
+
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Visualisation();
+            Debug.Log("<color=green>Visualisation activated!</color>");
+        }
     }
     
     private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)  // generally I am not proud of this call, but seems necessary for the moment.
@@ -133,5 +138,22 @@ public class EyetrackingDataRecorder : MonoBehaviour
             throw new Exception("Eyetracking Data Recording has not been finished");
         }
         
+    }
+
+    private void Visualisation()
+    {
+        List<EyeTrackingDataFrame> dataFrames = GetDataFrames();
+
+        foreach (var dataFrame in dataFrames)
+        {
+            if (dataFrame.hitObjects != null)
+            {
+                foreach (var item in dataFrame.hitObjects)
+                {
+                    Debug.Log(item.ObjectName);
+                    Debug.DrawLine(dataFrame.HmdPosition, item.HitPointOnObject, Color.red, 60f);
+                }
+            }
+        }
     }
 }
