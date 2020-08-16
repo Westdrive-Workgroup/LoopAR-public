@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,8 +57,6 @@ public class EyeValidationManager : MonoBehaviour
         _fixationDot.NotifyFixationTimeObservers+= HandleFixationCountdownNumber;
         _fixationDot.NotifyLeftTargetObservers+= HandleLeftFixation;
         
-        
-        
         participantHeight = _eyetrackingManager.GetHmdTransform().transform.position.y;
         
         fixationPoint.transform.position= new Vector3(fixationPoint.transform.position.x,participantHeight,fixationPoint.transform.position.z);
@@ -66,7 +64,6 @@ public class EyeValidationManager : MonoBehaviour
         runningValidation = false;
         ValidationSuccessful = false;
         FailedValidationText.gameObject.SetActive(false);
-
     }
 
     // Update is called once per frame
@@ -180,21 +177,24 @@ public class EyeValidationManager : MonoBehaviour
     {
         Debug.Log("...and it was also propagated to here... with "+  wasSuccessful);
             
-            if (wasSuccessful)
-            {
-                ValidationSuccessful = true;
-                SetValidationSuccesfulStatus();
-                CalibrationManager.Instance.StoreValidationErrorData(EyetrackingManager.Instance.GetEyeValidationErrorAngles());
-                CalibrationManager.Instance.EyeValidationSuccessful();
-                Debug.Log("was successful");
-            }
-            else
-            {
-                ShowFailedValidationStatus(5f);
-            }
-            runningValidation = false;
-
-
+        if (wasSuccessful)
+        {
+            ValidationSuccessful = true;
+            SetValidationSuccesfulStatus();
+            Destroy(relativeFixedPoint);
+            CalibrationManager.Instance.StoreValidationErrorData(EyetrackingManager.Instance.GetEyeValidationErrorAngles());
+            CalibrationManager.Instance.EyeValidationSuccessful();
+            Debug.Log("was successful");
+        }
+        else
+        {
+            ShowFailedValidationStatus(5f);
+        }
+        runningValidation = false;
     }
-    
+
+    public GameObject GetRelativeFixedPoint()
+    {
+        return relativeFixedPoint;
+    }
 }
