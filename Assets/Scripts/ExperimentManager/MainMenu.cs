@@ -123,7 +123,7 @@ public class MainMenu : MonoBehaviour
             }
         }
 
-        if (_section != Section.ChoosingState)
+        /*if (_section != Section.ChoosingState)
         {
             // Reset Button
             GUI.backgroundColor = Color.yellow;
@@ -133,7 +133,7 @@ public class MainMenu : MonoBehaviour
             {
                 _section = Section.MainMenu;
             }
-        }
+        }*/
 
 
         if (CalibrationManager.Instance.GetVRActivationState() && CalibrationManager.Instance.GetWasMainMenuLoaded())
@@ -150,37 +150,60 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.GenerateID();
                 }
             }
-            else if (CalibrationManager.Instance.GetParticipantUUIDState() && !CalibrationManager.Instance.GetEyeTrackerCalibrationState())
+            else if (CalibrationManager.Instance.GetParticipantUUIDState() && !CalibrationManager.Instance.GetEyeTrackerCalibrationState() && _section == Section.IDGeneration)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Calibration"))
                 {
                     _section = Section.EyeCalibration;
                     CalibrationManager.Instance.EyeCalibration();
                 }
+                
+                GUI.backgroundColor = Color.yellow;
+                if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Skip Eye Calibration"))
+                {
+                    _section = Section.EyeValidation;
+                }
             }
-            else if (CalibrationManager.Instance.GetEyeTrackerCalibrationState() && !CalibrationManager.Instance.GetEyeTrackerValidationState())
+            else if ((CalibrationManager.Instance.GetEyeTrackerCalibrationState() && !CalibrationManager.Instance.GetEyeTrackerValidationState()) || _section == Section.EyeValidation)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Validation"))
                 {
                     _section = Section.EyeValidation;
                     CalibrationManager.Instance.EyeValidation();
                 }
+                
+                GUI.backgroundColor = Color.yellow;
+                if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Skip Eye Validation"))
+                {
+                    _section = Section.SeatCalibration;
+                }
             }
-            else if (CalibrationManager.Instance.GetEyeTrackerValidationState() && !CalibrationManager.Instance.GetSeatCalibrationState())
+            else if ((CalibrationManager.Instance.GetEyeTrackerValidationState() && !CalibrationManager.Instance.GetSeatCalibrationState()) || _section == Section.SeatCalibration)
             {
-                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight),
-                    "Seat Calibration"))
+                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Seat Calibration"))
                 {
                     _section = Section.SeatCalibration;
                     CalibrationManager.Instance.SeatCalibration();
                 }
+                
+                GUI.backgroundColor = Color.yellow;
+                if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Skip Seat Calibration"))
+                {
+                    _section = Section.TrainingBlock;
+                }
             } 
-            else if (CalibrationManager.Instance.GetSeatCalibrationState() && !CalibrationManager.Instance.GetTestDriveState())
+            else if ((CalibrationManager.Instance.GetSeatCalibrationState() && !CalibrationManager.Instance.GetTestDriveState()) || _section == Section.TrainingBlock)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Training Block"))
                 {
                     _section = Section.TrainingBlock; 
                     CalibrationManager.Instance.StartTestDrive();
+                }
+                
+                if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Skip Training Block"))
+                {
+                    _section = Section.TrainingBlock; 
+                    SceneLoadingHandler.Instance.LoadExperimentScenes();
                 }
             }
             /*else if (CalibrationManager.Instance.GetTestDriveState())
