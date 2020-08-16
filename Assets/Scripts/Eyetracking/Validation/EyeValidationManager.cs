@@ -1,9 +1,12 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class EyeValidationManager : MonoBehaviour
 {
+    public static EyeValidationManager Instance { get; private set; }
+    
     public GameObject relativeFixedPoint;
     public GameObject fixationPoint;
     
@@ -33,6 +36,15 @@ public class EyeValidationManager : MonoBehaviour
 
 
     private Vector3 _validationError;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
