@@ -245,7 +245,7 @@ public class CalibrationManager : MonoBehaviour
         return _testDriveSuccessful;
     }
 
-    public Vector3 GetSeatCalibrationOffset()
+    public Vector3 GetSeatCalibrationOffsetPosition()
     {
         return _calibrationData.SeatCalibrationOffset;
     }
