@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Tobii.XR;
@@ -54,7 +54,7 @@ public class EyetrackingDataRecorder : MonoBehaviour
     private IEnumerator RecordEyeTrackingData()
     {
         int frameCounter = new int();
-        Debug.Log("starting recording...");
+        Debug.Log("<color=green>Start recording...</color>");
         while (!recordingEnded)
         {
             EyeTrackingDataFrame dataFrame = new EyeTrackingDataFrame();

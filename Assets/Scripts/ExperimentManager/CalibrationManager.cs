@@ -91,7 +91,7 @@ public class CalibrationManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("Found Calibration Data, loading...");
+            Debug.Log("<color=green>Found Calibration Data, loading...</color>");
             jsonString = File.ReadAllText(dataPath);
             //Debug.Log(jsonString);
             return JsonUtility.FromJson<CalibrationData>(jsonString);

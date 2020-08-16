@@ -78,7 +78,7 @@ public class InputRecorder: MonoBehaviour
     
     public void StartInputRecording()
     {
-        Debug.Log("recording Input started");
+        Debug.Log("<color=green>Recording Input started!</color>");
         _recordingEnded = false;
         StartCoroutine(RecordInputData());
     }

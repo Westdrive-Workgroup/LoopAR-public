@@ -35,7 +35,7 @@ public class ManualController : MonoBehaviour
             _manualDriving = true;
         }
 
-        Debug.Log("the control index was at start : " + InputControlIndex);
+        // Debug.Log("the control index was at start : " + InputControlIndex);
     }
 
     // Update is called once per frame
