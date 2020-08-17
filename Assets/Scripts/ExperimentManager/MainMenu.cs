@@ -200,6 +200,7 @@ public class MainMenu : MonoBehaviour
                     CalibrationManager.Instance.StartTestDrive();
                 }
                 
+                GUI.backgroundColor = Color.yellow;
                 if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Skip Training Block"))
                 {
                     _section = Section.TrainingBlock; 
@@ -235,7 +236,15 @@ public class MainMenu : MonoBehaviour
                     _section = Section.TrainingBlock;
                     CalibrationManager.Instance.StartTestDrive();
                 }
+                
+                GUI.backgroundColor = Color.yellow;
+                if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Skip Training Block"))
+                {
+                    _section = Section.TrainingBlock; 
+                    SceneLoadingHandler.Instance.LoadExperimentScenes();
+                }
             }
+            
             /*else if (CalibrationManager.Instance.GetTestDriveState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start Experiment"))
