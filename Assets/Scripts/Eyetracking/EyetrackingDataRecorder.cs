@@ -125,6 +125,24 @@ public class EyetrackingDataRecorder : MonoBehaviour
         return hitObjectInfoList;
     }
 
+    private List<HitObjectInfo> GetFirstHitObjectFromGaze(Vector3 gazeOrigin, Vector3 gazeDirection, float distance)
+    {
+        RaycastHit hit;
+        bool hitColliders = Physics.Raycast(gazeOrigin, gazeDirection, out hit, distance);
+        
+        List<HitObjectInfo> hitObjectInfoList= new List<HitObjectInfo>();
+
+        if (hitColliders)
+        {
+            HitObjectInfo hitInfo = new HitObjectInfo();
+            hitInfo.ObjectName = hit.collider.gameObject.name;
+            hitInfo.HitObjectPosition = hit.collider.transform.position;
+            hitInfo.HitPointOnObject = hit.point;
+            hitObjectInfoList.Add(hitInfo);
+        }
+
+        return hitObjectInfoList;
+    }
 
 
     public List<EyeTrackingDataFrame> GetDataFrames()
