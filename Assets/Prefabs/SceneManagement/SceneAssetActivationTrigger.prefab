@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3055122482552387728}
   - component: {fileID: 3055122482552387727}
   - component: {fileID: 7336094731248842532}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SceneAssetActivationTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
@@ -106,5 +106,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69f67561ccf339f4ca1478c922967820, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenes: []
-  dropDown: 2
+  activateGameObjects: 0
+  sceneToActivate: 1

@@ -14,7 +14,7 @@ public class CameraCalibration : MonoBehaviour
 
     private void Start()
     {
-        calibrationOffset.transform.localPosition = CalibrationManager.Instance.GetSeatCalibrationOffset();
+        calibrationOffset.transform.localPosition = CalibrationManager.Instance.GetSeatCalibrationOffsetPosition();
         _camera = CameraManager.Instance.GetMainCamera().gameObject;
 
         //_camera.transform.SetParent(calibrationOffset.transform);

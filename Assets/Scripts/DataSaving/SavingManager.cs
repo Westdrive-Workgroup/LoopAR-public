@@ -57,9 +57,9 @@ public class SavingManager : MonoBehaviour
         {
             StopRecord();
             SaveData();
+            Debug.Log("<color=blue>Saving Data!</color>");
         }
     }
-    // Update is called once per frame
     
     public float GetSampleRate()
     {
@@ -93,14 +93,14 @@ public class SavingManager : MonoBehaviour
     private void RecordData()
     {
         _readyToSaveToFile = false;
-        Debug.Log("record Data...");
+        Debug.Log("<color=green>Recording Data...</color>");
         _inputRecorder.StartInputRecording();
         EyetrackingManager.Instance.StartRecording();
     }
 
     private void StopRecord()
     {
-        Debug.Log("stop recording Data");
+        Debug.Log("<color=red>Stop recording Data!</color>");
         _inputRecorder.StopRecording();
         EyetrackingManager.Instance.StopRecording();
         RetrieveData();

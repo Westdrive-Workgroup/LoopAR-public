@@ -52,34 +52,40 @@ public class SeatCalibrationManager : MonoBehaviour
 
     private void Update()
     {
-        float positionOffset = 0.1f;
+        float positionOffset = 0.01f;
 
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            positionOffset = 0.5f;
+            positionOffset = 0.2f;
         }
         
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || 
+            Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             _cameraOffsetObject.transform.Translate(-positionOffset, 0, 0);
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) ||
+            Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             _cameraOffsetObject.transform.Translate(positionOffset, 0, 0);
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) ||
+            Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
             _cameraOffsetObject.transform.Translate(0, positionOffset, 0);
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) ||
+            Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
         {
             _cameraOffsetObject.transform.Translate(0, -positionOffset, 0);
         }
-        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.KeypadPlus)  || Input.GetKeyDown(KeyCode.Plus))
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.KeypadPlus)  || Input.GetKeyDown(KeyCode.Plus) ||
+            Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.KeypadPlus)  || Input.GetKey(KeyCode.Plus))
         {
             _cameraOffsetObject.transform.Translate(0, 0, positionOffset);
         }
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus))
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus) ||
+            Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.KeypadMinus) || Input.GetKey(KeyCode.Minus))
         {
             _cameraOffsetObject.transform.Translate(0, 0, -positionOffset);
         }
@@ -174,39 +180,29 @@ public class SeatCalibrationManager : MonoBehaviour
 
     #endregion
     
-    
+    private void TestPositioning()
+    {
+        vRCam.Seat();
+    }
     
     private void DeleteSeatCalibration()
     {
         CalibrationManager.Instance.StoreSeatCalibrationData(Vector3.zero);
-    }
-
-    private void TestPositioning()
-    {
-        _cameraOffsetObject.transform.position = Vector3.zero;
-        car.transform.position = _cameraOffsetObject.transform.position;
-        vRCam.Seat();
-    }
-
-    private void CalibrateAndStore()
-    {
-       /*Debug.Log("offset " + _cameraOffsetObject.transform.position);
-       Debug.Log("vr cam " + _vrCameraObject.transform.position);
-       Debug.Log("seat position " + seatPosition.transform.position);*/
-
-       _distanceVector = _cameraOffsetObject.transform.position - _vrCameraObject.transform.position;
-       CalibrationManager.Instance.StoreSeatCalibrationData(_distanceVector);
-
-        // Debug.Log("distance " + _distanceVector);
+        vRCam.UnSeat();
     }
 
     private void ApplyCalibration()
     {
-        CalibrationManager.Instance.StoreSeatCalibrationData(_cameraOffsetObject.transform.position);
+        CalibrationManager.Instance.StoreSeatCalibrationData(_cameraOffsetObject.transform.localPosition);
     }
 
     public GameObject GetParticipantsCar()
     {
         return car;
+    }
+    
+    public GameObject GetSeatPosition()
+    {
+        return seatPosition != null ? seatPosition : null;
     }
 }
