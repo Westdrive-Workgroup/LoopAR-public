@@ -48,9 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 3511108017593222712}
-  blackScreen: {fileID: 7316240832901199183}
+  blackScreen: {fileID: 7316240833380141259}
   calibrationOffset: {fileID: 5956370727506629608}
-  objectToFollow: {fileID: 0}
+  vRCamera: {fileID: 3511108016897844663}
 --- !u!114 &3511108016897844663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,15 +272,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32dcdcc19b04ccc48a4d70291131cb7e, type: 3}
---- !u!1 &7316240832901199183 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 856858694382445339, guid: 32dcdcc19b04ccc48a4d70291131cb7e,
-    type: 3}
-  m_PrefabInstance: {fileID: 7956926193257043540}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7316240832901199182 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 856858694382445338, guid: 32dcdcc19b04ccc48a4d70291131cb7e,
+    type: 3}
+  m_PrefabInstance: {fileID: 7956926193257043540}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7316240833380141259 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 856858694187654815, guid: 32dcdcc19b04ccc48a4d70291131cb7e,
     type: 3}
   m_PrefabInstance: {fileID: 7956926193257043540}
   m_PrefabAsset: {fileID: 0}

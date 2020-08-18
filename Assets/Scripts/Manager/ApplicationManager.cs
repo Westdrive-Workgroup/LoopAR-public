@@ -63,7 +63,6 @@ public class ApplicationManager : MonoBehaviour
         switch (_sceneName)
         {
             case "MainMenu":
-            case "EyetrackingValidation":
             case "SceneLoader":
             case "SeatCalibrationScene":
             case "TrainingScene":
@@ -74,6 +73,12 @@ public class ApplicationManager : MonoBehaviour
             case "CountryRoad":
             case "Autobahn":
                 TurnOnAllComponents();
+                break;
+            case "EyetrackingValidation":
+                TurnOffSpecificExperimentComponents();
+                EyeValidationManager.Instance.GetRelativeFixedPoint().gameObject.transform.SetParent(Camera.main.transform);
+                EyeValidationManager.Instance.GetRelativeFixedPoint().transform.localPosition = new Vector3(0, 0, 5);
+                EyeValidationManager.Instance.GetRelativeFixedPoint().transform.localEulerAngles = new Vector3(0, 0, 0);
                 break;
         }
     }

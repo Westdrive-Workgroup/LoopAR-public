@@ -52,7 +52,7 @@ public class ActivationTrigger : MonoBehaviour
                 _activationHandler.ChangeActivationState(false, targetGroup);
             }
             
-            Debug.Log("<color=green>Went through</color>: " + this.gameObject.name);
+            // Debug.Log("<color=green>Went through</color>: " + this.gameObject.name);
         }
     }
 }

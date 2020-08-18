@@ -11,6 +11,7 @@ public class WestbrueckManager : MonoBehaviour
     
     [Space] [Header("Car and Path options")]
     [SerializeField] private GameObject participantsCar;
+    [SerializeField] private GameObject seatPosition;
     [SerializeField] private PathCreator mainCarPath;
     [SerializeField] private float curveDetectorStepAhead = 0.008f;
     [SerializeField] private float precision = 0.002f;
@@ -59,6 +60,11 @@ public class WestbrueckManager : MonoBehaviour
     public GameObject GetParticipantsCar()
     {
         return participantsCar != null ? participantsCar : null;
+    }
+    
+    public GameObject GetSeatPosition()
+    {
+        return seatPosition != null ? seatPosition : null;
     }
     
     public PathCreator GetCarPath()

@@ -33,10 +33,10 @@ public class VRCam : MonoBehaviour
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (CameraManager.Instance.GetSeatPosition() != null)
+        /*if (CameraManager.Instance.GetSeatPosition() != null)
         {
             _seatPosition = CameraManager.Instance.GetSeatPosition();
-        }
+        }*/
     }
 
     private void LateUpdate()
@@ -45,12 +45,8 @@ public class VRCam : MonoBehaviour
         {
             try
             {
-                Debug.Log("multi purpose camera pos " + this.transform.position);
-                
-                _seatPosition = CameraManager.Instance.GetSeatPosition();
-                Debug.Log("seat pos " + _seatPosition.transform.position);
-                transform.SetPositionAndRotation(_seatPosition.transform.position,_seatPosition.transform.rotation);
-                Debug.Log("multi purpose camera pos after assignment " + this.transform.position);
+                // _seatPosition = CameraManager.Instance.GetSeatPosition();
+                transform.SetPositionAndRotation(_seatPosition.transform.position, _seatPosition.transform.rotation);
             }
             catch (Exception e)
             {

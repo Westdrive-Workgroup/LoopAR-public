@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Tobii.XR;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,10 +27,14 @@ public class EyetrackingDataRecorder : MonoBehaviour
         _sampleRate = _eyetrackingManager.GetSampleRate();
         _hmdTransform = _eyetrackingManager.GetHmdTransform();
     }
-    // Update is called once per frame
+
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Visualisation();
+            Debug.Log("<color=green>Visualisation activated!</color>");
+        }
     }
     
     private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)  // generally I am not proud of this call, but seems necessary for the moment.
@@ -54,7 +59,7 @@ public class EyetrackingDataRecorder : MonoBehaviour
     private IEnumerator RecordEyeTrackingData()
     {
         int frameCounter = new int();
-        Debug.Log("starting recording...");
+        Debug.Log("<color=green>Start recording...</color>");
         while (!recordingEnded)
         {
             EyeTrackingDataFrame dataFrame = new EyeTrackingDataFrame();
@@ -120,6 +125,24 @@ public class EyetrackingDataRecorder : MonoBehaviour
         return hitObjectInfoList;
     }
 
+    private List<HitObjectInfo> GetFirstHitObjectFromGaze(Vector3 gazeOrigin, Vector3 gazeDirection, float distance)
+    {
+        RaycastHit hit;
+        bool hitColliders = Physics.Raycast(gazeOrigin, gazeDirection, out hit, distance);
+        
+        List<HitObjectInfo> hitObjectInfoList= new List<HitObjectInfo>();
+
+        if (hitColliders)
+        {
+            HitObjectInfo hitInfo = new HitObjectInfo();
+            hitInfo.ObjectName = hit.collider.gameObject.name;
+            hitInfo.HitObjectPosition = hit.collider.transform.position;
+            hitInfo.HitPointOnObject = hit.point;
+            hitObjectInfoList.Add(hitInfo);
+        }
+
+        return hitObjectInfoList;
+    }
 
 
     public List<EyeTrackingDataFrame> GetDataFrames()
@@ -133,5 +156,22 @@ public class EyetrackingDataRecorder : MonoBehaviour
             throw new Exception("Eyetracking Data Recording has not been finished");
         }
         
+    }
+
+    private void Visualisation()
+    {
+        List<EyeTrackingDataFrame> dataFrames = GetDataFrames();
+
+        foreach (var dataFrame in dataFrames)
+        {
+            if (dataFrame.hitObjects != null)
+            {
+                foreach (var item in dataFrame.hitObjects)
+                {
+                    Debug.Log(item.ObjectName);
+                    Debug.DrawLine(dataFrame.HmdPosition, item.HitPointOnObject, Color.red, 60f);
+                }
+            }
+        }
     }
 }

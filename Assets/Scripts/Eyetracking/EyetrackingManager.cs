@@ -114,7 +114,7 @@ public class EyetrackingManager : MonoBehaviour
 
     public void StartRecording()
     {
-        Debug.Log("record eyetracking Data");
+        Debug.Log("<color=green>Recording eye-tracking Data!</color>");
         _eyeTrackingRecorder.StartRecording();
     }
     

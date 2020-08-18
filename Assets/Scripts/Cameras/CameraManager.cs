@@ -18,7 +18,7 @@ public class CameraManager : MonoBehaviour
     private GameObject _objectToFollow;
     
     private GameObject _seatPosition;
-    private VRCam _vRCamera;
+    [SerializeField] private VRCam vRCamera;
     private SceneLoadingHandler _sceneLoadingHandler;
 
     #endregion
@@ -39,22 +39,22 @@ public class CameraManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        // SceneManager.sceneLoaded += OnSceneLoaded;
-        // _sceneLoadingHandler.OnInitiateLoadingScene += OnSceneLoadingInitiated;
     }
     
-    public void OnSceneLoaded(/*Scene scene, LoadSceneMode mode*/ bool autoFadeIn)
+    public void OnSceneLoaded(bool autoFadeIn)
     {
         _objectToFollow = SceneLoadingHandler.Instance.GetParticipantsCar();
+        _seatPosition = SceneLoadingHandler.Instance.GetSeatPosition();
+        vRCamera = this.gameObject.GetComponent<VRCam>();
         
-        if (_objectToFollow != null)
+        if (CalibrationManager.Instance.GetVRActivationState())
+        {
+            vRCamera.SetSeatPosition(_seatPosition);
+            vRCamera.Seat();
+        }
+        else
         {
             SetSeatPosition(_objectToFollow);
-            
-            if (CalibrationManager.Instance.GetVRActivationState())
-            {
-                _vRCamera.SetSeatPosition(_seatPosition);
-            }
         }
 
         if (autoFadeIn)
@@ -66,7 +66,8 @@ public class CameraManager : MonoBehaviour
     private void Start()
     {
         _objectToFollow = SceneLoadingHandler.Instance.GetParticipantsCar();
-        
+        _seatPosition = SceneLoadingHandler.Instance.GetSeatPosition();
+
         if (CalibrationManager.Instance.GetVRActivationState())
         {
             VRModeCameraSetUp();
@@ -93,14 +94,15 @@ public class CameraManager : MonoBehaviour
     {
         this.gameObject.GetComponent<VRCam>().enabled = true;
         this.gameObject.GetComponent<ChaseCam>().enabled = false;
-        _vRCamera = this.gameObject.GetComponent<VRCam>();
+        blackScreen.gameObject.SetActive(false);
+        vRCamera = this.gameObject.GetComponent<VRCam>();
         mainCamera.GetComponent<Camera>().stereoTargetEye = StereoTargetEyeMask.Both;
 
         // FadeOut();
         
         if (CalibrationManager.Instance != null)
         {
-            SetOffset(CalibrationManager.Instance.GetSeatCalibrationOffset());
+            SetOffset(CalibrationManager.Instance.GetSeatCalibrationOffsetPosition());
         }
         else
         {
@@ -110,8 +112,10 @@ public class CameraManager : MonoBehaviour
         
         if (_objectToFollow != null)
         {
-            this.gameObject.transform.position = GetSeatPositionVector3();
-            // _vRCamera.SetPosition(GetSeatPositionVector3()); ///////????? todo
+            vRCamera.SetSeatPosition(_seatPosition);
+            vRCamera.Seat();
+            /*this.transform.position = GetSeatPositionVector3();
+            _vRCamera.SetPosition(GetSeatPositionVector3()); ///////????? todo*/
         }
     }
 
@@ -216,7 +220,7 @@ public class CameraManager : MonoBehaviour
 
     public VRCam GetVRCamera()
     {
-        return _vRCamera;
+        return vRCamera;
     }
 
     public GameObject GetSeatPosition()
