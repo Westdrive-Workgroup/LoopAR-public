@@ -219,10 +219,12 @@ public class Outline : MonoBehaviour
 
             // Store smooth normals in UV37
 
-            if (index > 0)
+            if (meshFilter.sharedMesh.isReadable)
             {
                 meshFilter.sharedMesh.SetUVs(3, smoothNormals);
+            }else{ Debug.Log("Mesh:  " + meshFilter.sharedMesh.name + " from GameObject: " + this.gameObject.name + " is not readable");
             }
+
         }
 
         // Clear UV3 on skinned mesh renderers
@@ -239,7 +241,7 @@ public class Outline : MonoBehaviour
     {
 
         // Group vertices by location
-        
+
         if (mesh.isReadable)
         {
             var groups = mesh.vertices.Select((vertex, index) => new KeyValuePair<Vector3, int>(vertex, index)).GroupBy(pair => pair.Key);
@@ -276,8 +278,11 @@ public class Outline : MonoBehaviour
 
             return smoothNormals;
         }
-        else { Debug.Log("Mesh" + mesh.name + " is not readable");
-          return new List<Vector3>() ; }
+        else
+        {
+            Debug.Log("Mesh:  " + mesh.name + " from GameObject: " + this.gameObject.name + " is not readable");
+            return new List<Vector3>();
+        }
     }
 
     void UpdateMaterialProperties()
