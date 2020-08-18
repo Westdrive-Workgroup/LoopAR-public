@@ -5,8 +5,9 @@ using UnityEngine;
 
 [Serializable] public class CalibrationData
 {
-    public bool VRmode;
+    // public int ParticipationNumber;
     public String ParticipantUuid;
-    public Vector3 SeatCalibrationOffset;
+    public bool VRmode;
     public Vector3 EyeValidationError;
+    public Vector3 SeatCalibrationOffset;
 }
