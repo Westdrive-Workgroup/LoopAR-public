@@ -72,6 +72,7 @@ public class CalibrationManager : MonoBehaviour
 
     private void SaveCalibrationFile(CalibrationData calibrationData)
     {
+        //todo use using
         string jsonString = JsonUtility.ToJson(calibrationData);
         File.WriteAllText(_calibrationFilePath, jsonString);
     }
@@ -106,6 +107,7 @@ public class CalibrationManager : MonoBehaviour
     { 
         string newParticipantId = System.Guid.NewGuid().ToString();
         StoreParticipantUuid(newParticipantId);
+        SavingManager.Instance.CreateGUIDFolder(newParticipantId);
         _uUIDGenerated = true;
     }
     
@@ -214,6 +216,11 @@ public class CalibrationManager : MonoBehaviour
     #endregion
     
     #region Getters
+
+    public CalibrationData GetCalibrationData()
+    {
+        return _calibrationData;
+    }
     
     public bool GetWasMainMenuLoaded()
     {

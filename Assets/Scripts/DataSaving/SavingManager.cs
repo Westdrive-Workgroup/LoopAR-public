@@ -2,18 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using PathCreation;
 using UnityEngine;
 
 public class SavingManager : MonoBehaviour
 {
     public string DataPath;
     public string DataName;
+    private string _GUIDFolderPath;
     public static SavingManager Instance { get; private set; }
     public int SetSampleRate = 90;
     private float _sampleRate;
 
     private List<EyeTrackingDataFrame> _eyeTrackingData;
-    private EyetrackingValidation _eyetrackingValidation;
+    private CalibrationData _calibrationData;
     private List<InputDataFrame> _inputData;
     private InputRecorder _inputRecorder;
 
@@ -23,7 +25,6 @@ public class SavingManager : MonoBehaviour
 
     private GameObject participantCar;
     
-    // Start is called before the first frame update
     private void Awake()
     {
         _inputRecorder = GetComponent<InputRecorder>();
@@ -33,21 +34,18 @@ public class SavingManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);         //the Eyetracking Manager should be persitent by changing the scenes maybe change it on the the fly
+            DontDestroyOnLoad(gameObject); 
         }
         else
         {
             Destroy(gameObject);
         }
 
-        DataPath = GetPathForSaveFile(DataName);
-        
+        // DataPath = GetPathForSaveFile(DataName);
     }
 
     void Start()
     {
-       
-        
         _readyToSaveToFile=false;
     }
 
@@ -66,7 +64,6 @@ public class SavingManager : MonoBehaviour
         return _sampleRate;
     }
     
-
     public void StartRecordingData()
     {
         RecordData();
@@ -96,6 +93,8 @@ public class SavingManager : MonoBehaviour
         Debug.Log("<color=green>Recording Data...</color>");
         _inputRecorder.StartInputRecording();
         EyetrackingManager.Instance.StartRecording();
+        
+        // todo add a class for timestamps and fps
     }
 
     private void StopRecord()
@@ -110,15 +109,16 @@ public class SavingManager : MonoBehaviour
     {
         StoreEyeTrackingData(EyetrackingManager.Instance.GetEyeTrackingData());
         StoreInputData(_inputRecorder.GetDataFrames());
-        
+        StoreCalibrationData();
     }
 
     private bool TestCompleteness()
     {
-        if (_inputData != null && _eyeTrackingData != null)
+        // todo check if participant's UUID is available
+        
+        if (_inputData != null && _eyeTrackingData != null && _calibrationData != null)
         {
             return true;
-            
         }
         else
         {
@@ -132,18 +132,15 @@ public class SavingManager : MonoBehaviour
         _eyeTrackingData = eyeTrackingdataFrames;
     }
 
-   
-
-    public void StoreEyeValidationData(EyetrackingValidation eyeValidation)
-    {
-        _eyetrackingValidation = eyeValidation;
-    }
-
     public void StoreInputData(List<InputDataFrame> inputDataFrames)
     {
         _inputData = inputDataFrames;
     }
 
+    public void StoreCalibrationData()
+    {
+        _calibrationData = CalibrationManager.Instance.GetCalibrationData();
+    }
 
     public void SetParticipantCar(GameObject car)
     {
@@ -188,30 +185,36 @@ public class SavingManager : MonoBehaviour
         
             var eyeTracking = ConvertToJson(_eyeTrackingData);
             Debug.Log("saving " + input.Count + "Data frames of " + _eyeTrackingData);
-        
-        
-            using (FileStream stream = File.Open(DataPath, FileMode.Create))
-            {
-                File.WriteAllLines(GetPathForSaveFile("input"), input);
             
-                File.WriteAllLines(GetPathForSaveFile("eyeTracking"), eyeTracking);
+            var calibrationData = JsonUtility.ToJson(_calibrationData);
+            Debug.Log("saving " + input.Count + "Data frames of " + calibrationData);
+        
+        
+            using (FileStream stream = File.Open(GetPathForSaveFile(DataName), FileMode.Create))
+            {
+                File.WriteAllLines(GetPathForSaveFile("Input"), input);
+            
+                File.WriteAllLines(GetPathForSaveFile("EyeTracking"), eyeTracking);
+                
+                File.WriteAllText(GetPathForSaveFile("ParticipantCalibrationData"), calibrationData);
             
             }
         }
-       
         
-        
-        
-
         Debug.Log("saved to " + Application.persistentDataPath);
     }
-    private string GetPathForSaveFile(string saveFileName)
+
+    public void CreateGUIDFolder(string id)
     {
-        return Path.Combine(Application.persistentDataPath, saveFileName + ".txt");
+        string folderName = Application.persistentDataPath;
+        _GUIDFolderPath = Path.GetFullPath(Path.Combine(folderName, id));
+        Directory.CreateDirectory(_GUIDFolderPath);
+        print(Application.persistentDataPath);
+        print(_GUIDFolderPath);
     }
     
-    
-    
-    
-    
+    private string GetPathForSaveFile(string saveFileName)
+    {
+        return Path.Combine(_GUIDFolderPath, saveFileName + ".txt");
+    }
 }
