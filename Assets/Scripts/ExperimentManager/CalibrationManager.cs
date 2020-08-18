@@ -69,7 +69,7 @@ public class CalibrationManager : MonoBehaviour
     
     private void StoreParticipantUuid(string iD)
     {
-        _calibrationData.ParticipantUuid = iD;
+        _calibrationData.ParticipantUuid = iD.Replace("-", "");
         SaveCalibrationData();
     }
     

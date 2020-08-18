@@ -192,7 +192,6 @@ public class SavingManager : MonoBehaviour
 
             var id = _calibrationData.ParticipantUuid;
 
-
             using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
             {
                 File.WriteAllLines(GetPathForSaveFile("Input", id, SceneManager.GetActiveScene().name), input);
