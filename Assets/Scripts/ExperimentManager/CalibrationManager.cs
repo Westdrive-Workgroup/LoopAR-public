@@ -39,6 +39,21 @@ public class CalibrationManager : MonoBehaviour
         {
             _calibrationData = new CalibrationData();
         }
+
+        if (!File.Exists(GetPathForSaveFolder("Input")))
+        {
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "Input")));
+        }
+        
+        if (!File.Exists(GetPathForSaveFolder("EyeTracking")))
+        {
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "EyeTracking")));
+        }
+        
+        if (!File.Exists(GetPathForSaveFolder("Participant Calibration Data")))
+        {
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "ParticipantCalibrationData")));
+        }
         
         //singleton pattern a la Unity
         if (Instance == null)
@@ -82,6 +97,12 @@ public class CalibrationManager : MonoBehaviour
         return Path.Combine(Application.persistentDataPath, saveFileName + ".txt");
     }
     
+    public string GetPathForSaveFolder(string folderName)
+    {
+        return Path.Combine(Application.persistentDataPath, folderName);
+    }
+    
+    
     private CalibrationData LoadCalibrationFile(string dataPath)
     {
         string jsonString;
@@ -107,7 +128,6 @@ public class CalibrationManager : MonoBehaviour
     { 
         string newParticipantId = System.Guid.NewGuid().ToString();
         StoreParticipantUuid(newParticipantId);
-        SavingManager.Instance.CreateGUIDFolder(newParticipantId);
         _uUIDGenerated = true;
     }
     

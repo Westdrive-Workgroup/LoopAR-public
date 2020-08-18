@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using PathCreation;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SavingManager : MonoBehaviour
 {
@@ -186,35 +187,33 @@ public class SavingManager : MonoBehaviour
             var eyeTracking = ConvertToJson(_eyeTrackingData);
             Debug.Log("saving " + input.Count + "Data frames of " + _eyeTrackingData);
             
-            var calibrationData = JsonUtility.ToJson(_calibrationData);
-            Debug.Log("saving " + input.Count + "Data frames of " + calibrationData);
-        
-        
-            using (FileStream stream = File.Open(GetPathForSaveFile(DataName), FileMode.Create))
+            var participantCalibrationData = JsonUtility.ToJson(_calibrationData);
+            Debug.Log("saving " + input.Count + "Data frames of " + participantCalibrationData);
+
+            var id = _calibrationData.ParticipantUuid;
+
+
+            using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
             {
-                File.WriteAllLines(GetPathForSaveFile("Input"), input);
+                File.WriteAllLines(GetPathForSaveFile("Input", id, SceneManager.GetActiveScene().name), input);
+            }
             
-                File.WriteAllLines(GetPathForSaveFile("EyeTracking"), eyeTracking);
-                
-                File.WriteAllText(GetPathForSaveFile("ParticipantCalibrationData"), calibrationData);
+            using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
+            {
+                File.WriteAllLines(GetPathForSaveFile("EyeTracking", id, SceneManager.GetActiveScene().name), eyeTracking);
+            }
             
+            using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
+            {
+                File.WriteAllText(GetPathForSaveFile("ParticipantCalibrationData", id, SceneManager.GetActiveScene().name), participantCalibrationData);
             }
         }
         
         Debug.Log("saved to " + Application.persistentDataPath);
     }
 
-    public void CreateGUIDFolder(string id)
+    private string GetPathForSaveFile(string folderFileName, string id, string sceneName)
     {
-        string folderName = Application.persistentDataPath;
-        _GUIDFolderPath = Path.GetFullPath(Path.Combine(folderName, id));
-        Directory.CreateDirectory(_GUIDFolderPath);
-        print(Application.persistentDataPath);
-        print(_GUIDFolderPath);
-    }
-    
-    private string GetPathForSaveFile(string saveFileName)
-    {
-        return Path.Combine(_GUIDFolderPath, saveFileName + ".txt");
+        return Path.Combine(Path.GetFullPath(Path.Combine(Application.persistentDataPath, folderFileName)), id + "_" + folderFileName + "_" + SceneManager.GetActiveScene().name + ".txt");
     }
 }
