@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5647708020888094487}
   m_Layer: 0
-  m_Name: SceneLoadingTriggers[CountryRoad]
+  m_Name: EssentialTriggers[CountryRoad]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,9 +30,90 @@ Transform:
   - {fileID: 5101186960834113813}
   - {fileID: 7207247264306067752}
   - {fileID: 7207247265433586245}
+  - {fileID: 4596344231149404683}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &4165954193316729333
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5647708020888094487}
+    m_Modifications:
+    - target: {fileID: 439400020230460385, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_Name
+      value: DataSavingTrigger[CountryRoad]
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1550
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 133.26746
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 2662.2473
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.29198518
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9564229
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 33.954002
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1236913165849640041, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: sceneToSaveDataOf
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23, type: 3}
+--- !u!4 &4596344231149404683 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+    type: 3}
+  m_PrefabInstance: {fileID: 4165954193316729333}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5647708020290240954
 PrefabInstance:
   m_ObjectHideFlags: 0
