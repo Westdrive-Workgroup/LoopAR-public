@@ -8,6 +8,17 @@ public class DataSavingTrigger : MonoBehaviour
 {
     private string _oldScene;
     
+    public enum Scenes
+    {
+        MountainRoad,
+        Westbrueck, 
+        CountryRoad, 
+        Autobahn,
+        TrainingScene
+    }
+    
+    public Scenes sceneToSaveDataOf = Scenes.MountainRoad;
+    
     void Start()
     {
         this.gameObject.GetComponent<MeshRenderer>().enabled = false;
@@ -15,17 +26,6 @@ public class DataSavingTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        _oldScene = SceneManager.GetActiveScene().name;
-        StartCoroutine(IsSceneChanged());
-    }
-
-    IEnumerator IsSceneChanged()
-    {
-        while (SceneManager.GetActiveScene().name == _oldScene)
-        {
-            yield return null;
-        }
-        
-        SavingManager.Instance.SaveDataAndStartRecordingAgain(_oldScene);
+        SavingManager.Instance.SaveDataAndStartRecordingAgain(sceneToSaveDataOf.ToString());
     }
 }
