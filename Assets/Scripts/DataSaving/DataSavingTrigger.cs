@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class DataSavingTrigger : MonoBehaviour
 {
+    private GameObject _currentTarget;    
     private string _oldScene;
     
     public enum Scenes
@@ -26,6 +27,14 @@ public class DataSavingTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        SavingManager.Instance.SaveDataAndStartRecordingAgain(sceneToSaveDataOf.ToString());
+        if (other.gameObject == _currentTarget)
+            return;
+
+        _currentTarget = other.gameObject;
+        
+        if (other.GetComponent<ManualController>() != null)
+        {
+            SavingManager.Instance.SaveDataAndStartRecordingAgain(sceneToSaveDataOf.ToString());
+        }
     }
 }
