@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8133053094824333299}
   m_Layer: 0
-  m_Name: SceneLoadingTriggers[Westbrueck]
+  m_Name: EssentialTriggers[Westbrueck]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23,16 +23,97 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8133053094824333260}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8680079926304463719}
   - {fileID: 6537978732687097967}
   - {fileID: 6537978732596387129}
+  - {fileID: 439400021873468562}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1647572844
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8133053094824333299}
+    m_Modifications:
+    - target: {fileID: 439400020230460385, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_Name
+      value: DataSavingTrigger[Westbrueck]
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -491.1399
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 186.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1058.2328
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1236913165849640041, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+        type: 3}
+      propertyPath: sceneToSaveDataOf
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23, type: 3}
+--- !u!4 &439400021873468562 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 439400020230460414, guid: 4f6e9217c44aa9e4fb5dfa8934c24e23,
+    type: 3}
+  m_PrefabInstance: {fileID: 1647572844}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8133053093123700989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -98,6 +179,11 @@ PrefabInstance:
     - target: {fileID: 3055122482552387730, guid: 0e80a1964ff6b8e449d360c95a06f82f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7336094731248842532, guid: 0e80a1964ff6b8e449d360c95a06f82f,
+        type: 3}
+      propertyPath: sceneToActivate
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -177,13 +263,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7336094731248842532, guid: 0e80a1964ff6b8e449d360c95a06f82f,
         type: 3}
-      propertyPath: sceneToActivate
-      value: 2
+      propertyPath: activateGameObjects
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7336094731248842532, guid: 0e80a1964ff6b8e449d360c95a06f82f,
         type: 3}
-      propertyPath: activateGameObjects
-      value: 1
+      propertyPath: sceneToActivate
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0e80a1964ff6b8e449d360c95a06f82f, type: 3}
@@ -203,7 +289,7 @@ PrefabInstance:
     - target: {fileID: 624801909606329994, guid: 9a0ba3c69b0c51f4a883ce59566f2153,
         type: 3}
       propertyPath: m_Name
-      value: ChangeCarPathTrigger
+      value: ChangeCarPathTrigger[Westbrueck]
       objectReference: {fileID: 0}
     - target: {fileID: 624801909606330005, guid: 9a0ba3c69b0c51f4a883ce59566f2153,
         type: 3}
