@@ -111,6 +111,9 @@ public class SavingManager : MonoBehaviour
         
         yield return SavingData();
         
+        _eyeTrackingData.Clear();
+        _inputData.Clear();
+        
         StartRecordingData();
     }
     
@@ -174,8 +177,6 @@ public class SavingManager : MonoBehaviour
         participantCar = car;
         _inputRecorder.SetParticipantCar(car);
     }
-
-
 
     private List<String> ConvertToJson(List<InputDataFrame> inputData)
     {
@@ -262,9 +263,9 @@ public class SavingManager : MonoBehaviour
                 File.WriteAllLines(GetPathForSaveFile("EyeTracking", id, _targetSceneName), eyeTracking);
             }
             
-            using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
+            using (FileStream stream = File.Open(GetPathForSaveParticipantCalibrationData(DataName, DataName), FileMode.Create))
             {
-                File.WriteAllText(GetPathForSaveFile("ParticipantCalibrationData", id, _targetSceneName), participantCalibrationData);
+                File.WriteAllText(GetPathForSaveParticipantCalibrationData("ParticipantCalibrationData", id), participantCalibrationData);
             }
         }
         
@@ -276,6 +277,11 @@ public class SavingManager : MonoBehaviour
     private string GetPathForSaveFile(string folderFileName, string id, string sceneName)
     {
         return Path.Combine(Path.GetFullPath(Path.Combine(Application.persistentDataPath, folderFileName)), id + "_" + folderFileName + "_" + sceneName + ".txt");
+    }
+    
+    private string GetPathForSaveParticipantCalibrationData(string folderFileName, string id)
+    {
+        return Path.Combine(Path.GetFullPath(Path.Combine(Application.persistentDataPath, folderFileName)), id + "_" + folderFileName + ".txt");
     }
 
     public void SaveDataAndStartRecordingAgain(string oldSceneName)
