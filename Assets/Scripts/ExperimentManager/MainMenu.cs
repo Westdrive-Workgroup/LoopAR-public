@@ -222,13 +222,7 @@ public class MainMenu : MonoBehaviour
         {
             GUI.backgroundColor = Color.cyan;
             GUI.color = Color.white;
-            
-            /*if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start Experiment"))
-            {
-                _section = Section.MainExperiment;
-                SceneLoadingHandler.Instance.SceneChange("MountainRoad");
-            }*/
-            
+
             if (!CalibrationManager.Instance.GetTestDriveState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Training Block"))

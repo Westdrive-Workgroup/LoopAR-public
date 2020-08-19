@@ -37,7 +37,7 @@ public class EyetrackingDataRecorder : MonoBehaviour
         }
     }
     
-    private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)  // generally I am not proud of this call, but seems necessary for the moment.
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)  // generally I am not proud of this call, but seems necessary for the moment.
     {
         _hmdTransform = _eyetrackingManager.GetHmdTransform();        //refresh the HMD transform after sceneload;
         //Debug.Log("hello new World");
@@ -48,18 +48,23 @@ public class EyetrackingDataRecorder : MonoBehaviour
     {
         recordingEnded = false;
         StartCoroutine(RecordEyeTrackingData());
-        
     }
 
     public void StopRecording()
     {
         recordingEnded = true;
     }
+
+    public void ClearEyeTrackingDataRecordings()
+    {
+        _recordedEyeTrackingData.Clear();
+    }
     
     private IEnumerator RecordEyeTrackingData()
     {
         int frameCounter = new int();
         Debug.Log("<color=green>Start recording...</color>");
+        
         while (!recordingEnded)
         {
             EyeTrackingDataFrame dataFrame = new EyeTrackingDataFrame();
@@ -100,9 +105,7 @@ public class EyetrackingDataRecorder : MonoBehaviour
             frameCounter++;
             
             yield return new WaitForSeconds(_sampleRate);
-            
         }
-        
     }
 
 

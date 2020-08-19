@@ -39,6 +39,21 @@ public class CalibrationManager : MonoBehaviour
         {
             _calibrationData = new CalibrationData();
         }
+
+        if (!File.Exists(GetPathForSaveFolder("Input")))
+        {
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "Input")));
+        }
+        
+        if (!File.Exists(GetPathForSaveFolder("EyeTracking")))
+        {
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "EyeTracking")));
+        }
+        
+        if (!File.Exists(GetPathForSaveFolder("Participant Calibration Data")))
+        {
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "ParticipantCalibrationData")));
+        }
         
         //singleton pattern a la Unity
         if (Instance == null)
@@ -54,7 +69,7 @@ public class CalibrationManager : MonoBehaviour
     
     private void StoreParticipantUuid(string iD)
     {
-        _calibrationData.ParticipantUuid = iD;
+        _calibrationData.ParticipantUuid = iD.Replace("-", "");
         SaveCalibrationData();
     }
     
@@ -72,6 +87,7 @@ public class CalibrationManager : MonoBehaviour
 
     private void SaveCalibrationFile(CalibrationData calibrationData)
     {
+        //todo use using
         string jsonString = JsonUtility.ToJson(calibrationData);
         File.WriteAllText(_calibrationFilePath, jsonString);
     }
@@ -80,6 +96,12 @@ public class CalibrationManager : MonoBehaviour
     {
         return Path.Combine(Application.persistentDataPath, saveFileName + ".txt");
     }
+    
+    public string GetPathForSaveFolder(string folderName)
+    {
+        return Path.Combine(Application.persistentDataPath, folderName);
+    }
+    
     
     private CalibrationData LoadCalibrationFile(string dataPath)
     {
@@ -214,6 +236,11 @@ public class CalibrationManager : MonoBehaviour
     #endregion
     
     #region Getters
+
+    public CalibrationData GetCalibrationData()
+    {
+        return _calibrationData;
+    }
     
     public bool GetWasMainMenuLoaded()
     {
