@@ -25,6 +25,7 @@ public class SavingManager : MonoBehaviour
     private List<string[]> rawData;
 
     private GameObject participantCar;
+    private string _targetSceneName;
     
     private void Awake()
     {
@@ -88,6 +89,31 @@ public class SavingManager : MonoBehaviour
             Debug.Log("error the data collection was not completed or corrupted");
         }
     }
+
+    IEnumerator SavingData()
+    {
+        _readyToSaveToFile = TestCompleteness();
+        
+        if (_readyToSaveToFile)
+        {
+            yield return SavingToJson();
+        }
+        else
+        {
+            Debug.Log("error the data collection was not completed or corrupted");
+            yield return null;
+        }
+    }
+
+    IEnumerator StartRecordingAfterSavingData()
+    {
+        StopRecord();
+        
+        yield return SavingData();
+        
+        StartRecordingData();
+    }
+    
     private void RecordData()
     {
         _readyToSaveToFile = false;
@@ -210,9 +236,51 @@ public class SavingManager : MonoBehaviour
         
         Debug.Log("saved to " + Application.persistentDataPath);
     }
+    
+    IEnumerator SavingToJson()
+    {
+        if (_readyToSaveToFile)
+        {
+            var input = ConvertToJson(_inputData);
+            Debug.Log("saving " + input.Count + "Data frames of " + _inputData);
+        
+            var eyeTracking = ConvertToJson(_eyeTrackingData);
+            Debug.Log("saving " + input.Count + "Data frames of " + _eyeTrackingData);
+            
+            var participantCalibrationData = JsonUtility.ToJson(_calibrationData);
+            Debug.Log("saving " + input.Count + "Data frames of " + participantCalibrationData);
+
+            var id = _calibrationData.ParticipantUuid;
+
+            using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
+            {
+                File.WriteAllLines(GetPathForSaveFile("Input", id, _targetSceneName), input);
+            }
+            
+            using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
+            {
+                File.WriteAllLines(GetPathForSaveFile("EyeTracking", id, _targetSceneName), eyeTracking);
+            }
+            
+            using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
+            {
+                File.WriteAllText(GetPathForSaveFile("ParticipantCalibrationData", id, _targetSceneName), participantCalibrationData);
+            }
+        }
+        
+        Debug.Log("saved to " + Application.persistentDataPath);
+
+        yield return null;
+    }
 
     private string GetPathForSaveFile(string folderFileName, string id, string sceneName)
     {
-        return Path.Combine(Path.GetFullPath(Path.Combine(Application.persistentDataPath, folderFileName)), id + "_" + folderFileName + "_" + SceneManager.GetActiveScene().name + ".txt");
+        return Path.Combine(Path.GetFullPath(Path.Combine(Application.persistentDataPath, folderFileName)), id + "_" + folderFileName + "_" + sceneName + ".txt");
+    }
+
+    public void SaveDataAndStartRecordingAgain(string oldSceneName)
+    {
+        _targetSceneName = oldSceneName;
+        StartCoroutine(StartRecordingAfterSavingData());
     }
 }
