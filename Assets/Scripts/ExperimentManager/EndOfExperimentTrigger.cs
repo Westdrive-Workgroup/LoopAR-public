@@ -7,6 +7,12 @@ using UnityEngine;
 public class EndOfExperimentTrigger : MonoBehaviour
 {
     private GameObject _currentTarget;
+
+    private void Start()
+    {
+        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject == _currentTarget)
