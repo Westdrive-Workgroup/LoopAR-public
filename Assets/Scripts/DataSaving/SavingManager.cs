@@ -52,6 +52,7 @@ public class SavingManager : MonoBehaviour
 
     void Start()
     {
+        _frameRates = new List<float>();
         _readyToSaveToFile=false;
         _sceneDataRecorder = SceneDataRecorder.Instance;
     }

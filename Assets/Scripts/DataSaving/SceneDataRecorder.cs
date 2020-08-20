@@ -21,6 +21,7 @@ public class SceneDataRecorder : MonoBehaviour
 
     private void Start()
     {
+        _sceneData = new SceneData();
         _eventBehaviourDataFrames = new List<EventBehaviourDataFrame>();
     }
 
