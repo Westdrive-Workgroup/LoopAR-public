@@ -134,6 +134,7 @@ public class ExperimentManager : MonoBehaviour
     // starting the experiment
     private IEnumerator StartExperiment()
     {
+        TimeManager.Instance.SetExperimentStartTime();
         _isStartPressed = true;
         while (SceneLoadingHandler.Instance.GetAdditiveLoadingState()) yield return null;
         
@@ -338,6 +339,8 @@ public class ExperimentManager : MonoBehaviour
         
             if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "Abort"))
             {
+                SavingManager.Instance.StopRecordingData();
+                SavingManager.Instance.SaveData();
                 CalibrationManager.Instance.AbortExperiment();
             }
         } 
