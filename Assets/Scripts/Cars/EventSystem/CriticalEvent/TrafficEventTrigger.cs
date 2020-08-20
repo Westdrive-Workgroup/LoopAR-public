@@ -22,6 +22,15 @@ public class TrafficEventTrigger : MonoBehaviour
         if (other.GetComponent<ManualController>() != null)
         {
             _eventController.Triggered(activateEvent);
+
+            if (activateEvent)
+            {
+                _eventController.SetEventStartData(TimeManager.Instance.GetCurrentUnixTimeStamp(), _eventController.gameObject.name);
+            }
+            else
+            {
+                _eventController.SetEventEndData(TimeManager.Instance.GetCurrentUnixTimeStamp(), true);
+            }
         }
     }
 
