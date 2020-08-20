@@ -9,8 +9,12 @@ public class TimeManager : MonoBehaviour
     public static TimeManager Instance { get; private set; }
     
     private bool _experimentStarted;
+    private double _timeSinceStart;
 
-    private float _timeSinceStart;
+    private double _applicationStartTime;
+    private double _experimentStartTime;
+    private double _experimentEndTime;
+    
 
     private void Awake()
     {
@@ -23,6 +27,8 @@ public class TimeManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
+        _applicationStartTime = GetCurrentUnixTimeStamp();
     }
     void Start()
     {
@@ -55,14 +61,31 @@ public class TimeManager : MonoBehaviour
         return (System.DateTime.UtcNow - epochStart).TotalSeconds;
     }
 
+    public void SetExperimentStartTime()
+    {
+        _experimentStartTime = GetCurrentUnixTimeStamp();
+    }
+    
+    public void SetExperimentEndTime()
+    {
+        _experimentEndTime = GetCurrentUnixTimeStamp();
+    }
+
+    public double GetApplicationDuration()
+    {
+        return _experimentEndTime - _applicationStartTime;
+    }
+
+    public double GetExperimentDuration()
+    {
+        return _experimentEndTime - _experimentStartTime;
+    }
+    
     private double GetTimeSinceStartUp()
     {
         //TODO this is not smart, it should count the time from the experiment beginning. needs a workaround.
        // return Time.realtimeSinceStartup;
-
-        
+       
        return _timeSinceStart;
     }
-    
-    
 }

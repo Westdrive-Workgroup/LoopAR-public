@@ -119,6 +119,7 @@ public class ExperimentManager : MonoBehaviour
     private void RunMainMenu()
     {
         _scene = Scene.MainMenu;
+        _participantsCar.GetComponent<Rigidbody>().useGravity = false;
         _participantsCar.GetComponent<CarController>().TurnOffEngine();
     }
     
@@ -134,6 +135,7 @@ public class ExperimentManager : MonoBehaviour
     // starting the experiment
     private IEnumerator StartExperiment()
     {
+        TimeManager.Instance.SetExperimentStartTime();
         _isStartPressed = true;
         while (SceneLoadingHandler.Instance.GetAdditiveLoadingState()) yield return null;
         
@@ -142,6 +144,7 @@ public class ExperimentManager : MonoBehaviour
         SavingManager.Instance.StartRecordingData();
         CameraManager.Instance.FadeIn();
         yield return new WaitForSeconds(startExperimentDelay);
+        _participantsCar.GetComponent<Rigidbody>().useGravity = true;
         _participantsCar.GetComponent<CarController>().TurnOnEngine();
     }
     
@@ -338,6 +341,8 @@ public class ExperimentManager : MonoBehaviour
         
             if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "Abort"))
             {
+                SavingManager.Instance.StopRecordingData();
+                SavingManager.Instance.SaveData();
                 CalibrationManager.Instance.AbortExperiment();
             }
         } 

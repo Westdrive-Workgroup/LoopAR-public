@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using PathCreation;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,13 +17,16 @@ public class SavingManager : MonoBehaviour
     private float _sampleRate;
 
     private List<EyeTrackingDataFrame> _eyeTrackingData;
-    private CalibrationData _calibrationData;
     private List<InputDataFrame> _inputData;
+    private SceneData _sceneData;
+    private CalibrationData _participantCalibrationData;
     private InputRecorder _inputRecorder;
+    private SceneDataRecorder _sceneDataRecorder;
 
     private bool _readyToSaveToFile;
 
     private List<string[]> rawData;
+    private List<float> _frameRates;
 
     private GameObject participantCar;
     private string _targetSceneName;
@@ -48,17 +52,19 @@ public class SavingManager : MonoBehaviour
 
     void Start()
     {
+        _frameRates = new List<float>();
         _readyToSaveToFile=false;
+        _sceneDataRecorder = SceneDataRecorder.Instance;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        /*if (Input.GetKeyDown(KeyCode.H))
         {
             StopRecord();
             SaveData();
             Debug.Log("<color=blue>Saving Data!</color>");
-        }
+        }*/
     }
     
     public float GetSampleRate()
@@ -113,6 +119,7 @@ public class SavingManager : MonoBehaviour
         
         _eyeTrackingData.Clear();
         _inputData.Clear();
+        _sceneData = null;
         
         StartRecordingData();
     }
@@ -139,6 +146,7 @@ public class SavingManager : MonoBehaviour
     {
         StoreEyeTrackingData(EyetrackingManager.Instance.GetEyeTrackingData());
         StoreInputData(_inputRecorder.GetDataFrames());
+        StoreSceneData(_sceneDataRecorder.GetDataFrame());
         StoreCalibrationData();
     }
 
@@ -146,7 +154,7 @@ public class SavingManager : MonoBehaviour
     {
         // todo check if participant's UUID is available
         
-        if (_inputData != null && _eyeTrackingData != null && _calibrationData != null)
+        if (_inputData != null && _eyeTrackingData != null && _participantCalibrationData != null && _sceneData != null)
         {
             return true;
         }
@@ -167,9 +175,18 @@ public class SavingManager : MonoBehaviour
         _inputData = inputDataFrames;
     }
 
+    public void StoreSceneData(SceneData sceneData)
+    {
+        _sceneData = sceneData;
+        _frameRates.Add(_sceneData.AverageSceneFPS);
+    }
+    
     public void StoreCalibrationData()
     {
-        _calibrationData = CalibrationManager.Instance.GetCalibrationData();
+        _participantCalibrationData = CalibrationManager.Instance.GetCalibrationData();
+        _participantCalibrationData.AverageExperimentFPS = _frameRates.Average();
+        _participantCalibrationData.ApplicationDuration = TimeManager.Instance.GetApplicationDuration();
+        _participantCalibrationData.ExperimentDuration = TimeManager.Instance.GetExperimentDuration();
     }
 
     public void SetParticipantCar(GameObject car)
@@ -204,6 +221,7 @@ public class SavingManager : MonoBehaviour
         return list;
     }
     
+    
     public void SaveToJson()
     {
         if (_readyToSaveToFile)
@@ -214,24 +232,32 @@ public class SavingManager : MonoBehaviour
             var eyeTracking = ConvertToJson(_eyeTrackingData);
             Debug.Log("saving " + input.Count + "Data frames of " + _eyeTrackingData);
             
-            var participantCalibrationData = JsonUtility.ToJson(_calibrationData);
+            var sceneData = JsonUtility.ToJson(_sceneData); // todo
+            Debug.Log("saving " + input.Count + "Data frames of " + _sceneData);
+            
+            var participantCalibrationData = JsonUtility.ToJson(_participantCalibrationData);
             Debug.Log("saving " + input.Count + "Data frames of " + participantCalibrationData);
 
-            var id = _calibrationData.ParticipantUuid;
+            var id = _participantCalibrationData.ParticipantUuid;
 
             using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
             {
-                File.WriteAllLines(GetPathForSaveFile("Input", id, SceneManager.GetActiveScene().name), input);
+                File.WriteAllLines(GetPathForSaveFile("Input", id, _targetSceneName), input);
             }
             
             using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
             {
-                File.WriteAllLines(GetPathForSaveFile("EyeTracking", id, SceneManager.GetActiveScene().name), eyeTracking);
+                File.WriteAllLines(GetPathForSaveFile("EyeTracking", id, _targetSceneName), eyeTracking);
             }
             
             using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
             {
-                File.WriteAllText(GetPathForSaveFile("ParticipantCalibrationData", id, SceneManager.GetActiveScene().name), participantCalibrationData);
+                File.WriteAllText(GetPathForSaveFile("SceneData", id, _targetSceneName), sceneData); // todo
+            }
+            
+            using (FileStream stream = File.Open(GetPathForSaveParticipantCalibrationData(DataName, DataName), FileMode.Create))
+            {
+                File.WriteAllText(GetPathForSaveParticipantCalibrationData("ParticipantCalibrationData", id), participantCalibrationData);
             }
         }
         
@@ -248,10 +274,13 @@ public class SavingManager : MonoBehaviour
             var eyeTracking = ConvertToJson(_eyeTrackingData);
             Debug.Log("saving " + input.Count + "Data frames of " + _eyeTrackingData);
             
-            var participantCalibrationData = JsonUtility.ToJson(_calibrationData);
+            var sceneData = JsonUtility.ToJson(_sceneData); // todo
+            Debug.Log("saving " + input.Count + "Data frames of " + _sceneData);
+            
+            var participantCalibrationData = JsonUtility.ToJson(_participantCalibrationData);
             Debug.Log("saving " + input.Count + "Data frames of " + participantCalibrationData);
 
-            var id = _calibrationData.ParticipantUuid;
+            var id = _participantCalibrationData.ParticipantUuid;
 
             using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
             {
@@ -261,6 +290,11 @@ public class SavingManager : MonoBehaviour
             using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
             {
                 File.WriteAllLines(GetPathForSaveFile("EyeTracking", id, _targetSceneName), eyeTracking);
+            }
+            
+            using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
+            {
+                File.WriteAllText(GetPathForSaveFile("SceneData", id, _targetSceneName), sceneData); // todo
             }
             
             using (FileStream stream = File.Open(GetPathForSaveParticipantCalibrationData(DataName, DataName), FileMode.Create))
@@ -288,5 +322,10 @@ public class SavingManager : MonoBehaviour
     {
         _targetSceneName = oldSceneName;
         StartCoroutine(StartRecordingAfterSavingData());
+    }
+
+    public float GetCurrentFPS()
+    {
+        return this.gameObject.GetComponent<FPSDisplay>().GetCurrentFPS();
     }
 }

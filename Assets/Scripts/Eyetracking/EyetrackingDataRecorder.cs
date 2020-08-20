@@ -14,6 +14,7 @@ public class EyetrackingDataRecorder : MonoBehaviour
     // Start is called before the first frame update
     private float _sampleRate;
     private List<EyeTrackingDataFrame> _recordedEyeTrackingData;
+    private List<float> _frameRates;
     private EyetrackingManager _eyetrackingManager;
     private Transform _hmdTransform;
     private bool recordingEnded;
@@ -65,6 +66,8 @@ public class EyetrackingDataRecorder : MonoBehaviour
         int frameCounter = new int();
         Debug.Log("<color=green>Start recording...</color>");
         
+        _frameRates = new List<float>();
+        
         while (!recordingEnded)
         {
             EyeTrackingDataFrame dataFrame = new EyeTrackingDataFrame();
@@ -96,11 +99,14 @@ public class EyetrackingDataRecorder : MonoBehaviour
             dataFrame.UnixTimeStamp = TimeManager.Instance.GetCurrentUnixTimeStamp();
 
             dataFrame.TimeStamp = eyeTrackingDataWorld.Timestamp;
+
+            dataFrame.FPS = SavingManager.Instance.GetCurrentFPS();
             
             dataFrame.HmdPosition = EyetrackingManager.Instance.GetHmdTransform().position;
 
             dataFrame.NoseVector =  EyetrackingManager.Instance.GetHmdTransform().forward;
             
+            _frameRates.Add(dataFrame.FPS);
             _recordedEyeTrackingData.Add(dataFrame);
             frameCounter++;
             
@@ -158,7 +164,11 @@ public class EyetrackingDataRecorder : MonoBehaviour
         {
             throw new Exception("Eyetracking Data Recording has not been finished");
         }
-        
+    }
+
+    public float GetAverageFrameRate()
+    {
+        return _frameRates.Average();
     }
 
     private void Visualisation()

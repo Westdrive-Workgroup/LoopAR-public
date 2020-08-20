@@ -22,6 +22,7 @@ public class EndOfExperimentTrigger : MonoBehaviour
         
         if (other.GetComponent<ManualController>() != null)
         {
+            TimeManager.Instance.SetExperimentEndTime();
             Debug.Log("<color=green>End of Experiment!</color>: ");
             ExperimentManager.Instance.EndTheExperiment();
         }

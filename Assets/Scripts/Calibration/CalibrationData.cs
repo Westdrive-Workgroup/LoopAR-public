@@ -10,4 +10,9 @@ using UnityEngine;
     public bool VRmode;
     public Vector3 EyeValidationError;
     public Vector3 SeatCalibrationOffset;
+
+    public double ExperimentDuration;
+    public double ApplicationDuration;
+
+    public float AverageExperimentFPS;
 }

@@ -50,9 +50,14 @@ public class CalibrationManager : MonoBehaviour
             Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "EyeTracking")));
         }
         
-        if (!File.Exists(GetPathForSaveFolder("Participant Calibration Data")))
+        if (!File.Exists(GetPathForSaveFolder("ParticipantCalibrationData")))
         {
             Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "ParticipantCalibrationData")));
+        }
+        
+        if (!File.Exists(GetPathForSaveFolder("SceneData")))
+        {
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "SceneData")));
         }
         
         //singleton pattern a la Unity
@@ -183,6 +188,7 @@ public class CalibrationManager : MonoBehaviour
     
     public void AbortExperiment()
     {
+        TimeManager.Instance.SetExperimentEndTime();
         SceneManager.LoadSceneAsync("MainMenu");
         MainMenu.Instance.ReStartMainMenu();
     }

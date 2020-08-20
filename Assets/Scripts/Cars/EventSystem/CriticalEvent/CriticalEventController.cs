@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -16,31 +17,26 @@ public class CriticalEventController : MonoBehaviour
     [Space]
     [Header("Event Objects")]
     [Tooltip("The gameObject which is the parent of the event object")]
-    [SerializeField]
-    private GameObject eventObjectParent;
+    [SerializeField] private GameObject eventObjectParent;
 
     [SerializeField] private List<GameObject> eventObjects;
 
-    [Tooltip("Should the event objects be active or not when experiment begins")] [SerializeField]
+    [Tooltip("Should the event objects be active or not when experiment begins")] [SerializeField] 
     private GameObject respawnPoint;
 
     [Space]
     [Header("Event Setting")]
     [Tooltip("Time the car needs from informing the driver to giving them the control. (0 - 15 seconds)")]
     [Range(0, 15)]
-    [SerializeField]
-    private float startEventDelay = 2.5f;
+    [SerializeField] private float startEventDelay = 2.5f;
 
     [Tooltip("Time the car needs from informing the driver to taking back the control. (0 - 10 seconds)")]
     [Range(0, 10)]
-    [SerializeField]
-    private float endEventDelay = 1f;
+    [SerializeField] private float endEventDelay = 1f;
 
     [Tooltip("End the event automatically after given (0 - 120) seconds in case the participant stays idle.")]
     [Range(0, 120)]
-    [SerializeField]
-    private float eventIdleDuration = 10f;
-
+    [SerializeField] private float eventIdleDuration = 10f;
     [SerializeField] private bool eventObjectActive;
 
 
@@ -52,6 +48,9 @@ public class CriticalEventController : MonoBehaviour
     private bool _endIdleEventState;
     private MeshRenderer[] _meshRenderers;
     
+    // Event Data variables
+    private string _eventName;
+    private double _startTime;
 
     #endregion
 
@@ -206,6 +205,17 @@ public class CriticalEventController : MonoBehaviour
     public void SetEventActivationState(bool state)
     {
         _activatedEvent = state;
+    }
+
+    public void SetEventStartData(double startTime, string eventName)
+    {
+        _eventName = eventName;
+        _startTime = startTime;
+    }
+    
+    public void SetEventEndData(double endTime, bool successState, string hitObjName=null)
+    {
+        SceneDataRecorder.Instance.AssignEventData(_eventName, _startTime, endTime, successState, hitObjName);
     }
 
     #endregion

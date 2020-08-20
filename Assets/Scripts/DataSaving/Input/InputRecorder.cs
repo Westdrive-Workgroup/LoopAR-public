@@ -19,15 +19,8 @@ public class InputRecorder: MonoBehaviour
 
     private List<InputDataFrame> InputDataFrames;
 
-    private void Awake()
-    {
-        
-    }
-
     void Start()
     {
-        
-        
         if (_participantCar != null)
         {
             if (_participantCar.GetComponent<ManualController>()!=null)
@@ -35,7 +28,6 @@ public class InputRecorder: MonoBehaviour
                 Debug.Log("found");
                 _participantCar.GetComponent<ManualController>().NotifyInputObservers += ReceiveInput;
             }
-
         }
         
         _sampleRate = SavingManager.Instance.GetSampleRate();

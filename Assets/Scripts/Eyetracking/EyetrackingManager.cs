@@ -53,21 +53,6 @@ public class EyetrackingManager : MonoBehaviour
         //Debug.Log("hello new World");
     }
 
-    private void OnEnable()
-    {
-        
-    }
-
-    private void OnLevelWasLoaded()
-    {
-        
-    }
-
-    private void Update()
-    {
-        
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -122,8 +107,6 @@ public class EyetrackingManager : MonoBehaviour
     {
         _eyeTrackingRecorder.StopRecording();
         StoreEyeTrackingData();
-        
-
     }
     
     
@@ -181,10 +164,12 @@ public class EyetrackingManager : MonoBehaviour
             _eyeValidationErrorAngles = errorAngles;
             NotifyEyeValidationCompletnessObservers?.Invoke(true);
         }
-        
-        
     }
-    
+
+    public float GetAverageSceneFPS()
+    {
+        return _eyeTrackingRecorder.GetAverageFrameRate();
+    }
 
     public bool GetEyeValidationStatus()
     {
@@ -196,6 +181,4 @@ public class EyetrackingManager : MonoBehaviour
         System.DateTime epochStart = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Utc);
         return (System.DateTime.UtcNow - epochStart).TotalSeconds;
     }
-
-    
 }

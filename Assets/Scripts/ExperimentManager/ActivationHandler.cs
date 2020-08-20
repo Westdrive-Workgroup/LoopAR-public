@@ -31,9 +31,15 @@ public class ActivationHandler : MonoBehaviour
     // Manual override for all objects. Can be set to true or false
     public void ChangeActivationState(bool state, GameObject targetGroup)
     {
+        StartCoroutine(ChangeState(state, targetGroup));
+    }
+
+    IEnumerator ChangeState(bool state, GameObject targetGroup)
+    {
         foreach (Transform child in targetGroup.transform)
         {
             child.gameObject.SetActive(state);
+            yield return null;
         }
     }
 }
