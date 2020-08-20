@@ -289,4 +289,9 @@ public class SavingManager : MonoBehaviour
         _targetSceneName = oldSceneName;
         StartCoroutine(StartRecordingAfterSavingData());
     }
+
+    public float GetCurrentFPS()
+    {
+        return  this.gameObject.GetComponent<FPSDisplay>().GetCurrentFPS();
+    }
 }

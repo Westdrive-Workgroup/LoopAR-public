@@ -56,6 +56,7 @@ public class InputRecorder: MonoBehaviour
             InputDataFrame inputDataFrame = new InputDataFrame();
         
             inputDataFrame.TimeStamp = TimeManager.Instance.GetCurrentUnixTimeStamp();
+            inputDataFrame.FPS = SavingManager.Instance.GetCurrentFPS();
         
             if (Math.Abs(_steeringInput) > 0 || Math.Abs(_accelerationInput) > 0 || Math.Abs(_brakeInput) > 0)
             {

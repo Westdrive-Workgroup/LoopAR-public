@@ -8,6 +8,8 @@ using UnityEngine;
     public double UnixTimeStamp;
     public double TimeStamp;
     public double TobiiTimeStamp;
+
+    public float FPS;
     
     public Vector3 HmdPosition;
     public Vector3 NoseVector; //HMD foward;

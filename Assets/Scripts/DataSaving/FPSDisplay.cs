@@ -11,6 +11,11 @@ public class FPSDisplay : MonoBehaviour
         _deltaTime += (Time.unscaledDeltaTime - _deltaTime) * 0.1f;
     }
 
+    public float GetCurrentFPS()
+    {
+        return 1.0f / _deltaTime;
+    }
+    
     void OnGUI()
     {
         int w = Screen.width, h = Screen.height;
