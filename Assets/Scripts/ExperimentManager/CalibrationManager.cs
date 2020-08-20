@@ -188,6 +188,7 @@ public class CalibrationManager : MonoBehaviour
     
     public void AbortExperiment()
     {
+        TimeManager.Instance.SetExperimentEndTime();
         SceneManager.LoadSceneAsync("MainMenu");
         MainMenu.Instance.ReStartMainMenu();
     }
