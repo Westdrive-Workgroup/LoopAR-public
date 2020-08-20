@@ -119,6 +119,7 @@ public class ExperimentManager : MonoBehaviour
     private void RunMainMenu()
     {
         _scene = Scene.MainMenu;
+        _participantsCar.GetComponent<Rigidbody>().useGravity = false;
         _participantsCar.GetComponent<CarController>().TurnOffEngine();
     }
     
@@ -143,6 +144,7 @@ public class ExperimentManager : MonoBehaviour
         SavingManager.Instance.StartRecordingData();
         CameraManager.Instance.FadeIn();
         yield return new WaitForSeconds(startExperimentDelay);
+        _participantsCar.GetComponent<Rigidbody>().useGravity = true;
         _participantsCar.GetComponent<CarController>().TurnOnEngine();
     }
     
