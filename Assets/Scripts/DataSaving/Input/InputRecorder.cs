@@ -19,15 +19,8 @@ public class InputRecorder: MonoBehaviour
 
     private List<InputDataFrame> InputDataFrames;
 
-    private void Awake()
-    {
-        
-    }
-
     void Start()
     {
-        
-        
         if (_participantCar != null)
         {
             if (_participantCar.GetComponent<ManualController>()!=null)
@@ -35,7 +28,6 @@ public class InputRecorder: MonoBehaviour
                 Debug.Log("found");
                 _participantCar.GetComponent<ManualController>().NotifyInputObservers += ReceiveInput;
             }
-
         }
         
         _sampleRate = SavingManager.Instance.GetSampleRate();
@@ -56,7 +48,6 @@ public class InputRecorder: MonoBehaviour
             InputDataFrame inputDataFrame = new InputDataFrame();
         
             inputDataFrame.TimeStamp = TimeManager.Instance.GetCurrentUnixTimeStamp();
-            inputDataFrame.FPS = SavingManager.Instance.GetCurrentFPS();
         
             if (Math.Abs(_steeringInput) > 0 || Math.Abs(_accelerationInput) > 0 || Math.Abs(_brakeInput) > 0)
             {

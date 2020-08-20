@@ -6,7 +6,6 @@ using UnityEngine;
 [Serializable]public class InputDataFrame
 {
     public double TimeStamp;
-    public float FPS;
     public bool ReceivedInput;
     public float SteeringInput;
     public float AcellerationInput;
