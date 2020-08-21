@@ -19,10 +19,12 @@ public class CalibrationManager : MonoBehaviour
     private bool _eyeTrackerValidationSuccessful;
     private bool _seatCalibrationSuccessful;
     private bool _testDriveSuccessful;
-    
+
     private CalibrationData _calibrationData;
     private String _calibrationFilePath;
 
+    private int numberOfTrainingTrials;
+    
     #endregion
 
     #region PrivateMethods
@@ -176,13 +178,11 @@ public class CalibrationManager : MonoBehaviour
     public void TestDriveSuccessState(bool state, int trials)
     {
         _testDriveSuccessful = state;
-        // todo serialize the info
+        numberOfTrainingTrials = trials;
     }
 
     public void TestDriveEnded()
     {
-        // SceneManager.LoadSceneAsync("MainMenu");
-        // SceneLoadingHandler.Instance.SceneChange("MountainRoad");
         SceneLoadingHandler.Instance.LoadExperimentScenes();
     }
     
@@ -276,6 +276,11 @@ public class CalibrationManager : MonoBehaviour
     public bool GetTestDriveState()
     {
         return _testDriveSuccessful;
+    }
+
+    public int GetTestDriveNumberOfTrials()
+    {
+        return numberOfTrainingTrials;
     }
 
     public Vector3 GetSeatCalibrationOffsetPosition()

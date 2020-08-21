@@ -54,6 +54,7 @@ public class ApplicationManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            SavingManager.Instance.StopAndSaveData(SceneManager.GetActiveScene().name);
             Application.Quit();
         }
     }

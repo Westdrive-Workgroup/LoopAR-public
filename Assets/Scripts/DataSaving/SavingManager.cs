@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -123,6 +123,23 @@ public class SavingManager : MonoBehaviour
         
         StartRecordingData();
     }
+
+    public void StopAndSaveData(string targetScene=null)
+    {
+        _targetSceneName = targetScene;
+        StartCoroutine(StopingAndSavingData());
+    }
+    
+    IEnumerator StopingAndSavingData()
+    {
+        StopRecord();
+        
+        yield return SavingData();
+        
+        _eyeTrackingData.Clear();
+        _inputData.Clear();
+        _sceneData = null;
+    }
     
     private void RecordData()
     {
@@ -187,6 +204,8 @@ public class SavingManager : MonoBehaviour
         _participantCalibrationData.AverageExperimentFPS = _frameRates.Average();
         _participantCalibrationData.ApplicationDuration = TimeManager.Instance.GetApplicationDuration();
         _participantCalibrationData.ExperimentDuration = TimeManager.Instance.GetExperimentDuration();
+        _participantCalibrationData.TrainingSuccessState = CalibrationManager.Instance.GetTestDriveState();
+        _participantCalibrationData.NumberOfTrainingTrials = CalibrationManager.Instance.GetTestDriveNumberOfTrials();
     }
 
     public void SetParticipantCar(GameObject car)
