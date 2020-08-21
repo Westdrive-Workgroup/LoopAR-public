@@ -204,8 +204,8 @@ public class SavingManager : MonoBehaviour
         _participantCalibrationData.AverageExperimentFPS = _frameRates.Average();
         _participantCalibrationData.ApplicationDuration = TimeManager.Instance.GetApplicationDuration();
         _participantCalibrationData.ExperimentDuration = TimeManager.Instance.GetExperimentDuration();
-        _participantCalibrationData.TrainingSuccessState = GetTrainingSuccessState();
-        _participantCalibrationData.NumberOfTrainingTrials = GetTrainingNumberOfTrainingTrials();
+        _participantCalibrationData.TrainingSuccessState = CalibrationManager.Instance.GetTestDriveState();
+        _participantCalibrationData.NumberOfTrainingTrials = CalibrationManager.Instance.GetTestDriveNumberOfTrials();
     }
 
     public void SetParticipantCar(GameObject car)
@@ -346,23 +346,5 @@ public class SavingManager : MonoBehaviour
     public float GetCurrentFPS()
     {
         return this.gameObject.GetComponent<FPSDisplay>().GetCurrentFPS();
-    }
-
-    public void SetParticipantTrainingData(bool succesState, int trials)
-    {
-        _participantCalibrationData.TrainingSuccessState = succesState;
-        _participantCalibrationData.NumberOfTrainingTrials = trials;
-    }
-
-    private bool GetTrainingSuccessState()
-    {
-        print(_participantCalibrationData.TrainingSuccessState);
-        return _participantCalibrationData.TrainingSuccessState;
-    }
-    
-    private int GetTrainingNumberOfTrainingTrials()
-    {
-        Debug.Log(_participantCalibrationData.NumberOfTrainingTrials);
-        return _participantCalibrationData.NumberOfTrainingTrials;
     }
 }
