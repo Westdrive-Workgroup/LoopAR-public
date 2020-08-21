@@ -339,7 +339,7 @@ public class ExperimentManager : MonoBehaviour
         
             if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "Abort"))
             {
-                SavingManager.Instance.StopAndSaveData();
+                SavingManager.Instance.StopAndSaveData(SceneManager.GetActiveScene().name);
                 CalibrationManager.Instance.AbortExperiment();
             }
         } 

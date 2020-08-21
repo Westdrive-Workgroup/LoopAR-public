@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -124,9 +124,10 @@ public class SavingManager : MonoBehaviour
         StartRecordingData();
     }
 
-    public void StopAndSaveData()
+    public void StopAndSaveData(string targetScene=null)
     {
-        StopingAndSavingData();
+        _targetSceneName = targetScene;
+        StartCoroutine(StopingAndSavingData());
     }
     
     IEnumerator StopingAndSavingData()
@@ -203,6 +204,8 @@ public class SavingManager : MonoBehaviour
         _participantCalibrationData.AverageExperimentFPS = _frameRates.Average();
         _participantCalibrationData.ApplicationDuration = TimeManager.Instance.GetApplicationDuration();
         _participantCalibrationData.ExperimentDuration = TimeManager.Instance.GetExperimentDuration();
+        _participantCalibrationData.TrainingSuccessState = GetTrainingSuccessState();
+        _participantCalibrationData.NumberOfTrainingTrials = GetTrainingNumberOfTrainingTrials();
     }
 
     public void SetParticipantCar(GameObject car)
@@ -343,5 +346,23 @@ public class SavingManager : MonoBehaviour
     public float GetCurrentFPS()
     {
         return this.gameObject.GetComponent<FPSDisplay>().GetCurrentFPS();
+    }
+
+    public void SetParticipantTrainingData(bool succesState, int trials)
+    {
+        _participantCalibrationData.TrainingSuccessState = succesState;
+        _participantCalibrationData.NumberOfTrainingTrials = trials;
+    }
+
+    private bool GetTrainingSuccessState()
+    {
+        print(_participantCalibrationData.TrainingSuccessState);
+        return _participantCalibrationData.TrainingSuccessState;
+    }
+    
+    private int GetTrainingNumberOfTrainingTrials()
+    {
+        Debug.Log(_participantCalibrationData.NumberOfTrainingTrials);
+        return _participantCalibrationData.NumberOfTrainingTrials;
     }
 }

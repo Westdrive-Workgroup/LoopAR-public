@@ -175,8 +175,7 @@ public class CalibrationManager : MonoBehaviour
     
     public void TestDriveSuccessState(bool state, int trials)
     {
-        _calibrationData.TrainingSuccessState = state;
-        _calibrationData.NumberOfTrainingTrials = trials;
+        SavingManager.Instance.SetParticipantTrainingData(state, trials);
         _testDriveSuccessful = state;
     }
 
