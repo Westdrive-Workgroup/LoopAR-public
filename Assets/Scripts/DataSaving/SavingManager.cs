@@ -123,6 +123,22 @@ public class SavingManager : MonoBehaviour
         
         StartRecordingData();
     }
+
+    public void StopAndSaveData()
+    {
+        StopingAndSavingData();
+    }
+    
+    IEnumerator StopingAndSavingData()
+    {
+        StopRecord();
+        
+        yield return SavingData();
+        
+        _eyeTrackingData.Clear();
+        _inputData.Clear();
+        _sceneData = null;
+    }
     
     private void RecordData()
     {
