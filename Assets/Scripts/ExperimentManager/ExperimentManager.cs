@@ -27,7 +27,6 @@ public class ExperimentManager : MonoBehaviour
         EndOfExperiment
     }
     
-    private SavingManager _savingManager;
     private List<ActivationTrigger> _activationTriggers;
     private CriticalEventController _criticalEventController;
     private Vector3 _respawnPosition;
@@ -59,8 +58,7 @@ public class ExperimentManager : MonoBehaviour
 
         if (SavingManager.Instance != null)
         {
-            _savingManager = SavingManager.Instance;
-            _savingManager.SetParticipantCar(_participantsCar);    
+            SavingManager.Instance.SetParticipantCar(_participantsCar);    
         }
     }
 
@@ -341,8 +339,7 @@ public class ExperimentManager : MonoBehaviour
         
             if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "Abort"))
             {
-                SavingManager.Instance.StopRecordingData();
-                SavingManager.Instance.SaveData();
+                SavingManager.Instance.StopAndSaveData();
                 CalibrationManager.Instance.AbortExperiment();
             }
         } 
