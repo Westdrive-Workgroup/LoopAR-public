@@ -11,6 +11,9 @@ using UnityEngine;
     public Vector3 EyeValidationError;
     public Vector3 SeatCalibrationOffset;
 
+    public bool TrainingSuccessState;
+    public int NumberOfTrainingTrials;
+    
     public double ExperimentDuration;
     public double ApplicationDuration;
 
