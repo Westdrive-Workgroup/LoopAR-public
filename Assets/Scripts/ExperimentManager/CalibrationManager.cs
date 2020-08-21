@@ -175,14 +175,13 @@ public class CalibrationManager : MonoBehaviour
     
     public void TestDriveSuccessState(bool state, int trials)
     {
+        _calibrationData.TrainingSuccessState = state;
+        _calibrationData.NumberOfTrainingTrials = trials;
         _testDriveSuccessful = state;
-        // todo serialize the info
     }
 
     public void TestDriveEnded()
     {
-        // SceneManager.LoadSceneAsync("MainMenu");
-        // SceneLoadingHandler.Instance.SceneChange("MountainRoad");
         SceneLoadingHandler.Instance.LoadExperimentScenes();
     }
     
