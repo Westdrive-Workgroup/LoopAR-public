@@ -135,6 +135,8 @@ public class CriticalEventController : MonoBehaviour
         float t1 = Time.time;
         PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>()
             .DeactivateHUD(true);
+        PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponent<AIController>().SetLocalTargetAndCurveDetection();
+        
         yield return new WaitForSeconds(endEventDelay);
         float t2 = Time.time;
         // Debug.Log("<color=red>Tacking back the control from the driver after </color>" + (t2-t1) + "<color=red> seconds</color>");
