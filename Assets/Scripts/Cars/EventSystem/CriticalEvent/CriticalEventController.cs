@@ -130,7 +130,8 @@ public class CriticalEventController : MonoBehaviour
     private IEnumerator DeactivateTheEvent()
     {
         StopEndIdleEvent();
-
+        
+        EventObjectsActivationSwitch(eventObjectParent);
         // Debug.Log("<color=red>Deactivating the event is initiated!</color>");
         float t1 = Time.time;
         PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>()
@@ -174,7 +175,7 @@ public class CriticalEventController : MonoBehaviour
     #endregion
 
     #region Public methods
-
+    
     public void Triggered(bool state)
     {
         _activatedEvent = state;
@@ -189,6 +190,11 @@ public class CriticalEventController : MonoBehaviour
         }
     }
 
+    public void ResetEventObjectsActivationStates()
+    {
+        EventObjectsActivationSwitch(eventObjectParent);
+    }
+    
     public void TurnOffMeshRenderers(GameObject trigger)
     {
         _meshRenderers = trigger.GetComponentsInChildren<MeshRenderer>();
