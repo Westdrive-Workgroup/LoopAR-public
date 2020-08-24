@@ -16,6 +16,7 @@ public class RestrictedZoneTrigger : MonoBehaviour
         {
             _controller.SetEventEndData(TimeManager.Instance.GetCurrentUnixTimeStamp(), false, this.gameObject.name);
             _controller.StopEndIdleEvent();
+            _controller.ResetEventObjectsActivationStates();
             ExperimentManager.Instance.ParticipantFailed();
         }
     }
