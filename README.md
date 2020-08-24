@@ -61,7 +61,7 @@ System 2:
 
 ## Testing Releases:
 ### VR Version:
-- You will need to be in possissons of HTC Vive Pro Eye
+- You will need to be in possessions of HTC Vive Pro Eye
 - You need SteamVR and Tobii XR installed on the system
 > if you have never used Tobii Eyetracker inside HTC Vive Pro Eye before you have to first accept their term of use and enable the eye tacker from StreamVR main environment before running Projoct LoopAR
 
