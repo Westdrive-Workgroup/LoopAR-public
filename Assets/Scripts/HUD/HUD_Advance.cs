@@ -57,6 +57,7 @@ public class HUD_Advance : MonoBehaviour
     [SerializeField] private List<GameObject> _highlightedObjects;
 
     [Header("No Event AI Drive")]
+    public bool ShowLocation;
     [SerializeField] private int speedLimit;
 
     [SerializeField] private float nextUpdate = 1;
@@ -183,12 +184,14 @@ public class HUD_Advance : MonoBehaviour
         }
         StartCoroutine(ShowAfterSeconds());
 
-        Date.enabled = true;
+        if(ShowLocation){Weather.enabled = true;}else{
+            Weather.enabled = false;
+        }
         Speed.enabled = true;
         SpeedGauge.enabled = true;
         MaxSpeed.enabled = true;
         Circle.enabled = true;
-        Weather.enabled = true;
+        Date.enabled = true;
         //TorBackSign.enabled = false;
         //TorBackText.enabled = false;
 
@@ -209,7 +212,9 @@ public class HUD_Advance : MonoBehaviour
         SpeedGauge.enabled = true;
         MaxSpeed.enabled = true;
         Circle.enabled = true;
-        Weather.enabled = true;
+        if(ShowLocation){Weather.enabled = true;}else{
+            Weather.enabled = false;
+        }
         AIDrivingText.enabled = false;
         AIDriving.enabled = false;
         //No TORBack no Sound 
