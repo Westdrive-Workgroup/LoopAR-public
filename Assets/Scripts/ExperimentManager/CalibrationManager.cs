@@ -14,6 +14,7 @@ public class CalibrationManager : MonoBehaviour
     public static CalibrationManager Instance { get; private set; }
     
     private bool _wasMainMenuLoaded;
+    private bool _steeringInputGiven;
     private bool _uUIDGenerated;
     private bool _eyeTrackerCalibrationSuccessful;
     private bool _eyeTrackerValidationSuccessful;
@@ -79,7 +80,7 @@ public class CalibrationManager : MonoBehaviour
         _calibrationData.ParticipantUuid = iD.Replace("-", "");
         SaveCalibrationData();
     }
-    
+
     private void DeleteCalibrationFile(string dataPath)
     {
         if(!File.Exists(dataPath))
@@ -136,6 +137,12 @@ public class CalibrationManager : MonoBehaviour
         string newParticipantId = System.Guid.NewGuid().ToString();
         StoreParticipantUuid(newParticipantId);
         _uUIDGenerated = true;
+    }
+
+    public void StoreSteeringInputDevice(string steeringDevice)
+    {
+        _calibrationData.SteeringInputDevice = steeringDevice;
+        _steeringInputGiven = true;
     }
     
     public void EyeCalibration()
@@ -210,6 +217,7 @@ public class CalibrationManager : MonoBehaviour
     {
         _calibrationData.VRmode = vRMode;
         _wasMainMenuLoaded = true;
+        _wasMainMenuLoaded = true;
         SaveCalibrationData();
     }
 
@@ -251,6 +259,11 @@ public class CalibrationManager : MonoBehaviour
     public bool GetWasMainMenuLoaded()
     {
         return _wasMainMenuLoaded;
+    }
+
+    public bool GetSteeringInputSelectedState()
+    {
+        return _steeringInputGiven;
     }
 
     public bool GetParticipantUUIDState()
@@ -301,6 +314,12 @@ public class CalibrationManager : MonoBehaviour
     public bool GetVRActivationState()
     {
         return GetVRModeState();
+    }
+
+
+    public string GetSteeringInputDevice()
+    {
+        return _calibrationData.SteeringInputDevice;
     }
     
     #endregion
