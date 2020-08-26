@@ -124,6 +124,7 @@ public class CriticalEventController : MonoBehaviour
         PersistentTrafficEventManager.Instance.InitiateEvent(eventObjects);
         ExperimentManager.Instance.SetRespawnPositionAndRotation(respawnPoint.transform.position,
             respawnPoint.transform.rotation);
+        PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponent<AIController>().SetLocalTargetForEvents(respawnPoint.transform.position);
         StartCoroutine(EndIdleEvent());
     }
 
