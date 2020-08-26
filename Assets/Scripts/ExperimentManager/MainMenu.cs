@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using UnityEngine;
+using UnityEditor;
 using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
@@ -14,8 +15,10 @@ public class MainMenu : MonoBehaviour
     
     private enum Section
     {
-        ChoosingState,
+        ChoosVRState,
+        ChooseSteeringInput,
         MainMenu,
+        NonVRMenu,
         IDGeneration,
         EyeCalibration,
         EyeValidation,
@@ -106,37 +109,45 @@ public class MainMenu : MonoBehaviour
         GUI.backgroundColor = Color.magenta;
         GUI.color = Color.white;
 
-        if (_section == Section.ChoosingState)
+        if (_section == Section.ChoosVRState)
         {
             if (GUI.Button(new Rect(xForButtons*9, yForButtons*4, buttonWidth, buttonHeight), "VR Mode"))
             {
                 CalibrationManager.Instance.StoreVRState(true);
                 CalibrationManager.Instance.SetCameraMode(true);
-                _section = Section.MainMenu;
+                _section = Section.ChooseSteeringInput;
             }
         
             if (GUI.Button(new Rect(xForButtons*5, yForButtons*4, buttonWidth, buttonHeight), "Non-VR Mode"))
             {
                 CalibrationManager.Instance.StoreVRState(false);
                 CalibrationManager.Instance.SetCameraMode(false);
-                _section = Section.MainMenu;
+                _section = Section.ChooseSteeringInput;
             }
         }
 
-        /*if (_section != Section.ChoosingState)
+        if (_section == Section.ChooseSteeringInput)
         {
-            // Reset Button
-            GUI.backgroundColor = Color.yellow;
-            GUI.color = Color.white;
-        
-            if (GUI.Button(new Rect(xForButtons*5, yForButtons, buttonWidth, buttonHeight), "Reset"))
+            if (GUI.Button(new Rect(xForButtons*9, yForButtons*4, buttonWidth, buttonHeight), "Steering Wheel"))
             {
-                _section = Section.MainMenu;
+                CalibrationManager.Instance.StoreSteeringInputDevice("SteeringWheel");
+                _section = CalibrationManager.Instance.GetVRActivationState() ? Section.MainMenu : Section.NonVRMenu;
             }
-        }*/
+        
+            if (GUI.Button(new Rect(xForButtons*5, yForButtons*4, buttonWidth, buttonHeight), "Xbox One Controller"))
+            {
+                CalibrationManager.Instance.StoreSteeringInputDevice("XboxOneController");
+                _section = CalibrationManager.Instance.GetVRActivationState() ? Section.MainMenu : Section.NonVRMenu;
+            }
+            
+            if (GUI.Button(new Rect(xForButtons*1, yForButtons*4, buttonWidth, buttonHeight), "Keyboard"))
+            {
+                CalibrationManager.Instance.StoreSteeringInputDevice("Keyboard");
+                _section = CalibrationManager.Instance.GetVRActivationState() ? Section.MainMenu : Section.NonVRMenu;
+            }
+        }
 
-
-        if (CalibrationManager.Instance.GetVRActivationState() && CalibrationManager.Instance.GetWasMainMenuLoaded())
+        if (CalibrationManager.Instance.GetVRActivationState() && CalibrationManager.Instance.GetSteeringInputSelectedState() && CalibrationManager.Instance.GetWasMainMenuLoaded())
         {
             // Buttons
             GUI.backgroundColor = Color.cyan;
@@ -223,7 +234,16 @@ public class MainMenu : MonoBehaviour
             GUI.backgroundColor = Color.cyan;
             GUI.color = Color.white;
 
-            if (!CalibrationManager.Instance.GetTestDriveState())
+            if (!CalibrationManager.Instance.GetParticipantUUIDState() && _section == Section.NonVRMenu)
+            {
+                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Generate Participant ID"))
+                {
+                    _section = Section.IDGeneration;
+                    CalibrationManager.Instance.GenerateID();
+                }
+            }
+            
+            if (CalibrationManager.Instance.GetParticipantUUIDState() && !CalibrationManager.Instance.GetTestDriveState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Training Block"))
                 {
