@@ -187,6 +187,14 @@ public class AIController : MonoBehaviour
         _curveDetector = _localTarget + new Vector3(0,0,curveDetectorStepAhead);
     }
     
+    public void SetLocalTargetForEvents(Vector3 position)
+    {
+        _nearestPoint = path.path.GetClosestPointOnPath(position);
+        _progressPercentage = path.path.GetClosestTimeOnPath(_nearestPoint);
+        _localTarget = path.path.GetPointAtTime(_progressPercentage, endOfPathInstruction);
+        _curveDetector = _localTarget + new Vector3(0,0,curveDetectorStepAhead);
+    }
+    
     public void SetManualOverride(bool manualState)
     {
         _manualOverride = manualState;
