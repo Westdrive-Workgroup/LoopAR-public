@@ -34,14 +34,14 @@ public class ManualController : MonoBehaviour
         {
             _manualDriving = true;
         }
-
+        
+        SetInputSource(CalibrationManager.Instance.GetSteeringInputDevice());
         // Debug.Log("the control index was at start : " + InputControlIndex);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
         switch(InputControlIndex)
         {
             case InputType.Keyboard:
@@ -70,14 +70,9 @@ public class ManualController : MonoBehaviour
                         Debug.Log("reverse!");
                         toggleReverse =! toggleReverse;
                     }
-                  
                     break;
         }
         
-
-                
-          
-
         if (toggleReverse)
         {
             accelerationInput = -accelerationInput;
@@ -95,8 +90,21 @@ public class ManualController : MonoBehaviour
         _manualDriving = state;
     }
 
-    // public void SetInputSource(int InputIndex)
-    // {
-    //     _inputControlIndex = InputIndex;
-    // }
+    private void SetInputSource(string inputDevice)
+    {
+        var input = (InputType)Enum.Parse(typeof(InputType), inputDevice);
+        
+        switch(input)
+        {
+            case InputType.Keyboard:
+                InputControlIndex = InputType.Keyboard;
+                break;
+            case InputType.XboxOneController:
+                InputControlIndex = InputType.XboxOneController;
+                break;
+            case InputType.SteeringWheel:
+                InputControlIndex = InputType.SteeringWheel;
+                break;
+        }
+    }
 }

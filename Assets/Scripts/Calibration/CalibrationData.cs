@@ -8,6 +8,7 @@ using UnityEngine;
     // public int ParticipationNumber;
     public String ParticipantUuid;
     public bool VRmode;
+    public string SteeringInputDevice;
     public Vector3 EyeValidationError;
     public Vector3 SeatCalibrationOffset;
 
