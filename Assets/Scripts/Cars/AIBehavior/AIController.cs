@@ -29,7 +29,7 @@ public class AIController : MonoBehaviour
     private float _aimedSpeed;
     private Vector3 _nearestPoint = Vector3.zero;
     private Vector3 _localTarget;
-    private Vector3 _curveDetector; // todo check 
+    private Vector3 _curveDetector;
     
     // Path
     [Space] [Header("Path Settings")] 
@@ -152,6 +152,15 @@ public class AIController : MonoBehaviour
         this.gameObject.GetComponent<CurveDrivingBehaviour>().AdjustSpeedAtCurve(_angle);
         
         _localTargetVisualizerRadius = trackerSensitivity;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (this.gameObject.GetComponent<ManualController>() != null)
+            {
+                this.gameObject.transform.position = _curveDetector;
+                SetLocalTargetAndCurveDetection();
+            }
+        }
     }
 
     private void NormalPathFollowing()

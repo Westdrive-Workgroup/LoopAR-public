@@ -56,39 +56,42 @@ public class SeatCalibrationManager : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
-            positionOffset = 0.2f;
+            if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+                _cameraOffsetObject.transform.Translate(-positionOffset, 0, 0);
+            
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+                _cameraOffsetObject.transform.Translate(positionOffset, 0, 0);
+            
+            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
+                _cameraOffsetObject.transform.Translate(0, positionOffset, 0);
+            
+            if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
+                _cameraOffsetObject.transform.Translate(0, -positionOffset, 0);
+            
+            if (Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.KeypadPlus)  || Input.GetKey(KeyCode.Plus))
+                _cameraOffsetObject.transform.Translate(0, 0, positionOffset);
+            
+            if (Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.KeypadMinus) || Input.GetKey(KeyCode.Minus))
+                _cameraOffsetObject.transform.Translate(0, 0, -positionOffset);
         }
-        
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A) || 
-            Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
-        {
+
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             _cameraOffsetObject.transform.Translate(-positionOffset, 0, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D) ||
-            Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
-        {
+        
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             _cameraOffsetObject.transform.Translate(positionOffset, 0, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W) ||
-            Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
-        {
+        
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             _cameraOffsetObject.transform.Translate(0, positionOffset, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S) ||
-            Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
-        {
+        
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             _cameraOffsetObject.transform.Translate(0, -positionOffset, 0);
-        }
-        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.KeypadPlus)  || Input.GetKeyDown(KeyCode.Plus) ||
-            Input.GetKey(KeyCode.Q) || Input.GetKey(KeyCode.KeypadPlus)  || Input.GetKey(KeyCode.Plus))
-        {
+        
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.KeypadPlus)  || Input.GetKeyDown(KeyCode.Plus))
             _cameraOffsetObject.transform.Translate(0, 0, positionOffset);
-        }
-        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus) ||
-            Input.GetKey(KeyCode.E) || Input.GetKey(KeyCode.KeypadMinus) || Input.GetKey(KeyCode.Minus))
-        {
+        
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.KeypadMinus) || Input.GetKeyDown(KeyCode.Minus))
             _cameraOffsetObject.transform.Translate(0, 0, -positionOffset);
-        }
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
