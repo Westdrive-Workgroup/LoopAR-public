@@ -8,7 +8,7 @@ public class blinker_hu : MonoBehaviour
 {
     
     public Material mat;
-    private Color orange = new Color(255f, 26f, 0.0f, a:1.0f);
+    private Color orange = new Color(255f, 165f, 0.0f, a:1.0f);
     private int counter;
 
     void Start()
