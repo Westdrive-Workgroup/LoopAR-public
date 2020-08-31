@@ -114,9 +114,11 @@ public class SavingManager : MonoBehaviour
     IEnumerator StartRecordingAfterSavingData()
     {
         StopRecord();
+        Debug.Log("<color=red>Stopped recording Data...</color>");
         
         yield return SavingData();
-        
+        Debug.Log("<color=blue>Saving Data...</color>");
+
         _eyeTrackingData.Clear();
         _inputData.Clear();
         _sceneData = null;
@@ -133,8 +135,10 @@ public class SavingManager : MonoBehaviour
     IEnumerator StopingAndSavingData()
     {
         StopRecord();
+        Debug.Log("<color=red>Stopped recording Data...</color>");
         
         yield return SavingData();
+        Debug.Log("<color=blue>Saving Data...</color>");
         
         _eyeTrackingData.Clear();
         _inputData.Clear();
@@ -147,8 +151,6 @@ public class SavingManager : MonoBehaviour
         Debug.Log("<color=green>Recording Data...</color>");
         _inputRecorder.StartInputRecording();
         EyetrackingManager.Instance.StartRecording();
-        
-        // todo add a class for timestamps and fps
     }
 
     private void StopRecord()
