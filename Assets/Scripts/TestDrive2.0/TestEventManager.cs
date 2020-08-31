@@ -53,6 +53,8 @@ public class TestEventManager : MonoBehaviour
 
     private void Start()
     {
+        _participantCar.gameObject.GetComponent<CarController>().TurnOffEngine();
+        
         if (resetValue)
         {
             trialsDone.SetValue(1);
@@ -85,6 +87,8 @@ public class TestEventManager : MonoBehaviour
 
     public void StartTestDrive()
     {
+        _participantCar.gameObject.GetComponent<CarController>().TurnOnEngine();
+        SavingManager.Instance.StartRecordingData();
         CameraManager.Instance.FadeIn();
         advanced_HUD.ManualDrive();
         //manualController.enabled = true;
@@ -98,8 +102,8 @@ public class TestEventManager : MonoBehaviour
         _participantCar.gameObject.GetComponent<ControlSwitch>().SwitchControl(true);
         Debug.Log("Control Switched");
     }
-    
-    public void TrialEndTrigger()
+
+    public void PassDataTrigger()
     {
         if (trialsDone.Value > maxTrials.Value)
         {
@@ -111,7 +115,15 @@ public class TestEventManager : MonoBehaviour
             CalibrationManager.Instance.TestDriveSuccessState(true, (int)trialsDone.Value);
 
         }
-        
+    }
+
+    public void SaveDataTrigger()
+    {
+        SavingManager.Instance.StopAndSaveData("TrainingScene");
+    }
+    
+    public void TrialEndTrigger()
+    {
         CalibrationManager.Instance.TestDriveEnded();
     }
     
@@ -186,6 +198,7 @@ public class TestEventManager : MonoBehaviour
 
     public void DeactivateHUD()
     {
+        advanced_HUD.ManualDriving = false;
         advanced_HUD.DeactivateHUD(false);
     }
 

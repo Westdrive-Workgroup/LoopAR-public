@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class TurnScreenBlackTrigger : MonoBehaviour
 {
-    [SerializeField] private float timeToWait;
+    [SerializeField] private FloatVariable timeToWait;
     
     [SerializeField] private FloatVariable maxTrials;
     [SerializeField] private FloatVariable trialsDone;
@@ -24,7 +24,7 @@ public class TurnScreenBlackTrigger : MonoBehaviour
         if (trialsDone.Value <= maxTrials.Value)
         {
             CameraManager.Instance.FadeOut();
-            yield return new WaitForSecondsRealtime(timeToWait);
+            yield return new WaitForSecondsRealtime(timeToWait.Value);
             CameraManager.Instance.FadeIn();
         }
 

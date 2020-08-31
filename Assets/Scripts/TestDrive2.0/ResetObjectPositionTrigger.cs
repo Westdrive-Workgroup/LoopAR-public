@@ -19,7 +19,7 @@ public class ResetObjectPositionTrigger : MonoBehaviour
    
     private Transform _resetPosition;
 
-    [SerializeField] private float timeNoControl;
+    [SerializeField] private FloatVariable timeToWait;
 
     
 
@@ -45,6 +45,8 @@ public class ResetObjectPositionTrigger : MonoBehaviour
     
     private void ResetCar(GameObject objectToReset)
     {
+        objectToReset.SetActive(false);
+        
         objectToReset.transform.SetPositionAndRotation(_resetPosition.position, _resetPosition.rotation);
 
         objectToReset.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -60,9 +62,9 @@ public class ResetObjectPositionTrigger : MonoBehaviour
         
         if (trialsDone.Value <= maxTrials.Value)
         {
-            other.gameObject.SetActive(false);
+            //other.gameObject.SetActive(false);
 
-            yield return new WaitForSecondsRealtime(timeNoControl);
+            yield return new WaitForSecondsRealtime(timeToWait.Value);
 
             other.gameObject.SetActive(true);
         }
