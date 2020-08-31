@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using PathCreation;
 // using PathCreationEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [DisallowMultipleComponent]
 public class AIController : MonoBehaviour
@@ -187,7 +188,9 @@ public class AIController : MonoBehaviour
 
     IEnumerator ResetTrackerSensitivityAfterEvent()
     {
-        yield return new WaitForSeconds(2);
+        float seconds = SceneManager.GetActiveScene().name == "Westbrueck" ? 0 : 2;
+
+        yield return new WaitForSeconds(seconds);
         trackerSensitivity = _defaultTrackerSensitivity;
         _localTargetVisualizerRadius = trackerSensitivity;
     }
