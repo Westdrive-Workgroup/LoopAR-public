@@ -185,6 +185,13 @@ public class AIController : MonoBehaviour
         Destroy(this.transform.parent.gameObject);
     }
 
+    IEnumerator ResetTrackerSensitivityAfterEvent()
+    {
+        yield return new WaitForSeconds(2);
+        trackerSensitivity = _defaultTrackerSensitivity;
+        _localTargetVisualizerRadius = trackerSensitivity;
+    }
+
     #endregion
     
     #region Public methods
@@ -248,8 +255,7 @@ public class AIController : MonoBehaviour
     
     public void ReSetTrackerSensitivity()
     {
-        trackerSensitivity = _defaultTrackerSensitivity;
-        _localTargetVisualizerRadius = trackerSensitivity;
+        StartCoroutine(ResetTrackerSensitivityAfterEvent());
     }
 
     #endregion
