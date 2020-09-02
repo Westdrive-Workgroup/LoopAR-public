@@ -162,11 +162,11 @@ public class HUD_Advance : MonoBehaviour
         //Take over request back Image && Text && Sound -> maybe Blinking 
         //start NonEventDisplays
         //start AI DrivingSign
-        Debug.Log("Aidrive start");
+        // Debug.Log("Aidrive start");
 
         if (playTOR)
         {
-            Debug.Log(playTOR + " Is it played?");
+            // Debug.Log(playTOR + " Is it played?");
             StartCoroutine(SoundManagerTOR());
             if (TorBackBlinkingImage || TorBackBlinkingText)
             {
@@ -305,18 +305,18 @@ public class HUD_Advance : MonoBehaviour
         }
         else
         {
-            Debug.Log("TOR");
+            // Debug.Log("TOR");
             WarningText.enabled = false;
             WarningTriangle.enabled = false;
             if (nextUpdate > 10)
             {
                 TorBackSign.enabled = true;
                 TorBackText.enabled = true;
-                Debug.Log(" Tor startet");
+                // Debug.Log(" Tor startet");
             }
 
         }
-        Debug.Log("Tor sollte Enden");
+        // Debug.Log("Tor sollte Enden");
         yield return new WaitForSeconds(TorBackDuration);
         WarningText.enabled = false;
         WarningTriangle.enabled = false;
