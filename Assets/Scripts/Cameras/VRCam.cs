@@ -51,17 +51,6 @@ public class VRCam : MonoBehaviour
             {
                 Debug.Log("<color=red>Error: </color>Seat position is not assigned!");
             }
-            
-            /*try
-            {
-                // _seatPosition = CameraManager.Instance.GetSeatPosition();
-                
-            }
-            catch (Exception e)
-            {
-                // Console.WriteLine("<color=red>Error: </color>" + e);
-                throw;
-            }*/
         }
     }
 
