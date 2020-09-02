@@ -43,17 +43,25 @@ public class VRCam : MonoBehaviour
     {
         if (_seatActivated)
         {
-            try
+            if (_seatPosition != null)
+            {
+                transform.SetPositionAndRotation(_seatPosition.transform.position, _seatPosition.transform.rotation);
+            }
+            else
+            {
+                Debug.Log("<color=red>Error: </color>Seat position is not assigned!");
+            }
+            
+            /*try
             {
                 // _seatPosition = CameraManager.Instance.GetSeatPosition();
-                transform.SetPositionAndRotation(_seatPosition.transform.position, _seatPosition.transform.rotation);
+                
             }
             catch (Exception e)
             {
-                Debug.Log("<color=red>Error: </color>Seat position is not assigned!");
-                Console.WriteLine("<color=red>Error: </color>" + e);
+                // Console.WriteLine("<color=red>Error: </color>" + e);
                 throw;
-            }
+            }*/
         }
     }
 
