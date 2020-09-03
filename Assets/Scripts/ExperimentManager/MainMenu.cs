@@ -165,7 +165,6 @@ public class MainMenu : MonoBehaviour
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Calibration"))
                 {
-                    _section = Section.EyeCalibration;
                     CalibrationManager.Instance.EyeCalibration();
                 }
                 
