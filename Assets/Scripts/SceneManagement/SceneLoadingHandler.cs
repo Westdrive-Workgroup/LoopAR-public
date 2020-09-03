@@ -37,15 +37,16 @@ public class SceneLoadingHandler : MonoBehaviour
         {
             CameraManager.Instance.SetObjectToFollow(_participantsCar);
             CameraManager.Instance.SetSeatPosition(_seatPosition);
+            SavingManager.Instance.SetParticipantCar(_participantsCar);
         }
         
-        if (_participantsCar !=null)
+        /*if (_participantsCar !=null)
         {
             if (SceneManager.GetActiveScene().name != "SceneLoader")
                 _participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(0);
             else
                 _participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
-        }
+        }*/
     }
 
     private void Start()
@@ -62,12 +63,7 @@ public class SceneLoadingHandler : MonoBehaviour
     public void LoadExperimentScenes()
     {
         AssignParticipantsCarAndSeatPosition();
-        
-        /*if (_participantsCar != null)
-            _participantsCar.GetComponent<CarWindows>().SetInsideWindowsAlphaChannel(1);
-        else
-            CameraManager.Instance.FadeOut();*/
-        
+
         CameraManager.Instance.FadeOut();
         StartCoroutine(LoadExperimentScenesAsyncAdditive());
     }
@@ -77,30 +73,7 @@ public class SceneLoadingHandler : MonoBehaviour
         CameraManager.Instance.FadeOut();
         StartCoroutine(LoadScenesAsync(targetScene));
     }
-    
-    /*IEnumerator LoadSceneLoaderScenesAsync(string targetScene)
-    {
-        Debug.Log("SceneLoader");
-        // CameraManager.Instance.FadeIn();
-        yield return new WaitForSeconds(1);
-        Debug.Log("Loading...");
-        
-        AsyncOperation operation = SceneManager.LoadSceneAsync("SceneLoader");
 
-        // NotifySceneLoadingStartObservers?.Invoke();
-        // CameraManager.Instance.OnSceneLoadingInitiated();
-        while (!operation.isDone)
-        {
-            float progress = Mathf.Clamp01(operation.progress / .9f);
-            Debug.Log(operation.progress);
-
-            yield return null;
-        }
-
-        CameraManager.Instance.OnSceneLoaded();
-        StartCoroutine(LoadScenesAsync(targetScene));
-    }*/
-    
     IEnumerator LoadScenesAsync(string targetScene)
     {
         Debug.Log(targetScene);

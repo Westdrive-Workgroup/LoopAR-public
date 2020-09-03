@@ -34,7 +34,6 @@ public class SavingManager : MonoBehaviour
     private void Awake()
     {
         _inputRecorder = GetComponent<InputRecorder>();
-        _inputRecorder.SetParticipantCar(participantCar);
         _sampleRate = 1f / SetSampleRate;
         
         if (Instance == null)
@@ -46,8 +45,6 @@ public class SavingManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        // DataPath = GetPathForSaveFile(DataName);
     }
 
     void Start()
@@ -57,16 +54,6 @@ public class SavingManager : MonoBehaviour
         _sceneDataRecorder = SceneDataRecorder.Instance;
     }
 
-    private void Update()
-    {
-        /*if (Input.GetKeyDown(KeyCode.H))
-        {
-            StopRecord();
-            SaveData();
-            Debug.Log("<color=blue>Saving Data!</color>");
-        }*/
-    }
-    
     public float GetSampleRate()
     {
         return _sampleRate;
@@ -149,6 +136,7 @@ public class SavingManager : MonoBehaviour
     {
         _readyToSaveToFile = false;
         Debug.Log("<color=green>Recording Data...</color>");
+        _inputRecorder.SetParticipantCar(participantCar);
         _inputRecorder.StartInputRecording();
         EyetrackingManager.Instance.StartRecording();
     }
@@ -171,18 +159,10 @@ public class SavingManager : MonoBehaviour
 
     private bool TestCompleteness()
     {
-        // todo check if participant's UUID is available
-        
         if (_inputData != null && _eyeTrackingData != null && _participantCalibrationData != null && _sceneData != null)
-        {
             return true;
-        }
-        else
-        {
-            return false;
-        }
+        return false;
     }
-
 
     public void StoreEyeTrackingData(List<EyeTrackingDataFrame> eyeTrackingdataFrames)
     {
@@ -213,7 +193,6 @@ public class SavingManager : MonoBehaviour
     public void SetParticipantCar(GameObject car)
     {
         participantCar = car;
-        _inputRecorder.SetParticipantCar(car);
     }
 
     private List<String> ConvertToJson(List<InputDataFrame> inputData)
@@ -241,7 +220,6 @@ public class SavingManager : MonoBehaviour
 
         return list;
     }
-    
     
     public void SaveToJson()
     {

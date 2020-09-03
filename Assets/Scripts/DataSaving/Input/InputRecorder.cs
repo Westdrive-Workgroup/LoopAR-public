@@ -21,15 +21,6 @@ public class InputRecorder: MonoBehaviour
 
     void Start()
     {
-        if (_participantCar != null)
-        {
-            if (_participantCar.GetComponent<ManualController>()!=null)
-            {
-                Debug.Log("found");
-                _participantCar.GetComponent<ManualController>().NotifyInputObservers += ReceiveInput;
-            }
-        }
-        
         _sampleRate = SavingManager.Instance.GetSampleRate();
         InputDataFrames = new List<InputDataFrame>();
     }
@@ -70,6 +61,8 @@ public class InputRecorder: MonoBehaviour
     
     public void StartInputRecording()
     {
+        Debug.Log("Found input.");
+        _participantCar.GetComponent<ManualController>().NotifyInputObservers += ReceiveInput;
         Debug.Log("<color=green>Recording Input started!</color>");
         _recordingEnded = false;
         StartCoroutine(RecordInputData());
