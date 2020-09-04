@@ -2187,12 +2187,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31bcbe68148004b4a9c8860a55776c38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeForControl: 5
+  timeForControl: 30
   respawnPoint: {fileID: 84486350}
   eventObjectsParent: {fileID: 1502701179}
   eventObjectsToMarkParent: {fileID: 1162878917}
   startTrigger: {fileID: 1259375787}
-  trialEndTrigger: {fileID: 1785110811}
+  trialEndTrigger: {fileID: 1448432128}
   resetValue: 1
   trialsDone: {fileID: 11400000, guid: 3c295bd57cf1b624bb0d2fcd577d6730, type: 2}
   maxTrials: {fileID: 11400000, guid: dd0f092f3837b54438628e37b92d0899, type: 2}
@@ -5095,7 +5095,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1448432129
 Transform:
   m_ObjectHideFlags: 0
@@ -6835,7 +6835,7 @@ MonoBehaviour:
       - 0
       globalNormalsAngle: 0
       flipNormals: 0
-    vertexPathUpToDate: 0
+    vertexPathUpToDate: 1
     vertexPathMaxAngleError: 0.3
     vertexPathMinVertexSpacing: 0.01
     showTransformTool: 0
