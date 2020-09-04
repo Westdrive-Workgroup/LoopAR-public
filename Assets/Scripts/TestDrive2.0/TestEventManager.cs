@@ -169,13 +169,14 @@ public class TestEventManager : MonoBehaviour
     
     public IEnumerator DeactivateEvent(float delay)
     {
+        trialEndTrigger.SetActive(true);
+
         yield return new WaitForSecondsRealtime(delay);
         foreach (var activateObjects in eventObjects)
         {
             activateObjects.SetActive(false);
         }
         
-        trialEndTrigger.SetActive(true);
     }
 
     private void ResetCar(GameObject objectToReset)
