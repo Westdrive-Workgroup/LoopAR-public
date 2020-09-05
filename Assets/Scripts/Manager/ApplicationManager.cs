@@ -64,6 +64,9 @@ public class ApplicationManager : MonoBehaviour
         switch (_sceneName)
         {
             case "MainMenu":
+//                MainMenu.Instance.GetCanvas().gameObject.transform.SetParent(Camera.main.transform);
+                TurnOffSpecificExperimentComponents();
+                break;
             case "SceneLoader":
             case "SeatCalibrationScene":
             case "TrainingScene":

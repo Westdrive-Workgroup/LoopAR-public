@@ -17,6 +17,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject welcome;
     [SerializeField] private GameObject loading;
     [SerializeField] private GameObject thankYou;
+    [SerializeField] private GameObject canvas;
     
     private enum Section
     {
@@ -77,6 +78,11 @@ public class MainMenu : MonoBehaviour
         _section = Section.MainExperiment;
     }
 
+    public GameObject GetCanvas()
+    {
+        return canvas;
+    }
+    
     #endregion
 
     #region GUI
