@@ -20,6 +20,7 @@ public class CalibrationManager : MonoBehaviour
     private bool _eyeTrackerValidationSuccessful;
     private bool _seatCalibrationSuccessful;
     private bool _testDriveSuccessful;
+    private bool _endOfExperiment;
 
     private CalibrationData _calibrationData;
     private String _calibrationFilePath;
@@ -231,6 +232,11 @@ public class CalibrationManager : MonoBehaviour
         DeleteCalibrationFile(_calibrationFilePath);
     }
 
+    public void ExperimentEnded()
+    {
+        _endOfExperiment = true;
+    }
+
     #endregion
     
     #region Setters
@@ -320,6 +326,12 @@ public class CalibrationManager : MonoBehaviour
     public string GetSteeringInputDevice()
     {
         return _calibrationData.SteeringInputDevice;
+    }
+
+
+    public bool GetEndOfExperimentState()
+    {
+        return _endOfExperiment;
     }
     
     #endregion
