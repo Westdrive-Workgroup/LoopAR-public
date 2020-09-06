@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +28,12 @@ public class SceneDataRecorder : MonoBehaviour
     public void AssignEventData(string eventName, double startTime, double endTime, bool successState, string hitObject=null)
     {
         EventBehaviourDataFrame eventBehaviour = new EventBehaviourDataFrame();
+
+        if (_eventBehaviourDataFrames.Any())
+        {
+            if (_eventBehaviourDataFrames.Last().EventName != null && _eventBehaviourDataFrames.Last().EventName == eventName)
+                _eventBehaviourDataFrames.RemoveAt(_eventBehaviourDataFrames.Count - 1);
+        }
 
         eventBehaviour.EventName = eventName;
         eventBehaviour.StartofEventTimeStamp = startTime;
