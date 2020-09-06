@@ -108,8 +108,8 @@ public class SavingManager : MonoBehaviour
 
         _eyeTrackingData.Clear();
         _inputData.Clear();
-        _sceneData = null;
-        
+        _sceneData.EventBehavior.Clear();
+            
         StartRecordingData();
     }
 
