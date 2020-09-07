@@ -210,7 +210,7 @@ public class ExperimentManager : MonoBehaviour
             SavingManager.Instance.SaveData();
         }
 
-        CameraManager.Instance.FadeOut();
+        // CameraManager.Instance.FadeOut();
 
         _participantsCar.transform.parent.gameObject.SetActive(false);
         CalibrationManager.Instance.ExperimentEnded();

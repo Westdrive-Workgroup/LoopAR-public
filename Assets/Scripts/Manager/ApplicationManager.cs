@@ -64,7 +64,7 @@ public class ApplicationManager : MonoBehaviour
         switch (_sceneName)
         {
             case "MainMenu":
-//                MainMenu.Instance.GetCanvas().gameObject.transform.SetParent(Camera.main.transform);
+                MainMenu.Instance.GetCanvas().worldCamera = Camera.main;
                 TurnOffSpecificExperimentComponents();
                 break;
             case "SceneLoader":

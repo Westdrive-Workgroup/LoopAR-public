@@ -17,8 +17,8 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject welcome;
     [SerializeField] private GameObject loading;
     [SerializeField] private GameObject thankYou;
-    [SerializeField] private GameObject canvas;
-    
+    [SerializeField] private Canvas canvas;
+
     private enum Section
     {
         ChooseVRState,
@@ -48,25 +48,23 @@ public class MainMenu : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+
         SceneManager.sceneLoaded += OnSceneLoaded;
         loading.gameObject.SetActive(false);
         thankYou.gameObject.SetActive(false);
     }
 
-    private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (CalibrationManager.Instance.GetWasMainMenuLoaded())
         {
             _section = Section.MainMenu;
 
-            if (welcome != null) 
+            if (welcome != null)
             {
-                
-            }
                 Destroy(welcome);
+            }
         }
-
     }
 
     #endregion
@@ -78,9 +76,14 @@ public class MainMenu : MonoBehaviour
         _section = Section.MainExperiment;
     }
 
-    public GameObject GetCanvas()
+    public Canvas GetCanvas()
     {
         return canvas;
+    }
+
+    public void AssignCanvasCamera(Camera cam)
+    {
+        canvas.worldCamera = cam;
     }
     
     #endregion
@@ -120,8 +123,6 @@ public class MainMenu : MonoBehaviour
         GUI.color = Color.white;
         GUI.skin.label.fontSize = labelFontSize;
         GUI.skin.label.fontStyle = FontStyle.Bold;
-        
-//        GUI.Label(new Rect(xForLable, yForLable, 1000, 100),  "Main Menu                    Westdrive LoopAR");
         
         
         // Choose mode
@@ -174,7 +175,7 @@ public class MainMenu : MonoBehaviour
             }
         }
         
-        if (CalibrationManager.Instance.GetEyeTrackerValidationState() && !CalibrationManager.Instance.GetEndOfExperimentState())
+        if (CalibrationManager.Instance.GetEyeTrackerCalibrationState() && !CalibrationManager.Instance.GetEndOfExperimentState())
         {
             Destroy(welcome);
 
