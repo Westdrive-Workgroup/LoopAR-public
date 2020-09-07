@@ -31,7 +31,7 @@ public class TurnScreenBlackTrigger : MonoBehaviour
         else
         {
             CameraManager.Instance.FadeOut();
-            yield return new WaitForSecondsRealtime(1);
+            yield return new WaitForSecondsRealtime(timeToWait.Value);
             CameraManager.Instance.FadeIn();
         }
     }

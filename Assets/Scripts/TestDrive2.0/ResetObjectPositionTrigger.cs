@@ -60,14 +60,16 @@ public class ResetObjectPositionTrigger : MonoBehaviour
         
         yield return new WaitForEndOfFrame();
         
-        if (trialsDone.Value <= maxTrials.Value)
-        {
-            //other.gameObject.SetActive(false);
+        yield return new WaitForSecondsRealtime(timeToWait.Value);
 
-            yield return new WaitForSecondsRealtime(timeToWait.Value);
-
-            other.gameObject.SetActive(true);
-        }
+        other.gameObject.SetActive(true);
+        
+        //if (trialsDone.Value <= maxTrials.Value)
+        //{
+        //    //other.gameObject.SetActive(false);
+        //
+        //    
+        //}
 
     }
 }

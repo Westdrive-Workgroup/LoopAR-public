@@ -22,6 +22,7 @@ public class TestEventManager : MonoBehaviour
     [SerializeField] private GameObject eventObjectsToMarkParent;
     
     [SerializeField] private GameObject startTrigger;
+    [SerializeField] private GameObject experimentEndTrigger;
     [SerializeField] private GameObject trialEndTrigger;
 
 
@@ -63,6 +64,7 @@ public class TestEventManager : MonoBehaviour
         //manualController.enabled = false;
 
         startTrigger.SetActive(false);
+        experimentEndTrigger.SetActive(false);
         trialEndTrigger.SetActive(false);
 
         sceneStart = true;
@@ -98,6 +100,8 @@ public class TestEventManager : MonoBehaviour
     
     public void EndTrigger(Collider other)
     {
+        experimentEndTrigger.SetActive(true);
+
         Debug.Log("The End is nigh!");
         _participantCar.gameObject.GetComponent<ControlSwitch>().SwitchControl(true);
         Debug.Log("Control Switched");
