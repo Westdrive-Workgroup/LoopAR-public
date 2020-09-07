@@ -21,7 +21,7 @@ public class ManualController : MonoBehaviour
     private float brakeInput;
     private float steeringInput;
     private float reverse; //I know a bool would be better, but input systems are strange
-    [Range(1, 5)] [SerializeField] private float brakeFactor = 3f;
+    /*[Range(1, 5)] [SerializeField]*/ private float brakeFactor = 1.1f;
     
     
     private void Start()
