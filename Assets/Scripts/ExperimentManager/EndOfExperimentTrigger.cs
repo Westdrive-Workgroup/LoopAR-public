@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +24,7 @@ public class EndOfExperimentTrigger : MonoBehaviour
         {
             TimeManager.Instance.SetExperimentEndTime();
             Debug.Log("<color=green>End of Experiment!</color>: ");
-            ExperimentManager.Instance.EndTheExperiment();
+            ExperimentManager.Instance.EndOfExperiment();
         }
     }
 }

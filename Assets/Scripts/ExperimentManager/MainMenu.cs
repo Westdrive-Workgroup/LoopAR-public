@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 [DisallowMultipleComponent]
 public class MainMenu : MonoBehaviour
@@ -12,15 +13,19 @@ public class MainMenu : MonoBehaviour
     #region Fields
 
     public static MainMenu Instance { get; private set; }
-    
+
+    [SerializeField] private GameObject welcome;
+    [SerializeField] private GameObject loading;
+    [SerializeField] private GameObject thankYou;
+    [SerializeField] private Canvas canvas;
+
     private enum Section
     {
-        ChoosVRState,
+        ChooseVRState,
         ChooseSteeringInput,
         MainMenu,
         NonVRMenu,
         IDGeneration,
-        EyeCalibration,
         EyeValidation,
         SeatCalibration,
         TrainingBlock,
@@ -43,15 +48,22 @@ public class MainMenu : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+
         SceneManager.sceneLoaded += OnSceneLoaded;
+        loading.gameObject.SetActive(false);
+        thankYou.gameObject.SetActive(false);
     }
 
-    private void  OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (CalibrationManager.Instance.GetWasMainMenuLoaded())
         {
             _section = Section.MainMenu;
+
+            if (welcome != null)
+            {
+                Destroy(welcome);
+            }
         }
     }
 
@@ -61,9 +73,19 @@ public class MainMenu : MonoBehaviour
 
     public void ReStartMainMenu()
     {
-        _section = Section.MainMenu;
+        _section = Section.MainExperiment;
     }
 
+    public Canvas GetCanvas()
+    {
+        return canvas;
+    }
+
+    public void AssignCanvasCamera(Camera cam)
+    {
+        canvas.worldCamera = cam;
+    }
+    
     #endregion
 
     #region GUI
@@ -102,23 +124,23 @@ public class MainMenu : MonoBehaviour
         GUI.skin.label.fontSize = labelFontSize;
         GUI.skin.label.fontStyle = FontStyle.Bold;
         
-        GUI.Label(new Rect(xForLable, yForLable, 1000, 100),  "Main Menu                    Westdrive LoopAR");
-        
         
         // Choose mode
-        GUI.backgroundColor = Color.magenta;
+        GUI.backgroundColor = Color.green;
         GUI.color = Color.white;
 
-        if (_section == Section.ChoosVRState)
+        if (_section == Section.ChooseVRState && !CalibrationManager.Instance.GetWasMainMenuLoaded())
         {
-            if (GUI.Button(new Rect(xForButtons*9, yForButtons*4, buttonWidth, buttonHeight), "VR Mode"))
+            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "VR Mode"))
             {
                 CalibrationManager.Instance.StoreVRState(true);
                 CalibrationManager.Instance.SetCameraMode(true);
                 _section = Section.ChooseSteeringInput;
             }
+            
+            GUI.backgroundColor = Color.cyan;
         
-            if (GUI.Button(new Rect(xForButtons*5, yForButtons*4, buttonWidth, buttonHeight), "Non-VR Mode"))
+            if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Non-VR Mode"))
             {
                 CalibrationManager.Instance.StoreVRState(false);
                 CalibrationManager.Instance.SetCameraMode(false);
@@ -128,27 +150,54 @@ public class MainMenu : MonoBehaviour
 
         if (_section == Section.ChooseSteeringInput)
         {
-            if (GUI.Button(new Rect(xForButtons*9, yForButtons*4, buttonWidth, buttonHeight), "Steering Wheel"))
+            GUI.backgroundColor = Color.cyan;
+            
+            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Steering Wheel"))
             {
                 CalibrationManager.Instance.StoreSteeringInputDevice("SteeringWheel");
                 _section = CalibrationManager.Instance.GetVRActivationState() ? Section.MainMenu : Section.NonVRMenu;
             }
         
-            if (GUI.Button(new Rect(xForButtons*5, yForButtons*4, buttonWidth, buttonHeight), "Xbox One Controller"))
+            GUI.backgroundColor = Color.green;
+            
+            if (GUI.Button(new Rect(xForButtons, yForButtons*1.5f, buttonWidth, buttonHeight), "Xbox One Controller"))
             {
                 CalibrationManager.Instance.StoreSteeringInputDevice("XboxOneController");
                 _section = CalibrationManager.Instance.GetVRActivationState() ? Section.MainMenu : Section.NonVRMenu;
             }
             
-            if (GUI.Button(new Rect(xForButtons*1, yForButtons*4, buttonWidth, buttonHeight), "Keyboard"))
+            GUI.backgroundColor = Color.blue;
+            
+            if (GUI.Button(new Rect(xForButtons, yForButtons*2f, buttonWidth, buttonHeight), "Keyboard"))
             {
                 CalibrationManager.Instance.StoreSteeringInputDevice("Keyboard");
                 _section = CalibrationManager.Instance.GetVRActivationState() ? Section.MainMenu : Section.NonVRMenu;
             }
         }
+        
+        if (CalibrationManager.Instance.GetEyeTrackerCalibrationState() && !CalibrationManager.Instance.GetEndOfExperimentState())
+        {
+            Destroy(welcome);
+
+            if (loading != null)
+                loading.gameObject.SetActive(true);
+        }
+        
+        
 
         if (CalibrationManager.Instance.GetVRActivationState() && CalibrationManager.Instance.GetSteeringInputSelectedState() && CalibrationManager.Instance.GetWasMainMenuLoaded())
         {
+            if (CalibrationManager.Instance.GetEndOfExperimentState())
+            {
+                thankYou.gameObject.SetActive(true);
+                
+                if (welcome != null) 
+                    Destroy(welcome);
+                
+                if (loading != null)
+                    Destroy(loading);
+            }
+
             // Buttons
             GUI.backgroundColor = Color.cyan;
             GUI.color = Color.white;
@@ -188,7 +237,8 @@ public class MainMenu : MonoBehaviour
                     _section = Section.SeatCalibration;
                 }
             }
-            else if ((CalibrationManager.Instance.GetEyeTrackerValidationState() && !CalibrationManager.Instance.GetSeatCalibrationState()) || _section == Section.SeatCalibration)
+            else if ((CalibrationManager.Instance.GetEyeTrackerValidationState() && !CalibrationManager.Instance.GetSeatCalibrationState() && _section != Section.TrainingBlock
+                      && !CalibrationManager.Instance.GetEndOfExperimentState()) || _section == Section.SeatCalibration)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Seat Calibration"))
                 {
@@ -202,31 +252,37 @@ public class MainMenu : MonoBehaviour
                     _section = Section.TrainingBlock;
                 }
             } 
-            else if ((CalibrationManager.Instance.GetSeatCalibrationState() && !CalibrationManager.Instance.GetTestDriveState()) || _section == Section.TrainingBlock)
+            else if ((CalibrationManager.Instance.GetSeatCalibrationState() && !CalibrationManager.Instance.GetTestDriveState() 
+                                                                            && !CalibrationManager.Instance.GetEndOfExperimentState()) || _section == Section.TrainingBlock)
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Training Block"))
                 {
-                    _section = Section.TrainingBlock; 
+                    _section = Section.MainExperiment; 
                     CalibrationManager.Instance.StartTestDrive();
                 }
                 
                 GUI.backgroundColor = Color.yellow;
                 if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Skip Training Block"))
                 {
-                    _section = Section.TrainingBlock; 
+                    _section = Section.MainExperiment;
+                                    
+                    if (welcome != null) 
+                        Destroy(welcome);
+                
+                    if (loading != null)
+                        Destroy(loading);
+                    
                     SceneLoadingHandler.Instance.LoadExperimentScenes();
                 }
             }
-            /*else if (CalibrationManager.Instance.GetTestDriveState())
+            
+            else if (_section == Section.MainExperiment)
             {
-                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start Experiment"))
-                {
-                    _section = Section.MainExperiment; 
-                    // TODO check with calibration manager if it is allowed to go to the experiment (not mvp)
-                    SceneLoadingHandler.Instance.LoadExperimentScenes();
-                    // SceneLoadingHandler.Instance.SceneChange("MountainRoad");
-                }
-            }*/
+                if (loading != null)
+                    Destroy(loading);
+                
+                thankYou.gameObject.SetActive(true);
+            }
         }
         else if (!CalibrationManager.Instance.GetVRActivationState() && CalibrationManager.Instance.GetWasMainMenuLoaded())
         {
@@ -240,33 +296,27 @@ public class MainMenu : MonoBehaviour
                     _section = Section.IDGeneration;
                     CalibrationManager.Instance.GenerateID();
                 }
-            }
-            
-            if (CalibrationManager.Instance.GetParticipantUUIDState() && !CalibrationManager.Instance.GetTestDriveState())
+            } else if (CalibrationManager.Instance.GetParticipantUUIDState() && !CalibrationManager.Instance.GetTestDriveState() && !CalibrationManager.Instance.GetEndOfExperimentState())
             {
                 if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Training Block"))
                 {
-                    _section = Section.TrainingBlock;
+                    _section = Section.MainExperiment;
                     CalibrationManager.Instance.StartTestDrive();
                 }
                 
                 GUI.backgroundColor = Color.yellow;
                 if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Skip Training Block"))
                 {
-                    _section = Section.TrainingBlock; 
+                    _section = Section.MainExperiment; 
                     SceneLoadingHandler.Instance.LoadExperimentScenes();
                 }
-            }
-            
-            /*else if (CalibrationManager.Instance.GetTestDriveState())
+            } else if (CalibrationManager.Instance.GetEndOfExperimentState())
             {
-                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Start Experiment"))
-                {
-                    _section = Section.MainExperiment;
-                    SceneLoadingHandler.Instance.LoadExperimentScenes();
-                    // SceneLoadingHandler.Instance.SceneChange("MountainRoad");
-                }
-            }*/
+                if (loading != null)
+                    Destroy(loading);
+
+                thankYou.gameObject.SetActive(true);
+            }
         }
     }
 

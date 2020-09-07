@@ -23,8 +23,7 @@ public class ExperimentManager : MonoBehaviour
     private enum Scene
     {
         MainMenu,
-        Experiment,
-        EndOfExperiment
+        Experiment
     }
     
     private List<ActivationTrigger> _activationTriggers;
@@ -203,20 +202,18 @@ public class ExperimentManager : MonoBehaviour
     }
     
     // ending the experiment
-    public void EndTheExperiment()
-    {
-        _scene = Scene.EndOfExperiment;
-        
+    public void EndOfExperiment()
+    {        
         if (SavingManager.Instance != null)
         {
             SavingManager.Instance.StopRecordingData();
             SavingManager.Instance.SaveData();
         }
 
-        CameraManager.Instance.FadeOut();
-        _scene = Scene.MainMenu;
+        // CameraManager.Instance.FadeOut();
 
         _participantsCar.transform.parent.gameObject.SetActive(false);
+        CalibrationManager.Instance.ExperimentEnded();
         SceneManager.LoadSceneAsync("MainMenu");
     }
     
@@ -328,9 +325,9 @@ public class ExperimentManager : MonoBehaviour
                 }
             }
 
-            if (_isStartPressed)
+            if (_isStartPressed && _scene != Scene.Experiment)
             {
-                GUI.Label(new Rect(width / 4f, height / 2f, 500, 100),  "Main Experiment is Loading...");
+                GUI.Label(new Rect(width / 4f, height / 8f, 500, 100),  "Main Experiment is Loading...");
             }
             
             // Reset Button
