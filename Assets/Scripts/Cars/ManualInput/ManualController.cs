@@ -21,6 +21,8 @@ public class ManualController : MonoBehaviour
     private float brakeInput;
     private float steeringInput;
     private float reverse; //I know a bool would be better, but input systems are strange
+    [Range(1, 5)] [SerializeField] private float brakeFactor = 3f;
+    
     
     private void Start()
     {
@@ -77,11 +79,11 @@ public class ManualController : MonoBehaviour
         {
             accelerationInput = -accelerationInput;
         }
-        NotifyInputObservers?.Invoke(steeringInput, accelerationInput, brakeInput);
+        NotifyInputObservers?.Invoke(steeringInput, accelerationInput, brakeInput * brakeFactor);
         
         if (_manualDriving)
         {
-            _carController.MoveVehicle(accelerationInput,brakeInput,steeringInput);
+            _carController.MoveVehicle(accelerationInput,brakeInput * brakeFactor, steeringInput);
         }
     }
     
