@@ -204,11 +204,11 @@ public class ExperimentManager : MonoBehaviour
     // ending the experiment
     public void EndOfExperiment()
     {        
-        if (SavingManager.Instance != null)
+        /*if (SavingManager.Instance != null)
         {
             SavingManager.Instance.StopRecordingData();
             SavingManager.Instance.SaveData();
-        }
+        }*/
 
         // CameraManager.Instance.FadeOut();
 

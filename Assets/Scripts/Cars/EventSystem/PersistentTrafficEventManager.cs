@@ -66,10 +66,11 @@ public class PersistentTrafficEventManager : MonoBehaviour
         _eventObjects = eventObjects;
         
         _participantsCar.GetComponent<ControlSwitch>().SwitchControl(true);
-
-        float trackerSensitivity = SceneManager.GetActiveScene().name == "Westbrueck" ? 5 : 15;
+        
+        /*float trackerSensitivity = SceneManager.GetActiveScene().name == "Westbrueck" ? 4 : 15;
             
-        _participantsCar.GetComponent<AIController>().SetTrackerSensitivity(trackerSensitivity);
+        _participantsCar.GetComponent<AIController>().SetTrackerSensitivity(trackerSensitivity);*/
+        
         ExperimentManager.Instance.SetEventActivationState(true);
     }
     
