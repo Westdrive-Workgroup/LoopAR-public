@@ -7,6 +7,8 @@ using UnityEngine;
 {
     // public int ParticipationNumber;
     public String ParticipantUuid;
+    public String ExperimentalCondition;
+    
     public bool VRmode;
     public string SteeringInputDevice;
     public Vector3 EyeValidationError;

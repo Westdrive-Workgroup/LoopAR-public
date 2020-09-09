@@ -22,8 +22,9 @@ public class MainMenu : MonoBehaviour
 
     private bool _eyeCalibrationSelected;
     private bool _eyeValidationSelected;
+    private bool _seatCalibrationSelected;
 
-    public enum Section
+    private enum Section
     {
         ChooseVRState,
         ChooseSteeringInput,
@@ -32,8 +33,7 @@ public class MainMenu : MonoBehaviour
         EyeValidation,
         SeatCalibration,
         TrainingBlock,
-        MainExperiment,
-        NonVRMenu
+        MainExperiment
     }
 
     private Section _section;
@@ -63,10 +63,10 @@ public class MainMenu : MonoBehaviour
     {
         if (CalibrationManager.Instance.GetWasMainMenuLoaded())
         {
-            _section = (Section) Enum.Parse(typeof(Section), ApplicationManager.Instance.GetLastMainMenuState(), true);
-
             _eyeCalibrationSelected = _eyeValidationSelected = true;
-            
+
+            if (_section == Section.TrainingBlock || _section == Section.MainExperiment) _seatCalibrationSelected = true;
+          
             if (welcome != null)
             {
                 Destroy(welcome);
@@ -88,6 +88,11 @@ public class MainMenu : MonoBehaviour
         return canvas;
     }
 
+    public void SetMenuSection(string section)
+    {
+        _section = (Section) Enum.Parse(typeof(Section), section, true);
+    }
+
     #endregion
 
     #region GUI
@@ -105,8 +110,6 @@ public class MainMenu : MonoBehaviour
         float w = 200f;
         float h = 30f;
         
-        int labelFontSize = 33;
-
         #endregion
 
         // Quit
@@ -214,7 +217,13 @@ public class MainMenu : MonoBehaviour
                 GUI.Box(new Rect(xB * 9, yB * 5.9f, w, h - 8), new GUIContent("Eye-tracker Validation"));
             }
 
-            if (CalibrationManager.Instance.GetSeatCalibrationState())
+            if (!_seatCalibrationSelected)
+            {
+                GUI.color = Color.yellow;
+                GUI.skin.box.fontStyle = FontStyle.Italic;
+                GUI.Box(new Rect(xB * 9, yB * 6.2f, w, h - 8), new GUIContent("Seat Calibration"));
+            }
+            else if (CalibrationManager.Instance.GetSeatCalibrationState())
             {
                 GUI.color = Color.green;
                 GUI.skin.box.fontStyle = FontStyle.Bold;
@@ -222,8 +231,8 @@ public class MainMenu : MonoBehaviour
             }
             else
             {
-                GUI.color = Color.yellow;
-                GUI.skin.box.fontStyle = FontStyle.Italic;
+                GUI.color = Color.red;
+                GUI.skin.box.fontStyle = FontStyle.BoldAndItalic;
                 GUI.Box(new Rect(xB * 9, yB * 6.2f, w, h - 8), new GUIContent("Seat Calibration"));
             }
         }
@@ -284,15 +293,15 @@ public class MainMenu : MonoBehaviour
             }
         }
         
-        // Participant ID
+        // Participant ID and Condition
         if (_section == Section.IDGeneration)
         {
             GUI.backgroundColor = Color.green;
 
-            if (GUI.Button(new Rect(xB, yB, w, h), "Generate Participant ID"))
+            if (GUI.Button(new Rect(xB, yB, w, h*2), "Generate Participant ID \n and \n Condition"))
             {
                 _section = Section.IDGeneration;
-                CalibrationManager.Instance.GenerateID();
+                CalibrationManager.Instance.GenerateIDAndCondition();
                 _section = CalibrationManager.Instance.GetVRActivationState() ? Section.EyeCalibration : Section.TrainingBlock;
             }
         }
@@ -348,12 +357,14 @@ public class MainMenu : MonoBehaviour
             GUI.backgroundColor = Color.green;
             if (GUI.Button(new Rect(xB, yB, w, h), "Seat Calibration"))
             {
+                _seatCalibrationSelected = true;
                 CalibrationManager.Instance.SeatCalibration();
             }
                 
             GUI.backgroundColor = Color.yellow;
             if (GUI.Button(new Rect(xB, yB*2, w, h), "Skip Seat Calibration"))
             {
+                _seatCalibrationSelected = true;
                 _section = Section.TrainingBlock;
             }
         }
@@ -361,6 +372,8 @@ public class MainMenu : MonoBehaviour
         // Training scene
         if (_section == Section.TrainingBlock)
         {
+            ApplicationManager.Instance.StoreMainMenuLastState("MainExperiment");
+
             GUI.backgroundColor = Color.green;
             if (GUI.Button(new Rect(xB, yB, w, h), "Training Block"))
             {
@@ -375,7 +388,8 @@ public class MainMenu : MonoBehaviour
                 
                 if (loading != null)
                     Destroy(loading);
-                    
+
+                _section = Section.MainExperiment;
                 SceneLoadingHandler.Instance.LoadExperimentScenes();
             }
         }

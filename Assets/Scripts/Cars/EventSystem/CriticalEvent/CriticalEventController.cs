@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -52,6 +53,17 @@ public class CriticalEventController : MonoBehaviour
     private string _eventName;
     private double _startTime;
 
+    // Conditions
+    private enum Conditions
+    {
+        FullLoopAR,
+        BaseCondition,
+        HUDOnly,
+        AudioOnly
+    }
+
+    private Conditions _condition;
+    
     #endregion
 
     #region Private methods
@@ -61,6 +73,7 @@ public class CriticalEventController : MonoBehaviour
         startTrigger.SetController(this);
         endTrigger.SetController(this);
         ExperimentManager.Instance.SetController(this);
+        
 
         _restrictedZoneTriggers = consistentEventObjects.GetComponentsInChildren<RestrictedZoneTrigger>();
         _restrictedZoneTriggersInEventObjects = eventObjectParent.GetComponentsInChildren<RestrictedZoneTrigger>();
@@ -97,9 +110,26 @@ public class CriticalEventController : MonoBehaviour
     private IEnumerator ActivateTheEvent()
     {
         _endIdleEventState = false;
-        // Debug.Log("<color=blue>Starting the event process is initiated!</color>");
-        float t1 = Time.time;
-        PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DriverAlert();
+
+        SetExperimentalCondition();
+        switch (_condition)
+        {
+            case Conditions.FullLoopAR:
+                PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DriverAlert();
+                Debug.Log("FullLoopAR CTE");
+                break;
+            case Conditions.BaseCondition:
+                break;
+            case Conditions.HUDOnly:
+                Debug.Log("HUDOnly CTE");
+                // todo implement
+                break;
+            case Conditions.AudioOnly:
+                // PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DriverAlert();
+                Debug.Log("AudioOnly CTE");
+                // todo implement
+                break;
+        }
         
         eventObjectParent.SetActive(true);
         
@@ -107,10 +137,24 @@ public class CriticalEventController : MonoBehaviour
         {
             trigger.SetController(this);
         }
-        
-        PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponent<ControlSwitch>().GetComponentInChildren<HUD_Advance>().ActivateHUD(eventObjects);
 
-        
+        switch (_condition)
+        {
+            case Conditions.FullLoopAR:
+                PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponent<ControlSwitch>().GetComponentInChildren<HUD_Advance>().ActivateHUD(eventObjects);
+                Debug.Log("FullLoopAR CTE");
+                break;
+            case Conditions.HUDOnly:
+                // PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponent<ControlSwitch>().GetComponentInChildren<HUD_Advance>().ActivateHUD(eventObjects);
+                Debug.Log("HUDOnly CTE");
+                // todo implement
+                break;
+            case Conditions.AudioOnly:
+                Debug.Log("AudioOnly CTE");
+                // todo implement
+                break;
+        }
+
         yield return new WaitForSeconds(startEventDelay);
         float t2 = Time.time;
         // Debug.Log("<color=blue>Giving the control to the driver after </color>" + (t2-t1) + "<color=blue> seconds</color>");
@@ -133,10 +177,23 @@ public class CriticalEventController : MonoBehaviour
         StopEndIdleEvent();
         
         EventObjectsActivationSwitch(eventObjectParent);
-        // Debug.Log("<color=red>Deactivating the event is initiated!</color>");
-        float t1 = Time.time;
-        PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>()
-            .DeactivateHUD(true);
+
+        switch (_condition)
+        {
+            case Conditions.FullLoopAR:
+                PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DeactivateHUD(true);
+                Debug.Log("FullLoopAR CTE");
+                break;
+            case Conditions.HUDOnly:
+                Debug.Log("HUDOnly CTE");
+                // todo implement
+                break;
+            case Conditions.AudioOnly:
+                Debug.Log("AudioOnly CTE");
+                // todo implement
+                break;
+        }
+
         PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponent<AIController>().SetLocalTargetAndCurveDetection();
         
         yield return new WaitForSeconds(endEventDelay);
@@ -173,6 +230,11 @@ public class CriticalEventController : MonoBehaviour
             parent.SetActive(false);
     }
 
+    public void SetExperimentalCondition()
+    {
+        _condition = (Conditions) Enum.Parse(typeof(Conditions), ExperimentManager.Instance.GetExperimentalCondition(), true);
+    }
+    
     #endregion
 
     #region Public methods

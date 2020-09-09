@@ -19,6 +19,7 @@ public class ApplicationManager : MonoBehaviour
     private bool _componentsOff;
     
     private string _menuSection;
+    private string _experimentalCondition;
     
     #endregion
 
@@ -72,9 +73,10 @@ public class ApplicationManager : MonoBehaviour
         switch (_sceneName)
         {
             case "MainMenu":
+                TurnOffSpecificExperimentComponents();
                 CameraManager.Instance.FadeIn();
                 MainMenu.Instance.GetCanvas().worldCamera = Camera.main;
-                TurnOffSpecificExperimentComponents();
+                if (_menuSection != null) MainMenu.Instance.SetMenuSection(_menuSection);
                 break;
             case "SceneLoader":
             case "SeatCalibrationScene":
@@ -86,6 +88,7 @@ public class ApplicationManager : MonoBehaviour
             case "CountryRoad":
             case "Autobahn":
                 TurnOnAllComponents();
+                ExperimentManager.Instance.SetExperimentalCondition(_experimentalCondition);
                 break;
             case "EyetrackingValidation":
                 TurnOffSpecificExperimentComponents();
@@ -127,6 +130,11 @@ public class ApplicationManager : MonoBehaviour
         _menuSection = section;
     }
 
+    public void SetExperimentalCondition(string condition)
+    {
+        _experimentalCondition = condition;
+    }
+    
     public string GetLastMainMenuState()
     {
         return _menuSection;
