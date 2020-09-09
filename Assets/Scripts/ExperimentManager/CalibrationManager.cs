@@ -31,6 +31,7 @@ public class CalibrationManager : MonoBehaviour
     private Random _random;
 
     private int _numberOfTrainingTrials;
+    private string _experimentalCondition;
     
     #endregion
 
@@ -135,55 +136,52 @@ public class CalibrationManager : MonoBehaviour
             return JsonUtility.FromJson<CalibrationData>(jsonString);
         }
     }
-    
-    public void StoreExperimentalCondition(string condition)
-    {
-        _calibrationData.ExperimentalCondition = condition;
-    }
 
     #endregion
 
     #region PublicMethods
 
-    public void GenerateID()
+    public void GenerateIDAndCondition()
     { 
         string newParticipantId = System.Guid.NewGuid().ToString();
         StoreParticipantUuid(newParticipantId);
         _uUIDGenerated = true;
+        GenerateCondition();
     }
 
     public void GenerateCondition()
     {
-        // todo HUD in CTE
-        // todo store the condition 
-        // todo serialize the condition
-        // todo inform about the conditions
+        // todo bring the randomization back
+        // int conditionNumber = _random.Next(1, 5);
         
-        int conditionNumber = _random.Next(1, 5);
-        string condition = "";
+        // todo remove the line below
+        int conditionNumber = 1;
+        
+        
+        Debug.Log("condition num: " + conditionNumber);
         
         switch (conditionNumber)
         {
             case 1:
-                condition = "FullLoopAR";
+                _experimentalCondition = "FullLoopAR";
                 Debug.Log("FullLoopAR");
                 break;
             case 2:
-                condition = "HUDOnly";
+                _experimentalCondition = "HUDOnly";
                 Debug.Log("HUDOnly");
                 break;
             case 3:
-                condition = "AudioOnly";
+                _experimentalCondition = "AudioOnly";
                 Debug.Log("AudioOnly");
                 break;
             case 4:
-                condition = "BaseCondition";
+                _experimentalCondition = "BaseCondition";
                 Debug.Log("BaseCondition");
                 break;
         }
         
-        ApplicationManager.Instance.SetExperimentalCondition(condition);
-        StoreExperimentalCondition(condition);
+        ApplicationManager.Instance.SetExperimentalCondition(_experimentalCondition);
+        _calibrationData.ExperimentalCondition = _experimentalCondition;
     }
 
     public void StoreSteeringInputDevice(string steeringDevice)

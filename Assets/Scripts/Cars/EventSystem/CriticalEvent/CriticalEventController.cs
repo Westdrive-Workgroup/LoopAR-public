@@ -57,6 +57,7 @@ public class CriticalEventController : MonoBehaviour
     private enum Conditions
     {
         FullLoopAR,
+        BaseCondition,
         HUDOnly,
         AudioOnly
     }
@@ -110,15 +111,22 @@ public class CriticalEventController : MonoBehaviour
     {
         _endIdleEventState = false;
 
+        SetExperimentalCondition();
         switch (_condition)
         {
             case Conditions.FullLoopAR:
                 PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DriverAlert();
+                Debug.Log("FullLoopAR CTE");
+                break;
+            case Conditions.BaseCondition:
                 break;
             case Conditions.HUDOnly:
+                Debug.Log("HUDOnly CTE");
                 // todo implement
                 break;
             case Conditions.AudioOnly:
+                // PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DriverAlert();
+                Debug.Log("AudioOnly CTE");
                 // todo implement
                 break;
         }
@@ -134,11 +142,15 @@ public class CriticalEventController : MonoBehaviour
         {
             case Conditions.FullLoopAR:
                 PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponent<ControlSwitch>().GetComponentInChildren<HUD_Advance>().ActivateHUD(eventObjects);
+                Debug.Log("FullLoopAR CTE");
                 break;
             case Conditions.HUDOnly:
+                // PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponent<ControlSwitch>().GetComponentInChildren<HUD_Advance>().ActivateHUD(eventObjects);
+                Debug.Log("HUDOnly CTE");
                 // todo implement
                 break;
             case Conditions.AudioOnly:
+                Debug.Log("AudioOnly CTE");
                 // todo implement
                 break;
         }
@@ -170,11 +182,14 @@ public class CriticalEventController : MonoBehaviour
         {
             case Conditions.FullLoopAR:
                 PersistentTrafficEventManager.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DeactivateHUD(true);
+                Debug.Log("FullLoopAR CTE");
                 break;
             case Conditions.HUDOnly:
+                Debug.Log("HUDOnly CTE");
                 // todo implement
                 break;
             case Conditions.AudioOnly:
+                Debug.Log("AudioOnly CTE");
                 // todo implement
                 break;
         }

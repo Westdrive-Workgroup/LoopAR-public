@@ -145,6 +145,7 @@ public class ExperimentManager : MonoBehaviour
     {
         if (_condition == Conditions.BaseCondition)
         {
+            _participantsCar.GetComponentInChildren<HUD_Advance>().gameObject.transform.parent.gameObject.SetActive(false);
             // todo destroy or disable hud if base condition
         }
 
@@ -172,11 +173,14 @@ public class ExperimentManager : MonoBehaviour
         {
             case Conditions.FullLoopAR:
                 _participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD(false);
+                Debug.Log("FullLoopAR EXPM");
                 break;
             case Conditions.HUDOnly:
+                Debug.Log("HUDOnly EXPM");
                 // todo implement
                 break;
             case Conditions.AudioOnly:
+                Debug.Log("AudioOnly EXPM");
                 // todo implement
                 break;
         }
@@ -223,11 +227,14 @@ public class ExperimentManager : MonoBehaviour
         {
             case Conditions.FullLoopAR:
                 _participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD(true);
+                Debug.Log("FullLoopAR EXPM");
                 break;
             case Conditions.HUDOnly:
+                Debug.Log("HUDOnly EXPM");
                 // todo implement
                 break;
             case Conditions.AudioOnly:
+                Debug.Log("AudioOnly EXPM");
                 // todo implement
                 break;
         }
