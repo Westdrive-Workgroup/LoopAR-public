@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class ApplicationManager : MonoBehaviour
 {
+    #region Fields
+
     public static ApplicationManager Instance { get; private set; }
 
     [SerializeField] private GameObject mainExperimentGroup;
@@ -16,6 +18,12 @@ public class ApplicationManager : MonoBehaviour
     private string _sceneName;
     private bool _componentsOff;
     
+    private string _menuSection;
+    
+    #endregion
+
+    #region PrivateMethods
+
     private void Awake()
     {
         if (Instance == null)
@@ -64,6 +72,7 @@ public class ApplicationManager : MonoBehaviour
         switch (_sceneName)
         {
             case "MainMenu":
+                CameraManager.Instance.FadeIn();
                 MainMenu.Instance.GetCanvas().worldCamera = Camera.main;
                 TurnOffSpecificExperimentComponents();
                 break;
@@ -108,4 +117,20 @@ public class ApplicationManager : MonoBehaviour
         }
         _componentsOff = false;
     }
+
+    #endregion
+
+    #region PublicMethods
+
+    public void StoreMainMenuLastState(string section)
+    {
+        _menuSection = section;
+    }
+
+    public string GetLastMainMenuState()
+    {
+        return _menuSection;
+    }
+    
+    #endregion
 }

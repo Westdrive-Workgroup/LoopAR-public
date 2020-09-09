@@ -14,7 +14,6 @@ public class CalibrationManager : MonoBehaviour
     public static CalibrationManager Instance { get; private set; }
     
     private bool _wasMainMenuLoaded;
-    private bool _steeringInputGiven;
     private bool _uUIDGenerated;
     private bool _eyeTrackerCalibrationSuccessful;
     private bool _eyeTrackerValidationSuccessful;
@@ -22,10 +21,14 @@ public class CalibrationManager : MonoBehaviour
     private bool _testDriveSuccessful;
     private bool _endOfExperiment;
 
+    private bool _cameraModeSelected;
+    private bool _steeringInputGiven;
+    
+    
     private CalibrationData _calibrationData;
     private String _calibrationFilePath;
 
-    private int numberOfTrainingTrials;
+    private int _numberOfTrainingTrials;
     
     #endregion
 
@@ -186,7 +189,7 @@ public class CalibrationManager : MonoBehaviour
     public void TestDriveSuccessState(bool state, int trials)
     {
         _testDriveSuccessful = state;
-        numberOfTrainingTrials = trials;
+        _numberOfTrainingTrials = trials;
     }
 
     public void TestDriveEnded()
@@ -218,7 +221,7 @@ public class CalibrationManager : MonoBehaviour
     {
         _calibrationData.VRmode = vRMode;
         _wasMainMenuLoaded = true;
-        _wasMainMenuLoaded = true;
+        _cameraModeSelected = true;
         SaveCalibrationData();
     }
 
@@ -267,6 +270,11 @@ public class CalibrationManager : MonoBehaviour
         return _wasMainMenuLoaded;
     }
 
+    public bool GetCameraModeSelectionState()
+    {
+        return _cameraModeSelected;
+    }
+    
     public bool GetSteeringInputSelectedState()
     {
         return _steeringInputGiven;
@@ -299,7 +307,7 @@ public class CalibrationManager : MonoBehaviour
 
     public int GetTestDriveNumberOfTrials()
     {
-        return numberOfTrainingTrials;
+        return _numberOfTrainingTrials;
     }
 
     public Vector3 GetSeatCalibrationOffsetPosition()

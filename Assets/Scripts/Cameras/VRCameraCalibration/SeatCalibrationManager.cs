@@ -164,6 +164,7 @@ public class SeatCalibrationManager : MonoBehaviour
         if (GUI.Button(new Rect(xForButtons, yForButtons + (heightDifference*2), buttonWidth, buttonHeight), "Confirm Calibration"))
         {
             CalibrationManager.Instance.SeatCalibrationSuccessful();
+            ApplicationManager.Instance.StoreMainMenuLastState("TrainingBlock");
         }
         
         

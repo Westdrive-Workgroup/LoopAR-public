@@ -180,6 +180,7 @@ public class EyeValidationManager : MonoBehaviour
         if (wasSuccessful)
         {
             ValidationSuccessful = true;
+            ApplicationManager.Instance.StoreMainMenuLastState("SeatCalibration");
             SetValidationSuccesfulStatus();
             Destroy(relativeFixedPoint);
             CalibrationManager.Instance.StoreValidationErrorData(EyetrackingManager.Instance.GetEyeValidationErrorAngles());
