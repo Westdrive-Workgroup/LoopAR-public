@@ -64,6 +64,7 @@ public class ApplicationManager : MonoBehaviour
         switch (_sceneName)
         {
             case "MainMenu":
+                CameraManager.Instance.FadeIn();
                 MainMenu.Instance.GetCanvas().worldCamera = Camera.main;
                 TurnOffSpecificExperimentComponents();
                 break;

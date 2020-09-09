@@ -204,13 +204,7 @@ public class ExperimentManager : MonoBehaviour
     // ending the experiment
     public void EndOfExperiment()
     {        
-        /*if (SavingManager.Instance != null)
-        {
-            SavingManager.Instance.StopRecordingData();
-            SavingManager.Instance.SaveData();
-        }*/
-
-        // CameraManager.Instance.FadeOut();
+        CameraManager.Instance.FadeOut();
 
         _participantsCar.transform.parent.gameObject.SetActive(false);
         CalibrationManager.Instance.ExperimentEnded();
