@@ -218,5 +218,14 @@ public class EyeValidationManager : MonoBehaviour
             ApplicationManager.Instance.StoreMainMenuLastState("SeatCalibration");
             SceneManager.LoadSceneAsync("MainMenu");
         }
+        
+        /*GUI.backgroundColor = Color.green;
+        if (GUI.Button(new Rect(xB, yB, w, h), "Reload Scene"))
+        {
+            Destroy(relativeFixedPoint);
+            /*ApplicationManager.Instance.StoreMainMenuLastState("EyeValidation");
+            SceneManager.LoadSceneAsync("MainMenu");#1#
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }*/
     }
 }
