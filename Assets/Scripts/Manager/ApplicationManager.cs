@@ -73,9 +73,10 @@ public class ApplicationManager : MonoBehaviour
         switch (_sceneName)
         {
             case "MainMenu":
+                TurnOffSpecificExperimentComponents();
                 CameraManager.Instance.FadeIn();
                 MainMenu.Instance.GetCanvas().worldCamera = Camera.main;
-                TurnOffSpecificExperimentComponents();
+                if (_menuSection != null) MainMenu.Instance.SetMenuSection(_menuSection);
                 break;
             case "SceneLoader":
             case "SeatCalibrationScene":
