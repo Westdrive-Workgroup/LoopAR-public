@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using Random = System.Random;
 
 [DisallowMultipleComponent]
 public class MainMenu : MonoBehaviour
@@ -19,17 +20,20 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject thankYou;
     [SerializeField] private Canvas canvas;
 
-    private enum Section
+    private bool _eyeCalibrationSelected;
+    private bool _eyeValidationSelected;
+
+    public enum Section
     {
         ChooseVRState,
         ChooseSteeringInput,
-        MainMenu,
-        NonVRMenu,
         IDGeneration,
+        EyeCalibration,
         EyeValidation,
         SeatCalibration,
         TrainingBlock,
-        MainExperiment
+        MainExperiment,
+        NonVRMenu
     }
 
     private Section _section;
@@ -52,14 +56,17 @@ public class MainMenu : MonoBehaviour
         SceneManager.sceneLoaded += OnSceneLoaded;
         loading.gameObject.SetActive(false);
         thankYou.gameObject.SetActive(false);
+        _section = Section.ChooseVRState;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (CalibrationManager.Instance.GetWasMainMenuLoaded())
         {
-            _section = Section.MainMenu;
+            _section = (Section) Enum.Parse(typeof(Section), ApplicationManager.Instance.GetLastMainMenuState(), true);
 
+            _eyeCalibrationSelected = _eyeValidationSelected = true;
+            
             if (welcome != null)
             {
                 Destroy(welcome);
@@ -73,7 +80,7 @@ public class MainMenu : MonoBehaviour
 
     public void ReStartMainMenu()
     {
-        _section = Section.MainExperiment;
+        _section = Section.ChooseVRState;
     }
 
     public Canvas GetCanvas()
@@ -81,11 +88,6 @@ public class MainMenu : MonoBehaviour
         return canvas;
     }
 
-    public void AssignCanvasCamera(Camera cam)
-    {
-        canvas.worldCamera = cam;
-    }
-    
     #endregion
 
     #region GUI
@@ -97,41 +99,147 @@ public class MainMenu : MonoBehaviour
         float height = Screen.height;
         float width = Screen.width;
         
-        float xForButtons = width / 12f;
-        float yForButtons = height / 7f;
-        
-        float xForLable = (width / 12f);
-        float yForLable = height/1.35f;
+        float xB = width / 12f;
+        float yB = height / 7f;
 
-        float buttonWidth = 200f;
-        float buttonHeight = 30f;
+        float w = 200f;
+        float h = 30f;
         
         int labelFontSize = 33;
 
         #endregion
-        
+
         // Quit
         GUI.backgroundColor = Color.red;
         GUI.color = Color.white;
         
-        if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "Quit"))
+        if (GUI.Button(new Rect(xB*9, yB, w, h), "Quit"))
         {
             Application.Quit();
         }
         
-        // Label
-        GUI.color = Color.white;
-        GUI.skin.label.fontSize = labelFontSize;
-        GUI.skin.label.fontStyle = FontStyle.Bold;
+        if (_eyeCalibrationSelected && !CalibrationManager.Instance.GetEndOfExperimentState())
+        {
+            Destroy(welcome);
+
+            if (loading != null) loading.gameObject.SetActive(true);
+            if (thankYou != null) thankYou.gameObject.SetActive(false);
+        }
+        else if (CalibrationManager.Instance.GetEndOfExperimentState())
+        {
+            if (welcome != null) Destroy(welcome);
+            if (loading != null) Destroy(loading);
+            
+            thankYou.gameObject.SetActive(true);
+        }
         
+        #region Table
+
+        if (CalibrationManager.Instance.GetCameraModeSelectionState())
+        {
+            GUI.color = Color.green;
+            GUI.skin.box.fontStyle = FontStyle.Bold;
+            GUI.Box(new Rect(xB*9, yB*4.7f, w, h-8), new GUIContent("Camera Mode"));
+        }
+        else
+        {
+            GUI.color = Color.yellow;
+            GUI.skin.box.fontStyle = FontStyle.Italic;
+            GUI.Box(new Rect(xB*9, yB*4.7f, w, h-8), new GUIContent("Camera Mode"));
+        }
+
+        if (CalibrationManager.Instance.GetSteeringInputSelectedState())
+        {
+            GUI.color = Color.green;
+            GUI.skin.box.fontStyle = FontStyle.Bold;
+            GUI.Box(new Rect(xB*9, yB*5f, w, h-8), new GUIContent("Control Input"));
+        }
+        else
+        {
+            GUI.color = Color.yellow;
+            GUI.skin.box.fontStyle = FontStyle.Italic;
+            GUI.Box(new Rect(xB*9, yB*5f, w, h-8), new GUIContent("Control Input"));
+        }
+
+        if (CalibrationManager.Instance.GetParticipantUUIDState())
+        {
+            GUI.color = Color.green;
+            GUI.skin.box.fontStyle = FontStyle.Bold;
+            GUI.Box(new Rect(xB*9, yB*5.3f, w, h-8), new GUIContent("Participant ID"));
+        }
+        else
+        {
+            GUI.color = Color.yellow;
+            GUI.skin.box.fontStyle = FontStyle.Italic;
+            GUI.Box(new Rect(xB*9, yB*5.3f, w, h-8), new GUIContent("Participant ID"));
+        }
+
+        if (CalibrationManager.Instance.GetVRActivationState())
+        {
+            if (!_eyeCalibrationSelected)
+            {
+                GUI.color = Color.yellow;
+                GUI.skin.box.fontStyle = FontStyle.Italic;
+                GUI.Box(new Rect(xB * 9, yB * 5.6f, w, h - 8), new GUIContent("Eye-tracker Calibration"));
+            }
+            else if (CalibrationManager.Instance.GetEyeTrackerCalibrationState())
+            {
+                GUI.color = Color.green;
+                GUI.skin.box.fontStyle = FontStyle.Bold;
+                GUI.Box(new Rect(xB * 9, yB * 5.6f, w, h - 8), new GUIContent("Eye-tracker Calibration"));
+            }
+            else
+            {
+                GUI.color = Color.red;
+                GUI.skin.box.fontStyle = FontStyle.BoldAndItalic;
+                GUI.Box(new Rect(xB * 9, yB * 5.6f, w, h - 8), new GUIContent("Eye-tracker Calibration"));
+            }
+
+            if (!_eyeValidationSelected)
+            {
+                GUI.color = Color.yellow;
+                GUI.skin.box.fontStyle = FontStyle.Italic;
+                GUI.Box(new Rect(xB * 9, yB * 5.9f, w, h - 8), new GUIContent("Eye-tracker Validation"));
+            }
+            else if (CalibrationManager.Instance.GetEyeTrackerValidationState())
+            {
+                GUI.color = Color.green;
+                GUI.skin.box.fontStyle = FontStyle.Bold;
+                GUI.Box(new Rect(xB * 9, yB * 5.9f, w, h - 8), new GUIContent("Eye-tracker Validation"));
+            }
+            else
+            {
+                GUI.color = Color.red;
+                GUI.skin.box.fontStyle = FontStyle.BoldAndItalic;
+                GUI.Box(new Rect(xB * 9, yB * 5.9f, w, h - 8), new GUIContent("Eye-tracker Validation"));
+            }
+
+            if (CalibrationManager.Instance.GetSeatCalibrationState())
+            {
+                GUI.color = Color.green;
+                GUI.skin.box.fontStyle = FontStyle.Bold;
+                GUI.Box(new Rect(xB * 9, yB * 6.2f, w, h - 8), new GUIContent("Seat Calibration"));
+            }
+            else
+            {
+                GUI.color = Color.yellow;
+                GUI.skin.box.fontStyle = FontStyle.Italic;
+                GUI.Box(new Rect(xB * 9, yB * 6.2f, w, h - 8), new GUIContent("Seat Calibration"));
+            }
+        }
+
+        #endregion
         
-        // Choose mode
-        GUI.backgroundColor = Color.green;
+        #region States
+
         GUI.color = Color.white;
 
-        if (_section == Section.ChooseVRState && !CalibrationManager.Instance.GetWasMainMenuLoaded())
+        // Choosing VR or non-VR mode
+        if (_section == Section.ChooseVRState)
         {
-            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "VR Mode"))
+            GUI.backgroundColor = Color.green;
+
+            if (GUI.Button(new Rect(xB, yB, w, h), "VR Mode"))
             {
                 CalibrationManager.Instance.StoreVRState(true);
                 CalibrationManager.Instance.SetCameraMode(true);
@@ -140,184 +248,139 @@ public class MainMenu : MonoBehaviour
             
             GUI.backgroundColor = Color.cyan;
         
-            if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Non-VR Mode"))
+            if (GUI.Button(new Rect(xB, yB*2, w, h), "Non-VR Mode"))
             {
                 CalibrationManager.Instance.StoreVRState(false);
                 CalibrationManager.Instance.SetCameraMode(false);
                 _section = Section.ChooseSteeringInput;
             }
         }
-
+        
+        // Choosing control input
         if (_section == Section.ChooseSteeringInput)
         {
-            GUI.backgroundColor = Color.cyan;
-            
-            if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Steering Wheel"))
-            {
-                CalibrationManager.Instance.StoreSteeringInputDevice("SteeringWheel");
-                _section = CalibrationManager.Instance.GetVRActivationState() ? Section.MainMenu : Section.NonVRMenu;
-            }
-        
             GUI.backgroundColor = Color.green;
             
-            if (GUI.Button(new Rect(xForButtons, yForButtons*1.5f, buttonWidth, buttonHeight), "Xbox One Controller"))
+            if (GUI.Button(new Rect(xB, yB, w, h), "Steering Wheel"))
+            {
+                CalibrationManager.Instance.StoreSteeringInputDevice("SteeringWheel");
+                _section = Section.IDGeneration;
+            }
+        
+            GUI.backgroundColor = Color.cyan;
+            
+            if (GUI.Button(new Rect(xB, yB*1.5f, w, h), "Xbox One Controller"))
             {
                 CalibrationManager.Instance.StoreSteeringInputDevice("XboxOneController");
-                _section = CalibrationManager.Instance.GetVRActivationState() ? Section.MainMenu : Section.NonVRMenu;
+                _section = Section.IDGeneration;
             }
             
             GUI.backgroundColor = Color.blue;
             
-            if (GUI.Button(new Rect(xForButtons, yForButtons*2f, buttonWidth, buttonHeight), "Keyboard"))
+            if (GUI.Button(new Rect(xB, yB*2f, w, h), "Keyboard"))
             {
                 CalibrationManager.Instance.StoreSteeringInputDevice("Keyboard");
-                _section = CalibrationManager.Instance.GetVRActivationState() ? Section.MainMenu : Section.NonVRMenu;
+                _section = Section.IDGeneration;
             }
         }
         
-        if (CalibrationManager.Instance.GetEyeTrackerCalibrationState() && !CalibrationManager.Instance.GetEndOfExperimentState())
+        // Participant ID
+        if (_section == Section.IDGeneration)
         {
-            Destroy(welcome);
+            GUI.backgroundColor = Color.green;
 
-            if (loading != null)
-                loading.gameObject.SetActive(true);
+            if (GUI.Button(new Rect(xB, yB, w, h), "Generate Participant ID"))
+            {
+                _section = Section.IDGeneration;
+                CalibrationManager.Instance.GenerateID();
+                _section = CalibrationManager.Instance.GetVRActivationState() ? Section.EyeCalibration : Section.TrainingBlock;
+            }
         }
         
-        
-
-        if (CalibrationManager.Instance.GetVRActivationState() && CalibrationManager.Instance.GetSteeringInputSelectedState() && CalibrationManager.Instance.GetWasMainMenuLoaded())
+        // Eye calibration
+        if (_section == Section.EyeCalibration)
         {
-            if (CalibrationManager.Instance.GetEndOfExperimentState())
+            GUI.backgroundColor = Color.green;
+            if (GUI.Button(new Rect(xB, yB, w, h), "Eye Calibration"))
             {
-                thankYou.gameObject.SetActive(true);
+                _eyeCalibrationSelected = true;
+                CalibrationManager.Instance.EyeCalibration();
+
+                if (CalibrationManager.Instance.GetEyeTrackerCalibrationState())
+                {
+                    _section = Section.EyeValidation;
+                }
+            }
                 
+            GUI.backgroundColor = Color.yellow;
+            if (GUI.Button(new Rect(xB, yB*2, w, h), "Skip Eye Calibration"))
+            {
+                _eyeCalibrationSelected = true;
+                _section = Section.EyeValidation;
+            }
+        }
+        
+        // Eye validation
+        if (_section == Section.EyeValidation)
+        {
+            ApplicationManager.Instance.StoreMainMenuLastState("SeatCalibration");
+            
+            GUI.backgroundColor = Color.green;
+            if (GUI.Button(new Rect(xB, yB, w, h), "Eye Validation"))
+            {
+                _eyeValidationSelected = true;
+                CalibrationManager.Instance.EyeValidation();
+            }
+                
+            GUI.backgroundColor = Color.yellow;
+            if (GUI.Button(new Rect(xB, yB*2, w, h), "Skip Eye Validation"))
+            {
+                _eyeValidationSelected = true;
+                _section = Section.SeatCalibration;
+            }
+        }
+        
+        // Seat calibration
+        if (_section == Section.SeatCalibration)
+        {
+            ApplicationManager.Instance.StoreMainMenuLastState("TrainingBlock");
+
+            GUI.backgroundColor = Color.green;
+            if (GUI.Button(new Rect(xB, yB, w, h), "Seat Calibration"))
+            {
+                CalibrationManager.Instance.SeatCalibration();
+            }
+                
+            GUI.backgroundColor = Color.yellow;
+            if (GUI.Button(new Rect(xB, yB*2, w, h), "Skip Seat Calibration"))
+            {
+                _section = Section.TrainingBlock;
+            }
+        }
+        
+        // Training scene
+        if (_section == Section.TrainingBlock)
+        {
+            GUI.backgroundColor = Color.green;
+            if (GUI.Button(new Rect(xB, yB, w, h), "Training Block"))
+            {
+                CalibrationManager.Instance.StartTestDrive();
+            }
+                
+            GUI.backgroundColor = Color.yellow;
+            if (GUI.Button(new Rect(xB, yB*2, w, h), "Skip Training Block"))
+            {
                 if (welcome != null) 
                     Destroy(welcome);
                 
                 if (loading != null)
                     Destroy(loading);
-            }
-
-            // Buttons
-            GUI.backgroundColor = Color.cyan;
-            GUI.color = Color.white;
-            
-            if (!CalibrationManager.Instance.GetParticipantUUIDState())
-            {
-                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Generate Participant ID"))
-                {
-                    _section = Section.IDGeneration;
-                    CalibrationManager.Instance.GenerateID();
-                }
-            }
-            else if (CalibrationManager.Instance.GetParticipantUUIDState() && !CalibrationManager.Instance.GetEyeTrackerCalibrationState() && _section == Section.IDGeneration)
-            {
-                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Calibration"))
-                {
-                    CalibrationManager.Instance.EyeCalibration();
-                }
-                
-                GUI.backgroundColor = Color.yellow;
-                if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Skip Eye Calibration"))
-                {
-                    _section = Section.EyeValidation;
-                }
-            }
-            else if ((CalibrationManager.Instance.GetEyeTrackerCalibrationState() && !CalibrationManager.Instance.GetEyeTrackerValidationState()) || _section == Section.EyeValidation)
-            {
-                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Eye Validation"))
-                {
-                    _section = Section.EyeValidation;
-                    CalibrationManager.Instance.EyeValidation();
-                }
-                
-                GUI.backgroundColor = Color.yellow;
-                if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Skip Eye Validation"))
-                {
-                    _section = Section.SeatCalibration;
-                }
-            }
-            else if ((CalibrationManager.Instance.GetEyeTrackerValidationState() && !CalibrationManager.Instance.GetSeatCalibrationState() && _section != Section.TrainingBlock
-                      && !CalibrationManager.Instance.GetEndOfExperimentState()) || _section == Section.SeatCalibration)
-            {
-                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Seat Calibration"))
-                {
-                    _section = Section.SeatCalibration;
-                    CalibrationManager.Instance.SeatCalibration();
-                }
-                
-                GUI.backgroundColor = Color.yellow;
-                if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Skip Seat Calibration"))
-                {
-                    _section = Section.TrainingBlock;
-                }
-            } 
-            else if ((CalibrationManager.Instance.GetSeatCalibrationState() && !CalibrationManager.Instance.GetTestDriveState() 
-                                                                            && !CalibrationManager.Instance.GetEndOfExperimentState()) || _section == Section.TrainingBlock)
-            {
-                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Training Block"))
-                {
-                    _section = Section.MainExperiment; 
-                    CalibrationManager.Instance.StartTestDrive();
-                }
-                
-                GUI.backgroundColor = Color.yellow;
-                if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Skip Training Block"))
-                {
-                    _section = Section.MainExperiment;
-                                    
-                    if (welcome != null) 
-                        Destroy(welcome);
-                
-                    if (loading != null)
-                        Destroy(loading);
                     
-                    SceneLoadingHandler.Instance.LoadExperimentScenes();
-                }
-            }
-            
-            else if (_section == Section.MainExperiment)
-            {
-                if (loading != null)
-                    Destroy(loading);
-                
-                thankYou.gameObject.SetActive(true);
+                SceneLoadingHandler.Instance.LoadExperimentScenes();
             }
         }
-        else if (!CalibrationManager.Instance.GetVRActivationState() && CalibrationManager.Instance.GetWasMainMenuLoaded())
-        {
-            GUI.backgroundColor = Color.cyan;
-            GUI.color = Color.white;
-
-            if (!CalibrationManager.Instance.GetParticipantUUIDState() && _section == Section.NonVRMenu)
-            {
-                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Generate Participant ID"))
-                {
-                    _section = Section.IDGeneration;
-                    CalibrationManager.Instance.GenerateID();
-                }
-            } else if (CalibrationManager.Instance.GetParticipantUUIDState() && !CalibrationManager.Instance.GetTestDriveState() && !CalibrationManager.Instance.GetEndOfExperimentState())
-            {
-                if (GUI.Button(new Rect(xForButtons, yForButtons, buttonWidth, buttonHeight), "Training Block"))
-                {
-                    _section = Section.MainExperiment;
-                    CalibrationManager.Instance.StartTestDrive();
-                }
-                
-                GUI.backgroundColor = Color.yellow;
-                if (GUI.Button(new Rect(xForButtons, yForButtons*2, buttonWidth, buttonHeight), "Skip Training Block"))
-                {
-                    _section = Section.MainExperiment; 
-                    SceneLoadingHandler.Instance.LoadExperimentScenes();
-                }
-            } else if (CalibrationManager.Instance.GetEndOfExperimentState())
-            {
-                if (loading != null)
-                    Destroy(loading);
-
-                thankYou.gameObject.SetActive(true);
-            }
-        }
+        
+        #endregion
     }
 
     #endregion
