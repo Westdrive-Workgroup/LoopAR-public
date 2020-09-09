@@ -5,6 +5,7 @@ using System.IO;
 using System.Security;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Random = System.Random;
 
 [DisallowMultipleComponent]
 public class CalibrationManager : MonoBehaviour
@@ -27,6 +28,7 @@ public class CalibrationManager : MonoBehaviour
     
     private CalibrationData _calibrationData;
     private String _calibrationFilePath;
+    private Random _random;
 
     private int _numberOfTrainingTrials;
     
@@ -66,6 +68,8 @@ public class CalibrationManager : MonoBehaviour
         {
             Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "SceneData")));
         }
+
+        _random = new Random();
         
         //singleton pattern a la Unity
         if (Instance == null)
@@ -109,7 +113,7 @@ public class CalibrationManager : MonoBehaviour
         return Path.Combine(Application.persistentDataPath, saveFileName + ".txt");
     }
     
-    public string GetPathForSaveFolder(string folderName)
+    private string GetPathForSaveFolder(string folderName)
     {
         return Path.Combine(Application.persistentDataPath, folderName);
     }
@@ -131,6 +135,11 @@ public class CalibrationManager : MonoBehaviour
             return JsonUtility.FromJson<CalibrationData>(jsonString);
         }
     }
+    
+    public void StoreExperimentalCondition(string condition)
+    {
+        _calibrationData.ExperimentalCondition = condition;
+    }
 
     #endregion
 
@@ -141,6 +150,40 @@ public class CalibrationManager : MonoBehaviour
         string newParticipantId = System.Guid.NewGuid().ToString();
         StoreParticipantUuid(newParticipantId);
         _uUIDGenerated = true;
+    }
+
+    public void GenerateCondition()
+    {
+        // todo HUD in CTE
+        // todo store the condition 
+        // todo serialize the condition
+        // todo inform about the conditions
+        
+        int conditionNumber = _random.Next(1, 5);
+        string condition = "";
+        
+        switch (conditionNumber)
+        {
+            case 1:
+                condition = "FullLoopAR";
+                Debug.Log("FullLoopAR");
+                break;
+            case 2:
+                condition = "HUDOnly";
+                Debug.Log("HUDOnly");
+                break;
+            case 3:
+                condition = "AudioOnly";
+                Debug.Log("AudioOnly");
+                break;
+            case 4:
+                condition = "BaseCondition";
+                Debug.Log("BaseCondition");
+                break;
+        }
+        
+        ApplicationManager.Instance.SetExperimentalCondition(condition);
+        StoreExperimentalCondition(condition);
     }
 
     public void StoreSteeringInputDevice(string steeringDevice)

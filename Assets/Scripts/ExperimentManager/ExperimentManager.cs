@@ -35,7 +35,18 @@ public class ExperimentManager : MonoBehaviour
     private bool _vRScene;
     private bool _isStartPressed;
     
+    // Conditions
+    // Conditions
+    private enum Conditions
+    {
+        FullLoopAR,
+        BaseCondition,
+        HUDOnly,
+        AudioOnly
+    }
 
+    private Conditions _condition;
+    
     #endregion
 
     #region Private Methods
@@ -132,6 +143,11 @@ public class ExperimentManager : MonoBehaviour
     // starting the experiment
     private IEnumerator StartExperiment()
     {
+        if (_condition == Conditions.BaseCondition)
+        {
+            // todo destroy or disable hud if base condition
+        }
+
         TimeManager.Instance.SetExperimentStartTime();
         _isStartPressed = true;
         while (SceneLoadingHandler.Instance.GetAdditiveLoadingState()) yield return null;
@@ -151,7 +167,20 @@ public class ExperimentManager : MonoBehaviour
         _participantsCar.GetComponent<Rigidbody>().isKinematic = true;
         yield return new WaitForSeconds(seconds);
         _participantsCar.GetComponent<Rigidbody>().isKinematic = false;
-        _participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD(false);
+        
+        switch (_condition)
+        {
+            case Conditions.FullLoopAR:
+                _participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD(false);
+                break;
+            case Conditions.HUDOnly:
+                // todo implement
+                break;
+            case Conditions.AudioOnly:
+                // todo implement
+                break;
+        }
+
         CameraManager.Instance.AlphaFadeIn();
         _participantsCar.GetComponent<CarController>().TurnOnEngine();
     }
@@ -189,7 +218,20 @@ public class ExperimentManager : MonoBehaviour
         _activatedEvent = false;
 
         CameraManager.Instance.AlphaFadeOut();
-        _participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD(true);
+        
+        switch (_condition)
+        {
+            case Conditions.FullLoopAR:
+                _participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD(true);
+                break;
+            case Conditions.HUDOnly:
+                // todo implement
+                break;
+            case Conditions.AudioOnly:
+                // todo implement
+                break;
+        }
+
         PersistentTrafficEventManager.Instance.FinalizeEvent();
         _participantsCar.GetComponent<CarController>().TurnOffEngine();
         _participantsCar.GetComponent<Rigidbody>().isKinematic = true;
@@ -257,6 +299,11 @@ public class ExperimentManager : MonoBehaviour
         _criticalEventController = criticalEventController;
     }
 
+    public void SetExperimentalCondition(string condition)
+    {
+        _condition = (Conditions) Enum.Parse(typeof(Conditions), condition, true);
+    }
+
     #endregion
 
     #region Getters
@@ -274,6 +321,11 @@ public class ExperimentManager : MonoBehaviour
     public GameObject GetParticipantsCar()
     {
         return _participantsCar;
+    }
+
+    public string GetExperimentalCondition()
+    {
+        return _condition.ToString();
     }
 
     #endregion

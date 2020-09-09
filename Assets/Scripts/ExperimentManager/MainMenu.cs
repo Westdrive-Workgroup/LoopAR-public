@@ -23,7 +23,7 @@ public class MainMenu : MonoBehaviour
     private bool _eyeCalibrationSelected;
     private bool _eyeValidationSelected;
 
-    public enum Section
+    private enum Section
     {
         ChooseVRState,
         ChooseSteeringInput,
@@ -31,9 +31,7 @@ public class MainMenu : MonoBehaviour
         EyeCalibration,
         EyeValidation,
         SeatCalibration,
-        TrainingBlock,
-        MainExperiment,
-        NonVRMenu
+        TrainingBlock
     }
 
     private Section _section;
