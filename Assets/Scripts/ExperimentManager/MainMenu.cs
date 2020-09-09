@@ -110,8 +110,6 @@ public class MainMenu : MonoBehaviour
         float w = 200f;
         float h = 30f;
         
-        int labelFontSize = 33;
-
         #endregion
 
         // Quit

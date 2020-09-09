@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EyeValidationManager : MonoBehaviour
 {
@@ -197,5 +198,25 @@ public class EyeValidationManager : MonoBehaviour
     public GameObject GetRelativeFixedPoint()
     {
         return relativeFixedPoint;
+    }
+
+    private void OnGUI()
+    {
+        float height = Screen.height;
+        float width = Screen.width;
+        
+        float xB = width / 12f;
+        float yB = height / 7f;
+
+        float w = 200f;
+        float h = 30f;
+        
+        GUI.backgroundColor = Color.red;
+        if (GUI.Button(new Rect(xB*9, yB, w, h), "Skip Eye Validation"))
+        {
+            Destroy(relativeFixedPoint);
+            ApplicationManager.Instance.StoreMainMenuLastState("SeatCalibration");
+            SceneManager.LoadSceneAsync("MainMenu");
+        }
     }
 }
