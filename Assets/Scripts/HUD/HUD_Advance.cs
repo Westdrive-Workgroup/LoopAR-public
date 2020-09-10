@@ -213,6 +213,15 @@ public class HUD_Advance : MonoBehaviour
     }
     public void DrawMeLikeOnOfYourFrenchGirls()
     {
+        if (!TimeShow) Date.enabled = false;
+        if (!SpeedShow) Speed.enabled = false;
+        if (!SpeedShow) SpeedGauge.enabled = false;
+        if (!SpeedLimitShow) MaxSpeed.enabled = false;
+        if (!SpeedLimitShow) Circle.enabled = false;
+        Weather.enabled = false;
+
+        AIDrivingText.enabled = false;
+        AIDriving.enabled = false;
         if (BlinkingText || BlinkingTriangle)
         {
             BlinkFreq = BlinkingFrequence;
@@ -227,6 +236,8 @@ public class HUD_Advance : MonoBehaviour
     }
     public void DrawMeLikeOnOfYourFrenchGirlsTOR()
     {
+        YouDriving.enabled = false;
+        YouDrivingText.enabled = false;
         if (TorBackBlinkingImage || TorBackBlinkingText)
         {
             if (nextUpdate > 10)
@@ -240,6 +251,16 @@ public class HUD_Advance : MonoBehaviour
         {
             StartCoroutine(ShowForSeconds(TorBackDuration));
         }
+        if (ShowLocation) { Weather.enabled = true; }
+        else
+        {
+            Weather.enabled = false;
+        }
+        Speed.enabled = true;
+        SpeedGauge.enabled = true;
+        MaxSpeed.enabled = true;
+        Circle.enabled = true;
+        Date.enabled = true;
     }
     public void AIDrive(bool playTOR)
     {
@@ -247,8 +268,7 @@ public class HUD_Advance : MonoBehaviour
         ManualDriving = false;
 
         EventDriving = false;
-        YouDriving.enabled = false;
-        YouDrivingText.enabled = false;
+
         //Take over request back Image && Text && Sound -> maybe Blinking 
         //start NonEventDisplays
         //start AI DrivingSign
@@ -260,17 +280,12 @@ public class HUD_Advance : MonoBehaviour
             DrawMeLikeOnOfYourFrenchGirlsTOR();
         }
         StartCoroutine(ShowAfterSeconds());
-
-        if (ShowLocation) { Weather.enabled = true; }
-        else
-        {
-            Weather.enabled = false;
-        }
         Speed.enabled = true;
         SpeedGauge.enabled = true;
         MaxSpeed.enabled = true;
         Circle.enabled = true;
         Date.enabled = true;
+
     }
     public void ManualDrive()
     {        //You are driving
@@ -298,15 +313,7 @@ public class HUD_Advance : MonoBehaviour
     public void EventDrive()
     {
         EventDriving = true;
-        if (!TimeShow) Date.enabled = false;
-        if (!SpeedShow) Speed.enabled = false;
-        if (!SpeedShow) SpeedGauge.enabled = false;
-        if (!SpeedLimitShow) MaxSpeed.enabled = false;
-        if (!SpeedLimitShow) Circle.enabled = false;
-        Weather.enabled = false;
 
-        AIDrivingText.enabled = false;
-        AIDriving.enabled = false;
         //Warning Sound && Triangle && Text && Blinking
         //Verbal Warning
         //
