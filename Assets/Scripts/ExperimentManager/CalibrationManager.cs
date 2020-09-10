@@ -182,12 +182,14 @@ public class CalibrationManager : MonoBehaviour
         
         ApplicationManager.Instance.SetExperimentalCondition(_experimentalCondition);
         _calibrationData.ExperimentalCondition = _experimentalCondition;
+        SaveCalibrationData();
     }
 
     public void StoreSteeringInputDevice(string steeringDevice)
     {
         _calibrationData.SteeringInputDevice = steeringDevice;
         _steeringInputGiven = true;
+        SaveCalibrationData();
     }
     
     public void EyeCalibration()
