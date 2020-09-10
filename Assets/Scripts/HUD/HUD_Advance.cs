@@ -96,58 +96,7 @@ public class HUD_Advance : MonoBehaviour
         }
 
     }
-    public void SetBoolForSpeed(bool SetSpeedShow)
-    {
-        SpeedShow = SetSpeedShow;
-    }
-    public void SetBoolForTime(bool SetTimeShow)
-    {
-        TimeShow = SetTimeShow;
-    }
-    public void SetBoolForSpeedLimit(bool SetSpeedLimitShow)
-    {
-        SpeedLimitShow = SetSpeedLimitShow;
-    }
-    public void SetBoolForRealTime(bool SetRealTimeShow)
-    {
-        ShowRealTime = SetRealTimeShow;
-    }
-    public void SetBoolForBlinkingText(bool SetBlinkingText)
-    {
-        BlinkingText = SetBlinkingText;
-    }
-    public void SetBoolForBlinkingTriangle(bool SetBlinkingTriangle)
-    {
-        BlinkingTriangle = SetBlinkingTriangle;
-    }
-    public void SetBoolForLocation(bool SetShowLocation)
-    {
-        ShowLocation = SetShowLocation;
-    }
-    public void SetBoolForTorBackBlinkingText(bool SetTorBackBlinkingText)
-    {
-        TorBackBlinkingText = SetTorBackBlinkingText;
-    }
-    public void SetBoolForTorBackBlinkingImage(bool SetTorBackBlinkingImage)
-    {
-        TorBackBlinkingImage = SetTorBackBlinkingImage;
-    }
-    public void SetBoolForSound(bool SetUseSound)
-    {
-        UseSound = SetUseSound;
-    }
-    public void SetBoolForSoundTOR(bool SetUseSoundTOR)
-    {
-        UseSound = SetUseSoundTOR;
-    }
-    public void SetBoolForOutline(bool SetShowOutline)
-    {
-        ShowOutline = SetShowOutline;
-    }
-    public void SetBoolForShowTriangle(bool SetShowTriangle)
-    {
-        ShowTriangle = SetShowTriangle;
-    }
+
     public void ActivateHUD(GameObject testAccidentObject)
     {
         List<GameObject> ObjectToMark = new List<GameObject>();
@@ -203,6 +152,18 @@ public class HUD_Advance : MonoBehaviour
         }
 
     }
+    public void BlankState()
+    {
+        Date.enabled = false;
+        Speed.enabled = false;
+        SpeedGauge.enabled = false;
+        MaxSpeed.enabled = false;
+        Circle.enabled = false;
+        AIDrivingText.enabled = false;
+        AIDriving.enabled = false;
+        YouDriving.enabled = false;
+        YouDrivingText.enabled = false;
+    }
     public void MakeNoiseTOR()
     {
         StartCoroutine(SoundManagerTOR());
@@ -219,9 +180,14 @@ public class HUD_Advance : MonoBehaviour
         if (!SpeedLimitShow) MaxSpeed.enabled = false;
         if (!SpeedLimitShow) Circle.enabled = false;
         Weather.enabled = false;
+        DrawOnlyTriangle();
 
         AIDrivingText.enabled = false;
         AIDriving.enabled = false;
+
+    }
+    public void DrawOnlyTriangle()
+    {
         if (BlinkingText || BlinkingTriangle)
         {
             BlinkFreq = BlinkingFrequence;
@@ -232,6 +198,28 @@ public class HUD_Advance : MonoBehaviour
         {
             if (ShowTriangle) StartCoroutine(ShowForSeconds(WarningSignDuration));
         }
+    }
+    public void BlendInNED()
+    {
+        if (ShowLocation) { Weather.enabled = true; }
+        else
+        {
+            Weather.enabled = false;
+        }
+        Speed.enabled = true;
+        SpeedGauge.enabled = true;
+        MaxSpeed.enabled = true;
+        Circle.enabled = true;
+        Date.enabled = true;
+    }
+    public void BlendOutNED()
+    {
+        Weather.enabled = false;
+        Speed.enabled = false;
+        SpeedGauge.enabled = false;
+        MaxSpeed.enabled = false;
+        Circle.enabled = false;
+        Date.enabled = false;
 
     }
     public void DrawMeLikeOnOfYourFrenchGirlsTOR()
@@ -251,16 +239,8 @@ public class HUD_Advance : MonoBehaviour
         {
             StartCoroutine(ShowForSeconds(TorBackDuration));
         }
-        if (ShowLocation) { Weather.enabled = true; }
-        else
-        {
-            Weather.enabled = false;
-        }
-        Speed.enabled = true;
-        SpeedGauge.enabled = true;
-        MaxSpeed.enabled = true;
-        Circle.enabled = true;
-        Date.enabled = true;
+        BlendInNED();
+
     }
     public void AIDrive(bool playTOR)
     {
