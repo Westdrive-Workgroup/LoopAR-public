@@ -143,7 +143,7 @@ public class ExperimentManager : MonoBehaviour
     // starting the experiment
     private IEnumerator StartExperiment()
     {
-        SetExperimentalCondition(CalibrationManager.Instance.GetExperimentalCondition());
+        // SetExperimentalCondition(CalibrationManager.Instance.GetExperimentalCondition());
         if (_condition == Conditions.BaseCondition)
         {
             _participantsCar.GetComponentInChildren<HUD_Advance>().gameObject.transform.parent.gameObject.SetActive(false);
@@ -182,6 +182,8 @@ public class ExperimentManager : MonoBehaviour
             case Conditions.AudioOnly:
                 Debug.Log("AudioOnly EXPM");
                 // todo implement
+                break;
+            case Conditions.BaseCondition:
                 break;
         }
 
@@ -236,6 +238,8 @@ public class ExperimentManager : MonoBehaviour
             case Conditions.AudioOnly:
                 Debug.Log("AudioOnly EXPM");
                 // todo implement
+                break;
+            case Conditions.BaseCondition:
                 break;
         }
 
@@ -308,19 +312,8 @@ public class ExperimentManager : MonoBehaviour
 
     public void SetExperimentalCondition(string condition)
     {
-        try
-        {
-            if (condition != null)
-            {
-                _condition = (Conditions) Enum.Parse(typeof(Conditions), condition, true);
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.Log("<color=red>The condition is not selected. Please start from main menu</color>");
-            Console.WriteLine(e);
-            throw;
-        }
+        _condition = (Conditions) Enum.Parse(typeof(Conditions), condition, true);
+        // todo see how to catch it
     }
 
     #endregion
