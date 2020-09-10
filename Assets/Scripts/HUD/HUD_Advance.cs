@@ -160,6 +160,7 @@ public class HUD_Advance : MonoBehaviour
         SpeedGauge.enabled = false;
         MaxSpeed.enabled = false;
         Circle.enabled = false;
+        AIDrivingBool=false;
         AIDrivingText.enabled = false;
         AIDriving.enabled = false;
         YouDriving.enabled = false;
