@@ -238,13 +238,11 @@ public class HUD_Advance : MonoBehaviour
         BlendInNED();
         AIDrivingText.enabled = true;
         AIDriving.enabled = true;
-
     }
     public void AIDrive(bool playTOR)
     {
         AIDrivingBool = true;
         ManualDriving = false;
-
         EventDriving = false;
 
         //Take over request back Image && Text && Sound -> maybe Blinking 
