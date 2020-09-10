@@ -215,6 +215,7 @@ public class HUD_Advance : MonoBehaviour
     public void BlendOutNED()
     {
         Weather.enabled = false;
+        
         Speed.enabled = false;
         SpeedGauge.enabled = false;
         MaxSpeed.enabled = false;
