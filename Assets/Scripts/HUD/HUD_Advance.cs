@@ -154,6 +154,7 @@ public class HUD_Advance : MonoBehaviour
     }
     public void BlankState()
     {
+        Weather.enabled = false;
         Date.enabled = false;
         Speed.enabled = false;
         SpeedGauge.enabled = false;
@@ -318,8 +319,7 @@ public class HUD_Advance : MonoBehaviour
     }
     private IEnumerator SoundManagerWarning()
     {
-        if (IsEvent)
-        {
+        
             yield return new WaitForSeconds(TimeTillWarningSound);
             audioSource.PlayOneShot(WarningSound);
             yield return new WaitForSeconds(TimeTillWarningVoice);
@@ -329,7 +329,7 @@ public class HUD_Advance : MonoBehaviour
 
             audioSource.Stop();
             StopCoroutine(SoundManagerWarning());
-        }
+        
     }
     private IEnumerator ShowAfterSeconds()
     {
