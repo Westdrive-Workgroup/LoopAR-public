@@ -114,8 +114,6 @@ public class CameraManager : MonoBehaviour
         {
             vRCamera.SetSeatPosition(_seatPosition);
             vRCamera.Seat();
-            /*this.transform.position = GetSeatPositionVector3();
-            _vRCamera.SetPosition(GetSeatPositionVector3()); ///////????? todo*/
         }
     }
 
@@ -193,11 +191,7 @@ public class CameraManager : MonoBehaviour
 
     public void RespawnBehavior()
     {
-        if (CalibrationManager.Instance.GetVRActivationState())
-        {
-            // todo
-        }
-        else
+        if (!CalibrationManager.Instance.GetVRActivationState())
         {
             this.gameObject.GetComponent<ChaseCam>().ForceChaseCamRotation();
         }
