@@ -203,6 +203,44 @@ public class HUD_Advance : MonoBehaviour
         }
 
     }
+    public void MakeNoiseTOR()
+    {
+        StartCoroutine(SoundManagerTOR());
+    }
+    public void MakeNoise()
+    {
+        StartCoroutine(SoundManagerWarning());
+    }
+    public void DrawMeLikeOnOfYourFrenchGirls()
+    {
+        if (BlinkingText || BlinkingTriangle)
+        {
+            BlinkFreq = BlinkingFrequence;
+            BlinkLength = BlinkingForTime;
+            StartCoroutine(Blink(BlinkFreq, BlinkLength));
+        }
+        else
+        {
+            if (ShowTriangle) StartCoroutine(ShowForSeconds(WarningSignDuration));
+        }
+
+    }
+    public void DrawMeLikeOnOfYourFrenchGirlsTOR()
+    {
+        if (TorBackBlinkingImage || TorBackBlinkingText)
+        {
+            if (nextUpdate > 10)
+            {
+                BlinkFreq = TorBackBlinkingFrequency;
+                BlinkLength = TorBackBlinkingLength;
+                StartCoroutine(Blink(BlinkFreq, BlinkLength));
+            }
+        }
+        else
+        {
+            StartCoroutine(ShowForSeconds(TorBackDuration));
+        }
+    }
     public void AIDrive(bool playTOR)
     {
         AIDrivingBool = true;
@@ -218,21 +256,8 @@ public class HUD_Advance : MonoBehaviour
 
         if (playTOR)
         {
-            // Debug.Log(playTOR + " Is it played?");
-            if (UseSoundTOR) StartCoroutine(SoundManagerTOR());
-            if (TorBackBlinkingImage || TorBackBlinkingText)
-            {
-                if (nextUpdate > 10)
-                {
-                    BlinkFreq = TorBackBlinkingFrequency;
-                    BlinkLength = TorBackBlinkingLength;
-                    StartCoroutine(Blink(BlinkFreq, BlinkLength));
-                }
-            }
-            else
-            {
-                StartCoroutine(ShowForSeconds(TorBackDuration));
-            }
+            MakeNoiseTOR();
+            DrawMeLikeOnOfYourFrenchGirlsTOR();
         }
         StartCoroutine(ShowAfterSeconds());
 
@@ -246,12 +271,6 @@ public class HUD_Advance : MonoBehaviour
         MaxSpeed.enabled = true;
         Circle.enabled = true;
         Date.enabled = true;
-        //TorBackSign.enabled = false;
-        //TorBackText.enabled = false;
-
-
-
-
     }
     public void ManualDrive()
     {        //You are driving
@@ -291,18 +310,9 @@ public class HUD_Advance : MonoBehaviour
         //Warning Sound && Triangle && Text && Blinking
         //Verbal Warning
         //
-        if (BlinkingText || BlinkingTriangle)
-        {
-            BlinkFreq = BlinkingFrequence;
-            BlinkLength = BlinkingForTime;
-            StartCoroutine(Blink(BlinkFreq, BlinkLength));
-        }
-        else
-        {
-            if(ShowTriangle)StartCoroutine(ShowForSeconds(WarningSignDuration));
-        }
+        DrawMeLikeOnOfYourFrenchGirls();
         //Debug.Log("Warum bin ich hier?");
-        if (UseSound) StartCoroutine(SoundManagerWarning());
+        MakeNoise();
         StartCoroutine(ShowAfterSeconds());
 
     }
