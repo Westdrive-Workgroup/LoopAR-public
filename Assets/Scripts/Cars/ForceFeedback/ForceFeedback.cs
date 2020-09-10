@@ -2,12 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using UnityEditor;
 using UnityEngine;
 
 namespace ForceFeedback
 {
     public class FFB 
     {
+        
         // Start is called before the first frame update
         [DllImport("user32.dll")]
         public static extern IntPtr GetActiveWindow();
@@ -38,7 +40,13 @@ namespace ForceFeedback
         {
             FFB.StopEffect();
         }
-        
+
+
+        void HandleOnPlayModeChanged()
+        {
+            
+        }
+
     }
 }
 
