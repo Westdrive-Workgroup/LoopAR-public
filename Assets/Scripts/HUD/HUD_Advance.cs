@@ -44,7 +44,7 @@ public class HUD_Advance : MonoBehaviour
     [Header("Experiment")]
 
     private bool IsEvent;
-    public bool TimeShow, SpeedShow, SpeedLimitShow, ShowRealTime;
+    public bool TimeShow, SpeedShow, SpeedLimitShow, ShowRealTime, UseSound, UseSoundTOR, ShowOutline, ShowTriangle;
     public string ShowFakeTime;
     public float TimeTillWarningSign;
     public float BlinkingFrequence = 3;
@@ -96,6 +96,58 @@ public class HUD_Advance : MonoBehaviour
         }
 
     }
+    public void SetBoolForSpeed(bool SetSpeedShow)
+    {
+        SpeedShow = SetSpeedShow;
+    }
+    public void SetBoolForTime(bool SetTimeShow)
+    {
+        TimeShow = SetTimeShow;
+    }
+    public void SetBoolForSpeedLimit(bool SetSpeedLimitShow)
+    {
+        SpeedLimitShow = SetSpeedLimitShow;
+    }
+    public void SetBoolForRealTime(bool SetRealTimeShow)
+    {
+        ShowRealTime = SetRealTimeShow;
+    }
+    public void SetBoolForBlinkingText(bool SetBlinkingText)
+    {
+        BlinkingText = SetBlinkingText;
+    }
+    public void SetBoolForBlinkingTriangle(bool SetBlinkingTriangle)
+    {
+        BlinkingTriangle = SetBlinkingTriangle;
+    }
+    public void SetBoolForLocation(bool SetShowLocation)
+    {
+        ShowLocation = SetShowLocation;
+    }
+    public void SetBoolForTorBackBlinkingText(bool SetTorBackBlinkingText)
+    {
+        TorBackBlinkingText = SetTorBackBlinkingText;
+    }
+    public void SetBoolForTorBackBlinkingImage(bool SetTorBackBlinkingImage)
+    {
+        TorBackBlinkingImage = SetTorBackBlinkingImage;
+    }
+    public void SetBoolForSound(bool SetUseSound)
+    {
+        UseSound = SetUseSound;
+    }
+    public void SetBoolForSoundTOR(bool SetUseSoundTOR)
+    {
+        UseSound = SetUseSoundTOR;
+    }
+    public void SetBoolForOutline(bool SetShowOutline)
+    {
+        ShowOutline = SetShowOutline;
+    }
+    public void SetBoolForShowTriangle(bool SetShowTriangle)
+    {
+        ShowTriangle = SetShowTriangle;
+    }
     public void ActivateHUD(GameObject testAccidentObject)
     {
         List<GameObject> ObjectToMark = new List<GameObject>();
@@ -107,7 +159,7 @@ public class HUD_Advance : MonoBehaviour
     public void ActivateHUD(List<GameObject> testAccidentSubjects)
     {
         _eventObjectsToMark = testAccidentSubjects;
-        MarkObjects();
+        if (ShowOutline) MarkObjects();
     }
 
     private void MarkObjects()
@@ -167,7 +219,7 @@ public class HUD_Advance : MonoBehaviour
         if (playTOR)
         {
             // Debug.Log(playTOR + " Is it played?");
-            StartCoroutine(SoundManagerTOR());
+            if (UseSoundTOR) StartCoroutine(SoundManagerTOR());
             if (TorBackBlinkingImage || TorBackBlinkingText)
             {
                 if (nextUpdate > 10)
@@ -184,7 +236,9 @@ public class HUD_Advance : MonoBehaviour
         }
         StartCoroutine(ShowAfterSeconds());
 
-        if(ShowLocation){Weather.enabled = true;}else{
+        if (ShowLocation) { Weather.enabled = true; }
+        else
+        {
             Weather.enabled = false;
         }
         Speed.enabled = true;
@@ -212,7 +266,9 @@ public class HUD_Advance : MonoBehaviour
         SpeedGauge.enabled = true;
         MaxSpeed.enabled = true;
         Circle.enabled = true;
-        if(ShowLocation){Weather.enabled = true;}else{
+        if (ShowLocation) { Weather.enabled = true; }
+        else
+        {
             Weather.enabled = false;
         }
         AIDrivingText.enabled = false;
@@ -243,10 +299,10 @@ public class HUD_Advance : MonoBehaviour
         }
         else
         {
-            StartCoroutine(ShowForSeconds(WarningSignDuration));
+            if(ShowTriangle)StartCoroutine(ShowForSeconds(WarningSignDuration));
         }
         //Debug.Log("Warum bin ich hier?");
-        StartCoroutine(SoundManagerWarning());
+        if (UseSound) StartCoroutine(SoundManagerWarning());
         StartCoroutine(ShowAfterSeconds());
 
     }
