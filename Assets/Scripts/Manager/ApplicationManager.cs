@@ -19,7 +19,7 @@ public class ApplicationManager : MonoBehaviour
     private bool _componentsOff;
     
     private string _menuSection;
-    private string _experimentalCondition;
+    private string _experimentalCondition = "FullLoopAR";
     
     #endregion
 
@@ -130,7 +130,7 @@ public class ApplicationManager : MonoBehaviour
         _menuSection = section;
     }
 
-    public void SetExperimentalCondition(string condition)
+    public void SetExperimentalCondition(string condition = "FullLoopAR")
     {
         _experimentalCondition = condition;
     }
