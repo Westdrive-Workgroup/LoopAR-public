@@ -143,10 +143,10 @@ public class ExperimentManager : MonoBehaviour
     // starting the experiment
     private IEnumerator StartExperiment()
     {
+        SetExperimentalCondition(CalibrationManager.Instance.GetExperimentalCondition());
         if (_condition == Conditions.BaseCondition)
         {
             _participantsCar.GetComponentInChildren<HUD_Advance>().gameObject.transform.parent.gameObject.SetActive(false);
-            // todo destroy or disable hud if base condition
         }
 
         TimeManager.Instance.SetExperimentStartTime();
@@ -308,7 +308,19 @@ public class ExperimentManager : MonoBehaviour
 
     public void SetExperimentalCondition(string condition)
     {
-        _condition = (Conditions) Enum.Parse(typeof(Conditions), condition, true);
+        try
+        {
+            if (condition != null)
+            {
+                _condition = (Conditions) Enum.Parse(typeof(Conditions), condition, true);
+            }
+        }
+        catch (Exception e)
+        {
+            Debug.Log("<color=red>The condition is not selected. Please start from main menu</color>");
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     #endregion

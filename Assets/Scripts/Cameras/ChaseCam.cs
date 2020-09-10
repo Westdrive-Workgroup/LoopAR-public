@@ -10,16 +10,6 @@ public class ChaseCam : MonoBehaviour
     private GameObject _objectToFollow;
     [Range(0f, 10f)] public float damping;
 
-    private void Awake()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
-    {
-        // ForceChaseCamRotation();
-    }
-
     private void LateUpdate()
     {
         if (CameraManager.Instance.GetObjectToFollow() == null)
@@ -30,7 +20,6 @@ public class ChaseCam : MonoBehaviour
 
         _objectToFollow = CameraManager.Instance.GetObjectToFollow();
 
-        // todo remove
         this.transform.position = _objectToFollow.GetComponent<CarController>().GetSeatPosition().transform.position;
         
         this.transform.rotation = Quaternion.Lerp(this.transform.rotation, _objectToFollow.transform.rotation,

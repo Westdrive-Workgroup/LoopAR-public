@@ -35,7 +35,7 @@ public class AIController : MonoBehaviour
     // Path
     [Space] [Header("Path Settings")] 
     [SerializeField] private PathCreator path;
-    [SerializeField] private EndOfPathInstruction endOfPathInstruction;    // todo implement
+    [SerializeField] private EndOfPathInstruction endOfPathInstruction;
     [Range(0,0.5f)][SerializeField] private float curveDetectorStepAhead = 0.005f;
     [Tooltip("Distance of follower to the target on the path.")]
     [Range(0,0.1f)] [SerializeField] private float precision = 0.001f;
@@ -47,9 +47,8 @@ public class AIController : MonoBehaviour
     // Driving behavior
     [Space][Header("Driving behavior")]
     [SerializeField] private bool driveInReverse;
-    // [SerializeField] private float steeringSensitivity = 0.01f;    // todo use this
-    /*[SerializeField] */private float accelerationCareFactor = 0.75f; //AIs in Racing games might constant push the gas pedal, I dont think that this is correct in ordinary traffic 
-    /*[SerializeField] */private float brakeFactor = 1f; //Strong Brakes requires potentially a less aggressive braking behavior of the AI.
+    private float accelerationCareFactor = 0.75f; //AIs in Racing games might constant push the gas pedal, I dont think that this is correct in ordinary traffic 
+    private float brakeFactor = 1f; //Strong Brakes requires potentially a less aggressive braking behavior of the AI.
     private bool _manualOverride;
     
     
@@ -178,7 +177,7 @@ public class AIController : MonoBehaviour
 
     private void StopAtEndOfPath()
     {
-        // todo implement
+        //
     }
     
     private void DestroyAtEndOfPath()

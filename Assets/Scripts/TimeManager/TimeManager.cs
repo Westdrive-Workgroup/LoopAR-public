@@ -83,9 +83,6 @@ public class TimeManager : MonoBehaviour
     
     private double GetTimeSinceStartUp()
     {
-        //TODO this is not smart, it should count the time from the experiment beginning. needs a workaround.
-       // return Time.realtimeSinceStartup;
-       
-       return _timeSinceStart;
+        return _timeSinceStart;
     }
 }

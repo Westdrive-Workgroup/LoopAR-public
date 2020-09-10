@@ -231,7 +231,7 @@ public class SavingManager : MonoBehaviour
             var eyeTracking = ConvertToJson(_eyeTrackingData);
             Debug.Log("saving " + input.Count + "Data frames of " + _eyeTrackingData);
             
-            var sceneData = JsonUtility.ToJson(_sceneData); // todo
+            var sceneData = JsonUtility.ToJson(_sceneData);
             Debug.Log("saving " + input.Count + "Data frames of " + _sceneData);
             
             var participantCalibrationData = JsonUtility.ToJson(_participantCalibrationData);
@@ -251,7 +251,7 @@ public class SavingManager : MonoBehaviour
             
             using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
             {
-                File.WriteAllText(GetPathForSaveFile("SceneData", id, _targetSceneName), sceneData); // todo
+                File.WriteAllText(GetPathForSaveFile("SceneData", id, _targetSceneName), sceneData);
             }
             
             using (FileStream stream = File.Open(GetPathForSaveParticipantCalibrationData(DataName, DataName), FileMode.Create))
@@ -273,7 +273,7 @@ public class SavingManager : MonoBehaviour
             var eyeTracking = ConvertToJson(_eyeTrackingData);
             Debug.Log("saving " + input.Count + "Data frames of " + _eyeTrackingData);
             
-            var sceneData = JsonUtility.ToJson(_sceneData); // todo
+            var sceneData = JsonUtility.ToJson(_sceneData);
             Debug.Log("saving " + input.Count + "Data frames of " + _sceneData);
             
             var participantCalibrationData = JsonUtility.ToJson(_participantCalibrationData);
@@ -293,7 +293,7 @@ public class SavingManager : MonoBehaviour
             
             using (FileStream stream = File.Open(GetPathForSaveFile(DataName, DataName, DataName), FileMode.Create))
             {
-                File.WriteAllText(GetPathForSaveFile("SceneData", id, _targetSceneName), sceneData); // todo
+                File.WriteAllText(GetPathForSaveFile("SceneData", id, _targetSceneName), sceneData);
             }
             
             using (FileStream stream = File.Open(GetPathForSaveParticipantCalibrationData(DataName, DataName), FileMode.Create))
