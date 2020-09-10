@@ -22,7 +22,7 @@ public class HUD_Advance : MonoBehaviour
 
     [Header("No Event")]
     public Text Speed;
-    public Text MaxSpeed, Date, Weather;
+    public Text MaxSpeed, Date;
     public Image SpeedGauge;
     public RawImage Circle;
     private bool AIDrivingBool = false;
@@ -154,7 +154,6 @@ public class HUD_Advance : MonoBehaviour
     }
     public void BlankState()
     {
-        Weather.enabled = false;
         Date.enabled = false;
         Speed.enabled = false;
         SpeedGauge.enabled = false;
@@ -181,7 +180,6 @@ public class HUD_Advance : MonoBehaviour
         if (!SpeedShow) SpeedGauge.enabled = false;
         if (!SpeedLimitShow) MaxSpeed.enabled = false;
         if (!SpeedLimitShow) Circle.enabled = false;
-        Weather.enabled = false;
         DrawOnlyTriangle();
 
         AIDrivingText.enabled = false;
@@ -201,13 +199,10 @@ public class HUD_Advance : MonoBehaviour
             if (ShowTriangle) StartCoroutine(ShowForSeconds(WarningSignDuration));
         }
     }
+    
     public void BlendInNED()
     {
-        if (ShowLocation) { Weather.enabled = true; }
-        else
-        {
-            Weather.enabled = false;
-        }
+        
         Speed.enabled = true;
         SpeedGauge.enabled = true;
         MaxSpeed.enabled = true;
@@ -216,8 +211,6 @@ public class HUD_Advance : MonoBehaviour
     }
     public void BlendOutNED()
     {
-        Weather.enabled = false;
-        
         Speed.enabled = false;
         SpeedGauge.enabled = false;
         MaxSpeed.enabled = false;
@@ -243,6 +236,8 @@ public class HUD_Advance : MonoBehaviour
             StartCoroutine(ShowForSeconds(TorBackDuration));
         }
         BlendInNED();
+        AIDrivingText.enabled = true;
+        AIDriving.enabled = true;
 
     }
     public void AIDrive(bool playTOR)
@@ -283,11 +278,7 @@ public class HUD_Advance : MonoBehaviour
         SpeedGauge.enabled = true;
         MaxSpeed.enabled = true;
         Circle.enabled = true;
-        if (ShowLocation) { Weather.enabled = true; }
-        else
-        {
-            Weather.enabled = false;
-        }
+        
         AIDrivingText.enabled = false;
         AIDriving.enabled = false;
         //No TORBack no Sound 
@@ -481,7 +472,6 @@ public class HUD_Advance : MonoBehaviour
             else { Date.text = ShowFakeTime; }
             //MaxSpeed
             MaxSpeed.text = speedLimit + "";
-            Weather.text = "Westbrueck \n 22°C";
         }
     }
 }
