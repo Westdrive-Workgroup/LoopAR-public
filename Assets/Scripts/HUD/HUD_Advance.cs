@@ -203,39 +203,54 @@ public class HUD_Advance : MonoBehaviour
         }
 
     }
-    public void AIDrive(bool playTOR)
+    public void MakeNoiseTOR()
     {
-        AIDrivingBool = true;
-        ManualDriving = false;
+        StartCoroutine(SoundManagerTOR());
+    }
+    public void MakeNoise()
+    {
+        StartCoroutine(SoundManagerWarning());
+    }
+    public void DrawMeLikeOnOfYourFrenchGirls()
+    {
+        if (!TimeShow) Date.enabled = false;
+        if (!SpeedShow) Speed.enabled = false;
+        if (!SpeedShow) SpeedGauge.enabled = false;
+        if (!SpeedLimitShow) MaxSpeed.enabled = false;
+        if (!SpeedLimitShow) Circle.enabled = false;
+        Weather.enabled = false;
 
-        EventDriving = false;
+        AIDrivingText.enabled = false;
+        AIDriving.enabled = false;
+        if (BlinkingText || BlinkingTriangle)
+        {
+            BlinkFreq = BlinkingFrequence;
+            BlinkLength = BlinkingForTime;
+            StartCoroutine(Blink(BlinkFreq, BlinkLength));
+        }
+        else
+        {
+            if (ShowTriangle) StartCoroutine(ShowForSeconds(WarningSignDuration));
+        }
+
+    }
+    public void DrawMeLikeOnOfYourFrenchGirlsTOR()
+    {
         YouDriving.enabled = false;
         YouDrivingText.enabled = false;
-        //Take over request back Image && Text && Sound -> maybe Blinking 
-        //start NonEventDisplays
-        //start AI DrivingSign
-        // Debug.Log("Aidrive start");
-
-        if (playTOR)
+        if (TorBackBlinkingImage || TorBackBlinkingText)
         {
-            // Debug.Log(playTOR + " Is it played?");
-            if (UseSoundTOR) StartCoroutine(SoundManagerTOR());
-            if (TorBackBlinkingImage || TorBackBlinkingText)
+            if (nextUpdate > 10)
             {
-                if (nextUpdate > 10)
-                {
-                    BlinkFreq = TorBackBlinkingFrequency;
-                    BlinkLength = TorBackBlinkingLength;
-                    StartCoroutine(Blink(BlinkFreq, BlinkLength));
-                }
-            }
-            else
-            {
-                StartCoroutine(ShowForSeconds(TorBackDuration));
+                BlinkFreq = TorBackBlinkingFrequency;
+                BlinkLength = TorBackBlinkingLength;
+                StartCoroutine(Blink(BlinkFreq, BlinkLength));
             }
         }
-        StartCoroutine(ShowAfterSeconds());
-
+        else
+        {
+            StartCoroutine(ShowForSeconds(TorBackDuration));
+        }
         if (ShowLocation) { Weather.enabled = true; }
         else
         {
@@ -246,11 +261,30 @@ public class HUD_Advance : MonoBehaviour
         MaxSpeed.enabled = true;
         Circle.enabled = true;
         Date.enabled = true;
-        //TorBackSign.enabled = false;
-        //TorBackText.enabled = false;
+    }
+    public void AIDrive(bool playTOR)
+    {
+        AIDrivingBool = true;
+        ManualDriving = false;
 
+        EventDriving = false;
 
+        //Take over request back Image && Text && Sound -> maybe Blinking 
+        //start NonEventDisplays
+        //start AI DrivingSign
+        // Debug.Log("Aidrive start");
 
+        if (playTOR)
+        {
+            MakeNoiseTOR();
+            DrawMeLikeOnOfYourFrenchGirlsTOR();
+        }
+        StartCoroutine(ShowAfterSeconds());
+        Speed.enabled = true;
+        SpeedGauge.enabled = true;
+        MaxSpeed.enabled = true;
+        Circle.enabled = true;
+        Date.enabled = true;
 
     }
     public void ManualDrive()
@@ -279,30 +313,13 @@ public class HUD_Advance : MonoBehaviour
     public void EventDrive()
     {
         EventDriving = true;
-        if (!TimeShow) Date.enabled = false;
-        if (!SpeedShow) Speed.enabled = false;
-        if (!SpeedShow) SpeedGauge.enabled = false;
-        if (!SpeedLimitShow) MaxSpeed.enabled = false;
-        if (!SpeedLimitShow) Circle.enabled = false;
-        Weather.enabled = false;
 
-        AIDrivingText.enabled = false;
-        AIDriving.enabled = false;
         //Warning Sound && Triangle && Text && Blinking
         //Verbal Warning
         //
-        if (BlinkingText || BlinkingTriangle)
-        {
-            BlinkFreq = BlinkingFrequence;
-            BlinkLength = BlinkingForTime;
-            StartCoroutine(Blink(BlinkFreq, BlinkLength));
-        }
-        else
-        {
-            if(ShowTriangle)StartCoroutine(ShowForSeconds(WarningSignDuration));
-        }
+        DrawMeLikeOnOfYourFrenchGirls();
         //Debug.Log("Warum bin ich hier?");
-        if (UseSound) StartCoroutine(SoundManagerWarning());
+        MakeNoise();
         StartCoroutine(ShowAfterSeconds());
 
     }
