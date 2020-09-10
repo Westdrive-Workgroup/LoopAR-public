@@ -51,7 +51,8 @@ public class AIController : MonoBehaviour
     private float brakeFactor = 1f; //Strong Brakes requires potentially a less aggressive braking behavior of the AI.
     private bool _manualOverride;
     
-    
+    // Events
+    private string _activeScene;
 
     #endregion
 
@@ -187,11 +188,12 @@ public class AIController : MonoBehaviour
 
     IEnumerator ResetTrackerSensitivityAfterEvent()
     {
-        float seconds = SceneManager.GetActiveScene().name == "Westbrueck" ? 0 : 2;
-
-        yield return new WaitForSeconds(seconds);
-        trackerSensitivity = _defaultTrackerSensitivity;
-        _localTargetVisualizerRadius = trackerSensitivity;
+        if (_activeScene != "Westbrueck")
+        {
+            yield return new WaitForSeconds(2);
+            trackerSensitivity = _defaultTrackerSensitivity;
+            _localTargetVisualizerRadius = trackerSensitivity;
+        }
     }
 
     #endregion
@@ -238,9 +240,10 @@ public class AIController : MonoBehaviour
         path = newPath;
         SetLocalTargetAndCurveDetection();
     }
-    
-    public void SetNewPath(PathCreator newPath, float newCurveDetectorStepAhead, float newPrecision, float newTrackerSensitivity)
+
+    public void SetNewPath(PathCreator newPath, float newCurveDetectorStepAhead, float newPrecision, float newTrackerSensitivity, string sceneName)
     {
+        _activeScene = sceneName;
         path = newPath;
         curveDetectorStepAhead = newCurveDetectorStepAhead;
         precision = newPrecision;
@@ -248,11 +251,19 @@ public class AIController : MonoBehaviour
         SetLocalTargetAndCurveDetection();
     }
 
+    public void SetNewDefaultTrackerSensitivity(float newTrackerSensitivity)
+    {
+        _defaultTrackerSensitivity = newTrackerSensitivity;
+    }
+    
     // during the events
     public void SetTrackerSensitivity(float newTrackerSensitivity = 15)
     {
-        trackerSensitivity = newTrackerSensitivity;
-        _localTargetVisualizerRadius = trackerSensitivity;
+        if (_activeScene != "Westbrueck")
+        {
+            trackerSensitivity = newTrackerSensitivity;
+            _localTargetVisualizerRadius = trackerSensitivity;
+        }
     }
     
     public void ReSetTrackerSensitivity()

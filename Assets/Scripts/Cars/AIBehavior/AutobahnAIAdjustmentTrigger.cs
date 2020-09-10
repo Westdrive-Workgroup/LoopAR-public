@@ -22,7 +22,7 @@ public class AutobahnAIAdjustmentTrigger : MonoBehaviour
         if (other.GetComponent<ManualController>() != null)
         {
             other.gameObject.GetComponent<ChangeCarPath>().SetParticipantsCarPath(AutobahnManager.Instance.GetCarPath(), 
-                AutobahnManager.Instance.GetCurveDetectorStepAhead(), 0.008f, 10f);
+                AutobahnManager.Instance.GetCurveDetectorStepAhead(), 0.008f, 10f, "Autobahn");
         }
     }
 }
