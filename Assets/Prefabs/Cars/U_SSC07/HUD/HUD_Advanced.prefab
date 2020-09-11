@@ -1,84 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &179784031973906545
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5139048814458451348}
-  - component: {fileID: 7568715914427289359}
-  - component: {fileID: 1525442833966698690}
-  m_Layer: 0
-  m_Name: Weather
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &5139048814458451348
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 179784031973906545}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.153}
-  m_LocalScale: {x: 0.00011644073, y: 0.0001633518, z: 0.5822036}
-  m_Children: []
-  m_Father: {fileID: 4573311265074462973}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.471, y: 0.356}
-  m_SizeDelta: {x: 1800, y: 1800}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &7568715914427289359
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 179784031973906545}
-  m_CullTransparentMesh: 0
---- !u!114 &1525442833966698690
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 179784031973906545}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 0.15801886, g: 0.6222881, b: 0.6320754, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 86e9dc3da5637634bb0f336f809fdde8, type: 3}
-    m_FontSize: 180
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 0
-    m_MaxSize: 200
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: 'bsdgdfkg
-
-    ghjk'
 --- !u!1 &215634126796054848
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +124,6 @@ MonoBehaviour:
   Speed: {fileID: 5338925736649626128}
   MaxSpeed: {fileID: 1681364859386800097}
   Date: {fileID: 1883492979352562516}
-  Weather: {fileID: 1525442833966698690}
   SpeedGauge: {fileID: 3046771074774291775}
   Circle: {fileID: 5529707106615117187}
   AIDriving: {fileID: 5335103974207216161}
@@ -218,6 +138,10 @@ MonoBehaviour:
   SpeedShow: 0
   SpeedLimitShow: 0
   ShowRealTime: 0
+  UseSound: 0
+  UseSoundTOR: 0
+  ShowOutline: 0
+  ShowTriangle: 0
   ShowFakeTime: 
   TimeTillWarningSign: 0
   BlinkingFrequence: 3
@@ -229,6 +153,7 @@ MonoBehaviour:
   WarningSignDuration: 2
   _eventObjectsToMark: []
   _highlightedObjects: []
+  ShowLocation: 0
   speedLimit: 0
   nextUpdate: 1
   speed: 0
@@ -408,7 +333,7 @@ RectTransform:
   m_Children:
   - {fileID: 5518460419965445929}
   m_Father: {fileID: 4573311265074462973}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1354,7 +1279,7 @@ Transform:
   m_Children:
   - {fileID: 8108273576051019588}
   m_Father: {fileID: 4573311265074462973}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7386443798287465897
 GameObject:
@@ -1534,7 +1459,6 @@ RectTransform:
   - {fileID: 7297891751207557014}
   - {fileID: 748752578548977600}
   - {fileID: 8542655849706585316}
-  - {fileID: 5139048814458451348}
   - {fileID: 597231921232001136}
   - {fileID: 392801157116047407}
   m_Father: {fileID: 2286254973752588503}

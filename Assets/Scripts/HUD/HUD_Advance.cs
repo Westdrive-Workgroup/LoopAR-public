@@ -108,7 +108,7 @@ public class HUD_Advance : MonoBehaviour
     public void ActivateHUD(List<GameObject> testAccidentSubjects)
     {
         _eventObjectsToMark = testAccidentSubjects;
-        if (ShowOutline) MarkObjects();
+        MarkObjects();
     }
 
     private void MarkObjects()
@@ -196,7 +196,7 @@ public class HUD_Advance : MonoBehaviour
         }
         else
         {
-            if (ShowTriangle) StartCoroutine(ShowForSeconds(WarningSignDuration));
+            StartCoroutine(ShowForSeconds(WarningSignDuration));
         }
     }
     
@@ -288,12 +288,9 @@ public class HUD_Advance : MonoBehaviour
 
         //Warning Sound && Triangle && Text && Blinking
         //Verbal Warning
-        //
         DrawMeLikeOnOfYourFrenchGirls();
-        //Debug.Log("Warum bin ich hier?");
         MakeNoise();
         StartCoroutine(ShowAfterSeconds());
-
     }
     private IEnumerator SoundManagerTOR()
     {
