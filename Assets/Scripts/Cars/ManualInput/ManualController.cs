@@ -26,7 +26,7 @@ public class ManualController : MonoBehaviour
     
     private void Start()
     {
-        if (GetComponent<SteeringWheelForceFeedback>())
+        if (GetComponent<SteeringWheelForceFeedback>()!=null)
         {
             steeringWheelForceFeedback = GetComponent<SteeringWheelForceFeedback>();
         }
@@ -67,8 +67,9 @@ public class ManualController : MonoBehaviour
                         toggleReverse =! toggleReverse;
                     }
                     break;
-            case InputType.SteeringWheel: 
-                    steeringInput=  Mathf.Clamp(Input.GetAxis("Horizontal (Steering)")*1f,-1f,1f);
+            case InputType.SteeringWheel:
+                    steeringInput=  Mathf.Clamp(Input.GetAxis("Horizontal (Steering)"),-1f,1f);
+                    //Debug.Log(Input.GetAxis("Horizontal (Steering)"));
                     accelerationInput = Mathf.Clamp01(Input.GetAxis("Pedal0"));
                     brakeInput = Mathf.Clamp01(Input.GetAxis("Pedal1"));
                    // reverse = Input.GetAxis("Fire3");
@@ -91,7 +92,7 @@ public class ManualController : MonoBehaviour
             _carController.MoveVehicle(accelerationInput,brakeInput * brakeFactor, steeringInput);
             if (steeringWheelForceFeedback != null)
             {
-                steeringWheelForceFeedback.SetManualForceFeedbackEffect(4000*steeringInput);
+                steeringWheelForceFeedback.SetManualForceFeedbackEffect(8000*steeringInput);
             }
         }
     }
