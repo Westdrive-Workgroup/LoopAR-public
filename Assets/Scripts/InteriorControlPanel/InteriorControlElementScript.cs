@@ -33,6 +33,6 @@ public class InteriorControlElementScript : MonoBehaviour
         RPM = DynamicCarSound.RotationPerMoment(speed);
         RPMGauge.fillAmount = 0.5f *Mathf.Round(RPM * 10)/300;
         RPMMeter.text = RPM*100 + "";
-
+        //Steering wheel update
     }
 }

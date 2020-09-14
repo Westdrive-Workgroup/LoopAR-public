@@ -11,7 +11,7 @@ public class ManualController : MonoBehaviour
     private CarController _carController;
     private bool _manualDriving = false;
     private bool toggleReverse;
-    
+    private SteeringWheelForceFeedback steeringWheelForceFeedback;
    
     private int _RealInputController;
     public delegate void OnReceivedInput(float steeringInput, float accelerationInput, float brakeInput);
@@ -26,6 +26,11 @@ public class ManualController : MonoBehaviour
     
     private void Start()
     {
+        if (GetComponent<SteeringWheelForceFeedback>())
+        {
+            steeringWheelForceFeedback = GetComponent<SteeringWheelForceFeedback>();
+        }
+        
         _carController = GetComponent<CarController>();
         
         if (GetComponent<ControlSwitch>() != null)
@@ -84,6 +89,10 @@ public class ManualController : MonoBehaviour
         if (_manualDriving)
         {
             _carController.MoveVehicle(accelerationInput,brakeInput * brakeFactor, steeringInput);
+            if (steeringWheelForceFeedback != null)
+            {
+                steeringWheelForceFeedback.SetManualForceFeedbackEffect(4000*steeringInput);
+            }
         }
     }
     
