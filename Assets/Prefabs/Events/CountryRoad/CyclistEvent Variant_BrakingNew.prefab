@@ -2063,6 +2063,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &473879726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6313705268747172271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 282544bea3c73f0409e60917063bc250, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8846120123373828162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2078,18 +2090,6 @@ MonoBehaviour:
   pathCreator: {fileID: 6696631193746655978}
   endOfPathInstruction: 1
   speed: 14
---- !u!114 &473879726
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6313705268747172271}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 282544bea3c73f0409e60917063bc250, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6382403874258661496
 GameObject:
   m_ObjectHideFlags: 0
@@ -3585,7 +3585,7 @@ PrefabInstance:
     - target: {fileID: 8746599434231497332, guid: dc39e1afa6cf5e44c804c9bf6300fe8a,
         type: 3}
       propertyPath: eventObjects.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8746599434231497332, guid: dc39e1afa6cf5e44c804c9bf6300fe8a,
         type: 3}
