@@ -135,6 +135,11 @@ public class AIController : MonoBehaviour
 
         if (!_manualOverride)
         {
+            //if (GetComponent<SteeringWheelForceFeedback>() != null)
+            //{
+            //    GetComponent<SteeringWheelForceFeedback>().SetAutoPilotForceFeedbackEffect(8000*_carController.GetSterring());
+            //}
+            
             if (_carController.GetCurrentSpeed() >= _aimedSpeed)
             {
                 brake += 1f;

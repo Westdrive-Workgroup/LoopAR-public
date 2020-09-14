@@ -9,7 +9,7 @@ using UnityEngine.Events;
 
 namespace ForceFeedback
 {
-    [InitializeOnLoadAttribute]public static class FFB 
+    public static class FFB 
     {
         // Start is called before the first frame update
         [DllImport("user32.dll")]

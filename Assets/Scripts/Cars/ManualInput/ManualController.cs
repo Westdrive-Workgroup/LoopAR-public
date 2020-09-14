@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 [Serializable]
 public class ManualController : MonoBehaviour
@@ -92,7 +93,7 @@ public class ManualController : MonoBehaviour
             _carController.MoveVehicle(accelerationInput,brakeInput * brakeFactor, steeringInput);
             if (steeringWheelForceFeedback != null)
             {
-                steeringWheelForceFeedback.SetManualForceFeedbackEffect(8000*steeringInput);
+                steeringWheelForceFeedback.SetManualForceFeedbackEffect(8000*steeringInput);    //-1 , 0  1
             }
         }
     }
@@ -100,6 +101,16 @@ public class ManualController : MonoBehaviour
     public void SetManualDriving(bool state)
     {
         _manualDriving = state;
+    }
+
+    void FixedUpdate()
+    {
+        
+    }
+
+    public float GetSteeringInput()
+    {
+        return steeringInput;
     }
 
     private void SetInputSource(string inputDevice)
