@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 [Serializable]
 public class ManualController : MonoBehaviour
@@ -11,7 +12,7 @@ public class ManualController : MonoBehaviour
     private CarController _carController;
     private bool _manualDriving = false;
     private bool toggleReverse;
-    
+    private SteeringWheelForceFeedback steeringWheelForceFeedback;
    
     private int _RealInputController;
     public delegate void OnReceivedInput(float steeringInput, float accelerationInput, float brakeInput);
@@ -26,6 +27,11 @@ public class ManualController : MonoBehaviour
     
     private void Start()
     {
+        if (GetComponent<SteeringWheelForceFeedback>()!=null)
+        {
+            steeringWheelForceFeedback = GetComponent<SteeringWheelForceFeedback>();
+        }
+        
         _carController = GetComponent<CarController>();
         
         if (GetComponent<ControlSwitch>() != null)
@@ -62,8 +68,9 @@ public class ManualController : MonoBehaviour
                         toggleReverse =! toggleReverse;
                     }
                     break;
-            case InputType.SteeringWheel: 
-                    steeringInput=  Mathf.Clamp(Input.GetAxis("Horizontal (Steering)")*1f,-1f,1f);
+            case InputType.SteeringWheel:
+                    steeringInput=  Mathf.Clamp(Input.GetAxis("Horizontal (Steering)"),-1f,1f);
+                    //Debug.Log(Input.GetAxis("Horizontal (Steering)"));
                     accelerationInput = Mathf.Clamp01(Input.GetAxis("Pedal0"));
                     brakeInput = Mathf.Clamp01(Input.GetAxis("Pedal1"));
                    // reverse = Input.GetAxis("Fire3");
@@ -84,12 +91,26 @@ public class ManualController : MonoBehaviour
         if (_manualDriving)
         {
             _carController.MoveVehicle(accelerationInput,brakeInput * brakeFactor, steeringInput);
+            if (steeringWheelForceFeedback != null)
+            {
+                steeringWheelForceFeedback.SetManualForceFeedbackEffect(8000*steeringInput);    //-1 , 0  1
+            }
         }
     }
     
     public void SetManualDriving(bool state)
     {
         _manualDriving = state;
+    }
+
+    void FixedUpdate()
+    {
+        
+    }
+
+    public float GetSteeringInput()
+    {
+        return steeringInput;
     }
 
     private void SetInputSource(string inputDevice)

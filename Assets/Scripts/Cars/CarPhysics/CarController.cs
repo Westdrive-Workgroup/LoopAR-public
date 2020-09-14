@@ -155,4 +155,9 @@ public class CarController : MonoBehaviour
     {
         return seatPosition;
     }
+
+    public float GetSterring()
+    {
+        return -frontWheels[0].steerAngle/maxSteerAngle;
+    }
 }

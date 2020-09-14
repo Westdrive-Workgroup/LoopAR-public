@@ -166,6 +166,24 @@ MonoBehaviour:
   m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5539638442471661746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6229045286058875577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11556e1cada751f48b61fdc5571f569e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RPMMeter: {fileID: 9027482348561093022}
+  SpeedMeter: {fileID: 323518963171754440}
+  SpeedGauge: {fileID: 6332384763747978249}
+  RPMGauge: {fileID: 6801131812260771358}
+  _carController: {fileID: 1499928519561039326}
+  DynamicCarSound: {fileID: 95818265621902183}
 --- !u!1 &4484922789126371171
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,24 +277,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0.33793116, b: 1, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
---- !u!114 &5539638442471661746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6229045286058875577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11556e1cada751f48b61fdc5571f569e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RPMMeter: {fileID: 9027482348561093022}
-  SpeedMeter: {fileID: 323518963171754440}
-  SpeedGauge: {fileID: 6332384763747978249}
-  RPMGauge: {fileID: 6801131812260771358}
-  _carController: {fileID: 1499928519561039326}
-  DynamicCarSound: {fileID: 95818265621902183}
 --- !u!1001 &1235078942965044694
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -284,6 +284,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1879251243963463547, guid: ebbad4260e08e664da739133865001c7,
+        type: 3}
+      propertyPath: controlSwitch
+      value: 
+      objectReference: {fileID: 7901747136082489426}
     - target: {fileID: 2345027192041163737, guid: ebbad4260e08e664da739133865001c7,
         type: 3}
       propertyPath: curveDetectorStepAhead
@@ -297,7 +302,7 @@ PrefabInstance:
     - target: {fileID: 3617402889631945091, guid: ebbad4260e08e664da739133865001c7,
         type: 3}
       propertyPath: m_Name
-      value: ParticipantsCar
+      value: U_SSC07_AI_Manual_Switch_HUD
       objectReference: {fileID: 0}
     - target: {fileID: 3617402889631945100, guid: ebbad4260e08e664da739133865001c7,
         type: 3}
@@ -358,6 +363,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4922103806014006297, guid: ebbad4260e08e664da739133865001c7,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4922103806014006297, guid: ebbad4260e08e664da739133865001c7,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5098712775152739231, guid: ebbad4260e08e664da739133865001c7,
         type: 3}
@@ -430,6 +445,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ca50af3cb2b60604f8b5410ad2d11984, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7901747136082489426 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8974342441122866564, guid: ebbad4260e08e664da739133865001c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1235078942965044694}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6229045286058875577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d16b253401c249f42af5c44a1438e258, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &6154392046634634795 stripped
