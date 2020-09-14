@@ -165,15 +165,16 @@ public class HUD_Advance : MonoBehaviour
         YouDriving.enabled = false;
         YouDrivingText.enabled = false;
     }
-    public void MakeNoiseTOR()
+    public void OnlyAudioHUDTOR()
     {
         StartCoroutine(SoundManagerTOR());
     }
-    public void MakeNoise()
+    public void OnlyAudioHUD()
     {
         StartCoroutine(SoundManagerWarning());
     }
-    public void DrawMeLikeOnOfYourFrenchGirls()
+    //DrawMeLikeOnOfYourFrenchGirls
+    public void OnlyVisualHUD()
     {
         if (!TimeShow) Date.enabled = false;
         if (!SpeedShow) Speed.enabled = false;
@@ -199,7 +200,7 @@ public class HUD_Advance : MonoBehaviour
             StartCoroutine(ShowForSeconds(WarningSignDuration));
         }
     }
-    
+    //Blends in non event display like speed and stuff
     public void BlendInNED()
     {
         
@@ -208,8 +209,8 @@ public class HUD_Advance : MonoBehaviour
         MaxSpeed.enabled = true;
         Circle.enabled = true;
         Date.enabled = true;
-    }
-    public void BlendOutNED()
+    }//Blends out non event display like speed and stuff
+        public void BlendOutNED()
     {
         Speed.enabled = false;
         SpeedGauge.enabled = false;
@@ -218,7 +219,8 @@ public class HUD_Advance : MonoBehaviour
         Date.enabled = false;
 
     }
-    public void DrawMeLikeOnOfYourFrenchGirlsTOR()
+    //shows only visual components of the HUD-TOR
+    public void OnlyVisualHUDTOR()
     {
         YouDriving.enabled = false;
         YouDrivingText.enabled = false;
@@ -252,8 +254,8 @@ public class HUD_Advance : MonoBehaviour
 
         if (playTOR)
         {
-            MakeNoiseTOR();
-            DrawMeLikeOnOfYourFrenchGirlsTOR();
+            OnlyAudioHUDTOR();
+            OnlyVisualHUDTOR();
         }
         StartCoroutine(ShowAfterSeconds());
         Speed.enabled = true;
@@ -288,8 +290,8 @@ public class HUD_Advance : MonoBehaviour
 
         //Warning Sound && Triangle && Text && Blinking
         //Verbal Warning
-        DrawMeLikeOnOfYourFrenchGirls();
-        MakeNoise();
+        OnlyVisualHUD();
+        OnlyAudioHUD();
         StartCoroutine(ShowAfterSeconds());
     }
     private IEnumerator SoundManagerTOR()
