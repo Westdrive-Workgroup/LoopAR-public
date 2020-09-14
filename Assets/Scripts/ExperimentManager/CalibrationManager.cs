@@ -180,7 +180,7 @@ public class CalibrationManager : MonoBehaviour
                 break;
         }
         
-        ApplicationManager.Instance.SetExperimentalCondition(_experimentalCondition);
+        ConditionManager.Instance.SetExperimentalCondition(_experimentalCondition);
         _calibrationData.ExperimentalCondition = _experimentalCondition;
         SaveCalibrationData();
     }
