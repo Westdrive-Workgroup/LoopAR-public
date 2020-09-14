@@ -152,10 +152,10 @@ public class CalibrationManager : MonoBehaviour
     public void GenerateCondition()
     {
         // todo bring the randomization back
-        int conditionNumber = _random.Next(1, 5);
+        // int conditionNumber = _random.Next(1, 5);
         
         // todo remove the line below
-        // int conditionNumber = 4;
+        int conditionNumber = 3;
         
         
         Debug.Log("condition num: " + conditionNumber);

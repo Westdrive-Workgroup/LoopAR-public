@@ -159,7 +159,7 @@ public class ExperimentManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         _participantsCar.GetComponent<Rigidbody>().isKinematic = false;
         
-        ConditionManager.Instance.EndEvent(false);
+        // ConditionManager.Instance.EndEvent(false);
 
         CameraManager.Instance.AlphaFadeIn();
         _participantsCar.GetComponent<CarController>().TurnOnEngine();
@@ -199,7 +199,7 @@ public class ExperimentManager : MonoBehaviour
 
         CameraManager.Instance.AlphaFadeOut();
         
-        // ConditionManager.Instance.EndEvent(false); // todo check
+        ConditionManager.Instance.EndEvent(false); // todo check
 
         PersistentTrafficEventManager.Instance.FinalizeEvent();
         _participantsCar.GetComponent<CarController>().TurnOffEngine();
