@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using ForceFeedback;using System.Collections;
 using System.Collections.Generic;
+using Autodesk.Fbx;
+using UnityEditor;
 using UnityEngine;
 
 public class SteeringWheelForceFeedback : MonoBehaviour
@@ -16,10 +18,19 @@ public class SteeringWheelForceFeedback : MonoBehaviour
         
         FFB.ForceFeedBackInit();
         FFB.AcquireDevice();
-        
-        
+
+        EditorApplication.playModeStateChanged += ReleaseDirectInput;
     }
 
+    private void ReleaseDirectInput(PlayModeStateChange state)
+    {
+        if (state == PlayModeStateChange.ExitingPlayMode)
+        {
+            // FFB.FreeDirectInput();     //Currently buggy, crashs edtior
+        }
+
+           
+    }
     // Update is called once per frame
     void Update()
     {

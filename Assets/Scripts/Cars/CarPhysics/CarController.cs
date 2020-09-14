@@ -158,6 +158,6 @@ public class CarController : MonoBehaviour
 
     public float GetSterring()
     {
-        return frontWheels[0].steerAngle;
+        return -frontWheels[0].steerAngle/maxSteerAngle;
     }
 }
