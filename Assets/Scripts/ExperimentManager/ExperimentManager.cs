@@ -131,11 +131,14 @@ public class ExperimentManager : MonoBehaviour
     // starting the experiment
     private IEnumerator StartExperiment()
     {
-        if (ConditionManager.Instance.GetExperimentalCondition() == "BaseCondition")
+        string condition = ConditionManager.Instance.GetExperimentalCondition();
+        
+        if (condition == "BaseCondition" || condition == "AudioOnly")
         {
-            _participantsCar.GetComponentInChildren<HUD_Advance>().gameObject.transform.parent.gameObject.SetActive(false);
+            Debug.Log("Condition in EXP is BaseCondition or AudioOnly?: " + ConditionManager.Instance.GetExperimentalCondition());
+            _participantsCar.GetComponentInChildren<HUD_Advance>().ShutDownAllVisualsPermanently();
         }
-
+        
         TimeManager.Instance.SetExperimentStartTime();
         _isStartPressed = true;
         while (SceneLoadingHandler.Instance.GetAdditiveLoadingState()) yield return null;
@@ -196,7 +199,7 @@ public class ExperimentManager : MonoBehaviour
 
         CameraManager.Instance.AlphaFadeOut();
         
-        ConditionManager.Instance.EndEvent(false); // todo check
+        // ConditionManager.Instance.EndEvent(false); // todo check
 
         PersistentTrafficEventManager.Instance.FinalizeEvent();
         _participantsCar.GetComponent<CarController>().TurnOffEngine();

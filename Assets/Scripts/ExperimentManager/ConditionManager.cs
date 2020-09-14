@@ -12,14 +12,14 @@ public class ConditionManager : MonoBehaviour
     
     private enum Conditions
     {
+        Default,
         FullLoopAR,
         BaseCondition,
         HUDOnly,
-        AudioOnly,
-        FullLoopARDefault
+        AudioOnly
     }
 
-    private Conditions _condition;
+    private Conditions _condition = Conditions.Default;
     
     #region PrivateMethods
     
@@ -28,13 +28,14 @@ public class ConditionManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
-        else
+        /*else
         {
             Destroy(gameObject);
-        }
+        }*/
     }
+
     private void DriverAlertCondition()
     {
         switch (_condition)
@@ -43,14 +44,16 @@ public class ConditionManager : MonoBehaviour
                 SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DriverAlert();
                 break;
             case Conditions.HUDOnly:
-                SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DrawOnlyTriangle();    // todo test
+                // SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DrawOnlyTriangle();    // todo implement test
+                SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DrawTriangle();
                 break;
             case Conditions.AudioOnly:
-                SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().OnlyAudioHUD();    // todo test
+                // SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().OnlyAudioHUD();    // todo implement test
+                SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().PlayWarningAndSiren();
                 break;
             case Conditions.BaseCondition:
                 break;
-            case Conditions.FullLoopARDefault:
+            case Conditions.Default:
                 Debug.Log("<color=red>This condition is not generated randomly!!!</color>");
                 break;
         }
@@ -67,7 +70,7 @@ public class ConditionManager : MonoBehaviour
             case Conditions.AudioOnly:
             case Conditions.BaseCondition:
                 break;
-            case Conditions.FullLoopARDefault:
+            case Conditions.Default:
                 Debug.Log("<color=red>This condition is not generated randomly!!!</color>");
                 break;
         }
@@ -81,15 +84,26 @@ public class ConditionManager : MonoBehaviour
                 SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DeactivateHUD(_playTakeOverRequest);
                 break;
             case Conditions.HUDOnly:
-                SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DeactivateHUD(false);
+                // SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DeactivateHUD(false);
+                if (_playTakeOverRequest)
+                {
+                    SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DeactivateHUDSoundless(true);
+                }
+                else
+                {
+                    SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().DeactivateHUDSoundless(false);
+                }
                 break;
             case Conditions.AudioOnly:
                 if (_playTakeOverRequest)
-                    SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().OnlyAudioHUDTOR(); // todo test
+                {
+                    // SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().OnlyAudioHUDTOR(); // todo implement test
+                    SceneLoadingHandler.Instance.GetParticipantsCar().GetComponentInChildren<HUD_Advance>().PlayTakingBackControl();
+                }                
                 break;
             case Conditions.BaseCondition:
                 break;
-            case Conditions.FullLoopARDefault:
+            case Conditions.Default:
                 Debug.Log("<color=red>This condition is not generated randomly!!!</color>");
                 break;
         }
@@ -116,9 +130,10 @@ public class ConditionManager : MonoBehaviour
         EndEventCondition();
     }
     
-    public void SetExperimentalCondition(string condition = "FullLoopARDefault")
+    public void SetExperimentalCondition(string condition = "Default")
     {
         _condition = (Conditions) Enum.Parse(typeof(Conditions), condition, true);
+        Debug.Log("Condition: " + _condition);
     }
 
     public string GetExperimentalCondition()

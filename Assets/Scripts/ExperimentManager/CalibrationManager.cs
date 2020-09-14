@@ -76,12 +76,12 @@ public class CalibrationManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
-        else
+        /*else
         {
             Destroy(gameObject);
-        }
+        }*/
     }
     
     private void StoreParticipantUuid(string iD)
@@ -152,10 +152,10 @@ public class CalibrationManager : MonoBehaviour
     public void GenerateCondition()
     {
         // todo bring the randomization back
-        // int conditionNumber = _random.Next(1, 5);
+        int conditionNumber = _random.Next(1, 5);
         
         // todo remove the line below
-        int conditionNumber = 1;
+        // int conditionNumber = 4;
         
         
         Debug.Log("condition num: " + conditionNumber);
