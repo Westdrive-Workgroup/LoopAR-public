@@ -35,18 +35,6 @@ public class ExperimentManager : MonoBehaviour
     private bool _vRScene;
     private bool _isStartPressed;
     
-    // Conditions
-    // Conditions
-    private enum Conditions
-    {
-        FullLoopAR,
-        BaseCondition,
-        HUDOnly,
-        AudioOnly
-    }
-
-    private Conditions _condition;
-    
     #endregion
 
     #region Private Methods
@@ -143,12 +131,14 @@ public class ExperimentManager : MonoBehaviour
     // starting the experiment
     private IEnumerator StartExperiment()
     {
-        // SetExperimentalCondition(CalibrationManager.Instance.GetExperimentalCondition());
-        if (_condition == Conditions.BaseCondition)
+        string condition = ConditionManager.Instance.GetExperimentalCondition();
+        
+        if (condition == "BaseCondition" || condition == "AudioOnly")
         {
-            _participantsCar.GetComponentInChildren<HUD_Advance>().gameObject.transform.parent.gameObject.SetActive(false);
+            Debug.Log("Condition in EXP is BaseCondition or AudioOnly?: " + ConditionManager.Instance.GetExperimentalCondition());
+            _participantsCar.GetComponentInChildren<HUD_Advance>().ShutDownAllVisualsPermanently();
         }
-
+        
         TimeManager.Instance.SetExperimentStartTime();
         _isStartPressed = true;
         while (SceneLoadingHandler.Instance.GetAdditiveLoadingState()) yield return null;
@@ -169,23 +159,7 @@ public class ExperimentManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         _participantsCar.GetComponent<Rigidbody>().isKinematic = false;
         
-        switch (_condition)
-        {
-            case Conditions.FullLoopAR:
-                _participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD(false);
-                Debug.Log("FullLoopAR EXPM");
-                break;
-            case Conditions.HUDOnly:
-                Debug.Log("HUDOnly EXPM");
-                // todo implement
-                break;
-            case Conditions.AudioOnly:
-                Debug.Log("AudioOnly EXPM");
-                // todo implement
-                break;
-            case Conditions.BaseCondition:
-                break;
-        }
+        ConditionManager.Instance.EndEvent(false);
 
         CameraManager.Instance.AlphaFadeIn();
         _participantsCar.GetComponent<CarController>().TurnOnEngine();
@@ -225,23 +199,7 @@ public class ExperimentManager : MonoBehaviour
 
         CameraManager.Instance.AlphaFadeOut();
         
-        switch (_condition)
-        {
-            case Conditions.FullLoopAR:
-                _participantsCar.GetComponentInChildren<HUD_Advance>().DeactivateHUD(true);
-                Debug.Log("FullLoopAR EXPM");
-                break;
-            case Conditions.HUDOnly:
-                Debug.Log("HUDOnly EXPM");
-                // todo implement
-                break;
-            case Conditions.AudioOnly:
-                Debug.Log("AudioOnly EXPM");
-                // todo implement
-                break;
-            case Conditions.BaseCondition:
-                break;
-        }
+        // ConditionManager.Instance.EndEvent(false); // todo check
 
         PersistentTrafficEventManager.Instance.FinalizeEvent();
         _participantsCar.GetComponent<CarController>().TurnOffEngine();
@@ -310,12 +268,6 @@ public class ExperimentManager : MonoBehaviour
         _criticalEventController = criticalEventController;
     }
 
-    public void SetExperimentalCondition(string condition)
-    {
-        _condition = (Conditions) Enum.Parse(typeof(Conditions), condition, true);
-        // todo see how to catch it
-    }
-
     #endregion
 
     #region Getters
@@ -333,11 +285,6 @@ public class ExperimentManager : MonoBehaviour
     public GameObject GetParticipantsCar()
     {
         return _participantsCar;
-    }
-
-    public string GetExperimentalCondition()
-    {
-        return _condition.ToString();
     }
 
     #endregion
