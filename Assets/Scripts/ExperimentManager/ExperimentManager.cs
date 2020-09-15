@@ -218,6 +218,8 @@ public class ExperimentManager : MonoBehaviour
         CameraManager.Instance.FadeOut();
 
         _participantsCar.transform.parent.gameObject.SetActive(false);
+        
+        CalibrationManager.Instance.URIRequest();
         CalibrationManager.Instance.ExperimentEnded();
         SceneManager.LoadSceneAsync("MainMenu");
     }

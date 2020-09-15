@@ -139,7 +139,6 @@ public class CalibrationManager : MonoBehaviour
     }
     
     
-    // TODO add the URI
     IEnumerator GetRequest(string uri)
     {
         using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
@@ -167,7 +166,6 @@ public class CalibrationManager : MonoBehaviour
 
     public void URIRequest()
     {
-        // TODO complete and check if everything is working
         string ipAddress = _calibrationData.IPAddress;
         string guId = _calibrationData.ParticipantUuid;
         string uri = "http://" + ipAddress + "/" + "check?uid=" + guId;
