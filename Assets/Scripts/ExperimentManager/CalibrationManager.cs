@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -149,15 +149,10 @@ public class CalibrationManager : MonoBehaviour
         GenerateCondition();
     }
 
-    public void GenerateCondition()
+    private void GenerateCondition()
     {
-        // todo bring the randomization back
         int conditionNumber = _random.Next(1, 5);
-        
-        // todo remove the line below
-        // int conditionNumber = 1;
-        
-        
+
         Debug.Log("condition num: " + conditionNumber);
         
         switch (conditionNumber)
