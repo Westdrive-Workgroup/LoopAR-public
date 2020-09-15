@@ -234,16 +234,16 @@ public class SavingManager : MonoBehaviour
         if (_readyToSaveToFile)
         {
             var input = ConvertToJson(_inputData);
-            Debug.Log("saving " + input.Count + "Data frames of " + _inputData);
+            // Debug.Log("saving " + input.Count + "Data frames of " + _inputData);
         
             var eyeTracking = ConvertToJson(_eyeTrackingData);
-            Debug.Log("saving " + input.Count + "Data frames of " + _eyeTrackingData);
+            // Debug.Log("saving " + input.Count + "Data frames of " + _eyeTrackingData);
             
             var sceneData = JsonUtility.ToJson(_sceneData);
-            Debug.Log("saving " + input.Count + "Data frames of " + _sceneData);
+            // Debug.Log("saving " + input.Count + "Data frames of " + _sceneData);
             
             var participantCalibrationData = JsonUtility.ToJson(_participantCalibrationData);
-            Debug.Log("saving " + input.Count + "Data frames of " + participantCalibrationData);
+            // Debug.Log("saving " + input.Count + "Data frames of " + participantCalibrationData);
 
             var id = _participantCalibrationData.ParticipantUuid;
 
@@ -276,16 +276,16 @@ public class SavingManager : MonoBehaviour
         if (_readyToSaveToFile)
         {
             var input = ConvertToJson(_inputData);
-            Debug.Log("saving " + input.Count + "Data frames of " + _inputData);
+            // Debug.Log("saving " + input.Count + "Data frames of " + _inputData);
         
             var eyeTracking = ConvertToJson(_eyeTrackingData);
-            Debug.Log("saving " + input.Count + "Data frames of " + _eyeTrackingData);
+            // Debug.Log("saving " + input.Count + "Data frames of " + _eyeTrackingData);
             
             var sceneData = JsonUtility.ToJson(_sceneData);
-            Debug.Log("saving " + input.Count + "Data frames of " + _sceneData);
+            // Debug.Log("saving " + input.Count + "Data frames of " + _sceneData);
             
             var participantCalibrationData = JsonUtility.ToJson(_participantCalibrationData);
-            Debug.Log("saving " + input.Count + "Data frames of " + participantCalibrationData);
+            // Debug.Log("saving " + input.Count + "Data frames of " + participantCalibrationData);
 
             var id = _participantCalibrationData.ParticipantUuid;
 
@@ -314,6 +314,7 @@ public class SavingManager : MonoBehaviour
 
         yield return null;
     }
+    
 
     private string GetPathForSaveFile(string folderFileName, string id, string sceneName)
     {
