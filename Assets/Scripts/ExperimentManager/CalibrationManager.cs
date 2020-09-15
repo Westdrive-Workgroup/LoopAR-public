@@ -183,8 +183,6 @@ public class CalibrationManager : MonoBehaviour
     private void GenerateCondition()
     {
         int conditionNumber = _random.Next(1, 5);
-
-        Debug.Log("condition num: " + conditionNumber);
         
         switch (conditionNumber)
         {
