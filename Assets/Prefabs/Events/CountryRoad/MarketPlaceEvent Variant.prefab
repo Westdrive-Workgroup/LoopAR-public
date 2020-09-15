@@ -649,6 +649,57 @@ MonoBehaviour:
   pathCreator: {fileID: 7932403541933982716}
   endOfPathInstruction: 1
   speed: 2
+--- !u!205 &1690642501
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485673674554589228}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.03414917, y: 0.83588696, z: 0.018696606}
+  m_Size: 2.0480714
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.25
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+  - screenRelativeHeight: 0.125
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+  - screenRelativeHeight: 0.0625
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+    - renderer: {fileID: 0}
+  m_Enabled: 1
 --- !u!1 &1737129672422714190
 GameObject:
   m_ObjectHideFlags: 0
@@ -1820,7 +1871,7 @@ PrefabInstance:
       value: 024 Variant
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 786602116612301061, guid: dfe183734ea1dd742ae56a62334f1a35, type: 3}
+    - {fileID: 8376731837626969117, guid: dfe183734ea1dd742ae56a62334f1a35, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: dfe183734ea1dd742ae56a62334f1a35, type: 3}
 --- !u!1 &1485673674554589228 stripped
 GameObject:
@@ -2808,15 +2859,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc39e1afa6cf5e44c804c9bf6300fe8a, type: 3}
---- !u!4 &2209881646239841480 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8746599435492382924, guid: dc39e1afa6cf5e44c804c9bf6300fe8a,
-    type: 3}
-  m_PrefabInstance: {fileID: 7478572970389021700}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8384290793726392701 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1410689294166891897, guid: dc39e1afa6cf5e44c804c9bf6300fe8a,
+    type: 3}
+  m_PrefabInstance: {fileID: 7478572970389021700}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2209881646239841480 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8746599435492382924, guid: dc39e1afa6cf5e44c804c9bf6300fe8a,
     type: 3}
   m_PrefabInstance: {fileID: 7478572970389021700}
   m_PrefabAsset: {fileID: 0}
