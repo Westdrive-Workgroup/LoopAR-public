@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -63,22 +63,24 @@ public class TimeManager : MonoBehaviour
 
     public void SetExperimentStartTime()
     {
-        _experimentStartTime = GetCurrentUnixTimeStamp();
+        double time = GetCurrentUnixTimeStamp();
+        _experimentStartTime = time;
     }
     
     public void SetExperimentEndTime()
     {
-        _experimentEndTime = GetCurrentUnixTimeStamp();
+        double time = GetCurrentUnixTimeStamp();
+        _experimentEndTime = time;
     }
 
     public double GetApplicationDuration()
     {
-        return _experimentEndTime - _applicationStartTime;
+        return (_experimentEndTime - _applicationStartTime);
     }
 
     public double GetExperimentDuration()
     {
-        return _experimentEndTime - _experimentStartTime;
+        return (_experimentEndTime - _experimentStartTime);
     }
     
     private double GetTimeSinceStartUp()
