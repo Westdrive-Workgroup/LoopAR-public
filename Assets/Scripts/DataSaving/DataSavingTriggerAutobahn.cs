@@ -20,6 +20,8 @@ public class DataSavingTriggerAutobahn : MonoBehaviour
         
         if (other.GetComponent<ManualController>() != null)
         {
+            TimeManager.Instance.SetExperimentEndTime();
+            // Debug.Log("<color=green>End of Experiment!</color>: ");
             SavingManager.Instance.StopAndSaveData("Autobahn");
         }
     }

@@ -18,9 +18,9 @@ public class StartTrigger : MonoBehaviour
         other.gameObject.GetComponent<CarController>().TurnOffEngine();
 
         //other.gameObject.GetComponent<ManualController>().enabled = false;
-        Debug.Log("Before Waiting Start");
+        // Debug.Log("Before Waiting Start");
         yield return new WaitForSecondsRealtime(3);
-        Debug.Log("After Waiting Start");
+        // Debug.Log("After Waiting Start");
 
         other.gameObject.GetComponent<CarController>().TurnOnEngine();
         

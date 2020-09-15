@@ -66,7 +66,6 @@ public class PersistentTrafficEventManager : MonoBehaviour
         _eventObjects = eventObjects;
         
         _participantsCar.GetComponent<ControlSwitch>().SwitchControl(true);
-        print(SceneManager.GetActiveScene().name + " is the name of active scene");
         if (SceneManager.GetActiveScene().name != "Westbrueck")
         {
             _participantsCar.GetComponent<AIController>().SetTrackerSensitivity(15);
