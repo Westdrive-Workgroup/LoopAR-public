@@ -74,11 +74,11 @@ public class ManualController : MonoBehaviour
                     accelerationInput = Mathf.Clamp01(Input.GetAxis("Pedal0"));
                     brakeInput = Mathf.Clamp01(Input.GetAxis("Pedal1"));
                    // reverse = Input.GetAxis("Fire3");
-                    if (Input.GetButtonDown("ShifterLeft"))
+                    /*if (Input.GetButtonDown("ShifterLeft"))
                     {
                         Debug.Log("reverse!");
                         toggleReverse =! toggleReverse;
-                    }
+                    }*/
                     break;
         }
         
