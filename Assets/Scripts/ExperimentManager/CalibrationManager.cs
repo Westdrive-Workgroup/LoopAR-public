@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +6,7 @@ using System.Security;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = System.Random;
+using UnityEngine.Networking;
 
 [DisallowMultipleComponent]
 public class CalibrationManager : MonoBehaviour
@@ -136,11 +137,43 @@ public class CalibrationManager : MonoBehaviour
             return JsonUtility.FromJson<CalibrationData>(jsonString);
         }
     }
+    
+    
+    // TODO add the URI
+    IEnumerator GetRequest(string uri)
+    {
+        using (UnityWebRequest webRequest = UnityWebRequest.Get(uri))
+        {
+            // Request and wait for the desired page.
+            yield return webRequest.SendWebRequest();
+
+            string[] pages = uri.Split('/');
+            int page = pages.Length - 1;
+
+            if (webRequest.isNetworkError)
+            {
+                Debug.Log(pages[page] + ": Error: " + webRequest.error);
+            }
+            else
+            {
+                Debug.Log(pages[page] + ":\nReceived: " + webRequest.downloadHandler.text);
+            }
+        }
+    }
 
     #endregion
 
     #region PublicMethods
 
+    public void URIRequest()
+    {
+        // TODO complete and check if everything is working
+        string ipAddress = _calibrationData.IPAddress;
+        string guId = _calibrationData.ParticipantUuid;
+        string uri = "http://" + ipAddress + "/" + "check?uid=" + guId;
+        StartCoroutine(GetRequest(uri));
+    }
+    
     public void GenerateIDAndCondition()
     { 
         string newParticipantId = System.Guid.NewGuid().ToString();
