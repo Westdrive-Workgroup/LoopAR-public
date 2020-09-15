@@ -5,7 +5,7 @@ using UnityEngine;
 
 [Serializable] public class CalibrationData
 {
-    // public int ParticipationNumber;
+    public string IPAddress;
     public String ParticipantUuid;
     public String ExperimentalCondition;
     
