@@ -61,7 +61,7 @@ public class InputRecorder: MonoBehaviour
     
     public void StartInputRecording()
     {
-        Debug.Log("Found input.");
+        Debug.Log("<color=green>Found input!</color>");
         _participantCar.GetComponent<ManualController>().NotifyInputObservers += ReceiveInput;
         Debug.Log("<color=green>Recording Input started!</color>");
         _recordingEnded = false;

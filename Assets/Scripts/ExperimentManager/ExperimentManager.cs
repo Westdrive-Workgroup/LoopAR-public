@@ -135,7 +135,7 @@ public class ExperimentManager : MonoBehaviour
         
         if (condition == "BaseCondition" || condition == "AudioOnly")
         {
-            Debug.Log("Condition in EXP is BaseCondition or AudioOnly?: " + ConditionManager.Instance.GetExperimentalCondition());
+            // Debug.Log("Condition in EXP is BaseCondition or AudioOnly?: " + ConditionManager.Instance.GetExperimentalCondition());
             _participantsCar.GetComponentInChildren<HUD_Advance>().ShutDownAllVisualsPermanently();
         }
         
