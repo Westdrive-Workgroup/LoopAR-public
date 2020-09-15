@@ -26,7 +26,8 @@ namespace ForceFeedback
         private static extern int SetDeviceForcesXY(int x_Force, int y_Force);
         [DllImport("LibWestDriveFFB.dll")]
         public static extern bool AcquireDevice();
-        
+
+        public static bool needInit = true;
        
 
         public static void ForceFeedBackInit()

@@ -24,11 +24,19 @@ public class SteeringWheelForceFeedback : MonoBehaviour
         _carController = GetComponent<CarController>();
         _manualController = GetComponent<ManualController>();
         _controlSwitch = GetComponent<ControlSwitch>();
-        
-        if(shouldInit)
+
+        if (shouldInit && FFB.needInit)
+        {
             FFB.ForceFeedBackInit();
+            #if !UNITY_EDITOR
+            FFB.AcquireDevice();
+            #endif
+        }
+        #if UNITY_EDITOR
+                    FFB.AcquireDevice();
+        #endif
         
-        FFB.AcquireDevice();
+        
     }
 
     #if UNITY_EDITOR
@@ -114,7 +122,13 @@ public class SteeringWheelForceFeedback : MonoBehaviour
     #if !UNITY_EDITOR
     private void OnDestroy()
     {
-        FFB.FreeDirectInput();
+        if(!FFB.needInit)
+            FFB.FreeDirectInput();
+        else
+        {
+            FFB.needInit = false;
+            return;
+        }
     }
     #endif
 }
