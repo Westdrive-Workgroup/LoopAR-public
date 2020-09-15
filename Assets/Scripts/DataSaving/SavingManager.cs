@@ -54,6 +54,14 @@ public class SavingManager : MonoBehaviour
         _sceneDataRecorder = SceneDataRecorder.Instance;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.H) && Input.GetKey(KeyCode.LeftShift))
+        {
+            StopAndSaveData("Incomplete");
+        }
+    }
+
     public float GetSampleRate()
     {
         return _sampleRate;
