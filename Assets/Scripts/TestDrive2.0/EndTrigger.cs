@@ -20,16 +20,16 @@ public class EndTrigger : MonoBehaviour
     {
         StartCoroutine(testEventManager.ActivateHUD());
         
-        Debug.Log("Before waiting End...");
+        // Debug.Log("Before waiting End...");
         yield return new WaitForSecondsRealtime(secondsTillManualControl);
-        Debug.Log("After waiting End...");
+        // Debug.Log("After waiting End...");
         
         GetComponent<BoxCollider>().enabled = false;
         zoneLimiter.gameObject.SetActive(true);
         
         testEventManager.EndTrigger(other);
         GetComponent<BoxCollider>().enabled = false;
-        Debug.Log("Does he make it here?");
+        // Debug.Log("Does he make it here?");
         
     }
 }

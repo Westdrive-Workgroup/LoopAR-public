@@ -76,7 +76,7 @@ public class SceneLoadingHandler : MonoBehaviour
 
     IEnumerator LoadScenesAsync(string targetScene)
     {
-        Debug.Log(targetScene);
+        // Debug.Log(targetScene);
         yield return new WaitForSeconds(2);
         Debug.Log("Loading...");
         
@@ -85,7 +85,7 @@ public class SceneLoadingHandler : MonoBehaviour
         while (!operation.isDone)
         {
             float progress = Mathf.Clamp01(operation.progress / .9f);
-            Debug.Log(operation.progress);
+            // Debug.Log(operation.progress);
 
             if (progress >= .9f)
             {

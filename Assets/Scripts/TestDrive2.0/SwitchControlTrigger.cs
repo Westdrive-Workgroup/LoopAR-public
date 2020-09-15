@@ -20,7 +20,7 @@ public class SwitchControlTrigger : MonoBehaviour
     {
         if (other.GetComponent<CarController>())
         {
-            Debug.Log("AIDRIVE END!    ");
+            // Debug.Log("AIDRIVE END!    ");
             StartCoroutine(GiveAIControl(other));
             StartCoroutine(testEventManager.DeactivateEvent(delayTillEventDeactivates));
             testEventManager.DeactivateHUD();

@@ -102,9 +102,9 @@ public class TestEventManager : MonoBehaviour
     {
         experimentEndTrigger.SetActive(true);
 
-        Debug.Log("The End is nigh!");
+        // Debug.Log("The End is nigh!");
         _participantCar.gameObject.GetComponent<ControlSwitch>().SwitchControl(true);
-        Debug.Log("Control Switched");
+        // Debug.Log("Control Switched");
     }
 
     public void PassDataTrigger()
