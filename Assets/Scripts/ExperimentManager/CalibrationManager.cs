@@ -33,6 +33,7 @@ public class CalibrationManager : MonoBehaviour
 
     private int _numberOfTrainingTrials;
     private string _experimentalCondition;
+    private string _desktopPath;
     
     #endregion
 
@@ -40,6 +41,8 @@ public class CalibrationManager : MonoBehaviour
 
     private void Awake()
     {
+        _desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        
         _calibrationFilePath = GetPathForSaveFile("CalibrationData");
 
         if (File.Exists(_calibrationFilePath))
@@ -53,22 +56,22 @@ public class CalibrationManager : MonoBehaviour
 
         if (!File.Exists(GetPathForSaveFolder("Input")))
         {
-            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "Input")));
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(_desktopPath, "Input")));
         }
         
         if (!File.Exists(GetPathForSaveFolder("EyeTracking")))
         {
-            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "EyeTracking")));
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(_desktopPath, "EyeTracking")));
         }
         
         if (!File.Exists(GetPathForSaveFolder("ParticipantCalibrationData")))
         {
-            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "ParticipantCalibrationData")));
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(_desktopPath, "ParticipantCalibrationData")));
         }
         
         if (!File.Exists(GetPathForSaveFolder("SceneData")))
         {
-            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "SceneData")));
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(_desktopPath, "SceneData")));
         }
 
         _random = new Random();
@@ -112,12 +115,12 @@ public class CalibrationManager : MonoBehaviour
     
     private string GetPathForSaveFile(string saveFileName)
     {
-        return Path.Combine(Application.persistentDataPath, saveFileName + ".txt");
+        return Path.Combine(_desktopPath, saveFileName + ".txt");
     }
     
     private string GetPathForSaveFolder(string folderName)
     {
-        return Path.Combine(Application.persistentDataPath, folderName);
+        return Path.Combine(_desktopPath, folderName);
     }
     
     
