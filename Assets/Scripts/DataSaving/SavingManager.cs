@@ -9,7 +9,6 @@ using UnityEngine.SceneManagement;
 
 public class SavingManager : MonoBehaviour
 {
-    public string DataPath;
     public string DataName;
     private string _GUIDFolderPath;
     public static SavingManager Instance { get; private set; }
@@ -31,6 +30,7 @@ public class SavingManager : MonoBehaviour
     private GameObject participantCar;
     private string _targetSceneName;
     private string _desktopPath;
+    private string _desktopFolderPath;
     
     private void Awake()
     {
@@ -46,7 +46,9 @@ public class SavingManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        
         _desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        _desktopFolderPath = Path.GetFullPath(Path.Combine(_desktopPath, "WestdriveLoopARData"));
     }
 
     void Start()
@@ -321,12 +323,12 @@ public class SavingManager : MonoBehaviour
 
     private string GetPathForSaveFile(string folderFileName, string id, string sceneName)
     {
-        return Path.Combine(Path.GetFullPath(Path.Combine(_desktopPath, folderFileName)), id + "_" + folderFileName + "_" + sceneName + ".txt");
+        return Path.Combine(Path.GetFullPath(Path.Combine(_desktopFolderPath, folderFileName)), id + "_" + folderFileName + "_" + sceneName + ".txt");
     }
     
     private string GetPathForSaveParticipantCalibrationData(string folderFileName, string id)
     {
-        return Path.Combine(Path.GetFullPath(Path.Combine(_desktopPath, folderFileName)), id + "_" + folderFileName + ".txt");
+        return Path.Combine(Path.GetFullPath(Path.Combine(_desktopFolderPath, folderFileName)), id + "_" + folderFileName + ".txt");
     }
 
     public void SaveDataAndStartRecordingAgain(string oldSceneName)
