@@ -45,12 +45,14 @@ public class ResetObjectPositionTrigger : MonoBehaviour
     
     private void ResetCar(GameObject objectToReset)
     {
-        objectToReset.SetActive(false);
+        // objectToReset.SetActive(false);
         
-        objectToReset.transform.SetPositionAndRotation(_resetPosition.position, _resetPosition.rotation);
+        // objectToReset.transform.SetPositionAndRotation(_resetPosition.position, _resetPosition.rotation);
 
+        objectToReset.GetComponent<CarController>().TurnOffEngine();
+        objectToReset.GetComponent<Rigidbody>().isKinematic = true;
         objectToReset.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        objectToReset.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        // objectToReset.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
 
         objectToReset.transform.SetPositionAndRotation(_resetPosition.position, _resetPosition.rotation);
     }
@@ -62,7 +64,9 @@ public class ResetObjectPositionTrigger : MonoBehaviour
         
         yield return new WaitForSecondsRealtime(timeToWait.Value);
 
-        other.gameObject.SetActive(true);
+        // other.gameObject.SetActive(true);
+        other.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+        other.gameObject.GetComponent<CarController>().TurnOnEngine();
         
         //if (trialsDone.Value <= maxTrials.Value)
         //{
