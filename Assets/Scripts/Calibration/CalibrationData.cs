@@ -21,4 +21,6 @@ using UnityEngine;
     public double ApplicationDuration;
 
     public float AverageExperimentFPS;
+
+    public string SpecialNotes;
 }

@@ -33,6 +33,8 @@ public class CalibrationManager : MonoBehaviour
 
     private int _numberOfTrainingTrials;
     private string _experimentalCondition;
+    private string _desktopPath;
+    private string _desktopFolderPath;
     
     #endregion
 
@@ -40,8 +42,16 @@ public class CalibrationManager : MonoBehaviour
 
     private void Awake()
     {
+        _desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        _desktopFolderPath = Path.GetFullPath(Path.Combine(_desktopPath, "WestdriveLoopARData"));
+        
         _calibrationFilePath = GetPathForSaveFile("CalibrationData");
 
+        if (!File.Exists(_desktopPath))
+        {
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(_desktopPath, "WestdriveLoopARData")));
+        }
+        
         if (File.Exists(_calibrationFilePath))
         {
             _calibrationData = LoadCalibrationFile(_calibrationFilePath);
@@ -50,25 +60,26 @@ public class CalibrationManager : MonoBehaviour
         {
             _calibrationData = new CalibrationData();
         }
-
+        
+        
         if (!File.Exists(GetPathForSaveFolder("Input")))
         {
-            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "Input")));
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(_desktopFolderPath, "Input")));
         }
         
         if (!File.Exists(GetPathForSaveFolder("EyeTracking")))
         {
-            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "EyeTracking")));
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(_desktopFolderPath, "EyeTracking")));
         }
         
         if (!File.Exists(GetPathForSaveFolder("ParticipantCalibrationData")))
         {
-            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "ParticipantCalibrationData")));
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(_desktopFolderPath, "ParticipantCalibrationData")));
         }
         
         if (!File.Exists(GetPathForSaveFolder("SceneData")))
         {
-            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(Application.persistentDataPath, "SceneData")));
+            Directory.CreateDirectory(Path.GetFullPath(Path.Combine(_desktopFolderPath, "SceneData")));
         }
 
         _random = new Random();
@@ -105,19 +116,18 @@ public class CalibrationManager : MonoBehaviour
 
     private void SaveCalibrationFile(CalibrationData calibrationData)
     {
-        //todo use using
         string jsonString = JsonUtility.ToJson(calibrationData);
         File.WriteAllText(_calibrationFilePath, jsonString);
     }
     
     private string GetPathForSaveFile(string saveFileName)
     {
-        return Path.Combine(Application.persistentDataPath, saveFileName + ".txt");
+        return Path.Combine(_desktopFolderPath, saveFileName + ".txt");
     }
     
     private string GetPathForSaveFolder(string folderName)
     {
-        return Path.Combine(Application.persistentDataPath, folderName);
+        return Path.Combine(Path.GetFullPath(Path.Combine(_desktopFolderPath, folderName)));
     }
     
     
