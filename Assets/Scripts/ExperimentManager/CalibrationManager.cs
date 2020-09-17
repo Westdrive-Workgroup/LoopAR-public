@@ -178,7 +178,7 @@ public class CalibrationManager : MonoBehaviour
     {
         string ipAddress = _calibrationData.IPAddress;
         string guId = _calibrationData.ParticipantUuid;
-        string uri = "http://" + ipAddress + "/" + "check?uid=" + guId;
+        string uri = "http://" + ipAddress + ":3000/" + "check?uid=" + guId;
         StartCoroutine(GetRequest(uri));
     }
     
