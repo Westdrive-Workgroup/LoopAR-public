@@ -31,11 +31,11 @@ public class EyetrackingDataRecorder : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        /*if (Input.GetKeyDown(KeyCode.P))
         {
             Visualisation();
             Debug.Log("<color=green>Visualisation activated!</color>");
-        }
+        }*/
     }
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)  // generally I am not proud of this call, but seems necessary for the moment.

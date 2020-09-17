@@ -177,9 +177,9 @@ public class SavingManager : MonoBehaviour
         return false;
     }
 
-    public void StoreEyeTrackingData(List<EyeTrackingDataFrame> eyeTrackingdataFrames)
+    public void StoreEyeTrackingData(List<EyeTrackingDataFrame> eyeTrackingDataFrames)
     {
-        _eyeTrackingData = eyeTrackingdataFrames;
+        _eyeTrackingData = eyeTrackingDataFrames;
     }
 
     public void StoreInputData(List<InputDataFrame> inputDataFrames)
@@ -281,16 +281,9 @@ public class SavingManager : MonoBehaviour
         if (_readyToSaveToFile)
         {
             var input = ConvertToJson(_inputData);
-            // Debug.Log("saving " + input.Count + "Data frames of " + _inputData);
-        
             var eyeTracking = ConvertToJson(_eyeTrackingData);
-            // Debug.Log("saving " + input.Count + "Data frames of " + _eyeTrackingData);
-            
             var sceneData = JsonUtility.ToJson(_sceneData);
-            // Debug.Log("saving " + input.Count + "Data frames of " + _sceneData);
-            
             var participantCalibrationData = JsonUtility.ToJson(_participantCalibrationData);
-            // Debug.Log("saving " + input.Count + "Data frames of " + participantCalibrationData);
 
             var id = _participantCalibrationData.ParticipantUuid;
 
