@@ -6,7 +6,6 @@ using UnityEngine;
 [Serializable]public class EyeTrackingDataFrame
 {
     public double UnixTimeStamp;
-    public double TimeStamp;
     public double TobiiTimeStamp;
 
     public float FPS;
