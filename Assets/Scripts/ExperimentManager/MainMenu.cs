@@ -23,6 +23,8 @@ public class MainMenu : MonoBehaviour
     private bool _eyeCalibrationSelected;
     private bool _eyeValidationSelected;
     private bool _seatCalibrationSelected;
+    bool _conditionSelected;
+
 
     private enum Section
     {
@@ -176,6 +178,13 @@ public class MainMenu : MonoBehaviour
             GUI.skin.box.fontStyle = FontStyle.Italic;
             GUI.Box(new Rect(xB*9, yB*5.3f, w, h-8), new GUIContent("Participant ID"));
         }
+        
+        if (_conditionSelected)
+        {
+            GUI.color = Color.white;
+            GUI.skin.box.fontStyle = FontStyle.Bold;
+            GUI.Box(new Rect(xB*5, yB*5f, w, h-8), new GUIContent("Condition: " + CalibrationManager.Instance.GetExperimentalCondition()));
+        }
 
         if (CalibrationManager.Instance.GetVRActivationState())
         {
@@ -303,6 +312,7 @@ public class MainMenu : MonoBehaviour
                 _section = Section.IDGeneration;
                 CalibrationManager.Instance.GenerateIDAndCondition();
                 _section = CalibrationManager.Instance.GetVRActivationState() ? Section.EyeCalibration : Section.TrainingBlock;
+                _conditionSelected = true;
             }
         }
         

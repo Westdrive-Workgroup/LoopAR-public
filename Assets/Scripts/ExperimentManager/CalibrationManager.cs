@@ -198,19 +198,15 @@ public class CalibrationManager : MonoBehaviour
         {
             case 1:
                 _experimentalCondition = "FullLoopAR";
-                Debug.Log("FullLoopAR");
                 break;
             case 2:
                 _experimentalCondition = "HUDOnly";
-                Debug.Log("HUDOnly");
                 break;
             case 3:
                 _experimentalCondition = "AudioOnly";
-                Debug.Log("AudioOnly");
                 break;
             case 4:
                 _experimentalCondition = "BaseCondition";
-                Debug.Log("BaseCondition");
                 break;
         }
         

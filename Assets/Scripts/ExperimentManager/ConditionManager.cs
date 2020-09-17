@@ -133,7 +133,6 @@ public class ConditionManager : MonoBehaviour
     public void SetExperimentalCondition(string condition = "Default")
     {
         _condition = (Conditions) Enum.Parse(typeof(Conditions), condition, true);
-        Debug.Log("Condition: " + _condition);
     }
 
     public string GetExperimentalCondition()
