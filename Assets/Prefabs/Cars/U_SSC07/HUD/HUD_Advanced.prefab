@@ -117,7 +117,7 @@ MonoBehaviour:
   audioSource: {fileID: 3836280424798204956}
   WarningTriangle: {fileID: 4804035242410860568}
   WarningText: {fileID: 7856451310240470529}
-  WarningVerbalSound: {fileID: 8300000, guid: 3bf413af5dd990544aed0c20e07dc3d7, type: 3}
+  WarningVerbalSound: {fileID: 8300000, guid: 7078b5b25a12b8441a08e180658e6093, type: 3}
   WarningSound: {fileID: 8300000, guid: c35581d28dc499e4cb9b11ac9d1a7720, type: 3}
   YouDriving: {fileID: 1728588363899545007}
   YouDrivingText: {fileID: 105448988388587898}
@@ -130,7 +130,7 @@ MonoBehaviour:
   AIDrivingText: {fileID: 1486082572673055545}
   TorBackSign: {fileID: 3048011417114908980}
   TorBackText: {fileID: 3796482812436408574}
-  TorBackSound: {fileID: 8300000, guid: e227c3abc60928f4eae81ea21076ff99, type: 3}
+  TorBackSound: {fileID: 8300000, guid: e58cca471cbcaf941b5e470a38b4ffd9, type: 3}
   _aimedSpeed: {fileID: 0}
   _carController: {fileID: 0}
   IsEvent: 0
@@ -138,10 +138,6 @@ MonoBehaviour:
   SpeedShow: 0
   SpeedLimitShow: 0
   ShowRealTime: 0
-  UseSound: 0
-  UseSoundTOR: 0
-  ShowOutline: 0
-  ShowTriangle: 0
   ShowFakeTime: 
   TimeTillWarningSign: 0
   BlinkingFrequence: 3
@@ -870,7 +866,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0
-  m_Text: Take Over !
+  m_Text: Manuelle Fahrtweise
 --- !u!1 &3596748858800530318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,13 +996,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5078929681089656142}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.990566, g: 0.13340612, b: 0.107467085, a: 1}
+  m_Color: {r: 1, g: 0.13340612, b: 0.107467085, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1021,10 +1017,10 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 0
-  m_Text: Take Over !
+  m_Text: ubernehme
 --- !u!1 &5170331617041834711
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,10 +1197,10 @@ MonoBehaviour:
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 0
-  m_Text: Let Me Drive!
+  m_Text: Lass mich fahren
 --- !u!1 &7104509995909600321
 GameObject:
   m_ObjectHideFlags: 0

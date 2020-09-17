@@ -166,24 +166,6 @@ MonoBehaviour:
   m_FillOrigin: 1
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5539638442471661746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6229045286058875577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11556e1cada751f48b61fdc5571f569e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RPMMeter: {fileID: 9027482348561093022}
-  SpeedMeter: {fileID: 323518963171754440}
-  SpeedGauge: {fileID: 6332384763747978249}
-  RPMGauge: {fileID: 6801131812260771358}
-  _carController: {fileID: 1499928519561039326}
-  DynamicCarSound: {fileID: 95818265621902183}
 --- !u!1 &4484922789126371171
 GameObject:
   m_ObjectHideFlags: 0
@@ -277,6 +259,24 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0.33793116, b: 1, a: 0.5}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &5539638442471661746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6229045286058875577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11556e1cada751f48b61fdc5571f569e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RPMMeter: {fileID: 9027482348561093022}
+  SpeedMeter: {fileID: 323518963171754440}
+  SpeedGauge: {fileID: 6332384763747978249}
+  RPMGauge: {fileID: 6801131812260771358}
+  _carController: {fileID: 1499928519561039326}
+  DynamicCarSound: {fileID: 95818265621902183}
 --- !u!1001 &1235078942965044694
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -506,6 +506,11 @@ PrefabInstance:
       propertyPath: _carController
       value: 
       objectReference: {fileID: 1499928519561039326}
+    - target: {fileID: 1245405755849117504, guid: 025df11c42a2ad94b8ab52b56a1a48fd,
+        type: 3}
+      propertyPath: TorBackSound
+      value: 
+      objectReference: {fileID: 8300000, guid: e58cca471cbcaf941b5e470a38b4ffd9, type: 3}
     - target: {fileID: 1656265479045737764, guid: 025df11c42a2ad94b8ab52b56a1a48fd,
         type: 3}
       propertyPath: m_LocalPosition.x
