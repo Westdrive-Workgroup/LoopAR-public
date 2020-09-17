@@ -211,44 +211,44 @@ public class SavingManager : MonoBehaviour
     private List<String> ConvertToJson(List<InputDataFrame> inputData)
     {
         List<string> list = new List<string>();
-        
+        list.Add("[");
         foreach(var frame in inputData)
         {
             string jsonString = JsonUtility.ToJson(frame, true);
-            list.Add(jsonString);
-        }
-
+            if(frame != inputData.Last())
+                list.Add(jsonString + ",");
+            else
+                list.Add(jsonString);
+        }        
+        list.Add("]");
         return list;
     }
 
     private List<String> ConvertToJson(List<EyeTrackingDataFrame> inputData)
     {
         List<string> list = new List<string>();
-        
+        list.Add("[");
         foreach(var frame in inputData)
         {
             string jsonString = JsonUtility.ToJson(frame, true);
-            list.Add(jsonString);
-        }
-
+            if(frame != inputData.Last())
+                list.Add(jsonString + ",");
+            else
+                list.Add(jsonString);
+        }        
+        list.Add("]");
         return list;
     }
+    
     
     public void SaveToJson()
     {
         if (_readyToSaveToFile)
         {
             var input = ConvertToJson(_inputData);
-            // Debug.Log("saving " + input.Count + "Data frames of " + _inputData);
-        
             var eyeTracking = ConvertToJson(_eyeTrackingData);
-            // Debug.Log("saving " + input.Count + "Data frames of " + _eyeTrackingData);
-            
             var sceneData = JsonUtility.ToJson(_sceneData);
-            // Debug.Log("saving " + input.Count + "Data frames of " + _sceneData);
-            
             var participantCalibrationData = JsonUtility.ToJson(_participantCalibrationData);
-            // Debug.Log("saving " + input.Count + "Data frames of " + participantCalibrationData);
 
             var id = _participantCalibrationData.ParticipantUuid;
 
