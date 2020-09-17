@@ -122,7 +122,7 @@ public class HUD_Advance : MonoBehaviour
             _highlightedObjects.Add(eventObject);
         }
     }
-   
+
     public void DeactivateHUD(bool playTOR)
     {
         IsEvent = false;
@@ -195,7 +195,8 @@ public class HUD_Advance : MonoBehaviour
         Date.enabled = true;
         //TorBackSign.enabled = false;
         //TorBackText.enabled = false;
-    } public void DeactivateHUDSoundless(bool playTOR)
+    }
+    public void DeactivateHUDSoundless(bool playTOR)
     {
         IsEvent = false;
         _eventObjectsToMark.Clear();
@@ -217,7 +218,6 @@ public class HUD_Advance : MonoBehaviour
     {
         AIDrivingBool = true;
         ManualDriving = false;
-
         EventDriving = false;
         YouDriving.enabled = false;
         YouDrivingText.enabled = false;
@@ -229,7 +229,7 @@ public class HUD_Advance : MonoBehaviour
         if (playTOR)
         {
             // Debug.Log(playTOR + " Is it played?");
-            
+
             if (TorBackBlinkingImage || TorBackBlinkingText)
             {
                 if (nextUpdate > 10)
@@ -256,9 +256,6 @@ public class HUD_Advance : MonoBehaviour
         Date.enabled = true;
         //TorBackSign.enabled = false;
         //TorBackText.enabled = false;
-
-
-
 
     }
     public void ManualDrive()
@@ -324,15 +321,16 @@ public class HUD_Advance : MonoBehaviour
         yield return null;
         StopCoroutine(SoundManagerTOR());
     }
-    private IEnumerator SoundManagerWarningOnly(){
+    private IEnumerator SoundManagerWarningOnly()
+    {
         yield return new WaitForSeconds(TimeTillWarningSound);
-            audioSource.PlayOneShot(WarningSound);
-            yield return new WaitForSeconds(TimeTillWarningVoice);
-            audioSource.PlayOneShot(WarningVerbalSound);
-            yield return new WaitForSeconds(1.2f);
-            yield return new WaitForSeconds(0.7f);
-            audioSource.Stop();
-            StopCoroutine(SoundManagerWarningOnly());
+        audioSource.PlayOneShot(WarningSound);
+        yield return new WaitForSeconds(TimeTillWarningVoice);
+        audioSource.PlayOneShot(WarningVerbalSound);
+        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(0.7f);
+        audioSource.Stop();
+        StopCoroutine(SoundManagerWarningOnly());
     }
     private IEnumerator SoundManagerWarning()
     {
@@ -365,13 +363,30 @@ public class HUD_Advance : MonoBehaviour
             AIDriving.enabled = true;
         }
     }
-    private IEnumerator ShowTriangleForSeconds(){
-            yield return new WaitForSeconds(0f);
-            WarningText.enabled = true;
-            WarningTriangle.enabled = true;
-            yield return new WaitForSeconds(2.5f);            
-            WarningText.enabled = false;
-            WarningTriangle.enabled = false;
+    private IEnumerator ShowAutoDrive(float AfterSec)
+    {
+        yield return new WaitForSeconds(AfterSec);
+
+        AIDrivingText.enabled = true;
+        AIDriving.enabled = true;
+
+    }
+     private IEnumerator ShowManualDrive(float AfterSec)
+    {
+        yield return new WaitForSeconds(AfterSec);
+
+        YouDrivingText.enabled = true;
+        YouDriving.enabled = true;
+
+    }
+    private IEnumerator ShowTriangleForSeconds()
+    {
+        yield return new WaitForSeconds(0f);
+        WarningText.enabled = true;
+        WarningTriangle.enabled = true;
+        yield return new WaitForSeconds(2.5f);
+        WarningText.enabled = false;
+        WarningTriangle.enabled = false;
 
     }
     private IEnumerator ShowForSeconds(float TorBackDuration)
@@ -492,24 +507,24 @@ public class HUD_Advance : MonoBehaviour
         //Debug.Log("Warum bin ich hier?");
         MarkObjects();
         StartCoroutine(ShowAfterSeconds());
-        
+
     }
 
     public void PlayWarningAndSiren()
     {
-        
+
         StartCoroutine(SoundManagerWarningOnly());
     }
 
     public void PlayTakingBackControl()
     {
-       
+
         StartCoroutine(SoundManagerTOR());
     }
 
     public void ShutDownAllVisualsPermanently()
     {
-        
+
         WarningText.enabled = false;
         WarningTriangle.enabled = false;
         TorBackSign.enabled = false;
@@ -519,14 +534,14 @@ public class HUD_Advance : MonoBehaviour
         SpeedGauge.enabled = false;
         MaxSpeed.enabled = false;
         Circle.enabled = false;
-        AIDrivingBool=false;
+        AIDrivingBool = false;
         AIDriving.enabled = false;
         AIDrivingText.enabled = false;
-        
+
 
     }
-    
-    
+
+
     // Update is called once per frame
 
     void FixedUpdate()
