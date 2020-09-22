@@ -190,6 +190,7 @@ public class EyeValidationManager : MonoBehaviour
         }
         else
         {
+            CalibrationManager.Instance.StoreValidationErrorData(EyetrackingManager.Instance.GetEyeValidationErrorAngles());
             ShowFailedValidationStatus(5f);
         }
         runningValidation = false;
