@@ -9,6 +9,7 @@ public class TrainingHandler : MonoBehaviour
     public static TrainingHandler Instance { get; private set; }
 
     public TestEventManager testEventManager;
+    private bool _toMainExperiment;
 
     [SerializeField] private GameObject seatPosition;
     private enum State
@@ -34,6 +35,11 @@ public class TrainingHandler : MonoBehaviour
     public GameObject GetSeatPosition()
     {
         return seatPosition;
+    }
+
+    public void GoToMainExperiment()
+    {
+        _toMainExperiment = true;
     }
 
     public void OnGUI()
@@ -71,25 +77,20 @@ public class TrainingHandler : MonoBehaviour
                 _state = State.Training;
                 testEventManager.StartTestDrive();
             }
-            
-            // Reset Button
-            GUI.backgroundColor = Color.red;
-            GUI.color = Color.white;
-        
-            if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "Abort"))
-            {
-                CalibrationManager.Instance.AbortExperiment();
-            }
         } 
         else if (_state == State.Training)
         {
-            GUI.backgroundColor = Color.red;
-            GUI.color = Color.white;
-            
-            if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "End"))
+            if (_toMainExperiment)
             {
-                SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
-                _state = State.TrainingMenu;
+                GUI.backgroundColor = Color.blue;
+                GUI.color = Color.white;
+        
+                if (GUI.Button(new Rect(xForButtons*9, yForButtons, buttonWidth, buttonHeight), "To Main Experiment"))
+                {
+                    SavingManager.Instance.StopAndSaveData("TrainingScene");
+                    CalibrationManager.Instance.AddSpecialNote("TrainingToExperimentManually");
+                    CalibrationManager.Instance.TestDriveEnded();
+                }
             }
         }
     }
