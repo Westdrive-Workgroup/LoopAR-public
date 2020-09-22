@@ -215,6 +215,7 @@ public class EyeValidationManager : MonoBehaviour
         if (GUI.Button(new Rect(xB*9, yB, w, h), "Skip Eye Validation"))
         {
             Destroy(relativeFixedPoint);
+            CalibrationManager.Instance.AddSpecialNote("EyeCalibrationSkipped");
             ApplicationManager.Instance.StoreMainMenuLastState("SeatCalibration");
             SceneManager.LoadSceneAsync("MainMenu");
         }

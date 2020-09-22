@@ -334,6 +334,7 @@ public class MainMenu : MonoBehaviour
             GUI.backgroundColor = Color.yellow;
             if (GUI.Button(new Rect(xB, yB*2, w, h), "Skip Eye Calibration"))
             {
+                CalibrationManager.Instance.AddSpecialNote("EyeCalibrationSkipped");
                 _eyeCalibrationSelected = true;
                 _section = Section.EyeValidation;
             }
@@ -354,6 +355,7 @@ public class MainMenu : MonoBehaviour
             GUI.backgroundColor = Color.yellow;
             if (GUI.Button(new Rect(xB, yB*2, w, h), "Skip Eye Validation"))
             {
+                CalibrationManager.Instance.AddSpecialNote("EyeValidationSkipped");
                 _eyeValidationSelected = true;
                 _section = Section.SeatCalibration;
             }
@@ -374,6 +376,7 @@ public class MainMenu : MonoBehaviour
             GUI.backgroundColor = Color.yellow;
             if (GUI.Button(new Rect(xB, yB*2, w, h), "Skip Seat Calibration"))
             {
+                CalibrationManager.Instance.AddSpecialNote("SeatCalibrationSkipped");
                 _seatCalibrationSelected = true;
                 _section = Section.TrainingBlock;
             }
@@ -399,6 +402,7 @@ public class MainMenu : MonoBehaviour
                 if (loading != null)
                     Destroy(loading);
 
+                CalibrationManager.Instance.AddSpecialNote("TrainingSceneSkipped");
                 _section = Section.MainExperiment;
                 SceneLoadingHandler.Instance.LoadExperimentScenes();
             }

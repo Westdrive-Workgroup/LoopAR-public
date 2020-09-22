@@ -83,6 +83,9 @@ public class CalibrationManager : MonoBehaviour
         }
 
         _random = new Random();
+        _calibrationData.EyeValidationError = Vector3.zero;
+        _calibrationData.SpecialNotes = "";
+        SaveCalibrationData();
         
         //singleton pattern a la Unity
         if (Instance == null)
@@ -311,6 +314,20 @@ public class CalibrationManager : MonoBehaviour
     public void ExperimentEnded()
     {
         _endOfExperiment = true;
+    }
+
+    public void AddSpecialNote(string note)
+    {
+        if (_calibrationData.SpecialNotes == "")
+        {
+            _calibrationData.SpecialNotes = note;
+        }
+        else
+        {
+            _calibrationData.SpecialNotes += ", " + note;
+        }
+        
+        SaveCalibrationData();
     }
 
     #endregion
