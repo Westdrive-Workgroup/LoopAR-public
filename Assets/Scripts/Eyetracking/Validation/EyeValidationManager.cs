@@ -214,19 +214,11 @@ public class EyeValidationManager : MonoBehaviour
         GUI.backgroundColor = Color.red;
         if (GUI.Button(new Rect(xB*9, yB, w, h), "Skip Eye Validation"))
         {
+            EyetrackingManager.Instance.AbortValidation();
             Destroy(relativeFixedPoint);
             CalibrationManager.Instance.AddSpecialNote("EyeCalibrationSkipped");
             ApplicationManager.Instance.StoreMainMenuLastState("SeatCalibration");
             SceneManager.LoadSceneAsync("MainMenu");
         }
-        
-        /*GUI.backgroundColor = Color.green;
-        if (GUI.Button(new Rect(xB, yB, w, h), "Reload Scene"))
-        {
-            Destroy(relativeFixedPoint);
-            /*ApplicationManager.Instance.StoreMainMenuLastState("EyeValidation");
-            SceneManager.LoadSceneAsync("MainMenu");#1#
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }*/
     }
 }

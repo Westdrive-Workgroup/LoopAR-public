@@ -22,7 +22,8 @@ public class EyetrackingValidation : MonoBehaviour
     public delegate void OnFinishedEyeValidation(bool wasSuccessful, Vector3 ErrorAngles);
     public event OnFinishedEyeValidation NotifyEyeValidationObservers;
     private EyetrackingManager _eyetrackingManager;
-
+    private float _errorThreshold = 1.5f;
+    
     private void Awake()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -131,8 +132,8 @@ public class EyetrackingValidation : MonoBehaviour
         Debug.Log("<color=yellow> Validation Results"+ validationResult+ "(</color>");
         gameObject.transform.position = Vector3.zero;
         
-        if (CalculateValidationError(anglesX) > 1 || CalculateValidationError(anglesY) > 1 ||
-            CalculateValidationError(anglesZ) > 1)
+        if (CalculateValidationError(anglesX) > _errorThreshold || CalculateValidationError(anglesY) > _errorThreshold ||
+            CalculateValidationError(anglesZ) > _errorThreshold)
         {
             _isRunning = false;
             NotifyEyeValidationObservers?.Invoke(false, _eyeValidationData.ValidationResults);
