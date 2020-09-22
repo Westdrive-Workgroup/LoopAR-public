@@ -34,8 +34,10 @@ public class ResetObjectPositionTrigger : MonoBehaviour
         {
             if (trialsDone.Value >= maxTrials.Value)
             {
+                TrainingHandler.Instance.GoToMainExperiment();
                 _resetPosition = respawnPointTrialFailed.transform;
             }
+            
             ResetCar(other.gameObject);
             trialsDone.ApplyChange(1);
 
