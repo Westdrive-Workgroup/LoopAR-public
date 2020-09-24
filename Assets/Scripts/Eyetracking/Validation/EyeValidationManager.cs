@@ -215,6 +215,7 @@ public class EyeValidationManager : MonoBehaviour
         GUI.backgroundColor = Color.red;
         if (GUI.Button(new Rect(xB*9, yB, w, h), "Skip Eye Validation"))
         {
+            CalibrationManager.Instance.StoreValidationErrorData(EyetrackingManager.Instance.GetEyeValidationErrorAngles());
             EyetrackingManager.Instance.AbortValidation();
             Destroy(relativeFixedPoint);
             CalibrationManager.Instance.AddSpecialNote("EyeCalibrationSkipped");
