@@ -25,6 +25,7 @@ public class CalibrationManager : MonoBehaviour
 
     private bool _cameraModeSelected;
     private bool _steeringInputGiven;
+    private bool _wasLoaded;
     
     
     private CalibrationData _calibrationData;
@@ -42,6 +43,17 @@ public class CalibrationManager : MonoBehaviour
 
     private void Awake()
     {
+        //singleton pattern a la Unity
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        
         _desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         _desktopFolderPath = Path.GetFullPath(Path.Combine(_desktopPath, "WestdriveLoopARData"));
         
@@ -83,22 +95,19 @@ public class CalibrationManager : MonoBehaviour
         }
 
         _random = new Random();
-        _calibrationData.EyeValidationError = Vector3.zero;
-        _calibrationData.SpecialNotes = "";
-        SaveCalibrationData();
-        
-        //singleton pattern a la Unity
-        if (Instance == null)
-        {
-            Instance = this;
-            // DontDestroyOnLoad(gameObject);
-        }
-        /*else
-        {
-            Destroy(gameObject);
-        }*/
     }
-    
+
+    private void Start()
+    {
+        if (!_wasLoaded)
+        {
+            _wasLoaded = true;
+            _calibrationData.EyeValidationError = Vector3.zero;
+            _calibrationData.SpecialNotes = "";
+            SaveCalibrationData();
+        }
+    }
+
     private void StoreParticipantUuid(string iD)
     {
         _calibrationData.ParticipantUuid = iD.Replace("-", "");
@@ -330,6 +339,12 @@ public class CalibrationManager : MonoBehaviour
         SaveCalibrationData();
     }
 
+    public void EyeValidationSkipped()
+    {
+        StoreValidationErrorData(EyetrackingManager.Instance.GetEyeValidationErrorAngles());
+        AddSpecialNote("EyeValidationSkipped");
+    }
+    
     #endregion
     
     #region Setters
