@@ -3,9 +3,10 @@
 --- !u!1 &100000
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 400000}
   - component: {fileID: 11400000}
@@ -18,9 +19,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &400000
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -31,9 +33,10 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11400000
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -44,114 +47,6 @@ MonoBehaviour:
   roadName: 
   locked: 0
   roadType: 0
-  rt:
-    roadTypeName: 
-    id: 0
-    timestamp: 0
-    roadWidth: 0
-    faceDistance: 0
-    angleTreshold: 0
-    uvTiling: 0
-    uv4Type: 0
-    type: 0
-    detailDistance: 0
-    planarUVs: 0
-    outerIndent: 0
-    roadShapeDataActive: 0
-    roadShapeData:
-      nodes: []
-      hardEdge: 
-      priorityNodeIndexLeft: 0
-      priorityNodeIndexRight: 0
-      nodesV3: []
-      lanes: []
-      leftLanes: 0
-      rightLanes: 0
-      symmetrical: 0
-      leftSidewalkOffset: 0
-      rightSidewalkOffset: 0
-      outerLaneMarkingLeftIndex: 0
-      includeOuterlaneLeftInShape: 0
-      includeOuterlaneRightInShape: 0
-      outerLaneMarkingRightIndex: 0
-      outerOuterLaneMarkingLeftIndex: 0
-      outerOuterLaneMarkingRightIndex: 0
-      selectedNode: 0
-      selectedLaneNode: 0
-      isSymmetrical: 0
-      isset: 0
-    minSpeed: 0
-    maxSpeed: 0
-    speedLimit: 0
-    roadShape: []
-    roadShapeExt: []
-    roadShapeExt2: []
-    doConnectionTri: 
-    doConnectionTriExt: 
-    roadShapeUVs: []
-    roadShapeExtUVs: []
-    roadShapeExtUVs2: []
-    roadShapeUVs2: []
-    preserveUVs: 0
-    hardEdge: 
-    roadShapeVecsString: 
-    defaultSidewalk: 0
-    sidewalks: 0
-    sidewalkHeight: 0
-    sidewalkWidth: 0
-    roadMaterial: {fileID: 0}
-    roadMaterials: []
-    roadPhysicsMaterial: {fileID: 0}
-    roadPhysicsMaterials: []
-    connectionMaterial: {fileID: 0}
-    isSideObject: 0
-    isCustomRoad: 0
-    subSegments: 0
-    soData: []
-    soDataExt: []
-    soDataLog: []
-    layer: 0
-    isStatic: 0
-    tag: 
-    splatMapActive: 0
-    splatIndex: 0
-    expandLevel: 0
-    smoothLevel: 0
-    splatOpacity: 0
-    followTerrainContours: 0
-    terrainContoursOffset: 0
-    terrainDeformation: 0
-    defaultIndent: 0
-    defaultSurrounding: 0
-    castShadow: 0
-    randomnessFlag: 0
-    randomYPosition: 0
-    randomMinYPosition: 0
-    randomMaxYPosition: 0
-    minRandomYPositionDistance: 0
-    maxRandomYPositionDistance: 0
-    randomMinRotation: 0
-    randomMaxRotation: 0
-    minRandomRotationDistance: 0
-    maxRandomRotationDistance: 0
-    vegetationStudioMaskLineActive: 0
-    vegetationStudioGrassPerimeter: 0
-    vegetationStudioPlantPerimeter: 0
-    vegetationStudioTreePerimeter: 0
-    vegetationStudioObjectPerimeter: 0
-    vegetationStudioLargeObjectPerimeter: 0
-    vegetationStudioBiomeMaskActive: 0
-    vegetationStudioBiomeMaskDistance: 0
-    vegetationStudioBiomeMaskBlendDistance: 0
-    vegetationStudioBiomeMaskNoiseScale: 0
-    decalPresets: []
-    decalClassPresets: []
-    defaultRamp: 0
-    extrusionType: 0
-    extrusionDistance: 0
-    fixedDistance: 0
-    connectionAngle: 0
-    connectionRadius: 0
   isCustomRoadSet: 0
   isCustomRoad: 0
   markers: []
@@ -168,14 +63,6 @@ MonoBehaviour:
   uvTiling: 1
   planarUVs: 0
   flipNormals: 0
-  defaultLeftSidewalk: 0
-  defaultRightSidewalk: 0
-  leftSidewalkActive: 0
-  rightSidewalkActive: 0
-  leftSidewalks: []
-  rightSidewalks: []
-  exitRoads: []
-  selectedExit: 0
   randomnessFlag: 0
   randomnessMarkerFlag: 0
   randomYPosition: 0
@@ -187,16 +74,11 @@ MonoBehaviour:
   randomMaxRotation: 0
   minRandomRotationDistance: 15
   maxRandomRotationDistance: 35
-  vegetationStudioMaskLineActive: 1
   vegetationStudioGrassPerimeter: 2
   vegetationStudioPlantPerimeter: 3
   vegetationStudioTreePerimeter: 4
   vegetationStudioObjectPerimeter: 3
   vegetationStudioLargeObjectPerimeter: 4
-  vegetationStudioBiomeMaskActive: 0
-  vegetationStudioBiomeMaskDistance: 0
-  vegetationStudioBiomeMaskBlendDistance: 0
-  vegetationStudioBiomeMaskNoiseScale: 0
   vertsStats: 0
   trisStats: 0
   indent: 2
@@ -231,10 +113,8 @@ MonoBehaviour:
   soSplinePoints: []
   soSplinePointsLeft: []
   soSplinePointsRight: []
-  soSplinePointsLeftClamped: []
-  soSplinePointsRightClamped: []
-  OOCCOCQQCO: []
-  ODOQDCODQC: []
+  ODDQCOQCCQ: []
+  OCOODCDQCQ: []
   meshVecs: []
   meshUVs: []
   meshUVs2: []
@@ -251,8 +131,6 @@ MonoBehaviour:
   treeVecs: []
   detailVecs: []
   vegetationTris: 
-  doLeftSurrounding: 
-  doRightSurrounding: 
   totalDistance: 0
   nodeSplinePoint: 
   totalDistanceString: 
@@ -262,8 +140,6 @@ MonoBehaviour:
   startConnectionFlag: 1
   endConnectionSegment: 0
   endConnectionFlag: 1
-  startSegmentIntAdjusted: 0
-  endSegmentIntAdjusted: 0
   tCrossingConnected: 0
   roadMaterial: {fileID: 0}
   roadMaterials: []
@@ -304,8 +180,8 @@ MonoBehaviour:
   segPoints: []
   testPoints: []
   testPoints2: []
-  ODDQCOCDCQ: {x: 0, y: 0, z: 0}
-  OOQDOQDOQO: {x: 0, y: 0, z: 0}
+  OQCQDCCCCD: {x: 0, y: 0, z: 0}
+  OOQODCQCDC: {x: 0, y: 0, z: 0}
   endLeft: {x: 0, y: 0, z: 0}
   endRight: {x: 0, y: 0, z: 0}
   testmesh: {fileID: 0}
@@ -339,7 +215,6 @@ MonoBehaviour:
   smoothLevel: 1
   splatOpacity: 1
   layer: 0
-  isStatic: 1
   tag: 
   castShadow: 0
   fadeInFlag: 0
@@ -371,20 +246,3 @@ MonoBehaviour:
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  debugVecs: []
-  debugFloats: []
-  exitExtrudeEnd: {x: 0, y: 0, z: 0}
-  exitFixedEnd: {x: 0, y: 0, z: 0}
-  exitSplitEnd: {x: 0, y: 0, z: 0}
-  laneData: []
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 100000}
-  m_IsPrefabParent: 1

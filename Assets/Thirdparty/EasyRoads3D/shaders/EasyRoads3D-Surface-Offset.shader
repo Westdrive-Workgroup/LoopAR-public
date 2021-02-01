@@ -6,7 +6,7 @@ Properties {
 SubShader {
 	Tags { "RenderType"="Opaque" }
 	LOD 200
-	Offset -1, -1
+	Offset -2.5, -2.5
 
 CGPROGRAM
 #pragma surface surf Lambert

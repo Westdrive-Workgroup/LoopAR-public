@@ -24,7 +24,7 @@
 	  <tr>
 	    <td colspan="2" class="style1"><p class="style1">&nbsp;</p>
 	      <p class="header1" style="color:#000">Release Notes 
-	      v3.1.9.f2<hr>
+	      v3.1.9f4<hr>
 	      <p class="style21">&nbsp;</p>
 	      <p class="header2">Important</p>
 	      <p class="style21">&nbsp;</p>
@@ -52,16 +52,21 @@
           <p class="style1">Please visit our <a href="http://unityterraintools.com/v3beta.php" class="link">website</a> for beta release notes </p>
 
 <p class="style1">&nbsp;</p>
-<!--<p class="style1"><strong>New:</strong></p>
-<p class="style1">- </p>
+<p class="style1"><strong>New:</strong></p>
+<p class="style1">- Marker Road shape control through the scripting API: ERRoad.GetRoadShapeNodes(int markerIndex), ERRoad.SetRoadShapeNodes(int markerIndex, Vector2[] nodes) , ERRoad.SetRoadShapeNodes(int[] markerIndexes, Vector2[] nodes)</p>
 <p class="style1">&nbsp;</p>
--->
+
+<p class="style1"><strong>Changed:</strong></p>
+<p>- Scripting API: Obsolete ERRoadNetwork.GetSourceConnectionByName(string name). This is replaced by ERRoadNetwork.GetConnectionPrefabByName(string name)</p>
+<p>&nbsp;</p>
 <p class="style1"><strong>Improved:</strong></p>
-<p class="style1">- Importing road type and side object presets in a new project. After selecting the road network object in the scene, new road type and side object presets in the project folder will be  detected and automatically start the import process</p>
+<p class="style1">- The marker alignment options when 2 markers are selected can now also be used for two road object sections connected with an I Connector</p>
+<p class="style1">- Unity 2019.3, Inspector foldouts can now also be opened by clicking on the arrow just like in previous Unity versions</p>
 <p class="style1">&nbsp;</p>
 <p class="style1"><strong>Fixed:</strong></p>
-<p class="style1">- Errors after creating a new road network object in older projects upgraded to v3.1.9</p>
-<p class="style1">- Miscellaneous other small bugs and improvements</p>
+<p class="style1">- Scripting API: ERRoad.SplitRoad(int markerIndex)<br>
+  - Missing Category selection option for side objects in the Side Object Manager<br>
+  - Miscellaneous other small bugs and improvements</p>
 <p class="style1">&nbsp;</p>
           <p class="header2">To Do / Current limitations:          </p>
           <p class="style1">&nbsp;</p>

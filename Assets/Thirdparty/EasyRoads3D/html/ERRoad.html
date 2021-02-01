@@ -38,11 +38,14 @@
 <p class="styleAPI">public void <span class="styleAPIBold">AddMarkers</span>(Vector3[] pos)</p>
 <p class="styleAPIText">Adds new markers according an array of Vector3 positions</p>
 <p>&nbsp;</p>
-<p class="styleAPI">public ERConnection <strong>AttachToEnd</strong>(ERConnection sourceConnection, int connectionIndex)</p>
-<p class="styleAPI"><span class="styleAPIText">Instantiates and connects a new  ERConnection object according the <span class="styleAPIValue">sourceConnection</span> </span><span class="styleAPIValue"></span> to the connection <span class="styleAPIValue">connectionIndex</span> at the end of the road. Returns null in the case a connection is already connected to the end or when <span class="styleAPIValue"><span class="styleAPIValue">sourceConnection</span></span> is not a valid connection object.</p>
+<p class="styleAPI">public ERConnection <strong>AttachToEnd</strong>(ERConnection connectionPrefab, int connectionIndex)</p>
+<p class="styleAPI"><span class="styleAPIText">Instantiates and connects a new  ERConnection object according the <span class="styleAPIValue">connectionPrefab</span> </span><span class="styleAPIValue"></span> to the connection <span class="styleAPIValue">connectionIndex</span> at the end of the road. Returns null in the case a connection is already connected to the end or when <span class="styleAPIValue"><span class="styleAPIValue">connectionPrefab</span></span> is not a valid connection object.</p>
 <p class="styleAPI">&nbsp;</p>
-<p class="styleAPI">public  ERConnection <strong>AttachToStart</strong>(ERConnection sourceConnection, int connectionIndex)</p>
-<p class="styleAPI"><span class="styleAPIText">Instantiates and connects a new  ERConnection object according the  </span><span class="styleAPIValue">sourceConnection</span> to the connection <span class="styleAPIValue">connectionIndex</span> at the start of the road. Returns null in the case the new connection object could not be created because a connection is already connected to the start or when <span class="styleAPIValue">sourceConnection</span> is not a valid connection object.</p>
+<p class="styleAPI">public  ERConnection <strong>AttachToStart</strong>(ERConnection connectionPrefab, int connectionIndex)</p>
+<p class="styleAPI"><span class="styleAPIText">Instantiates and connects a new  ERConnection object according the  </span><span class="styleAPIValue">connectionPrefab</span> to the connection <span class="styleAPIValue">connectionIndex</span> at the start of the road. Returns null in the case the new connection object could not be created because a connection is already connected to the start or when <span class="styleAPIValue">connectionPrefab</span> is not a valid connection object.</p>
+<p class="styleAPI">&nbsp;</p>
+<p class="styleAPI">public bool <span class="styleAPIBold">ClampUVs</span>(bool value)</p>
+<p class="styleAPIText">Generate UVs clamped to 0 at start and 1 at end. This is by default the case. Setting this to false is for example useful for never ending roads created at runtime where markers behind the cam are removed. The UVs at the new start will be generated relative to the same decimal value as for the previous road update.</p>
 <p class="styleAPI">&nbsp;</p>
 <p class="styleAPI">public bool <span class="styleAPIBold">ClosedTrack</span>(bool value)</p>
 <p class="styleAPIText">Activate/deactivate closed track.</p>
@@ -114,6 +117,9 @@
 <p class="styleAPI">public float <span class="styleAPIBold">GetResolution</span>()</p>
 <p class="styleAPIText">Returns the resolution of the road object</p>
 <p class="styleAPIText">&nbsp;</p>
+<p class="styleAPI">public Vector2[] <span class="styleAPIBold">GetRoadShapeNodes</span>()</p>
+<p class="styleAPIText">Returns the global roadshape node data in a Vector2[]</p>
+<p class="styleAPIText">&nbsp;</p>
 <p class="styleAPI">public ERRoadType <span class="styleAPIBold">GetRoadType</span>()</p>
 <p class="styleAPIText">Returns the road type </p>
 <p>&nbsp;</p>
@@ -137,7 +143,7 @@
 <p class="styleAPIText">&nbsp;</p>
 <p class="styleAPI">public void <span class="styleAPIBold">InsertConnector</span>(ERConnection connectionObject, int index, int connectionIndex1, int connectionIndex2, out ERRoad road)</p>
 
-<p class="styleAPIText">Splits the road in two sections and Inserts the source <span class="styleAPIValue">connectionObject</span> at  marker <span class="styleAPIValue">index</span> to <span class="styleAPIValue">connectionIndex1</span> and connects the second section to <span class="styleAPIValue">connectionIndex2</span></p>
+<p class="styleAPIText">Splits the road in two sections and Inserts the  <span class="styleAPIValue">connectionObject</span> at  marker <span class="styleAPIValue">index</span> to <span class="styleAPIValue">connectionIndex1</span> and connects the second section to <span class="styleAPIValue">connectionIndex2</span></p>
 <p class="styleAPIText">&nbsp;</p>
 <p class="styleAPI">public void <span class="styleAPIBold">InsertMarker</span>(Vector3 pos)</p>
 
@@ -214,6 +220,12 @@
 <p class="styleAPIText">&nbsp;</p>
 <p class="styleAPI">public void <span class="styleAPIBold">SetAngleThreshold</span>(float res)</p>
 <p class="styleAPIText">Set the Angle Threshold of the road object</p>
+<p class="styleAPIText">&nbsp;</p>
+<p class="styleAPI">public void <strong>SetRoadShapeNodes</strong>(int markerIndex, Vector2[] nodes)</p>
+<p class="styleAPIText">Updates the road shape for the section at markerIndex according the passed Vector2[] node data</p>
+<p class="styleAPIText">&nbsp;</p>
+<p class="styleAPI">public void <strong>SetRoadShapeNodes</strong>(int[] markerIndexes, Vector2[] nodes)</p>
+<p class="styleAPIText">Updates the road shape for the section for all passed markerIndexes according the passed Vector2[] node data</p>
 <p class="styleAPIText">&nbsp;</p>
 <p class="styleAPI">public void <strong>SetRoadType</strong>(ERRoadType   rt)</p>
 <p class="styleAPIText">This will update the full road to match the passed road type</p>

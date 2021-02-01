@@ -27,16 +27,16 @@
 	      <hr>
 	      <p class="style21">&nbsp;</p>
 	      <p class="style21">&nbsp;</p>
-	      <p class="style1"><strong><em>After importing the Demo package no road types and side objects are available</em></strong></p>
-	      <p class="style1">The demo package itself does not have road type and side object data stored in the project folder. The reason for this is that importing a package update in a later stage would overwrite this data including possibly changed road types, side objects and newly added road types, side objects.</p>
-	      <p class="style1">In order to make the road types and side objects available in other scenes, please open the demo scene, select the road network objects in the hierarchy and deselect it. At this point the project road type, side object data will be updated. The road types and side objects will now be available in other scenes.</p>
-	      <p class="style1">&nbsp;</p>
-	      <p class="style1"><strong><em>Shader&nbsp;error&nbsp;in&nbsp;'EasyRoads3D/Unity 5 Standard':&nbsp;invalid subscript&nbsp;'uv2'&nbsp;at</em></strong>...</p>
-	      <p class="style1">This is related to Unity 2018. There is an issue in Unity 2018 with modified versions of the Standard shader. This is not critical, to fix this, please select the shader in the project folder (/Assets/EasyRoads3D/shaders/) right click the shader and select &quot;Reimport&quot;.</p>
-	      <p class="style1">&nbsp;</p>
-	      <p class="style1"><strong><em>When I select the main Road Network game object a crossing prefab gets selected</em></strong></p>
-          <p class="style1">This will happen after you created a new dynamic crossing prefab and instantiated it in the scene to make changes. It will be visible in the hierarchy as a child of &quot;Temp Crossing Prefabs&quot;. Make sure to finalize it when you are ready with this. You can do that by clicking the <strong>Exit Prefab Editor</strong> button in the Inspector or by clicking one of the toolbar tabs at the top in the Inspector. You will be asked to save changes to the prefab if there are changes. Afterwards the main <strong>Road Network</strong> game object will be  selected automatically. As long as the new crossing prefab is not completed. this prefab will be  selected when selecting the main <strong>Road Network</strong> game object.          </p>
+	      <p class="style1"><em><strong>Shift + Click to add road markers does not work, instead the terrain is selected</strong></em></p>
+          <p class="style1">The free version does not support multiple terrain tiles in a scene. If this is the case then adding markers will fail when adding them on the terrain that is currently not referenced by Terrain.activeTerrain.</p>
+          <p class="style1">Another known situation  is a, usually customized, Unity editor layout that have become corrupted not capturing keyboard or mouse button events in OnSceneView(). Instead the clicked object is selected, the terrain in this case. One way to verify this is to duplicate the project and reset the Unity editor layout back to one of the  presets through the main menu &gt; Window &gt; Layouts. Afterwards the editor can be customized again to the  preferred layout, this usually works well. But if the problem returns and can be recreated, then please contact us. We have discussed this  with the Unity QA Team, they have seen this situation and they will be very interested to hear how this issue can be recreated.
+          </p>
           <p class="style1">&nbsp;</p>
+          <p class="style1"><strong><em>After importing the Demo package no road types and side objects are available</em></strong></p>
+	      <p class="style1">The demo package itself does not have road type and side object data stored in the project folder. The reason for this is that importing a package update in a later stage would overwrite this data including possibly changed road types, side objects and newly added road types, side objects.</p>
+	      <p class="style1">In order to make the road types and side objects available in other scenes, please open the demo scene, select the road network objects in the hierarchy and deselect it. At this point the project road type, side object data will be updated. The road types and side objects will now be available in other scenes.	      </p>
+	      <p class="style1">As from v3.1.9f0 there should be a notification message that new road type and side object presets are available with the option to import these presets in the project. Afterwards these presets will be available in &quot;General Settings &gt; Road Types &gt; Add Project Road Types&quot; and &quot;Side Object Manager &gt; Add Project Side Objects&quot;	      </p>
+	      <p class="style1">&nbsp;</p>
 <p class="style1"><strong><em>Roundabouts are not correctly instantiated and connected to the first or last marker of a road</em></strong> </p>
 <p class="style1">For now avoid instantiating a roundabout directly to the first or last marker of the selected road. Instead use the other way to Instantiate intersections in the scene, by selecting the crossing prefabs tab <img src="../images/prefabs_tab.jpg" width="53" height="29" style="vertical-align:middle">. Select the roundabout  from the list of available crossing prefabs, hold the SHIFT key and click in the scene where you want to position this roundabout. You can now connect roads to the prefab or start new roads by dragging the red roundabout connection handles. <a href="intersections.html#create" class="link">For full details click here</a>.</p>
 <p class="style1">&nbsp;</p>
@@ -47,7 +47,7 @@
 <p class="style1"><strong><em>The sidewalks of the connected road  do not update after activating / deactivating the sidewalk on the connection prefab</em></strong><em></em></p>
 <p class="style1">This will happen when the road is connected to a connection prefab on both ends. This will be fixed. For now, please check the other connection sidewalk settings on the corresponding road side and make sure they match.</p>
 <p class="style1">&nbsp;</p>
-<p class="style1"><strong><em>I can't select road markers outside the terrain boundaries</em></strong></p>
+<p class="style1"><strong><em>Road markers outside the terrain boundaries are unselectable</em></strong></p>
 <p class="style1">When a marker for some reason is positioned outside the terrain boundaries you can select it by carefully moving towards the marker over the road mesh.</p>
 <p class="style1">&nbsp;</p>
 <p class="style1"><strong><em>The Road  cannot be attached to a crossing connection. The road geometry and the crossing connection geometry matches but the connection handle in the center shows in red</em></strong></p>
@@ -99,6 +99,7 @@
 <p class="style1">&nbsp;</p>
 <p class="style1"><em><strong>The Unity editor is unresponsive or slow after road changes</strong></em></p>
 <p class="style1">This can be a result of &quot;Auto&quot; being selected in the Unity Lighting window. The lighting will be recalculated consistently in the background which can cause delays on slower computers. Switching off &quot;Auto&quot; temporarily while working on the road network will fix that.</p>
+<p class="style1">A slowdown of the Unity editor can also be noticeable on very long road sections with no crossings. Please try to Insert I Connectors at intervals. This is also better for runtime performance.</p>
 <p class="style1">&nbsp;</p>
 <p class="style1"><strong><em>EasyRoads3D Alert: [ref: SO01] Missing Side Object info</em></strong></p>
 <p class="style1">This alert message  is usually related to package upgrades in a project using the custom setting Text Mode for Asset Serialization instead of the default Mixed Mode. Please do not save the scene if this is the case, instead follow the instructions pointed out <a href="#assetSerialization" class="link">here</a>. Please contact us if your project does not use Text Mode for Asset Serialization.</p>
@@ -106,9 +107,6 @@
 <p class="style1"><strong><em>Build Terrain progressbar doesn't update</em></strong></p>
 <p class="style1">Unity progressbars can only be used and updated through editor scripts. Because the Build functionality is also required for the scripting API, this code currently does not run in an editor script hence why the progressbar only updates per terrain and does not show progress on processed roads. This will be improved, meanwhile please be patient during this process, work is being done in the background.</p>
 <p class="style1">&nbsp;</p>
-<p class="style1"><em><strong>Shift + Click to add road markers does not work</strong></em></p>
-<p class="style1">The free version does not support multiple terrain tiles in a scene. If this is the case then adding markers will fail when adding them on the terrain that is currently not referenced by Terrain.activeTerrain.</p>
-<p class="style1">Other known situation that can result in this is custom editor layouts that have corrupted the unity editor functionality. One way to verify this is to duplicate the project and reset the editor layout back to one of the  presets through the main menu &gt; Window &gt; Layouts. If that solves the problem then it is recommended to recreate your preferred custom editor layout. If the problem returns and can be recreated, then please contact us. We have discussed this situation with the Unity QA Team, they have seen this situation and they will be interested to hear how this can be recreated.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p></td>
       </tr>

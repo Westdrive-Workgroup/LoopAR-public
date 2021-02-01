@@ -106,15 +106,14 @@
 <p class="styleAPI">public SideObject <span class="styleAPIBold">GetSideObjectByName</span>(string name)</p>
 <p class="styleAPIText">Finds a side object by <span class="styleAPIValue">name</span> and returns it</p>
 <p>&nbsp;</p>
-<p class="styleAPI">public ERConnection <strong>GetSourceConnectionByName</strong>(string name)</p>
-<p class="styleAPI"><span class="styleAPIText">Returns the source connection in resources/custom prefabs or resources/dynamic prefabs  matching </span><span class="styleAPIValue">name</span></p>
-<p class="styleAPI">&nbsp;</p>
+<p class="styleAPI">public ERConnection <strong>GetConnectionPrefabByName</strong>(string name)</p>
+<p class="styleAPI"><span class="styleAPIText">Returns the connection prefab in /Assets/EasyRoads3D/Resources/custom prefabs/ or /Assets/EasyRoads3D/Resources/dynamic prefabs/  matching </span><span class="styleAPIValue">name</span></p>
 <p class="styleAPI"></p>
 <p class="styleAPI">public void <span class="styleAPIBold">HideWhiteSurfaces</span>(bool value)</p>
 <p class="styleAPIText">Enables/disables visibility of the white surfaces surrounding the road objects</p>
 <p>&nbsp;</p>
-<p class="styleAPI">public ERConnection <span class="styleAPIBold">InstantiateConnection</span>(ERConnection sourceConnection, string name, Vector3 position, Vector3 euler)</p>
-<p class="styleAPIText">Instantiates, names and returns a new connection object according the passed <span class="styleAPIValue">sourceConnection</span><span class="styleAPI">, </span><span class="styleAPIValue">name</span><span class="styleAPI">, </span><span class="styleAPIValue">position</span><span class="styleAPI"> and </span><span class="styleAPIValue">euler</span><span class="styleAPI"> rotation angles</span></p>
+<p class="styleAPI">public ERConnection <span class="styleAPIBold">InstantiateConnection</span>(ERConnection connectionPrefab, string name, Vector3 position, Vector3 euler)</p>
+<p class="styleAPIText">Instantiates, names and returns a new connection instance of the passed <span class="styleAPIValue">connectionPrefab</span><span class="styleAPI">, </span><span class="styleAPIValue">name</span><span class="styleAPI">, </span><span class="styleAPIValue">position</span><span class="styleAPI"> and </span><span class="styleAPIValue">euler</span><span class="styleAPI"> rotation angles</span></p>
 <p class="styleAPIText">&nbsp;</p>
 <p class="styleAPI">public ERConnection[] <span class="styleAPIBold">LoadConnections</span>()</p>
 <p class="styleAPIText">Returns all available connections in the Resources folder</p>

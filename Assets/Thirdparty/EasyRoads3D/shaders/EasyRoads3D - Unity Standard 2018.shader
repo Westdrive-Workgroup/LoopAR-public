@@ -55,7 +55,7 @@ Shader "EasyRoads3D/EasyRoads3D - Standard Unity 2018"
     {
         Tags { "RenderType"="Opaque" "PerformanceChecks"="False" }
         LOD 300
-		Offset -2, -2
+		Offset -3, -3
 
         // ------------------------------------------------------------------
         //  Base forward pass (directional light, emission, lightmaps, ...)
@@ -225,7 +225,7 @@ Shader "EasyRoads3D/EasyRoads3D - Standard Unity 2018"
     {
         Tags { "RenderType"="Opaque" "PerformanceChecks"="False" }
         LOD 150
-		Offset -2, -2
+		Offset -3, -3
 
         // ------------------------------------------------------------------
         //  Base forward pass (directional light, emission, lightmaps, ...)

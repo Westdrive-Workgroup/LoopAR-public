@@ -30,7 +30,7 @@
 	      <p><img src="../images/general_settings.jpg" width="417" height="377"> </p>
 	      <p>&nbsp;</p>
 	      <p><span class="header2"><strong>SCENE</strong> SETTINGS</span><span class="style21"><a name="sceneSettings" id="introduction2"></a></span></p>
-	      <p><img src="../images/scene_settings.jpg" width="493" height="840"></p>
+	      <p><img src="../images/scene_settings.jpg" width="493" height="975"></p>
 	      <ul>
 	        <li><a name="defaultIndent" id="defaultIndent"></a><span class="propertyStyle">Default Indent:</span> This gives control over the terrain deformation. The default values are  based on the terrains heightmapscale to ensure accurate terrain flattening according the road and crossings shapes. Optionally these values can be increased these here. The Indent value represents the distance from the edge of the roads outwards to the terrain point that should be leveled at the same height of the road at that point to guarantee most optimal terrain deformation results. This value can be tweaked per marker but can never be lower then the Scene Min Indent value. Different default indent values can also be set per road type.</li>
 	        <li><a name="defaultSurrounding" id="defaultSurrounding"></a><span class="propertyStyle">Default Surrounding:</span> The default surrounding value represents the distance over which the height of the terrain at the  Indent position will be leveled with the current terrain height.</li>
@@ -62,6 +62,7 @@
 </ul>
 	          <br>
 	        </li>
+	        <li><span class="propertyStyle">Scene Objects Control:</span> to keep the road network selected when adding markers or selecting road or crossing objects, click events on the terrain are intercepted. Other large objects like water surfaces extending to below the terrain can be added herefor the same purpose. Just like with the terrain object, double click will select the specific object.</li>
 	        <li><span class="propertyStyle">Refresh Road Network:</span> This will rebuild and clean up the road network. <br>
             </li>
           </ul>
@@ -153,6 +154,7 @@
 	        <span class="propertyStyle">Save Changes:</span> Use this to regularly save the changes to the prefab<br>
           <span class="propertyStyle">Exit Prefab Editor:</span> Click this button once you are finished customizing the prefab. It will save the final changes and remove the prefab from the scene. You can now start using it by <a href="intersections.html#create" class="link">connecting it to an existing road or by adding it directly to the road network</a>.<br>
           <span class="propertyStyle">Save as New Prefab:</span> This will allow you to quickly generate variations of an already customized crossing prefab. </p>
+	      <p><strong>Note: </strong>The above options are required when editing the prefab in the prefab editor introduced in Unity 2018.3 and are there for not displayed.</p>
 	      <p><strong><br>
           Copy from existing prefab</strong><span class="style21"><a name="copyFrom" id="addmarkers10"></a></span></p>
 	      <p><img src="../images/copyFromExisiting.jpg" width="415" height="134"></p>

@@ -45,9 +45,9 @@ Shader "EasyRoads3D/Unity 5 Standard"
 
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" "PerformanceChecks"="False"  "Queue" = "Geometry-98"}
+		Tags { "RenderType"="Opaque" "PerformanceChecks"="False" }
 		LOD 300
-		Offset -1, -1
+		Offset -3, -3
 
 		// ------------------------------------------------------------------
 		//  Base forward pass (directional light, emission, lightmaps, ...)
@@ -204,9 +204,9 @@ Shader "EasyRoads3D/Unity 5 Standard"
 
 	SubShader
 	{
-		Tags { "RenderType"="Opaque" "PerformanceChecks"="False"}
+		Tags { "RenderType"="Opaque" "PerformanceChecks"="False" }
 		LOD 150
-		Offset 0, 0
+		Offset -3, -3
 
 		// ------------------------------------------------------------------
 		//  Base forward pass (directional light, emission, lightmaps, ...)
