@@ -177,7 +177,7 @@ their complex mesh anatomy we are replacing them with simpler low poly avatars c
 
 Our acknowledgement goes to creator of all free and paid assets mentioned above, Adobe, Unity Technologies and Blenders for their tools as well as following persons who helped us in creating and maintaining Westdrive
 *  Phillip Spaniol - main graphic designer for our team, also worked on the city environment 
-*  Johannes Maximilian Pingle - HUD functionalities and basics of the city environment
+*  Johannes Maximilian Pingel - HUD functionalities and basics of the city environment
 *  Lea Maria Kühne - worked on the sanity and realism of traffical event, also responsible for country road and main experiment scene for currect LoopAR version
 *  Linus Tiemann - Main car drive functionalities, eye-tracker and input connection
 *  Nora Maleki - AI functionalities of the cars and pedestrians
