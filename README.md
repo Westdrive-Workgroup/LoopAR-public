@@ -6,7 +6,7 @@
 
 ## Introduction
 ### Important Notice:
-For better ease of use we have devided the project into two seperate repositories, one containing 3d assets and model called Westdrive Assets Foundation and the other
+For an easier use we have devided the project into two seperate repositories, one containing 3d assets and models called Westdrive Assets Foundation and the other
 for functionalities of Westdrive which is called Westdrive Core. One can use these two repositories combined or separetely to create their own simulation outside the scope of 
 senarios existing in this version of Westdrive. 
 
@@ -56,27 +56,27 @@ System 2:
 ## Software requirements for non-VR version
 
 ![Unity Version](https://img.shields.io/badge/Unity%20version%3A-2019.3.0f3-blue.svg)
-![dot net compatibiliyy](https://img.shields.io/badge/.Net%20API%20Level%3A-2.xx-blue.svg)
+![dot net compatibility](https://img.shields.io/badge/.Net%20API%20Level%3A-2.xx-blue.svg)
 ![Render Pipeline](https://img.shields.io/badge/Render%20Pipeline%3A-Standard%20Render%20Pipeline-yello.svg)
 
 ## Testing Releases:
 ### VR Version:
 - You will need to be in possessions of HTC Vive Pro Eye
 - You need SteamVR and Tobii XR installed on the system
-> if you have never used Tobii Eyetracker inside HTC Vive Pro Eye before you have to first accept their term of use and enable the eye tacker from StreamVR main environment before running Projoct LoopAR
+> if you have never used Tobii Eyetracker inside HTC Vive Pro Eye before you have to first accept their term of use and enable the eye tacker from StreamVR main environment before running the LoopAR Project.
 
 ### None VR Version:
--You just need the executable of the project. 
+-You just need the executable(.exe) of the project. 
 
 ## remarks on the project
 - the project has been tested on Nvidia 2080 Ti as well as Nvidia GTX 1070 yielding a performance stable around 60 FPS
 
 Note: 
-The executable release is meant to be a showcase of the current LoopAR Alpha capabilities. Westdrive is meant to be customized and built for your specific needs. So we recommend you to download the code and build it yourself after implementing your own scenarios.
+The executable release is meant to be a showcase of the current LoopAR Alpha capabilities. You can find a video of it [here](https://drive.google.com/file/d/1ZyuosK4ig_ErZd1YLh2ZjA08xLz1orkJ/view?usp=sharing). Westdrive is meant to be customized and built for your specific needs. So we recommend you to download the code and build it yourself after implementing your own scenarios.
 
 Note:
-We still consider LoopAR in alpha phase, This is currently under the status of MVP (Minimum Viable Product) meaning it only implements the main functionalities of LoopAR. There will be many features that will be added during the mounths to come. 
-We will always push the stable changes to the public LoopAR repository
+We still consider LoopAR in alpha phase, This is currently under the status of MVP (Minimum Viable Product) meaning it only implements the main functionalities of LoopAR. There will be many features that will be added during the months to come. 
+We will always push the stable changes to the public LoopAR repository.
 
 ## Builded version
 -you can download the standalone VR version [here](https://drive.google.com/file/d/1bBagKateS1WYV0HRvFxZbwWId148Rayk/view?usp=sharing)
@@ -84,36 +84,41 @@ We will always push the stable changes to the public LoopAR repository
 -you can download the standalone non VR version [here](https://drive.google.com/file/d/1bBagKateS1WYV0HRvFxZbwWId148Rayk/view?usp=sharing)
 
 ## Build prepration
-in the following section, it is explained how you can clone and improt the project for build and developement inside Unity environment.
+in the following section, it is explained how you can clone and import the project for build and developement inside Unity environments.
 ### Step one: Preparing Unity
-please [download](https://unity3d.com/get-unity/download) the corresponding version Unity and install it on your machine. It is highly recommended to 
+please [download](https://unity3d.com/unity/beta/2019.3.0f3) the corresponding version Unity and install it on your machine. It is highly recommended to 
 download and install Unity through [Unity Hub](https://public-cdn.cloud.unity3d.com/hub/prod/UnityHubSetup.exe?_ga=2.187579435.2096600450.1550663193-640931691.1544444769).
 It is easier to manage various installations of Unity when using Unity Hub. You can find more information on Unity Hub [here](https://docs.unity3d.com/Manual/GettingStartedUnityHub.html).
 
--Download and install relavant requirment depending on VR or Non VR version of the project
+-Download and install relevant requirement depending on VR or Non VR version of the project
 
 #### notice:
 
 > Please always make sure you are using the unity version mentioned here to ensure correct build and functionality of Westdrive. 
 
 ### Step two: cloning the project
-First make sure you have installed a git client on you machine. If you need one you can find many of them online. Alternatively you can just [download](https://desktop.github.com/) and install
-official Github client for Microsot Windows. 
-> if you just want to use Project westdrive you can alternatively dowload the project as an archive file (see below), however to contribute to the project or make your own forks you will need a Github [account](https://github.com/join?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home).
+First make sure you have installed a git client on you machine. If you need one you can find many of them online. Alternatively you can just [download](https://desktop.github.com/) and install the official Github client for Microsot Windows. 
+> if you just want to use Project Westdrive you can alternatively dowload the project as an archive file (see below), however to contribute to the project or make your own forks you will need a Github [account](https://github.com/join?ref_cta=Sign+up&ref_loc=header+logged+out&ref_page=%2F&source=header-home).
 
+## Tutorials
+To help you download, prepare and use the Westdrive project we created a few tutorial videos in which you get lead through the beginning steps.
 
+### How to [Unity](https://linkfollows.com) the World
+### How to [Clone](https://linkfollows.com) the Reaper
+### How to use the [Environment](https://drive.google.com/file/d/1GVVI5w5Kcz7SV_80ShdorcNvxPKGKMda/view?usp=sharing) and whats already there
+### How to build a murder Scene [(Critical Traffic Event)](https://drive.google.com/file/d/1EoLdt2e097qRCqoIhpoXDDeCZnLinDkC/view?usp=sharing)
 
 ## Third party assets
-in the following secion all used assets with their links in the unity asset sote, with their corresponding functionality is listed.
+in the following secion all used assets with their links in the unity asset store, with their corresponding functionality are listed.
 
 ## Important note:
 
-> After our communication with creators of some paied third party assets, they have gave us permission to share those assets for **Academic purposes** only in limited numbers. If you want to have access to those assets please write us an email with the name of your institution and project overview so we can add you to LoopAR private repository. The following 3rd party assets has been removed from our public repository. 
+> After our communication with creators of some payed third party assets, they have given us permission to share those assets for **Academic purposes** only in limited numbers. If you want to have access to those assets please write us an e-mail with the name of your institution and project overview so we can add you to LoopAR private repository. The following 3rd party assets has been removed from our public repository. 
 - EasyRoads Version 3.0 
 
 #### note:
 
-> Assets are separeted in taged with paid and free, and also essential or optional. 
+> Assets are separeted in tags with paid and free, and also essential or optional. 
 
 #### note:
 
@@ -170,14 +175,13 @@ in the following secion all used assets with their links in the unity asset sote
 ### Honorary Mentions
 > We want to mention Penny de byl for her outstanding videos in Udemy which helped us alot in simulating physical cars in Unity3d
 ## Avatars and animations:
-Avaratars and animations in westdrive is created by us using Adobe Mixamo and Fuse cc. At the momenet westdrive is using avatars of our own creation using mentioned tools but due to 
-their complex mesh anatomy we are replacing them with simpler low poly avatars created by us in blender soon. 
+Avaratrs and animations in westdrive are created by us using Adobe Mixamo and Fuse cc. At the momenet westdrive is using avatars of our own creation using mentioned tools but due to their complex mesh anatomy we are replacing them with simpler low poly avatars created by us in blender soon. 
 
 ### acknowledgement to creators and team assistants
 
-Our acknowledgement goes to creator of all free and paid assets mentioned above, Adobe, Unity Technologies and Blenders for their tools as well as following persons who helped us in creating and maintaining Westdrive
+Our acknowledgement goes to the creators of all the free and paid assets mentioned above, Adobe, Unity Technologies and Blenders for their tools as well as following persons who helped us in creating and maintaining Westdrive
 *  Phillip Spaniol - main graphic designer for our team, also worked on the city environment 
-*  Johannes Maximilian Pingle - HUD functionalities and basics of the city environment
+*  Johannes Maximilian Pingel - HUD functionalities and basics of the city environment
 *  Lea Maria Kühne - worked on the sanity and realism of traffical event, also responsible for country road and main experiment scene for currect LoopAR version
 *  Linus Tiemann - Main car drive functionalities, eye-tracker and input connection
 *  Nora Maleki - AI functionalities of the cars and pedestrians
@@ -191,17 +195,15 @@ Our acknowledgement goes to creator of all free and paid assets mentioned above,
 *  Stahlwerk Stiftung Georgsmarienhütte, University of Osnabrück and Deutsche Forschungsgemeinschaft for their financial support
 > All members of the team work equaly on background research and refinment of the study
 ### current term of use
-You are free to share, change and use Westdrive in whatever maner you like as long as you accept the following conditions:
+You are free to share, change and use Westdrive in whatever manner you like as long as you accept the following conditions:
 
--Westdrive LoopAR is an open source driving simulation for self driving cars, special navigation, embodid cognition and similiar experiments. It is made available for scientists and anyone who is interested in research in an 
-Virtual environement. Therefore any financial use of this tool is prohibited. 
+-Westdrive LoopAR is an open source driving simulation for self driving cars, spatial navigation, embodeid cognition and similiar experiments. It is made available for scientists and anyone who is interested in research in an Virtual environement. Therefore any financial use of this tool is prohibited. 
 
--Assets presented here are mainly free assets from unity asset store which can be used in other projects, however if you plan to use assets that are paid please purchase them for 
-your organization from the unity asset store. Developing team of Westdrive does not accept any responsibility regarding this matter and we are strictly against piracy. 
+-Assets presented here are mainly free assets from unity asset store which can be used in other projects, however if you plan to use assets that are paid please purchase them for your organization from the unity asset store. Developing team of Westdrive does not accept any responsibility regarding this matter and we are strictly against piracy. 
 
 #### announcement:
 
-> Currently Testdrive scene is not included in the build however it exist fully in the repo, we are posishing, and testing it in the following days and as soon as it passes the main quality checks we will include them in the build versions
+> Currently Testdrive scene is not included in the build however it exist fully in the repo, we are polishing, and testing it in the following days and as soon as it passes the main quality checks we will include them in the build versions
 
 ## License
 All Documentation content that resides under the doc/ directory of this repository is licensed under Creative Commons: [![License: CC BY-NC-SA 4.0](https://licensebuttons.net/l/by-nc-sa/4.0/80x15.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
